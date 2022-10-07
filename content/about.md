@@ -8,7 +8,7 @@ draft: false
 
 This comes from the file `content/about.md`.
 
-This is a website for the final project for MA[46]15 Data Science with R by Team TEAMNAME.
+This is a website for the final project for MA[46]15 Data Science with R by Team Hot Girls and Ben.
 The members of this team are below.
 
 ## Maysen Pagan
@@ -17,7 +17,15 @@ Maysen is a senior from California majoring in Statistics and minoring in Comput
 
 ## Hannah Willy
 
-Hannah is a senior from Massachusetts majoring in astronomy and physics with a minor in mathematics.
+Hannah is a senior from Massachusetts majoring in Astronomy and Physics with a minor in Mathematics.
+
+## Hannah Holbert
+
+Hannah Holbert is a senior from Pennsylvania majoring in Physics. 
+
+## Benjamin Drinkwater
+
+Ben is a senior from Massachusetts majoring in Physics.
 
 
 <!-- Please leave in the information below -->
