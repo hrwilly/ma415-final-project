@@ -15,13 +15,10 @@ The members of this team are below.
 
 Maysen is a senior from California majoring in Statistics and minoring in Computer Science. 
 
-## Luis Iberico
+## Hannah Willy
 
-Luis is a Ph.D. student in Stats and is the Teaching Fellow for the course.
+Hannah is a senior from Massachusetts majoring in astronomy and physics with a minor in mathematics.
 
-## Dan Sussman
-
-Dan is a professor in the Math/Stat department and is the instructor for the course.
 
 <!-- Please leave in the information below -->
 
