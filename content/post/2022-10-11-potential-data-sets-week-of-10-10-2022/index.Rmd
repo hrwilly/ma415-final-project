@@ -24,4 +24,7 @@ Link to data set: https://data.world/dataquest/mlb-game-logs/workspace/file?file
 
 ## Data Set 3
 
+Link to data set: https://catalog.data.gov/dataset/dhs-data-dashboard 
+
+This is a data set describing the reported sheltered homeless individuals in NYC over a period of seven years at intervals of several months. It provides data about ademographics and is collected by a federal agency. 
 
