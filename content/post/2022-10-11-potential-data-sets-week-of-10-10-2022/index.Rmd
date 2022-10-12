@@ -20,6 +20,7 @@ Link to data set: https://data.world/dataquest/mlb-game-logs/workspace/file?file
 <br/>
 This data set provides statistics for every MLB game played from 1871 up until the 2016 season.  The data was collected and organized by baseball historians for the public to access and explore. There are 171,907 rows and 161 columns providing information including, the date and day of the week the game was played, the location of the game played, as well as the hits, runs, strikeouts, and walks for the visiting and home team. 127 separate CSV files representing different seasons were combined into this one data set. 
 <br/>
+<br/>
 With this data set, we hope to address the question, "What factors have an influence on an MLB team winning or losing?" Within this larger question, we would be able to explore other patterns like between starting pitchers against a specific team. The data set appears to be missing games from the 1970s and 1990s. This is relatively recent data that is missing which will have an affect on the analyses. Additionally, there are a lot of missing statistics for games played in the 1800s. To avoid these problems, it's possible to filter the data set to only provide seasons 2000-2016 which are recent and include all statistics. Furthermore, this data set could later be combined with a weather data set to explore how certain weather factors, like wind speed, affect the outcome of a game.
 
 
