@@ -13,7 +13,7 @@ The members of this team are below.
 
 ## Maysen Pagan
 
-Maysen is a senior from California majoring in Statistics and minoring in Computer Science. 
+Maysen is a senior from California majoring in Statistics and minoring in Computer Science.
 
 ## Hannah Willy
 
