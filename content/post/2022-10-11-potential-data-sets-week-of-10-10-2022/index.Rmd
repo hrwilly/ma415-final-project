@@ -17,7 +17,6 @@ featuredImage: ~
 ## Data Set 1
 Link to data set: https://data.world/dataquest/mlb-game-logs/workspace/file?filename=game_logs.csv
 <br/>
-<br/>
 This data set provides statistics for every MLB game played from 1871 up until the 2016 season.  The data was collected and organized by baseball historians for the public to access and explore. There are 171,907 rows and 161 columns providing information including, the date and day of the week the game was played, the location of the game played, as well as the hits, runs, strikeouts, and walks for the visiting and home team. 127 separate CSV files representing different seasons were combined into this one data set. 
 <br/>
 <br/>
