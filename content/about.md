@@ -17,7 +17,7 @@ Maysen is a senior from California majoring in Statistics and minoring in Comput
 
 ## Hannah Willy
 
-Hannah is a senior from Massachusetts majoring in Astronomy and Physics with a minor in Mathematics.
+Hannah Willy is a senior from Massachusetts majoring in Astronomy and Physics with a minor in Mathematics.
 
 ## Hannah Holbert
 
