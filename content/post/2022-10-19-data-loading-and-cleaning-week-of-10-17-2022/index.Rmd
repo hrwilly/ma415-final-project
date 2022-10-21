@@ -51,6 +51,7 @@ years<-c(2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2
 \n
 \n
 
+
 This data set does not specify whether the home team wins or loses, but it does contain information on the home team's and the away team's number of runs. Since we are interested in seeing if a team wins or loses, we created a column in the dataset called `score_diff`, which takes the number of the visiting team's runs subtracted from the number of the one team's runs. A positive value represents a win, a negative value represents a loss, and a zero is a tie. The higher absolute values represent a bigger win/loss.
 
 ```{r}
@@ -69,7 +70,15 @@ baseball %>% filter(h_name=="BOS")
 
 We filtered to select Boston Red Sox as the home team, since we have already found weather data for Boston and are considering taking this into account later on.
 
+For our initial exploration of the data, we first looked at the average runs scored by each team at home as well as away arranged in descending order. Here, we can see which team scores the most runs on average. The Colorado Rockies score the most runs on average at home while the New York Yankees score the most runs on average away.
 
+``` {r}
+#Average runs scored by home teams
+baseball %>% group_by(h_name) %>% summarize(average_score = mean(h_score)) %>% arrange(desc(average_score))
+
+#Average runs scored by away/visiting teams
+baseball %>% group_by(v_name) %>% summarize(average_score = mean(v_score)) %>% arrange(desc(average_score))
+```
 
 
 plots
@@ -81,7 +90,6 @@ visiting team?
 INSTRUCTIONS:
 
 
-Are you starting by removing missing values or focusing on columns with less missing data.
 Exploratory Data Analysis
 Talk about your initial exploration of the data.
 Give summary statistics and make plots about parts of the data that will be your focus. You might focus on just a few variables.

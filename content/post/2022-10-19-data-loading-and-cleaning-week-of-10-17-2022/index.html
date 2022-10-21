@@ -176,13 +176,45 @@ data &lt;- read_csv(here::here(&quot;dataset&quot;, &quot;dataset-ignore&quot;, 
 ## #   v_triples &lt;dbl&gt;, v_homeruns &lt;dbl&gt;, v_rbi &lt;dbl&gt;, v_sacrifice_hits &lt;dbl&gt;,
 ## #   v_sacrifice_flies &lt;dbl&gt;, v_hit_by_pitch &lt;dbl&gt;, v_walks &lt;dbl&gt;, …</code></pre>
 <p>We filtered to select Boston Red Sox as the home team, since we have already found weather data for Boston and are considering taking this into account later on.</p>
+<p>For our initial exploration of the data, we first looked at the average runs scored by each team at home as well as away arranged in descending order. Here, we can see which team scores the most runs on average. The Colorado Rockies score the most runs on average at home while the New York Yankees score the most runs on average away.</p>
+<pre class="r"><code>#Average runs scored by home teams
+baseball %&gt;% group_by(h_name) %&gt;% summarize(average_score = mean(h_score)) %&gt;% arrange(desc(average_score))</code></pre>
+<pre><code>## # A tibble: 32 × 2
+##    h_name average_score
+##    &lt;chr&gt;          &lt;dbl&gt;
+##  1 COL             5.99
+##  2 BOS             5.45
+##  3 TEX             5.42
+##  4 NYA             5.25
+##  5 TOR             4.97
+##  6 CHA             4.87
+##  7 CLE             4.77
+##  8 ARI             4.76
+##  9 SLN             4.74
+## 10 DET             4.70
+## # … with 22 more rows</code></pre>
+<pre class="r"><code>#Average runs scored by away/visiting teams
+baseball %&gt;% group_by(v_name) %&gt;% summarize(average_score = mean(v_score)) %&gt;% arrange(desc(average_score))</code></pre>
+<pre><code>## # A tibble: 32 × 2
+##    v_name average_score
+##    &lt;chr&gt;          &lt;dbl&gt;
+##  1 NYA             5.00
+##  2 BOS             4.86
+##  3 ANA             4.84
+##  4 SLN             4.80
+##  5 CLE             4.72
+##  6 OAK             4.67
+##  7 SEA             4.63
+##  8 TOR             4.62
+##  9 TEX             4.60
+## 10 DET             4.60
+## # … with 22 more rows</code></pre>
 <p>plots
 mean scores?
 day of week?
 visiting team?</p>
 <p>INSTRUCTIONS:</p>
-<p>Are you starting by removing missing values or focusing on columns with less missing data.
-Exploratory Data Analysis
+<p>Exploratory Data Analysis
 Talk about your initial exploration of the data.
 Give summary statistics and make plots about parts of the data that will be your focus. You might focus on just a few variables.
 What are the big, obvious patterns in the data? Are these surprising?</p>
