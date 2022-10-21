@@ -16,6 +16,18 @@ featuredImage: ~
 
 Our data set of MLB game statistics is >50mb and can be found in the dataset-ignore folder. After reading in the CSV file, we converted it into a tibble. 
 
+```{r}
+source(
+  here::here("static", "load_and_clean_data.R"),
+  echo = TRUE
+)
+
+library(tidyverse)
+
+data <- read_csv(here::here("dataset", "dataset-ignore", "game_logs.csv"))
+(baseball <- as_tibble(data))
+```
+
 \n
 \n
 
