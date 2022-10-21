@@ -29,7 +29,10 @@ Link to data set:
 https://data.cms.gov/provider-summary-by-type-of-service/medicare-part-d-prescribers/medicare-part-d-prescribers-by-geography-and-drug/data
 <br/>
 <br/>
-This data set provides information for each year 2013-2020 on prescription drugs, their prescription patterns, cost, beneficiaries, and more at both the federal and state level. There are 115,410 rows and 22 columns for the year 2020. It was collected from CMS administrative claims data for medicare beneficiaries, available from the CMS Chronic Condition Data Warehouse.  One of the most immediate challenges would certainly be understanding some of the column titles like 'LIS_Bene_Cst_Shr'. As well, if we wanted to correlate these prescription patterns with broader trends, it would be difficult to decide what sort of social factors may be impacting; even then, correlation != causation.
+This data set provides information for each year 2013-2020 on prescription drugs, their prescription patterns, cost, beneficiaries, and more at both the federal and state level. There are 115,410 rows and 22 columns for the year 2020, and all other years have about 110,000 rows. It was collected from CMS administrative claims data for medicare beneficiaries, available from the CMS Chronic Condition Data Warehouse.  
+<br/>
+<br/>
+With this dataset we would look for any trends in prescriptions. We could focus in on either the federal level or the state level. One of the most immediate challenges would certainly be understanding some of the column titles like `LIS_Bene_Cst_Shr`. As well, if we wanted to correlate these prescription patterns with broader trends, it would be difficult to decide what sort of social factors may be impacting; even then, correlation != causation.
 
 
 ## Data Set 3
@@ -37,4 +40,11 @@ This data set provides information for each year 2013-2020 on prescription drugs
 Link to data set: https://catalog.data.gov/dataset/dhs-data-dashboard 
 <br/>
 <br/>
+<<<<<<< HEAD
 This is a data set describing the reported sheltered homeless individuals in NYC over a period of seven years at intervals of several months. It provides data about demographics as a count of individuals. This data set has 58 columns, 91 rows, and was collected by the Department of Homeless Services. We were able to load the data and it doesn't appear to require very much if any cleaning. We had hoped to answer the question of homeless trends with respect to housing prices. The problem we have encountered is finding housing data for NYC that matches the time span that the homeless data was collected. We want to show trends over a long period of time, but many of the housing data sets we found were collected over a much shorter period of time. There's also an inconsistency in size, the housing data sets being much larger with much more data than the homeless data sets. We believe that this might prove very difficult if we were to pursue this project. 
+=======
+This is a data set describing the reported sheltered homeless individuals in NYC over a period of seven years at intervals of several months. It provides data about demographics as a count of individuals. This data set has 58 columns, 91 rows, and was collected by the Department of Homeless Services. We were able to load the data and it doesn't appear to require very much if any cleaning. 
+<br/>
+<br/>
+We had hoped to answer the question of homeless trends with respect to housing prices. The problem we have encountered is finding housing data for NYC that matches the time span that the homeless data was collected. We want to show trends over a long period of time, but many of the housing data sets we found were collected over a much shorter period of time. There's also an inconsistency in size, the housing data sets being much larger with much more data than the homeless data sets. We believe that this might prove very difficult if we were to pursue this project. 
+>>>>>>> 151d1d503034b314b399af73d8a8876320689f1a
