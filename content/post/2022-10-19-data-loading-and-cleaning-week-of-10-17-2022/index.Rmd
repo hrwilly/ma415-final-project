@@ -14,10 +14,14 @@ featuredVideo: ~
 featuredImage: ~
 ---
 
+Our data set of MLB game statistics is >50mb and can be found in the dataset-ignore folder. After reading in the CSV file, we converted it into a tibble. 
+
+#Notes - convert date to lubridate, filter only where dates are between years 2000-2016
+
+
 INSTRUCTIONS:
 
-First, make sure to read the Data page on your website. Particularly, the section on “Where to keep data?“.
-One correction: If you have a dataset >50mb, you’ll need to name the folder dataset-ignore, not dataset_ignore.
+
 Discuss any initial steps you are taking to load and clean the data.
 If you are working with a large data set, you might decide to start with a subset of the data. How did you choose this?
 Are you starting by removing missing values or focusing on columns with less missing data.
