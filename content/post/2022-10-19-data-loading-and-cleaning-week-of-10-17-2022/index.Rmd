@@ -16,7 +16,19 @@ featuredImage: ~
 
 Our data set of MLB game statistics is >50mb and can be found in the dataset-ignore folder. After reading in the CSV file, we converted it into a tibble. 
 
-#Notes - convert date to lubridate, filter only where dates are between years 2000-2016
+already done
+created score difference
+filtered by team
+
+To-do
+convert date to lubridate 
+filter only where dates are between years 2000-2016
+
+plots
+mean scores?
+day of week?
+visiting team?
+
 
 
 INSTRUCTIONS:
