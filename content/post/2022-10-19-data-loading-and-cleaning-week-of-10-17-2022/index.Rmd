@@ -41,7 +41,7 @@ The date in the data is inserted as an integer, so using separate, we separated 
 \n
 \n
 
-Since this is a large dataset, we are considering working with those baseball games that took place between the years 2000 and 2016. Data on games from the 1970s and 1990s are missing so we chose to take a subset of more recent years of baseball. Additionally, over the centuries of baseball, the rules of the game have changed so taking a subset of only the most recent years would help the data be more consistent.
+Since this is a large dataset, we are considering working with those baseball games that took place between the years 2000 and 2016. Data on games from the 1970s and 1990s are missing so we chose to take a subset of more recent years of baseball. From the earliest years of the dataset, there are many variables with missing data as it might be too far in the past to recover such specific statistics of those games. Additionally, over the centuries of baseball, the rules of the game have changed so taking a subset of only the most recent years would help the data be more consistent.
 
 ```{r}
 years<-c(2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016)
@@ -81,8 +81,6 @@ visiting team?
 INSTRUCTIONS:
 
 
-Discuss any initial steps you are taking to load and clean the data.
-If you are working with a large data set, you might decide to start with a subset of the data. How did you choose this?
 Are you starting by removing missing values or focusing on columns with less missing data.
 Exploratory Data Analysis
 Talk about your initial exploration of the data.

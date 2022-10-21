@@ -108,7 +108,7 @@ data &lt;- read_csv(here::here(&quot;dataset&quot;, &quot;dataset-ignore&quot;, 
 ## #   h_line_score &lt;chr&gt;, v_at_bats &lt;dbl&gt;, v_hits &lt;dbl&gt;, v_doubles &lt;dbl&gt;,
 ## #   v_triples &lt;dbl&gt;, v_homeruns &lt;dbl&gt;, v_rbi &lt;dbl&gt;, v_sacrifice_hits &lt;dbl&gt;,
 ## #   v_sacrifice_flies &lt;dbl&gt;, v_hit_by_pitch &lt;dbl&gt;, v_walks &lt;dbl&gt;, …</code></pre>
-<p>Since this is a large dataset, we are considering working with those baseball games that took place between the years 2000 and 2016. Data on games from the 1970s and 1990s are missing so we chose to take a subset of more recent years of baseball. Additionally, over the centuries of baseball, the rules of the game have changed so taking a subset of only the most recent years would help the data be more consistent.</p>
+<p>Since this is a large dataset, we are considering working with those baseball games that took place between the years 2000 and 2016. Data on games from the 1970s and 1990s are missing so we chose to take a subset of more recent years of baseball. From the earliest years of the dataset, there are many variables with missing data as it might be too far in the past to recover such specific statistics of those games. Additionally, over the centuries of baseball, the rules of the game have changed so taking a subset of only the most recent years would help the data be more consistent.</p>
 <pre class="r"><code>years&lt;-c(2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016)
 (baseball &lt;- baseball%&gt;%filter(year %in% years))</code></pre>
 <pre><code>## # A tibble: 41,298 × 163
@@ -181,9 +181,7 @@ mean scores?
 day of week?
 visiting team?</p>
 <p>INSTRUCTIONS:</p>
-<p>Discuss any initial steps you are taking to load and clean the data.
-If you are working with a large data set, you might decide to start with a subset of the data. How did you choose this?
-Are you starting by removing missing values or focusing on columns with less missing data.
+<p>Are you starting by removing missing values or focusing on columns with less missing data.
 Exploratory Data Analysis
 Talk about your initial exploration of the data.
 Give summary statistics and make plots about parts of the data that will be your focus. You might focus on just a few variables.
