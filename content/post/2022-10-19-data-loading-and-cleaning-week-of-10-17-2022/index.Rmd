@@ -14,7 +14,7 @@ featuredVideo: ~
 featuredImage: ~
 ---
 
-Our data set of MLB game statistics is >50mb and can be found in the dataset-ignore folder. After reading in the CSV file, we converted it into a tibble. 
+Our data set of MLB game statistics is >50mb and can be found in the `dataset-ignore` folder. After reading in the CSV file, we converted it into a tibble. 
 
 ```{r}
 source(
@@ -31,7 +31,7 @@ data <- read_csv(here::here("dataset", "dataset-ignore", "game_logs.csv"))
 \n
 \n
 
-The date in the data is inserted as an integer, so using separate, we separated the date into three columns: year, month, and day. If we need to combine these, we can easily do so later on using lubridate.
+The date in the data is inserted as an integer, so using separate, we separated the date into three columns: `year`, `month`, and `day`. If we need to combine these, we can easily do so later on using lubridate.
 
 ```{r}
 (baseball <- baseball %>% separate(date,into=c("year","month_day"),sep=4) %>% 
@@ -51,21 +51,21 @@ years<-c(2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2
 \n
 \n
 
-This data set does not specify whether the home team wins or loses, but it does contain information on the home team's and the away team's number of runs. Since we are interested in seeing if a team wins or loses, we created a column in the dataset called score_diff, which takes the number of the visiting team's runs subtracted from the number of the one team's runs. A positive value represents a win, a negative value represents a loss, and a zero is a tie. The higher absolute values represent a bigger win/loss.
+This data set does not specify whether the home team wins or loses, but it does contain information on the home team's and the away team's number of runs. Since we are interested in seeing if a team wins or loses, we created a column in the dataset called `score_diff`, which takes the number of the visiting team's runs subtracted from the number of the one team's runs. A positive value represents a win, a negative value represents a loss, and a zero is a tie. The higher absolute values represent a bigger win/loss.
 
 ```{r}
-baseball %>% group_by(h_name) %>% mutate(score_diff=h_score-v_score)
+(baseball <- baseball %>% mutate(score_diff=h_score-v_score))
 ```
 
-Here, we grouped by home team since we will be considering wins and losses for specific teams at their respective stadiums.
 
 \n
 \n
 
+Some filters we are considering are to filter by home team.
 
-Some filters we are considering are to filter by home team, and to filter for the years between 2000 and 2016.
-
-baseball %>% filter(h_name="BOS")
+```{r}
+baseball %>% filter(h_name=="BOS")
+```
 
 We filtered to select Boston Red Sox as the home team, since we have already found weather data for Boston and are considering taking this into account later on.
 
