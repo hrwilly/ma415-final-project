@@ -241,11 +241,6 @@ baseball %&gt;% group_by(v_name) %&gt;% summarize(win_prop = mean(score_diff&gt;
 ##  9 HOU       0.573
 ## 10 SDN       0.564
 ## # … with 22 more rows</code></pre>
-<p>plots
-mean scores?
-day of week?</p>
-<p>INSTRUCTIONS:</p>
-<p>Exploratory Data Analysis
-Talk about your initial exploration of the data.
-Give summary statistics and make plots about parts of the data that will be your focus. You might focus on just a few variables.
-What are the big, obvious patterns in the data? Are these surprising?</p>
+<p>We can also look at <code>score_diff</code> for the Boston Red Sox on different days of the week. From the boxplot, it does not seem like the day of the week has an effect on whether the Red Sox win or lose.</p>
+<pre class="r"><code>baseball %&gt;% filter(h_name == &quot;BOS&quot;) %&gt;% ggplot(aes(x = reorder(day_of_week, score_diff), y = score_diff)) + geom_boxplot()</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
