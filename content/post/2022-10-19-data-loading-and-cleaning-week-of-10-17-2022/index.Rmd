@@ -70,7 +70,7 @@ baseball %>% filter(h_name=="BOS")
 
 We filtered to select Boston Red Sox as the home team, since we have already found weather data for Boston and are considering taking this into account later on.
 
-For our initial exploration of the data, we first looked at the average runs scored by each team at home as well as away arranged in descending order. Here, we can see which team scores the most runs on average. The Colorado Rockies score the most runs on average at home while the New York Yankees score the most runs on average away.
+For our initial exploration of the data, we first looked at the average runs scored by each team at home as well as away arranged in descending order. Here, we can see which team scores the most runs on average. The Colorado Rockies score the most runs on average at home while the New York Yankees score the most runs on average away. Using our created variable `score_diff`, we can also observe which teams tend to lose or win more often. 
 
 ``` {r}
 #Average runs scored by home teams
@@ -78,13 +78,20 @@ baseball %>% group_by(h_name) %>% summarize(average_score = mean(h_score)) %>% a
 
 #Average runs scored by away/visiting teams
 baseball %>% group_by(v_name) %>% summarize(average_score = mean(v_score)) %>% arrange(desc(average_score))
+
+#Proportion of games won by home team
+baseball %>% group_by(h_name) %>% summarize(win_prop = mean(score_diff>0)) %>% arrange(desc(win_prop))
+
+#Proportion of games won by away/visiting team
+baseball %>% group_by(v_name) %>% summarize(win_prop = mean(score_diff>0)) %>% arrange(desc(win_prop))
 ```
+
 
 
 plots
 mean scores?
 day of week?
-visiting team?
+
 
 
 INSTRUCTIONS:

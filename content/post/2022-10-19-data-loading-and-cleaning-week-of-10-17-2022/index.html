@@ -176,7 +176,7 @@ data &lt;- read_csv(here::here(&quot;dataset&quot;, &quot;dataset-ignore&quot;, 
 ## #   v_triples &lt;dbl&gt;, v_homeruns &lt;dbl&gt;, v_rbi &lt;dbl&gt;, v_sacrifice_hits &lt;dbl&gt;,
 ## #   v_sacrifice_flies &lt;dbl&gt;, v_hit_by_pitch &lt;dbl&gt;, v_walks &lt;dbl&gt;, …</code></pre>
 <p>We filtered to select Boston Red Sox as the home team, since we have already found weather data for Boston and are considering taking this into account later on.</p>
-<p>For our initial exploration of the data, we first looked at the average runs scored by each team at home as well as away arranged in descending order. Here, we can see which team scores the most runs on average. The Colorado Rockies score the most runs on average at home while the New York Yankees score the most runs on average away.</p>
+<p>For our initial exploration of the data, we first looked at the average runs scored by each team at home as well as away arranged in descending order. Here, we can see which team scores the most runs on average. The Colorado Rockies score the most runs on average at home while the New York Yankees score the most runs on average away. Using our created variable <code>score_diff</code>, we can also observe which teams tend to lose or win more often.</p>
 <pre class="r"><code>#Average runs scored by home teams
 baseball %&gt;% group_by(h_name) %&gt;% summarize(average_score = mean(h_score)) %&gt;% arrange(desc(average_score))</code></pre>
 <pre><code>## # A tibble: 32 × 2
@@ -209,10 +209,41 @@ baseball %&gt;% group_by(v_name) %&gt;% summarize(average_score = mean(v_score))
 ##  9 TEX             4.60
 ## 10 DET             4.60
 ## # … with 22 more rows</code></pre>
+<pre class="r"><code>#Proportion of games won by home team
+baseball %&gt;% group_by(h_name) %&gt;% summarize(win_prop = mean(score_diff&gt;0)) %&gt;% arrange(desc(win_prop))</code></pre>
+<pre><code>## # A tibble: 32 × 2
+##    h_name win_prop
+##    &lt;chr&gt;     &lt;dbl&gt;
+##  1 NYA       0.619
+##  2 SLN       0.607
+##  3 BOS       0.581
+##  4 LAN       0.574
+##  5 ANA       0.573
+##  6 ATL       0.573
+##  7 OAK       0.572
+##  8 SFN       0.571
+##  9 TEX       0.555
+## 10 CHA       0.548
+## # … with 22 more rows</code></pre>
+<pre class="r"><code>#Proportion of games won by away/visiting team
+baseball %&gt;% group_by(v_name) %&gt;% summarize(win_prop = mean(score_diff&gt;0)) %&gt;% arrange(desc(win_prop))</code></pre>
+<pre><code>## # A tibble: 32 × 2
+##    v_name win_prop
+##    &lt;chr&gt;     &lt;dbl&gt;
+##  1 COL       0.617
+##  2 MON       0.603
+##  3 MIA       0.602
+##  4 PIT       0.600
+##  5 KCA       0.584
+##  6 TBA       0.582
+##  7 MIL       0.575
+##  8 BAL       0.574
+##  9 HOU       0.573
+## 10 SDN       0.564
+## # … with 22 more rows</code></pre>
 <p>plots
 mean scores?
-day of week?
-visiting team?</p>
+day of week?</p>
 <p>INSTRUCTIONS:</p>
 <p>Exploratory Data Analysis
 Talk about your initial exploration of the data.
