@@ -14,6 +14,8 @@ featuredVideo: ~
 featuredImage: ~
 ---
 
+TEST EDIT
+
 Our data set of MLB game statistics is >50mb and can be found in the `dataset-ignore` folder. After reading in the CSV file, we converted it into a tibble. 
 
 ```{r}
