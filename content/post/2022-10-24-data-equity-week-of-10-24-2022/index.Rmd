@@ -17,6 +17,8 @@ featuredImage: ~
 
 Beneficence: be transparent about limits of data
 
+Our data has been collected by the MLB over a long historical period. Although we will be exclusively using data relevant to the past ten years, we are limited to the reporting of the MLB. Errors in data from imprecise collection limit our ability to be precise. Similarly, we are limited in weather data to the precision and breadth of weather data provide for each city. Our analysis will also only be made using formal baseball statistics relevant to the rules of the game. Additional factors outside of game data and weather such as random stadium factors will not be a part of our analysis. 
+
 Justice: Return data and research results to community members in a form they can use
 
 Respect for persons: Be transparent about what the plans are for the data after the project concludes
