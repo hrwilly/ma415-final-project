@@ -14,6 +14,13 @@ featuredVideo: ~
 featuredImage: ~
 ---
 
+
+Beneficence: be transparent about limits of data
+
+Justice: Return data and research results to community members in a form they can use
+
+Respect for persons: Be transparent about what the plans are for the data after the project concludes
+
 Please read the this article on Data for Equity Principals. While all aspects of this are not relevant for your projects, and the relevance may vary for depending on your chosen data sets, there are some important things to think about in general about collecting and working with data.
 Site: https://www.urban.org/research/publication/principles-advancing-equitable-data-practice
 pdf: https://friendsnrc.org/wp-content/uploads/2021/05/Principles-for-Advancing-Equitable-Data-Practice.pdf
