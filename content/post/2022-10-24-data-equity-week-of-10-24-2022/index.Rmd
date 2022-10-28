@@ -23,6 +23,9 @@ Justice: Return data and research results to community members in a form they ca
 
 Our research results should be useful to MLB teams, or at least the specific teams we focus on, to allow for better anticipatory guidance in the pursuit of winning games. We seek to explore what factors--either internal or external--affect the outcomes of baseball games, which would be useful to know going into a season. Even if we pick to concentrate on one or a few teams/cities, our research methodology should be straightforward and replicable, so any other team could easily attain such results.
 
+Potential abuse or misuse of data:
+
+This data could possibly be abused for personal benefit. However, in this data set and analysis, all teams in the MLB will be represented, not just select favorites of the users. Furthermore, the analyses will be objective to the results found rather than tailored to those select favorites. 
 
 We referenced the following article to better understand data equity and our responsibilities for this project. The principles we chose and their headers came from this site/pdf. Other principles for data equity can be found at the following site, we invite you visit if you are interested in further research:
 
