@@ -24,7 +24,8 @@ Justice: Return data and research results to community members in a form they ca
 Our research results should be useful to MLB teams, or at least the specific teams we focus on, to allow for better anticipatory guidance in the pursuit of winning games. We seek to explore what factors--either internal or external--affect the outcomes of baseball games, which would be useful to know going into a season. Even if we pick to concentrate on one or a few teams/cities, our research methodology should be straightforward and replicable, so any other team could easily attain such results.
 
 
-Please read the this article on Data for Equity Principals. While all aspects of this are not relevant for your projects, and the relevance may vary for depending on your chosen data sets, there are some important things to think about in general about collecting and working with data.
+We referenced the following article to better understand data equity and our responsibilities for this project. If you are interested in further research or have additional questions about data equity, we invite you to visit the following site:
+
 Site: https://www.urban.org/research/publication/principles-advancing-equitable-data-practice
 pdf: https://friendsnrc.org/wp-content/uploads/2021/05/Principles-for-Advancing-Equitable-Data-Practice.pdf
 Discuss how the principles for advancing equitable data practice are relevant to your data. I realize that many of the principles require interaction with communities but think about how the principles could be applied if possible.
