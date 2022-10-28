@@ -32,7 +32,3 @@ We referenced the following article to better understand data equity and our res
 Site: https://www.urban.org/research/publication/principles-advancing-equitable-data-practice
 
 pdf: https://friendsnrc.org/wp-content/uploads/2021/05/Principles-for-Advancing-Equitable-Data-Practice.pdf
-Discuss how the principles for advancing equitable data practice are relevant to your data. I realize that many of the principles require interaction with communities but think about how the principles could be applied if possible.
-For two or three of principles, talk about how they are relevant and what adhering to the practice would entail for your data.
-A particularly important principle is transparency. Talk about what might be some limitations of your analysis.
-Discuss the potential for abuse or misuse of the data. 
