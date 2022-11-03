@@ -1,0 +1,15 @@
+---
+title: Blog Post 4, Week of 10/31/2022
+author: Daniel Sussman
+date: '2022-11-03'
+slug: []
+categories: []
+tags: []
+description: ~
+toc: yes
+authors: []
+series: []
+lastmod: '2022-11-03T19:02:24-04:00'
+featuredVideo: ~
+featuredImage: ~
+---
