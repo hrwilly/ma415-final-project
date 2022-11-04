@@ -81,10 +81,10 @@ years&lt;-c(2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,201
 ## #   v_triples &lt;dbl&gt;, v_homeruns &lt;dbl&gt;, v_rbi &lt;dbl&gt;, v_sacrifice_hits &lt;dbl&gt;,
 ## #   v_sacrifice_flies &lt;dbl&gt;, v_hit_by_pitch &lt;dbl&gt;, v_walks &lt;dbl&gt;, …</code></pre>
 <pre class="r"><code>#win/loss column (1 = win, 0 = loss or tie)
-win_loss &lt;- function(h, v) {
+h_win_loss &lt;- function(h, v) {
   ifelse(h &gt; v, 1, 0)
 }
-(pythag &lt;- baseball %&gt;% mutate(win_loss = win_loss(h_score, v_score)))</code></pre>
+(pythag &lt;- baseball %&gt;% mutate(h_win_loss = h_win_loss(h_score, v_score)))</code></pre>
 <pre><code>## # A tibble: 41,298 × 165
 ##    year  month day   number_of_g…¹ day_o…² v_name v_lea…³ v_gam…⁴ h_name h_lea…⁵
 ##    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  
@@ -105,6 +105,37 @@ win_loss &lt;- function(h, v) {
 ## #   h_line_score &lt;chr&gt;, v_at_bats &lt;dbl&gt;, v_hits &lt;dbl&gt;, v_doubles &lt;dbl&gt;,
 ## #   v_triples &lt;dbl&gt;, v_homeruns &lt;dbl&gt;, v_rbi &lt;dbl&gt;, v_sacrifice_hits &lt;dbl&gt;,
 ## #   v_sacrifice_flies &lt;dbl&gt;, v_hit_by_pitch &lt;dbl&gt;, v_walks &lt;dbl&gt;, …</code></pre>
+<pre class="r"><code>#for Boston Red Sox, grouped by season/year, actual winning percentage
+h_wins &lt;- pythag %&gt;% filter(h_name == &quot;BOS&quot;) %&gt;% group_by(year) %&gt;% summarize(home_games_won = sum(h_win_loss == 1))
+a_wins &lt;- pythag %&gt;% filter(v_name == &quot;BOS&quot;) %&gt;% group_by(year) %&gt;% summarize(away_games_won = sum(h_win_loss == 0))
+wins &lt;- h_wins %&gt;% left_join(a_wins, by = &quot;year&quot;) %&gt;% mutate(games_won = home_games_won + away_games_won)
+
+(win_percentage &lt;- pythag %&gt;% filter(h_name == &quot;BOS&quot; | v_name == &quot;BOS&quot;) %&gt;% 
+  group_by(year) %&gt;% 
+  summarize(total_games_played = n()) %&gt;% 
+  left_join(wins, by = &quot;year&quot;) %&gt;% 
+  mutate(win_percentage = games_won/total_games_played))</code></pre>
+<pre><code>## # A tibble: 17 × 6
+##    year  total_games_played home_games_won away_games_won games_won win_percen…¹
+##    &lt;chr&gt;              &lt;int&gt;          &lt;int&gt;          &lt;int&gt;     &lt;int&gt;        &lt;dbl&gt;
+##  1 2000                 162             42             43        85        0.525
+##  2 2001                 161             41             41        82        0.509
+##  3 2002                 162             42             51        93        0.574
+##  4 2003                 162             53             42        95        0.586
+##  5 2004                 162             55             43        98        0.605
+##  6 2005                 162             54             41        95        0.586
+##  7 2006                 162             48             38        86        0.531
+##  8 2007                 162             51             45        96        0.593
+##  9 2008                 162             56             39        95        0.586
+## 10 2009                 162             56             39        95        0.586
+## 11 2010                 162             46             43        89        0.549
+## 12 2011                 162             45             45        90        0.556
+## 13 2012                 162             34             35        69        0.426
+## 14 2013                 162             53             44        97        0.599
+## 15 2014                 162             34             37        71        0.438
+## 16 2015                 162             43             35        78        0.481
+## 17 2016                 162             47             46        93        0.574
+## # … with abbreviated variable name ¹​win_percentage</code></pre>
 <p>Graph #3 - A logistical model predicting wins or losses</p>
 <p>In Blogposts 2/3, you should have identified some of the big obvious trends in the data. One question to ask now is whether those trends are the interesting or boring part of the data. In other words, do you want to get a more detailed explanation for the trend by exploring its relationship to other variables? Or do you want to explore some other relationship that might be confounded by the major trend you identified? Overall, both of these require you to start to explore further in your data. Think about exploring both for breadth (looking at relationships among many different variables or groupings) and depth (developing a better understanding of a specific relationship and how other variables fit in).
 Additionally, now is a good time to start thinking about statistical modeling. What response variable are you interested in? What predictor variables? Are there transformations of columns that you’d need to do to create interesting predictors? What type of model do you want to fit? Linear? Logistic? Or something else? (Ask me!)
