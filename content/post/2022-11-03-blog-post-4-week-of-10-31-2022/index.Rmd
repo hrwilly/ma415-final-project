@@ -14,12 +14,9 @@ featuredVideo: ~
 featuredImage: ~
 ---
 
-Two graphs EDA, one modeling graph
+Before analysis, the data must be loaded and mutated with extra columns we need for analysis.
 
-Graph #1 - Truly Exploratory Data: 
- 
-```{r graph1,echo=FALSE,fig.width=14,fig.length=25}
-#Loading and cleaning the data
+```{r loading_data}
 library(tidyverse)
 data <- read_csv(here::here("dataset-ignore", "game_logs.csv"))
 baseball <- as_tibble(data)
@@ -28,46 +25,58 @@ years<-c(2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2
                           separate(month_day,into=c("month","day"),sep=2) %>% 
                           filter(year %in% years) %>% 
                           mutate(score_diff=h_score-v_score))
+```
 
-#Creating variables to compare a win to the starting pitcher, to see if having a certain pitcher matters towards a win
-#This is focusing specifically on Boston Red Sox in their home stadium
+Graph #1 - Truly Exploratory Data: 
+
+While exploring trends in the data, we set out to see if starting pitcher has an impact on the outcome. In the following code, we compare the starting pitchers in each season to both the proportion of their games played that they won, and the number of games that they won. We specifically are focusing on Boston Red Sox at their home stadium, but hope to explore more teams as well as away games in the future.
+
+The first step is to create different data sets to see the number of games each pitcher wins, the number of games each pitcher plays, and the proportion of wins to the games played.
+
+```{r graph1}
 (pitcher_win<-baseball %>% filter(h_name=="BOS",h_score>v_score) %>% 
-                           group_by(h_starting_pitcher_name,year) %>% 
-                           count(h_starting_pitcher_name) %>% 
+                           group_by(h_starting_pitcher_id,year) %>% 
+                           count(h_starting_pitcher_id) %>% 
                            rename(games_won=n))
 
 (pitcher_played<-baseball %>% filter(h_name=="BOS") %>% 
-                              group_by(h_starting_pitcher_name,year) %>% 
-                              count(h_starting_pitcher_name) %>% 
+                              group_by(h_starting_pitcher_id,year) %>% 
+                              count(h_starting_pitcher_id) %>% 
                               rename(games_played=n))
 
 (pitcher_prop<-full_join(pitcher_played,pitcher_win) %>% 
                mutate(prop=games_won/games_played) %>% 
                replace_na(list(games_won=0,prop=0,games_played=0)))
+```
+ 
+With these data sets, we can now graph both the proportion of games each pitcher wins and the number of games each pitcher wins. Each year corresponds to an individual season.
 
-theme(axis.text.y=element_blank())+
+```{r graph1cont,fig.height=10}
 
-#Graphing the proportion of games won to games played for each starting pitcher per season from 2000-2016.
-pitcher_win %>% group_by(year) %>%
-                ggplot(aes(h_starting_pitcher_name,games_won,fill=h_starting_pitcher_name))+
-                geom_col()+coord_flip()+
+pitcher_prop %>% group_by(year) %>%
+                ggplot(aes(h_starting_pitcher_id,prop,fill=h_starting_pitcher_id))+
+                geom_col(show.legend=FALSE)+
+                coord_flip()+
                 facet_wrap(vars(year),scales="free_y",ncol=3)+
-                labs(title="Proportion of Games Won for each Starting Picture of the Boston Red Sox")+
+                labs(title="Proportion of Games Won for each Starting Pitcher of the Boston Red Sox")+
                 xlab("Proportion")+
                 ylab("Pitcher")
+
+pitcher_win %>% group_by(year) %>%
+                ggplot(aes(h_starting_pitcher_id,games_won,fill=h_starting_pitcher_id))+
+                geom_col(show.legend=FALSE)+
+                coord_flip()+
+                facet_wrap(vars(year),scales="free_y",ncol=3)+
+                labs(title="Games Won for each Starting Pitcher of the Boston Red Sox")+
+                xlab("Number of Games Won")+
+                ylab("Pitcher by ID")
 ```
+
+There are clearly starting pitchers that win more games than others. In this case, the number of games won offers a little better insight than the proportion of games won, since multiple pitchers only started one game and won that one game, so are given a 100% win percentage. Starting pitchers is a factor that can definitely be explored further.
 
 Graph #2 - An experiment in the accuracy of the Pythagorean Winning Percentage (PWP)
 
 $$Pythagroean\ Winning\ Percentage = runs\ scored\ ^{2} / (run\ scored\ ^{2} + runs\ allowed\  ^{2})$$
-Compare the PWP to the actual winning percentage of the team. 
- - create winning percentage column: mutate(if(h_score>v_score) add column = win or TRUE )
-      do a similar mutation for losses, and sum the wins divided by total 
- - Pythagorean column: baseball %>% mutate(pwp = h_score^2 / (h_score^2 + v_score^2))  
- - group by team and filter for only one team
- - plot one teams pwd vs year, and the actual winning percentage per year or season 
-
- missing a group my season or group  by year (however baseball works) in here somewhere 
  
 ```{r, graph2}
 #win/loss column (1 = win, 0 = loss or tie)
@@ -113,17 +122,14 @@ teams_pythag %>% filter(h_name == "BOS") %>%
   geom_bar(stat = "identity", position = "dodge") + 
   scale_x_discrete(guide = guide_axis(n.dodge=2)) + 
           
-<<<<<<< HEAD
            labs(title = "Pythagorean Winning Prediction versus Actual Winning Percentage", 
                 x = "Years", 
                 y = "Percentage", 
                 color = "Percentage Calculation")
-=======
   labs(title = "Pythagorean Winnng Prediction versus Actual Winning Percentage", 
     x = "Years", 
     y = "Percentage", 
     color = "Percentage Calculation")
->>>>>>> f8c4830276ffe44b904995998771e1ab57c22631
 
 ```
 Because it can be hard to view how different these two values are, we can run a T-test and check the statistical significance of the prediction we've made. If we had hypothesized if this is an appropriate estimate for wins, we would accept or reject our hypothesis on the basis of the T-test: 
@@ -134,7 +140,7 @@ bos <- teams_pythag %>% filter(h_name=="BOS")
 (stat_sig <- t.test(bos$pythag_win, bos$win_perc, paired = TRUE))
 
 ```
-Our p-value is greater than 0.05 (a value 0.05475) which indicated that our results are not statistically significant. To say that our prediction is not statistically significant from the actual winning percentage is to say the values are more or les similar and that this metric is a good predictor of wins. 
+Our p-value is greater than 0.05 (a value 0.05475) which indicated that our results are not statistically significant. To say that our prediction is not statistically significant from the actual winning percentage is to say the values are more or less similar and that this metric is a good predictor of wins. 
 
 The next step after this data exploration would be to reproduce the result for more teams. 
 
@@ -156,8 +162,3 @@ meandata <- with(baseballlog, data.frame(h_errors = mean(h_errors), v_errors = m
 
 meandata
 ```
-
-
-In Blogposts 2/3, you should have identified some of the big obvious trends in the data. One question to ask now is whether those trends are the interesting or boring part of the data. In other words, do you want to get a more detailed explanation for the trend by exploring its relationship to other variables? Or do you want to explore some other relationship that might be confounded by the major trend you identified? Overall, both of these require you to start to explore further in your data. Think about exploring both for breadth (looking at relationships among many different variables or groupings) and depth (developing a better understanding of a specific relationship and how other variables fit in).
-Additionally, now is a good time to start thinking about statistical modeling. What response variable are you interested in? What predictor variables? Are there transformations of columns that you’d need to do to create interesting predictors? What type of model do you want to fit? Linear? Logistic? Or something else? (Ask me!)
-For this week’s blog post, discuss both going deeper and broader into your EDA and your initial thoughts and results for modeling. As always, make lots of plots and try different types of plots. However, for this week’s post, only include at most 2 figures/tables/output for your EDA and at most 1 figure/table/output for the modeling. Try to put together figures that illustrate the main lesson’s you’ve learned this week.
