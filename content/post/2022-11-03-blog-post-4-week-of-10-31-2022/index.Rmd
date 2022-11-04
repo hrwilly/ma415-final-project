@@ -60,53 +60,46 @@ bos <- baseball %>% filter(h_name == "BOS"|v_name == "BOS")
 #for all teams
 #total games won
 home_wins <- baseball %>% group_by(h_name, year) %>% summarize(h_wins = sum(h_win_loss == 1))
-away_wins <- baseball %>% group_by(v_name, year) %>% summarize(a_wins = sum(h_win_loss == 0)) %>% rename(h_name = v_name)
+away_wins <- baseball %>% group_by(v_name, year) %>% summarize(a_wins = sum(h_win_loss == 0))
 team_year_wins <- home_wins %>% add_column(a_wins = away_wins$a_wins) %>% mutate(games_won = h_wins + a_wins)
 #total games played
 home_games <- baseball %>% group_by(h_name, year) %>% summarize(home_games = n())
-away_games <- baseball %>% group_by(v_name, year) %>% summarize(away_games = n()) %>% rename(h_name = v_name)
-games_played <- home_games %>% add_column(away_games = away_games$away_games) %>% mutate(game_played = home_games + away_games)
+away_games <- baseball %>% group_by(v_name, year) %>% summarize(away_games = n())
+win_perc <- home_games %>% add_column(away_games = away_games$away_games) %>% mutate(games_played = home_games + away_games) %>% add_column(games_won = team_year_wins$games_won) %>% mutate(win_perc = games_won/games_played)
 
-#for Boston Red Sox, grouped by season/year, actual winning percentage
-h_wins <- bos %>% filter(h_name == "BOS") %>% group_by(year) %>% summarize(home_games_won = sum(h_win_loss == 1))
-a_wins <- bos %>% filter(v_name == "BOS") %>% group_by(year) %>% summarize(away_games_won = sum(h_win_loss == 0))
-wins <- h_wins %>% left_join(a_wins, by = "year") %>% mutate(games_won = home_games_won + away_games_won)
+#pythagorean winning percentage
+runs_h <- baseball %>% group_by(h_name, year) %>% summarize(runs_at_home = sum(h_score))
+runs_a <- baseball %>% group_by(v_name, year) %>% summarize(runs_away = sum(v_score))
+runs_total <- runs_h %>% add_column(runs_away = runs_a$runs_away) %>% mutate(runs_total = runs_away +runs_at_home)
 
-(win_percentage <- baseball %>% filter(h_name == "BOS" | v_name == "BOS") %>% 
-  group_by(year) %>% 
-  summarize(total_games_played = n()) %>% 
-  left_join(wins, by = "year") %>% 
-  mutate(win_percentage = games_won/total_games_played))
-  
-#for Boston Red Sox, grouped by season/year, Pythagorean winning percentage
-runs_home <- bos %>% filter(h_name == "BOS") %>% group_by(year) %>% summarize(runs_at_home = sum(h_score))
-runs_away <- bos %>% filter(v_name == "BOS") %>% group_by(year) %>% summarize(runs_away = sum(v_score))
-total_runs <- runs_home %>% left_join(runs_away, by = "year") %>% mutate(total_runs = runs_at_home + runs_away)
 
-home_allowed <- bos %>% filter(h_name == "BOS") %>% group_by(year) %>% summarize(home_allowed = sum(v_score))
-away_allowed <- bos %>% filter(v_name == "BOS") %>% group_by(year) %>% summarize(away_allowed = sum(h_score))
-total_allowed <- home_allowed %>% left_join(away_allowed, by = "year") %>% mutate(total_allowed = home_allowed + away_allowed)
+h_allowed <- baseball %>% group_by(h_name, year) %>% summarize(home_allowed = sum(v_score))
+a_allowed <- baseball %>% group_by(v_name, year) %>% summarize(away_allowed = sum(h_score))
+allowed_total <- h_allowed %>% add_column(away_allowed = a_allowed$away_allowed) %>% mutate(allowed_total = home_allowed + away_allowed)
 
-pythag <- total_runs %>% left_join(total_allowed, by = "year") %>% mutate(pythag_win = ((total_runs)^2)/(((total_runs)^2) + ((total_allowed)^2))) %>% left_join(win_percentage, by = "year")
+teams_pythag <- runs_total %>% add_column(allowed_total = allowed_total$allowed_total) %>% mutate(pythag_win = ((runs_total)^2)/(((runs_total)^2) + ((allowed_total)^2))) %>% add_column(win_perc = win_perc$win_perc)
 
-#barplot
-pythag %>% select(year, win_percentage, pythag_win) %>% 
-           pivot_longer(-year, names_to = "win_pythag", values_to = "percentage") %>%
-           ggplot(aes(x=year, y=percentage, fill = win_pythag)) + 
-           geom_bar(stat = "identity", position = "dodge") + 
-           scale_x_discrete(guide = guide_axis(n.dodge=2))+ 
+
+#barplot for Boston Red Sox
+teams_pythag %>% filter(h_name == "BOS") %>% 
+  select(year, win_perc, pythag_win) %>% 
+  pivot_longer(-(h_name:year), names_to = "pythag_actual", values_to = "percentage") %>%
+  ggplot(aes(x=year, y=percentage, fill = pythag_actual)) + 
+  geom_bar(stat = "identity", position = "dodge") + 
+  scale_x_discrete(guide = guide_axis(n.dodge=2)) + 
           
-           labs(title = "Pythagorean Winnng Prediction versus Actual Winning Percentage", 
-                x = "Years", 
-                y = "Percentage", 
-                color = "Percentage Calculation")
+  labs(title = "Pythagorean Winnng Prediction versus Actual Winning Percentage", 
+    x = "Years", 
+    y = "Percentage", 
+    color = "Percentage Calculation")
 
 ```
 Because it can be hard to view how different these two values are, we can run a T-test and check the statistical significance of the prediction we've made. If we had hypothesized if this is an appropriate estimate for wins, we would accept or reject our hypothesis on the basis of the T-test: 
 
 ``` {r, graph2_cont}
 # different representation:
-(stat_sig <- t.test(pythag$pythag_win, pythag$win_percentage, paired = TRUE))
+bos <- teams_pythag %>% filter(h_name=="BOS")
+(stat_sig <- t.test(bos$pythag_win, bos$win_perc, paired = TRUE))
 
 ```
 Our p-value is greater than 0.05 (a value 0.05475) which indicated that our results are not statistically significant. To say that our prediction is not statistically significant from the actual winning percentage is to say the values are more or les similar and that this metric is a good predictor of wins. 

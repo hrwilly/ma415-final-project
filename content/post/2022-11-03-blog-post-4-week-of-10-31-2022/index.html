@@ -83,6 +83,9 @@ years&lt;-c(2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,201
 <pre class="r"><code>#win/loss column (1 = win, 0 = loss or tie)
 h_win_loss &lt;- function(h, v) {
   ifelse(h &gt; v, 1, 0)
+  
+  # alternative to win loss function:
+  # mutate(outcome = (ifelse(h_score&gt;v_score, 1, 0))
 }
 (baseball &lt;- baseball %&gt;% mutate(h_win_loss = h_win_loss(h_score, v_score)))</code></pre>
 <pre><code>## # A tibble: 41,298 × 165
@@ -113,7 +116,7 @@ bos &lt;- baseball %&gt;% filter(h_name == &quot;BOS&quot;|v_name == &quot;BOS&q
 home_wins &lt;- baseball %&gt;% group_by(h_name, year) %&gt;% summarize(h_wins = sum(h_win_loss == 1))</code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;h_name&#39;. You can override using the
 ## `.groups` argument.</code></pre>
-<pre class="r"><code>away_wins &lt;- baseball %&gt;% group_by(v_name, year) %&gt;% summarize(a_wins = sum(h_win_loss == 0)) %&gt;% rename(h_name = v_name)</code></pre>
+<pre class="r"><code>away_wins &lt;- baseball %&gt;% group_by(v_name, year) %&gt;% summarize(a_wins = sum(h_win_loss == 0))</code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;v_name&#39;. You can override using the
 ## `.groups` argument.</code></pre>
 <pre class="r"><code>team_year_wins &lt;- home_wins %&gt;% add_column(a_wins = away_wins$a_wins) %&gt;% mutate(games_won = h_wins + a_wins)
@@ -121,57 +124,134 @@ home_wins &lt;- baseball %&gt;% group_by(h_name, year) %&gt;% summarize(h_wins =
 home_games &lt;- baseball %&gt;% group_by(h_name, year) %&gt;% summarize(home_games = n())</code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;h_name&#39;. You can override using the
 ## `.groups` argument.</code></pre>
-<pre class="r"><code>away_games &lt;- baseball %&gt;% group_by(v_name, year) %&gt;% summarize(away_games = n()) %&gt;% rename(h_name = v_name)</code></pre>
+<pre class="r"><code>away_games &lt;- baseball %&gt;% group_by(v_name, year) %&gt;% summarize(away_games = n())</code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;v_name&#39;. You can override using the
 ## `.groups` argument.</code></pre>
-<pre class="r"><code>games_played &lt;- home_games %&gt;% add_column(away_games = away_games$away_games) %&gt;% mutate(game_played = home_games + away_games)
+<pre class="r"><code>win_perc &lt;- home_games %&gt;% add_column(away_games = away_games$away_games) %&gt;% mutate(games_played = home_games + away_games) %&gt;% add_column(games_won = team_year_wins$games_won) %&gt;% mutate(win_perc = games_won/games_played)
 
-#for Boston Red Sox, grouped by season/year, actual winning percentage
-h_wins &lt;- bos %&gt;% filter(h_name == &quot;BOS&quot;) %&gt;% group_by(year) %&gt;% summarize(home_games_won = sum(h_win_loss == 1))
-a_wins &lt;- bos %&gt;% filter(v_name == &quot;BOS&quot;) %&gt;% group_by(year) %&gt;% summarize(away_games_won = sum(h_win_loss == 0))
-wins &lt;- h_wins %&gt;% left_join(a_wins, by = &quot;year&quot;) %&gt;% mutate(games_won = home_games_won + away_games_won)
+#pythagorean winning percentage
+runs_h &lt;- baseball %&gt;% group_by(h_name, year) %&gt;% summarize(runs_at_home = sum(h_score))</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;h_name&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre class="r"><code>runs_a &lt;- baseball %&gt;% group_by(v_name, year) %&gt;% summarize(runs_away = sum(v_score))</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;v_name&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre class="r"><code>runs_total &lt;- runs_h %&gt;% add_column(runs_away = runs_a$runs_away) %&gt;% mutate(runs_total = runs_away +runs_at_home)
 
-(win_percentage &lt;- baseball %&gt;% filter(h_name == &quot;BOS&quot; | v_name == &quot;BOS&quot;) %&gt;% 
-  group_by(year) %&gt;% 
-  summarize(total_games_played = n()) %&gt;% 
-  left_join(wins, by = &quot;year&quot;) %&gt;% 
-  mutate(win_percentage = games_won/total_games_played))</code></pre>
-<pre><code>## # A tibble: 17 × 6
-##    year  total_games_played home_games_won away_games_won games_won win_percen…¹
-##    &lt;chr&gt;              &lt;int&gt;          &lt;int&gt;          &lt;int&gt;     &lt;int&gt;        &lt;dbl&gt;
-##  1 2000                 162             42             43        85        0.525
-##  2 2001                 161             41             41        82        0.509
-##  3 2002                 162             42             51        93        0.574
-##  4 2003                 162             53             42        95        0.586
-##  5 2004                 162             55             43        98        0.605
-##  6 2005                 162             54             41        95        0.586
-##  7 2006                 162             48             38        86        0.531
-##  8 2007                 162             51             45        96        0.593
-##  9 2008                 162             56             39        95        0.586
-## 10 2009                 162             56             39        95        0.586
-## 11 2010                 162             46             43        89        0.549
-## 12 2011                 162             45             45        90        0.556
-## 13 2012                 162             34             35        69        0.426
-## 14 2013                 162             53             44        97        0.599
-## 15 2014                 162             34             37        71        0.438
-## 16 2015                 162             43             35        78        0.481
-## 17 2016                 162             47             46        93        0.574
-## # … with abbreviated variable name ¹​win_percentage</code></pre>
-<pre class="r"><code>#for Boston Red Sox, grouped by season/year, Pythagorean winning percentage
-runs_home &lt;- bos %&gt;% filter(h_name == &quot;BOS&quot;) %&gt;% group_by(year) %&gt;% summarize(runs_at_home = sum(h_score))
-runs_away &lt;- bos %&gt;% filter(v_name == &quot;BOS&quot;) %&gt;% group_by(year) %&gt;% summarize(runs_away = sum(v_score))
-total_runs &lt;- runs_home %&gt;% left_join(runs_away, by = &quot;year&quot;) %&gt;% mutate(total_runs = runs_at_home + runs_away)
 
-home_allowed &lt;- bos %&gt;% filter(h_name == &quot;BOS&quot;) %&gt;% group_by(year) %&gt;% summarize(home_allowed = sum(v_score))
-away_allowed &lt;- bos %&gt;% filter(v_name == &quot;BOS&quot;) %&gt;% group_by(year) %&gt;% summarize(away_allowed = sum(h_score))
-total_allowed &lt;- home_allowed %&gt;% left_join(away_allowed, by = &quot;year&quot;) %&gt;% mutate(total_allowed = home_allowed + away_allowed)
+h_allowed &lt;- baseball %&gt;% group_by(h_name, year) %&gt;% summarize(home_allowed = sum(v_score))</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;h_name&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre class="r"><code>a_allowed &lt;- baseball %&gt;% group_by(v_name, year) %&gt;% summarize(away_allowed = sum(h_score))</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;v_name&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre class="r"><code>allowed_total &lt;- h_allowed %&gt;% add_column(away_allowed = a_allowed$away_allowed) %&gt;% mutate(allowed_total = home_allowed + away_allowed)
 
-pythag &lt;- total_runs %&gt;% left_join(total_allowed, by = &quot;year&quot;) %&gt;% mutate(pythag_win = ((total_runs)^2)/(((total_runs)^2) + ((total_allowed)^2))) %&gt;% left_join(win_percentage, by = &quot;year&quot;)
+teams_pythag &lt;- runs_total %&gt;% add_column(allowed_total = allowed_total$allowed_total) %&gt;% mutate(pythag_win = ((runs_total)^2)/(((runs_total)^2) + ((allowed_total)^2))) %&gt;% add_column(win_perc = win_perc$win_perc)
 
-#barplot
-pythag %&gt;% select(year, win_percentage, pythag_win) %&gt;% pivot_longer(-year, names_to = &quot;win_pythag&quot;, values_to = &quot;percentage&quot;) %&gt;% ggplot(aes(x=year, y=percentage, fill = win_pythag)) + geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;) + scale_x_discrete(guide = guide_axis(n.dodge=2))</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+
+#barplot for Boston Red Sox
+teams_pythag %&gt;% filter(h_name == &quot;BOS&quot;) %&gt;% 
+  select(year, win_perc, pythag_win) %&gt;% 
+  pivot_longer(-(h_name:year), names_to = &quot;pythag_actual&quot;, values_to = &quot;percentage&quot;) %&gt;%
+  ggplot(aes(x=year, y=percentage, fill = pythag_actual)) + 
+  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;) + 
+  scale_x_discrete(guide = guide_axis(n.dodge=2)) + 
+          
+  labs(title = &quot;Pythagorean Winnng Prediction versus Actual Winning Percentage&quot;, 
+    x = &quot;Years&quot;, 
+    y = &quot;Percentage&quot;, 
+    color = &quot;Percentage Calculation&quot;)</code></pre>
+<pre><code>## Adding missing grouping variables: `h_name`</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/graph2-1.png" width="672" />
+Because it can be hard to view how different these two values are, we can run a T-test and check the statistical significance of the prediction we’ve made. If we had hypothesized if this is an appropriate estimate for wins, we would accept or reject our hypothesis on the basis of the T-test:</p>
+<pre class="r"><code># different representation:
+bos &lt;- teams_pythag %&gt;% filter(h_name==&quot;BOS&quot;)
+(stat_sig &lt;- t.test(bos$pythag_win, bos$win_perc, paired = TRUE))</code></pre>
+<pre><code>## 
+##  Paired t-test
+## 
+## data:  bos$pythag_win and bos$win_perc
+## t = 2.0724, df = 16, p-value = 0.05475
+## alternative hypothesis: true mean difference is not equal to 0
+## 95 percent confidence interval:
+##  -0.000267344  0.023574873
+## sample estimates:
+## mean difference 
+##      0.01165376</code></pre>
+<p>Our p-value is greater than 0.05 (a value 0.05475) which indicated that our results are not statistically significant. To say that our prediction is not statistically significant from the actual winning percentage is to say the values are more or les similar and that this metric is a good predictor of wins.</p>
+<p>The next step after this data exploration would be to reproduce the result for more teams.</p>
 <p>Graph #3 - A logistical model predicting wins or losses</p>
+<pre class="r"><code>baseballlog &lt;- baseball %&gt;% filter(h_name==&quot;BOS&quot;)
+
+baseballlog</code></pre>
+<pre><code>## # A tibble: 1,377 × 165
+##    year  month day   number_of_g…¹ day_o…² v_name v_lea…³ v_gam…⁴ h_name h_lea…⁵
+##    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  
+##  1 2000  04    11                0 Tue     MIN    AL            9 BOS    AL     
+##  2 2000  04    12                0 Wed     MIN    AL           10 BOS    AL     
+##  3 2000  04    13                0 Thu     MIN    AL           11 BOS    AL     
+##  4 2000  04    14                0 Fri     OAK    AL           10 BOS    AL     
+##  5 2000  04    15                0 Sat     OAK    AL           11 BOS    AL     
+##  6 2000  04    16                0 Sun     OAK    AL           12 BOS    AL     
+##  7 2000  04    17                0 Mon     OAK    AL           13 BOS    AL     
+##  8 2000  05    01                0 Mon     DET    AL           24 BOS    AL     
+##  9 2000  05    02                0 Tue     DET    AL           25 BOS    AL     
+## 10 2000  05    03                0 Wed     DET    AL           26 BOS    AL     
+## # … with 1,367 more rows, 155 more variables: h_game_number &lt;dbl&gt;,
+## #   v_score &lt;dbl&gt;, h_score &lt;dbl&gt;, length_outs &lt;dbl&gt;, day_night &lt;chr&gt;,
+## #   completion &lt;lgl&gt;, forefeit &lt;lgl&gt;, protest &lt;chr&gt;, park_id &lt;chr&gt;,
+## #   attendance &lt;dbl&gt;, length_minutes &lt;dbl&gt;, v_line_score &lt;chr&gt;,
+## #   h_line_score &lt;chr&gt;, v_at_bats &lt;dbl&gt;, v_hits &lt;dbl&gt;, v_doubles &lt;dbl&gt;,
+## #   v_triples &lt;dbl&gt;, v_homeruns &lt;dbl&gt;, v_rbi &lt;dbl&gt;, v_sacrifice_hits &lt;dbl&gt;,
+## #   v_sacrifice_flies &lt;dbl&gt;, v_hit_by_pitch &lt;dbl&gt;, v_walks &lt;dbl&gt;, …</code></pre>
+<pre class="r"><code>mylogit &lt;- glm(h_win_loss ~ h_errors + v_errors + h_left_on_base + v_left_on_base + h_homeruns + v_homeruns, data = baseballlog, family = &quot;binomial&quot;)
+
+summary(mylogit)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = h_win_loss ~ h_errors + v_errors + h_left_on_base + 
+##     v_left_on_base + h_homeruns + v_homeruns, family = &quot;binomial&quot;, 
+##     data = baseballlog)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.9223  -0.9853   0.4844   0.8859   2.5227  
+## 
+## Coefficients:
+##                Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)     0.76386    0.25406   3.007  0.00264 ** 
+## h_errors       -0.47559    0.07820  -6.082 1.19e-09 ***
+## v_errors        0.32402    0.07863   4.121 3.77e-05 ***
+## h_left_on_base  0.06519    0.02386   2.732  0.00630 ** 
+## v_left_on_base -0.12183    0.02411  -5.054 4.32e-07 ***
+## h_homeruns      0.79550    0.07315  10.875  &lt; 2e-16 ***
+## v_homeruns     -0.79207    0.06983 -11.343  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 1872.7  on 1376  degrees of freedom
+## Residual deviance: 1521.5  on 1370  degrees of freedom
+## AIC: 1535.5
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<pre class="r"><code>confint(mylogit)</code></pre>
+<pre><code>## Waiting for profiling to be done...</code></pre>
+<pre><code>##                      2.5 %      97.5 %
+## (Intercept)     0.26692270  1.26351510
+## h_errors       -0.63072188 -0.32391370
+## v_errors        0.17159255  0.48014591
+## h_left_on_base  0.01860138  0.11221727
+## v_left_on_base -0.16941716 -0.07485738
+## h_homeruns      0.65517821  0.94206501
+## v_homeruns     -0.93150527 -0.65763928</code></pre>
+<pre class="r"><code>meandata &lt;- with(baseballlog, data.frame(h_errors = mean(h_errors), v_errors = mean(v_errors), h_left_on_base = mean(h_left_on_base), v_left_on_base = mean(v_left_on_base), h_homeruns = mean(h_homeruns), v_homeruns = mean(v_homeruns)))
+
+meandata</code></pre>
+<pre><code>##    h_errors  v_errors h_left_on_base v_left_on_base h_homeruns v_homeruns
+## 1 0.6318083 0.6492375       7.487291       7.056645   1.089325  0.9440813</code></pre>
 <p>In Blogposts 2/3, you should have identified some of the big obvious trends in the data. One question to ask now is whether those trends are the interesting or boring part of the data. In other words, do you want to get a more detailed explanation for the trend by exploring its relationship to other variables? Or do you want to explore some other relationship that might be confounded by the major trend you identified? Overall, both of these require you to start to explore further in your data. Think about exploring both for breadth (looking at relationships among many different variables or groupings) and depth (developing a better understanding of a specific relationship and how other variables fit in).
 Additionally, now is a good time to start thinking about statistical modeling. What response variable are you interested in? What predictor variables? Are there transformations of columns that you’d need to do to create interesting predictors? What type of model do you want to fit? Linear? Logistic? Or something else? (Ask me!)
 For this week’s blog post, discuss both going deeper and broader into your EDA and your initial thoughts and results for modeling. As always, make lots of plots and try different types of plots. However, for this week’s post, only include at most 2 figures/tables/output for your EDA and at most 1 figure/table/output for the modeling. Try to put together figures that illustrate the main lesson’s you’ve learned this week.</p>
