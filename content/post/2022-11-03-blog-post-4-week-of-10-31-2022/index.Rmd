@@ -33,6 +33,24 @@ Compare the PWP to the actual winning percentage of the team.
  - plot one teams pwd vs year, and the actual winning percentage per year or season 
 
  missing a group my season or group  by year (however baseball works) in here somewhere 
+ 
+```{r}
+library(tidyverse)
+data <- read_csv(here::here("dataset-ignore", "game_logs.csv"))
+baseball <- as_tibble(data)
+years<-c(2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016)
+#cleaned dataset to work with
+(baseball <- baseball %>% separate(date,into=c("year","month_day"),sep=4) %>% 
+  separate(month_day,into=c("month","day"),sep=2) %>% 
+  filter(year %in% years) %>% 
+  mutate(score_diff=h_score-v_score))
+
+#win/loss column (1 = win, 0 = loss or tie)
+win_loss <- function(h, v) {
+  ifelse(h > v, 1, 0)
+}
+(pythag <- baseball %>% mutate(win_loss = win_loss(h_score, v_score)))
+```
 
 Graph #3 - A logistical model predicting wins or losses
 

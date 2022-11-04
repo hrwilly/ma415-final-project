@@ -1,0 +1,111 @@
+---
+title: Blog Post 4, Week of 10/31/2022
+author: Daniel Sussman
+date: '2022-11-03'
+slug: []
+categories: []
+tags: []
+description: ~
+toc: yes
+authors: []
+series: []
+lastmod: '2022-11-03T19:02:24-04:00'
+featuredVideo: ~
+featuredImage: ~
+---
+
+
+<div id="TOC">
+
+</div>
+
+<p>Two graphs EDA, one modeling graph</p>
+<p>Graph #1 - Truly Exploratory Data:
+Potential Exploration:
+- Day vs Night games?
+- If winning momntum or losing momentum exists, ei. does a previously lost game make u more likely to lose?</p>
+<p>Graph #2 - An experiment in the accuracy of the Pythagorean Winning Percentage (PWP)</p>
+<p><span class="math display">\[Pythagroean\ Winning\ Percentage = runs\ scored\ ^{2} / (run\ scored\ ^{2} + runs\ allowed\  ^{2})\]</span>
+Compare the PWP to the actual winning percentage of the team.
+- create winning percentage column: mutate(if(h_score&gt;v_score) add column = win or TRUE )
+do a similar mutation for losses, and sum the wins divided by total
+- Pythagorean column: baseball %&gt;% mutate(pwp = h_score^2 / (h_score^2 + v_score^2))<br />
+- group by team and filter for only one team
+- plot one teams pwd vs year, and the actual winning percentage per year or season</p>
+<p>missing a group my season or group by year (however baseball works) in here somewhere</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.3.6      ✔ purrr   0.3.4 
+## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
+## ✔ tidyr   1.2.0      ✔ stringr 1.4.1 
+## ✔ readr   2.1.2      ✔ forcats 0.5.2 
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>data &lt;- read_csv(here::here(&quot;dataset-ignore&quot;, &quot;game_logs.csv&quot;))</code></pre>
+<pre><code>## Warning: One or more parsing issues, see `problems()` for details</code></pre>
+<pre><code>## Rows: 171907 Columns: 161
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (75): day_of_week, v_name, v_league, h_name, h_league, day_night, protes...
+## dbl (83): date, number_of_game, v_game_number, h_game_number, v_score, h_sco...
+## lgl  (3): completion, forefeit, rf_umpire_id
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>baseball &lt;- as_tibble(data)
+years&lt;-c(2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016)
+#cleaned dataset to work with
+(baseball &lt;- baseball %&gt;% separate(date,into=c(&quot;year&quot;,&quot;month_day&quot;),sep=4) %&gt;% 
+  separate(month_day,into=c(&quot;month&quot;,&quot;day&quot;),sep=2) %&gt;% 
+  filter(year %in% years) %&gt;% 
+  mutate(score_diff=h_score-v_score))</code></pre>
+<pre><code>## # A tibble: 41,298 × 164
+##    year  month day   number_of_g…¹ day_o…² v_name v_lea…³ v_gam…⁴ h_name h_lea…⁵
+##    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  
+##  1 2000  03    29                0 Wed     CHN    NL            1 NYN    NL     
+##  2 2000  03    30                0 Thu     NYN    NL            2 CHN    NL     
+##  3 2000  04    03                0 Mon     COL    NL            1 ATL    NL     
+##  4 2000  04    03                0 Mon     MIL    NL            1 CIN    NL     
+##  5 2000  04    03                0 Mon     SFN    NL            1 FLO    NL     
+##  6 2000  04    03                0 Mon     LAN    NL            1 MON    NL     
+##  7 2000  04    03                0 Mon     SDN    NL            1 NYN    NL     
+##  8 2000  04    03                0 Mon     CHN    NL            3 SLN    NL     
+##  9 2000  04    03                0 Mon     NYA    AL            1 ANA    AL     
+## 10 2000  04    03                0 Mon     CLE    AL            1 BAL    AL     
+## # … with 41,288 more rows, 154 more variables: h_game_number &lt;dbl&gt;,
+## #   v_score &lt;dbl&gt;, h_score &lt;dbl&gt;, length_outs &lt;dbl&gt;, day_night &lt;chr&gt;,
+## #   completion &lt;lgl&gt;, forefeit &lt;lgl&gt;, protest &lt;chr&gt;, park_id &lt;chr&gt;,
+## #   attendance &lt;dbl&gt;, length_minutes &lt;dbl&gt;, v_line_score &lt;chr&gt;,
+## #   h_line_score &lt;chr&gt;, v_at_bats &lt;dbl&gt;, v_hits &lt;dbl&gt;, v_doubles &lt;dbl&gt;,
+## #   v_triples &lt;dbl&gt;, v_homeruns &lt;dbl&gt;, v_rbi &lt;dbl&gt;, v_sacrifice_hits &lt;dbl&gt;,
+## #   v_sacrifice_flies &lt;dbl&gt;, v_hit_by_pitch &lt;dbl&gt;, v_walks &lt;dbl&gt;, …</code></pre>
+<pre class="r"><code>#win/loss column (1 = win, 0 = loss or tie)
+win_loss &lt;- function(h, v) {
+  ifelse(h &gt; v, 1, 0)
+}
+(pythag &lt;- baseball %&gt;% mutate(win_loss = win_loss(h_score, v_score)))</code></pre>
+<pre><code>## # A tibble: 41,298 × 165
+##    year  month day   number_of_g…¹ day_o…² v_name v_lea…³ v_gam…⁴ h_name h_lea…⁵
+##    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  
+##  1 2000  03    29                0 Wed     CHN    NL            1 NYN    NL     
+##  2 2000  03    30                0 Thu     NYN    NL            2 CHN    NL     
+##  3 2000  04    03                0 Mon     COL    NL            1 ATL    NL     
+##  4 2000  04    03                0 Mon     MIL    NL            1 CIN    NL     
+##  5 2000  04    03                0 Mon     SFN    NL            1 FLO    NL     
+##  6 2000  04    03                0 Mon     LAN    NL            1 MON    NL     
+##  7 2000  04    03                0 Mon     SDN    NL            1 NYN    NL     
+##  8 2000  04    03                0 Mon     CHN    NL            3 SLN    NL     
+##  9 2000  04    03                0 Mon     NYA    AL            1 ANA    AL     
+## 10 2000  04    03                0 Mon     CLE    AL            1 BAL    AL     
+## # … with 41,288 more rows, 155 more variables: h_game_number &lt;dbl&gt;,
+## #   v_score &lt;dbl&gt;, h_score &lt;dbl&gt;, length_outs &lt;dbl&gt;, day_night &lt;chr&gt;,
+## #   completion &lt;lgl&gt;, forefeit &lt;lgl&gt;, protest &lt;chr&gt;, park_id &lt;chr&gt;,
+## #   attendance &lt;dbl&gt;, length_minutes &lt;dbl&gt;, v_line_score &lt;chr&gt;,
+## #   h_line_score &lt;chr&gt;, v_at_bats &lt;dbl&gt;, v_hits &lt;dbl&gt;, v_doubles &lt;dbl&gt;,
+## #   v_triples &lt;dbl&gt;, v_homeruns &lt;dbl&gt;, v_rbi &lt;dbl&gt;, v_sacrifice_hits &lt;dbl&gt;,
+## #   v_sacrifice_flies &lt;dbl&gt;, v_hit_by_pitch &lt;dbl&gt;, v_walks &lt;dbl&gt;, …</code></pre>
+<p>Graph #3 - A logistical model predicting wins or losses</p>
+<p>In Blogposts 2/3, you should have identified some of the big obvious trends in the data. One question to ask now is whether those trends are the interesting or boring part of the data. In other words, do you want to get a more detailed explanation for the trend by exploring its relationship to other variables? Or do you want to explore some other relationship that might be confounded by the major trend you identified? Overall, both of these require you to start to explore further in your data. Think about exploring both for breadth (looking at relationships among many different variables or groupings) and depth (developing a better understanding of a specific relationship and how other variables fit in).
+Additionally, now is a good time to start thinking about statistical modeling. What response variable are you interested in? What predictor variables? Are there transformations of columns that you’d need to do to create interesting predictors? What type of model do you want to fit? Linear? Logistic? Or something else? (Ask me!)
+For this week’s blog post, discuss both going deeper and broader into your EDA and your initial thoughts and results for modeling. As always, make lots of plots and try different types of plots. However, for this week’s post, only include at most 2 figures/tables/output for your EDA and at most 1 figure/table/output for the modeling. Try to put together figures that illustrate the main lesson’s you’ve learned this week.</p>
