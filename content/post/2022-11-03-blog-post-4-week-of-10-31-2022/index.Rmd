@@ -34,7 +34,7 @@ Compare the PWP to the actual winning percentage of the team.
 
  missing a group my season or group  by year (however baseball works) in here somewhere 
  
-```{r}
+```{r, graph2}
 library(tidyverse)
 data <- read_csv(here::here("dataset-ignore", "game_logs.csv"))
 baseball <- as_tibble(data)
@@ -48,6 +48,9 @@ years<-c(2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2
 #win/loss column (1 = win, 0 = loss or tie)
 h_win_loss <- function(h, v) {
   ifelse(h > v, 1, 0)
+  
+  # alternative to win loss function:
+  # mutate(outcome = (ifelse(h_score>v_score, 1, 0))
 }
 (baseball <- baseball %>% mutate(h_win_loss = h_win_loss(h_score, v_score)))
 
@@ -87,10 +90,48 @@ total_allowed <- home_allowed %>% left_join(away_allowed, by = "year") %>% mutat
 pythag <- total_runs %>% left_join(total_allowed, by = "year") %>% mutate(pythag_win = ((total_runs)^2)/(((total_runs)^2) + ((total_allowed)^2))) %>% left_join(win_percentage, by = "year")
 
 #barplot
-pythag %>% select(year, win_percentage, pythag_win) %>% pivot_longer(-year, names_to = "win_pythag", values_to = "percentage") %>% ggplot(aes(x=year, y=percentage, fill = win_pythag)) + geom_bar(stat = "identity", position = "dodge") + scale_x_discrete(guide = guide_axis(n.dodge=2))
+pythag %>% select(year, win_percentage, pythag_win) %>% 
+           pivot_longer(-year, names_to = "win_pythag", values_to = "percentage") %>%
+           ggplot(aes(x=year, y=percentage, fill = win_pythag)) + 
+           geom_bar(stat = "identity", position = "dodge") + 
+           scale_x_discrete(guide = guide_axis(n.dodge=2))+ 
+          
+           labs(title = "Pythagorean Winnng Prediction versus Actual Winning Percentage", 
+                x = "Years", 
+                y = "Percentage", 
+                color = "Percentage Calculation")
+
 ```
+Because it can be hard to view how different these two values are, we can run a T-test and check the statistical significance of the prediction we've made. If we had hypothesized if this is an appropriate estimate for wins, we would accept or reject our hypothesis on the basis of the T-test: 
+
+``` {r, graph2_cont}
+# different representation:
+(stat_sig <- t.test(pythag$pythag_win, pythag$win_percentage, paired = TRUE))
+
+```
+Our p-value is greater than 0.05 (a value 0.05475) which indicated that our results are not statistically significant. To say that our prediction is not statistically significant from the actual winning percentage is to say the values are more or les similar and that this metric is a good predictor of wins. 
+
+The next step after this data exploration would be to reproduce the result for more teams. 
+
 
 Graph #3 - A logistical model predicting wins or losses
+
+```{r}
+baseballlog <- baseball %>% filter(h_name=="BOS")
+
+baseballlog
+
+mylogit <- glm(h_win_loss ~ h_errors + v_errors + h_left_on_base + v_left_on_base + h_homeruns + v_homeruns, data = baseballlog, family = "binomial")
+
+summary(mylogit)
+
+confint(mylogit)
+
+meandata <- with(baseballlog, data.frame(h_errors = mean(h_errors), v_errors = mean(v_errors), h_left_on_base = mean(h_left_on_base), v_left_on_base = mean(v_left_on_base), h_homeruns = mean(h_homeruns), v_homeruns = mean(v_homeruns)))
+
+meandata
+```
+
 
 In Blogposts 2/3, you should have identified some of the big obvious trends in the data. One question to ask now is whether those trends are the interesting or boring part of the data. In other words, do you want to get a more detailed explanation for the trend by exploring its relationship to other variables? Or do you want to explore some other relationship that might be confounded by the major trend you identified? Overall, both of these require you to start to explore further in your data. Think about exploring both for breadth (looking at relationships among many different variables or groupings) and depth (developing a better understanding of a specific relationship and how other variables fit in).
 Additionally, now is a good time to start thinking about statistical modeling. What response variable are you interested in? What predictor variables? Are there transformations of columns that you’d need to do to create interesting predictors? What type of model do you want to fit? Linear? Logistic? Or something else? (Ask me!)
