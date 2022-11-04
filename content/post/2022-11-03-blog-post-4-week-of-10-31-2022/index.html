@@ -26,7 +26,7 @@ library(tidyverse)</code></pre>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
 ## ✔ ggplot2 3.3.6      ✔ purrr   0.3.4 
 ## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-## ✔ tidyr   1.2.1      ✔ stringr 1.4.1 
+## ✔ tidyr   1.2.0      ✔ stringr 1.4.1 
 ## ✔ readr   2.1.2      ✔ forcats 0.5.2 
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
@@ -182,7 +182,7 @@ bos &lt;- baseball %&gt;% filter(h_name == &quot;BOS&quot;|v_name == &quot;BOS&q
 home_wins &lt;- baseball %&gt;% group_by(h_name, year) %&gt;% summarize(h_wins = sum(h_win_loss == 1))</code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;h_name&#39;. You can override using the
 ## `.groups` argument.</code></pre>
-<pre class="r"><code>away_wins &lt;- baseball %&gt;% group_by(v_name, year) %&gt;% summarize(a_wins = sum(h_win_loss == 0)) %&gt;% rename(h_name = v_name)</code></pre>
+<pre class="r"><code>away_wins &lt;- baseball %&gt;% group_by(v_name, year) %&gt;% summarize(a_wins = sum(h_win_loss == 0))</code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;v_name&#39;. You can override using the
 ## `.groups` argument.</code></pre>
 <pre class="r"><code>team_year_wins &lt;- home_wins %&gt;% add_column(a_wins = away_wins$a_wins) %&gt;% mutate(games_won = h_wins + a_wins)
@@ -190,53 +190,32 @@ home_wins &lt;- baseball %&gt;% group_by(h_name, year) %&gt;% summarize(h_wins =
 home_games &lt;- baseball %&gt;% group_by(h_name, year) %&gt;% summarize(home_games = n())</code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;h_name&#39;. You can override using the
 ## `.groups` argument.</code></pre>
-<pre class="r"><code>away_games &lt;- baseball %&gt;% group_by(v_name, year) %&gt;% summarize(away_games = n()) %&gt;% rename(h_name = v_name)</code></pre>
+<pre class="r"><code>away_games &lt;- baseball %&gt;% group_by(v_name, year) %&gt;% summarize(away_games = n())</code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;v_name&#39;. You can override using the
 ## `.groups` argument.</code></pre>
-<pre class="r"><code>games_played &lt;- home_games %&gt;% add_column(away_games = away_games$away_games) %&gt;% mutate(game_played = home_games + away_games)
+<pre class="r"><code>win_perc &lt;- home_games %&gt;% add_column(away_games = away_games$away_games) %&gt;% mutate(games_played = home_games + away_games) %&gt;% add_column(games_won = team_year_wins$games_won) %&gt;% mutate(win_perc = games_won/games_played)
 
-#for Boston Red Sox, grouped by season/year, actual winning percentage
-h_wins &lt;- bos %&gt;% filter(h_name == &quot;BOS&quot;) %&gt;% group_by(year) %&gt;% summarize(home_games_won = sum(h_win_loss == 1))
-a_wins &lt;- bos %&gt;% filter(v_name == &quot;BOS&quot;) %&gt;% group_by(year) %&gt;% summarize(away_games_won = sum(h_win_loss == 0))
-wins &lt;- h_wins %&gt;% left_join(a_wins, by = &quot;year&quot;) %&gt;% mutate(games_won = home_games_won + away_games_won)
+#pythagorean winning percentage
+runs_h &lt;- baseball %&gt;% group_by(h_name, year) %&gt;% summarize(runs_at_home = sum(h_score))</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;h_name&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre class="r"><code>runs_a &lt;- baseball %&gt;% group_by(v_name, year) %&gt;% summarize(runs_away = sum(v_score))</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;v_name&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre class="r"><code>runs_total &lt;- runs_h %&gt;% add_column(runs_away = runs_a$runs_away) %&gt;% mutate(runs_total = runs_away +runs_at_home)
 
-(win_percentage &lt;- baseball %&gt;% filter(h_name == &quot;BOS&quot; | v_name == &quot;BOS&quot;) %&gt;% 
-  group_by(year) %&gt;% 
-  summarize(total_games_played = n()) %&gt;% 
-  left_join(wins, by = &quot;year&quot;) %&gt;% 
-  mutate(win_percentage = games_won/total_games_played))</code></pre>
-<pre><code>## # A tibble: 17 × 6
-##    year  total_games_played home_games_won away_games_won games_won win_percen…¹
-##    &lt;chr&gt;              &lt;int&gt;          &lt;int&gt;          &lt;int&gt;     &lt;int&gt;        &lt;dbl&gt;
-##  1 2000                 162             42             43        85        0.525
-##  2 2001                 161             41             41        82        0.509
-##  3 2002                 162             42             51        93        0.574
-##  4 2003                 162             53             42        95        0.586
-##  5 2004                 162             55             43        98        0.605
-##  6 2005                 162             54             41        95        0.586
-##  7 2006                 162             48             38        86        0.531
-##  8 2007                 162             51             45        96        0.593
-##  9 2008                 162             56             39        95        0.586
-## 10 2009                 162             56             39        95        0.586
-## 11 2010                 162             46             43        89        0.549
-## 12 2011                 162             45             45        90        0.556
-## 13 2012                 162             34             35        69        0.426
-## 14 2013                 162             53             44        97        0.599
-## 15 2014                 162             34             37        71        0.438
-## 16 2015                 162             43             35        78        0.481
-## 17 2016                 162             47             46        93        0.574
-## # … with abbreviated variable name ¹​win_percentage</code></pre>
-<pre class="r"><code>#for Boston Red Sox, grouped by season/year, Pythagorean winning percentage
-runs_home &lt;- bos %&gt;% filter(h_name == &quot;BOS&quot;) %&gt;% group_by(year) %&gt;% summarize(runs_at_home = sum(h_score))
-runs_away &lt;- bos %&gt;% filter(v_name == &quot;BOS&quot;) %&gt;% group_by(year) %&gt;% summarize(runs_away = sum(v_score))
-total_runs &lt;- runs_home %&gt;% left_join(runs_away, by = &quot;year&quot;) %&gt;% mutate(total_runs = runs_at_home + runs_away)
 
-home_allowed &lt;- bos %&gt;% filter(h_name == &quot;BOS&quot;) %&gt;% group_by(year) %&gt;% summarize(home_allowed = sum(v_score))
-away_allowed &lt;- bos %&gt;% filter(v_name == &quot;BOS&quot;) %&gt;% group_by(year) %&gt;% summarize(away_allowed = sum(h_score))
-total_allowed &lt;- home_allowed %&gt;% left_join(away_allowed, by = &quot;year&quot;) %&gt;% mutate(total_allowed = home_allowed + away_allowed)
+h_allowed &lt;- baseball %&gt;% group_by(h_name, year) %&gt;% summarize(home_allowed = sum(v_score))</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;h_name&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre class="r"><code>a_allowed &lt;- baseball %&gt;% group_by(v_name, year) %&gt;% summarize(away_allowed = sum(h_score))</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;v_name&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre class="r"><code>allowed_total &lt;- h_allowed %&gt;% add_column(away_allowed = a_allowed$away_allowed) %&gt;% mutate(allowed_total = home_allowed + away_allowed)
 
-pythag &lt;- total_runs %&gt;% left_join(total_allowed, by = &quot;year&quot;) %&gt;% mutate(pythag_win = ((total_runs)^2)/(((total_runs)^2) + ((total_allowed)^2))) %&gt;% left_join(win_percentage, by = &quot;year&quot;)
+teams_pythag &lt;- runs_total %&gt;% add_column(allowed_total = allowed_total$allowed_total) %&gt;% mutate(pythag_win = ((runs_total)^2)/(((runs_total)^2) + ((allowed_total)^2))) %&gt;% add_column(win_perc = win_perc$win_perc)
 
+<<<<<<< HEAD
 #barplot
 pythag %&gt;% select(year, win_percentage, pythag_win) %&gt;% 
            pivot_longer(-year, names_to = &quot;win_pythag&quot;, values_to = &quot;percentage&quot;) %&gt;%
@@ -256,6 +235,31 @@ Because it can be hard to view how different these two values are, we can run a 
 ##  Paired t-test
 ## 
 ## data:  pythag$pythag_win and pythag$win_percentage
+=======
+
+#barplot for Boston Red Sox
+teams_pythag %&gt;% filter(h_name == &quot;BOS&quot;) %&gt;% 
+  select(year, win_perc, pythag_win) %&gt;% 
+  pivot_longer(-(h_name:year), names_to = &quot;pythag_actual&quot;, values_to = &quot;percentage&quot;) %&gt;%
+  ggplot(aes(x=year, y=percentage, fill = pythag_actual)) + 
+  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;) + 
+  scale_x_discrete(guide = guide_axis(n.dodge=2)) + 
+          
+  labs(title = &quot;Pythagorean Winnng Prediction versus Actual Winning Percentage&quot;, 
+    x = &quot;Years&quot;, 
+    y = &quot;Percentage&quot;, 
+    color = &quot;Percentage Calculation&quot;)</code></pre>
+<pre><code>## Adding missing grouping variables: `h_name`</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/graph2-1.png" width="672" />
+Because it can be hard to view how different these two values are, we can run a T-test and check the statistical significance of the prediction we’ve made. If we had hypothesized if this is an appropriate estimate for wins, we would accept or reject our hypothesis on the basis of the T-test:</p>
+<pre class="r"><code># different representation:
+bos &lt;- teams_pythag %&gt;% filter(h_name==&quot;BOS&quot;)
+(stat_sig &lt;- t.test(bos$pythag_win, bos$win_perc, paired = TRUE))</code></pre>
+<pre><code>## 
+##  Paired t-test
+## 
+## data:  bos$pythag_win and bos$win_perc
+>>>>>>> f8c4830276ffe44b904995998771e1ab57c22631
 ## t = 2.0724, df = 16, p-value = 0.05475
 ## alternative hypothesis: true mean difference is not equal to 0
 ## 95 percent confidence interval:
