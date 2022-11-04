@@ -155,6 +155,24 @@ h_win_loss &lt;- function(h, v) {
 <pre class="r"><code>#red sox games
 bos &lt;- baseball %&gt;% filter(h_name == &quot;BOS&quot;|v_name == &quot;BOS&quot;)
 
+#for all teams
+#total games won
+home_wins &lt;- baseball %&gt;% group_by(h_name, year) %&gt;% summarize(h_wins = sum(h_win_loss == 1))</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;h_name&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre class="r"><code>away_wins &lt;- baseball %&gt;% group_by(v_name, year) %&gt;% summarize(a_wins = sum(h_win_loss == 0)) %&gt;% rename(h_name = v_name)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;v_name&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre class="r"><code>team_year_wins &lt;- home_wins %&gt;% add_column(a_wins = away_wins$a_wins) %&gt;% mutate(games_won = h_wins + a_wins)
+#total games played
+home_games &lt;- baseball %&gt;% group_by(h_name, year) %&gt;% summarize(home_games = n())</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;h_name&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre class="r"><code>away_games &lt;- baseball %&gt;% group_by(v_name, year) %&gt;% summarize(away_games = n()) %&gt;% rename(h_name = v_name)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;v_name&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre class="r"><code>games_played &lt;- home_games %&gt;% add_column(away_games = away_games$away_games) %&gt;% mutate(game_played = home_games + away_games)
+
 #for Boston Red Sox, grouped by season/year, actual winning percentage
 h_wins &lt;- bos %&gt;% filter(h_name == &quot;BOS&quot;) %&gt;% group_by(year) %&gt;% summarize(home_games_won = sum(h_win_loss == 1))
 a_wins &lt;- bos %&gt;% filter(v_name == &quot;BOS&quot;) %&gt;% group_by(year) %&gt;% summarize(away_games_won = sum(h_win_loss == 0))
