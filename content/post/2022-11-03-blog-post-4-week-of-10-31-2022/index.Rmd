@@ -54,6 +54,16 @@ h_win_loss <- function(h, v) {
 #red sox games
 bos <- baseball %>% filter(h_name == "BOS"|v_name == "BOS")
 
+#for all teams
+#total games won
+home_wins <- baseball %>% group_by(h_name, year) %>% summarize(h_wins = sum(h_win_loss == 1))
+away_wins <- baseball %>% group_by(v_name, year) %>% summarize(a_wins = sum(h_win_loss == 0)) %>% rename(h_name = v_name)
+team_year_wins <- home_wins %>% add_column(a_wins = away_wins$a_wins) %>% mutate(games_won = h_wins + a_wins)
+#total games played
+home_games <- baseball %>% group_by(h_name, year) %>% summarize(home_games = n())
+away_games <- baseball %>% group_by(v_name, year) %>% summarize(away_games = n()) %>% rename(h_name = v_name)
+games_played <- home_games %>% add_column(away_games = away_games$away_games) %>% mutate(game_played = home_games + away_games)
+
 #for Boston Red Sox, grouped by season/year, actual winning percentage
 h_wins <- bos %>% filter(h_name == "BOS") %>% group_by(year) %>% summarize(home_games_won = sum(h_win_loss == 1))
 a_wins <- bos %>% filter(v_name == "BOS") %>% group_by(year) %>% summarize(away_games_won = sum(h_win_loss == 0))
