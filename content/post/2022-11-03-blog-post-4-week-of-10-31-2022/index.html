@@ -148,7 +148,11 @@ home_allowed &lt;- bos %&gt;% filter(h_name == &quot;BOS&quot;) %&gt;% group_by(
 away_allowed &lt;- bos %&gt;% filter(v_name == &quot;BOS&quot;) %&gt;% group_by(year) %&gt;% summarize(away_allowed = sum(h_score))
 total_allowed &lt;- home_allowed %&gt;% left_join(away_allowed, by = &quot;year&quot;) %&gt;% mutate(total_allowed = home_allowed + away_allowed)
 
-pythag &lt;- total_runs %&gt;% left_join(total_allowed, by = &quot;year&quot;) %&gt;% mutate(pythag_win = ((total_runs)^2)/(((total_runs)^2) + ((total_allowed)^2)))</code></pre>
+pythag &lt;- total_runs %&gt;% left_join(total_allowed, by = &quot;year&quot;) %&gt;% mutate(pythag_win = ((total_runs)^2)/(((total_runs)^2) + ((total_allowed)^2))) %&gt;% left_join(win_percentage, by = &quot;year&quot;)
+
+#barplot
+pythag %&gt;% select(year, win_percentage, pythag_win) %&gt;% pivot_longer(-year, names_to = &quot;win_pythag&quot;, values_to = &quot;percentage&quot;) %&gt;% ggplot(aes(x=year, y=percentage, fill = win_pythag)) + geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;) + scale_x_discrete(guide = guide_axis(n.dodge=2))</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 <p>Graph #3 - A logistical model predicting wins or losses</p>
 <p>In Blogposts 2/3, you should have identified some of the big obvious trends in the data. One question to ask now is whether those trends are the interesting or boring part of the data. In other words, do you want to get a more detailed explanation for the trend by exploring its relationship to other variables? Or do you want to explore some other relationship that might be confounded by the major trend you identified? Overall, both of these require you to start to explore further in your data. Think about exploring both for breadth (looking at relationships among many different variables or groupings) and depth (developing a better understanding of a specific relationship and how other variables fit in).
 Additionally, now is a good time to start thinking about statistical modeling. What response variable are you interested in? What predictor variables? Are there transformations of columns that you’d need to do to create interesting predictors? What type of model do you want to fit? Linear? Logistic? Or something else? (Ask me!)

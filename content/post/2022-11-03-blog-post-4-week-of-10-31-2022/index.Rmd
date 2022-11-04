@@ -74,7 +74,10 @@ home_allowed <- bos %>% filter(h_name == "BOS") %>% group_by(year) %>% summarize
 away_allowed <- bos %>% filter(v_name == "BOS") %>% group_by(year) %>% summarize(away_allowed = sum(h_score))
 total_allowed <- home_allowed %>% left_join(away_allowed, by = "year") %>% mutate(total_allowed = home_allowed + away_allowed)
 
-pythag <- total_runs %>% left_join(total_allowed, by = "year") %>% mutate(pythag_win = ((total_runs)^2)/(((total_runs)^2) + ((total_allowed)^2)))
+pythag <- total_runs %>% left_join(total_allowed, by = "year") %>% mutate(pythag_win = ((total_runs)^2)/(((total_runs)^2) + ((total_allowed)^2))) %>% left_join(win_percentage, by = "year")
+
+#barplot
+pythag %>% select(year, win_percentage, pythag_win) %>% pivot_longer(-year, names_to = "win_pythag", values_to = "percentage") %>% ggplot(aes(x=year, y=percentage, fill = win_pythag)) + geom_bar(stat = "identity", position = "dodge") + scale_x_discrete(guide = guide_axis(n.dodge=2))
 ```
 
 Graph #3 - A logistical model predicting wins or losses
