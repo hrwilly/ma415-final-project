@@ -17,10 +17,29 @@ featuredImage: ~
 Two graphs EDA, one modeling graph
 
 Graph #1 - Truly Exploratory Data: 
-Potential Exploration: 
- - Day vs Night games?
- - If winning momntum or losing momentum exists, ei. does a previously lost game make u more     likely to lose?
+ 
+```{r graph1}
+#Loading and cleaning the data
+library(tidyverse)
+data <- read_csv(here::here("dataset-ignore", "game_logs.csv"))
+baseball <- as_tibble(data)
+years<-c(2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016)
+(baseball <- baseball %>% separate(date,into=c("year","month_day"),sep=4) %>% 
+                          separate(month_day,into=c("month","day"),sep=2) %>% 
+                          filter(year %in% years) %>% 
+                          mutate(score_diff=h_score-v_score))
 
+#Creating variables to compare a win to the starting pitcher, to see if having a certain pitcher matters towards a win
+#This is focusing specifically on Boston Red Sox in their home stadium
+pitcher_win<-baseball %>% filter(h_name=="BOS",h_score>v_score) %>% group_by(h_starting_pitcher_name,year) %>% count(h_starting_pitcher_name) %>% rename(games_won=n)
+
+pitcher_played<-baseball %>% filter(h_name=="BOS") %>% group_by(h_starting_pitcher_name,year) %>% count(h_starting_pitcher_name) %>% rename(games_played=n)
+
+pitcher_prop<-full_join(pitcher_played,pitcher_win) %>% mutate(prop=games_won/games_played) %>% replace_na(list(games_won=0,prop=0,games_played=0))
+
+#Graphing the proportion of games won to games played for each starting pitcher per season from 2000-2016.
+pitcher_win %>% group_by(year) %>% ggplot(aes(h_starting_pitcher_name,games_won,fill=h_starting_pitcher_name))+geom_col(show.legend=FALSE)+coord_flip()+facet_wrap(vars(year),scales="free")+theme(axis.text.y=element_blank())
+```
 
 Graph #2 - An experiment in the accuracy of the Pythagorean Winning Percentage (PWP)
 
