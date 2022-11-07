@@ -21,13 +21,9 @@ For this week’s blog post, please describe the datasets you are combining, how
 library(tidyverse)
 data <- read_csv(here::here("dataset-ignore", "game_logs.csv"))
 baseball <- as_tibble(data)
-years<-c(2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016)
+years<-c(2013,2014,2015,2016)
 (baseball <- baseball %>% separate(date,into=c("year","month_day"),sep=4) %>% 
                           separate(month_day,into=c("month","day"),sep=2) %>% 
                           filter(year %in% years) %>% 
                           mutate(score_diff=h_score-v_score))
 ```
-
-
-
-We are combining the baseball data with weather, to see if factors such as wind speed and temperature affect a win. The dataset we found for weather is separated by date, and gives the high, low, and average values for multiple different factors. This specific dataset only has data for Boston, but we plan on adding other locations later on when we analyze more teams.

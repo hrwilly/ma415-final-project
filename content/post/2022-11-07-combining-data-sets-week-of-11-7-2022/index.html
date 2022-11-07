@@ -42,29 +42,28 @@ For this week’s blog post, please describe the datasets you are combining, how
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <pre class="r"><code>baseball &lt;- as_tibble(data)
-years&lt;-c(2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016)
+years&lt;-c(2013,2014,2015,2016)
 (baseball &lt;- baseball %&gt;% separate(date,into=c(&quot;year&quot;,&quot;month_day&quot;),sep=4) %&gt;% 
                           separate(month_day,into=c(&quot;month&quot;,&quot;day&quot;),sep=2) %&gt;% 
                           filter(year %in% years) %&gt;% 
                           mutate(score_diff=h_score-v_score))</code></pre>
-<pre><code>## # A tibble: 41,298 × 164
+<pre><code>## # A tibble: 9,718 × 164
 ##    year  month day   number_of_g…¹ day_o…² v_name v_lea…³ v_gam…⁴ h_name h_lea…⁵
 ##    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  
-##  1 2000  03    29                0 Wed     CHN    NL            1 NYN    NL     
-##  2 2000  03    30                0 Thu     NYN    NL            2 CHN    NL     
-##  3 2000  04    03                0 Mon     COL    NL            1 ATL    NL     
-##  4 2000  04    03                0 Mon     MIL    NL            1 CIN    NL     
-##  5 2000  04    03                0 Mon     SFN    NL            1 FLO    NL     
-##  6 2000  04    03                0 Mon     LAN    NL            1 MON    NL     
-##  7 2000  04    03                0 Mon     SDN    NL            1 NYN    NL     
-##  8 2000  04    03                0 Mon     CHN    NL            3 SLN    NL     
-##  9 2000  04    03                0 Mon     NYA    AL            1 ANA    AL     
-## 10 2000  04    03                0 Mon     CLE    AL            1 BAL    AL     
-## # … with 41,288 more rows, 154 more variables: h_game_number &lt;dbl&gt;,
+##  1 2013  03    31                0 Sun     TEX    AL            1 HOU    AL     
+##  2 2013  04    01                0 Mon     KCA    AL            1 CHA    AL     
+##  3 2013  04    01                0 Mon     DET    AL            1 MIN    AL     
+##  4 2013  04    01                0 Mon     BOS    AL            1 NYA    AL     
+##  5 2013  04    01                0 Mon     SEA    AL            1 OAK    AL     
+##  6 2013  04    01                0 Mon     SLN    NL            1 ARI    NL     
+##  7 2013  04    01                0 Mon     PHI    NL            1 ATL    NL     
+##  8 2013  04    01                0 Mon     ANA    AL            1 CIN    NL     
+##  9 2013  04    01                0 Mon     SFN    NL            1 LAN    NL     
+## 10 2013  04    01                0 Mon     COL    NL            1 MIL    NL     
+## # … with 9,708 more rows, 154 more variables: h_game_number &lt;dbl&gt;,
 ## #   v_score &lt;dbl&gt;, h_score &lt;dbl&gt;, length_outs &lt;dbl&gt;, day_night &lt;chr&gt;,
 ## #   completion &lt;lgl&gt;, forefeit &lt;lgl&gt;, protest &lt;chr&gt;, park_id &lt;chr&gt;,
 ## #   attendance &lt;dbl&gt;, length_minutes &lt;dbl&gt;, v_line_score &lt;chr&gt;,
 ## #   h_line_score &lt;chr&gt;, v_at_bats &lt;dbl&gt;, v_hits &lt;dbl&gt;, v_doubles &lt;dbl&gt;,
 ## #   v_triples &lt;dbl&gt;, v_homeruns &lt;dbl&gt;, v_rbi &lt;dbl&gt;, v_sacrifice_hits &lt;dbl&gt;,
 ## #   v_sacrifice_flies &lt;dbl&gt;, v_hit_by_pitch &lt;dbl&gt;, v_walks &lt;dbl&gt;, …</code></pre>
-<p>We are combining the baseball data with weather, to see if factors such as wind speed and temperature affect a win. The dataset we found for weather is separated by date, and gives the high, low, and average values for multiple different factors. This specific dataset only has data for Boston, but we plan on adding other locations later on when we analyze more teams.</p>
