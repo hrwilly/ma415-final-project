@@ -32,4 +32,6 @@ years<-c(2013,2014,2015,2016)
                           separate(month_day,into=c("month","day"),sep=2) %>% 
                           filter(year %in% years) %>% 
                           mutate(score_diff=h_score-v_score))
+temperature <- read_csv(here::here("dataset", "temperature.csv"))
+temp <- as_tibble(temperature)
 ```
