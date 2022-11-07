@@ -17,6 +17,16 @@ featuredImage: ~
 One of the requirements for your project is that you bring together multiple datasets to enable a more in depth analysis. This could be including weather data based on dates, including demographic data based on location, among many other possibilities.
 For this week’s blog post, please describe the datasets you are combining, how you are combining them, and what your initial findings were. Also, were there any difficulties in combining the data? If you haven’t finished combining datasets, that is fine, just discuss where you are in the process and what your next steps are.
 
+```{r loading_data}
+library(tidyverse)
+data <- read_csv(here::here("dataset-ignore", "game_logs.csv"))
+baseball <- as_tibble(data)
+years<-c(2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016)
+(baseball <- baseball %>% separate(date,into=c("year","month_day"),sep=4) %>% 
+                          separate(month_day,into=c("month","day"),sep=2) %>% 
+                          filter(year %in% years) %>% 
+                          mutate(score_diff=h_score-v_score))
+```
 
 
 
