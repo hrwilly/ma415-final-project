@@ -17,6 +17,12 @@ featuredImage: ~
 One of the requirements for your project is that you bring together multiple datasets to enable a more in depth analysis. This could be including weather data based on dates, including demographic data based on location, among many other possibilities.
 For this week’s blog post, please describe the datasets you are combining, how you are combining them, and what your initial findings were. Also, were there any difficulties in combining the data? If you haven’t finished combining datasets, that is fine, just discuss where you are in the process and what your next steps are.
 
+We chose to combine baseball data with weather data to investigate whether factors such as temperate, wind speed, humidity, etc. effect the outcome of the game. We retrieved a number of individual datasets, each from the same source, for the same cities, with different weather statistics respectively. Those weather factor datasets were combined into a master weather dataset and then cleaned to eliminate excessive data from times not represented in the baseball dataset. The two were combined (joined) by cities. 
+
+It was important that this weather data include a number of cities to ensure consistent reporting between cities. We intend to initially keep our investigation of weather as a contributing factor to a few cities, starting with Boston, and then proving reproducability on other cities. If weather is found to be significant, more comprehensive data for weather from ALL  .This particular set came from Kaggle, but was originally sourced from Weather API on the OpenWeatherMap website, and was available under the ODbL License.
+
+
+
 ```{r loading_data}
 library(tidyverse)
 data <- read_csv(here::here("dataset-ignore", "game_logs.csv"))
