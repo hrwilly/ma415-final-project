@@ -20,6 +20,7 @@ featuredImage: ~
 </div>
 
 <p>Before analysis, the data must be loaded and mutated with extra columns we need for analysis.</p>
+<<<<<<< HEAD
 <pre class="r"><code>suppressPackageStartupMessages(library(tidyverse)) 
 data &lt;- read_csv(here::here(&quot;dataset-ignore&quot;, &quot;game_logs.csv&quot;))</code></pre>
 <pre><code>## Warning: One or more parsing issues, see `problems()` for details</code></pre>
@@ -58,85 +59,92 @@ years&lt;-c(2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,201
 ## #   h_line_score &lt;chr&gt;, v_at_bats &lt;dbl&gt;, v_hits &lt;dbl&gt;, v_doubles &lt;dbl&gt;,
 ## #   v_triples &lt;dbl&gt;, v_homeruns &lt;dbl&gt;, v_rbi &lt;dbl&gt;, v_sacrifice_hits &lt;dbl&gt;,
 ## #   v_sacrifice_flies &lt;dbl&gt;, v_hit_by_pitch &lt;dbl&gt;, v_walks &lt;dbl&gt;, …</code></pre>
+=======
+<pre class="r"><code>suppressPackageStartupMessages(library(tidyverse))
+load(here::here(&quot;dataset&quot;, &quot;baseball.RData&quot;))</code></pre>
+>>>>>>> 592d8f056996cb06cadf5c1e66b6f5f1b714fb0a
 <p>Graph #1 - Truly Exploratory Data:</p>
 <p>While exploring trends in the data, we set out to see if starting pitcher has an impact on the outcome. In the following code, we compare the starting pitchers in each season to both the proportion of their games played that they won, and the number of games that they won. We specifically are focusing on Boston Red Sox at their home stadium, but hope to explore more teams as well as away games in the future.</p>
 <p>The first step is to create different data sets to see the number of games each pitcher wins, the number of games each pitcher plays, and the proportion of wins to the games played.</p>
 <pre class="r"><code>(pitcher_win&lt;-baseball %&gt;% filter(h_name==&quot;BOS&quot;,h_score&gt;v_score) %&gt;% 
-                           group_by(h_starting_pitcher_id,year) %&gt;% 
-                           count(h_starting_pitcher_id) %&gt;% 
-                           rename(games_won=n))</code></pre>
+                           group_by(h_starting_pitcher_name,year) %&gt;% 
+                           count(h_starting_pitcher_name) %&gt;% 
+                           rename(games_won=n) %&gt;% 
+                           arrange(games_won))</code></pre>
 <pre><code>## # A tibble: 155 × 3
-## # Groups:   h_starting_pitcher_id, year [155]
-##    h_starting_pitcher_id year  games_won
-##    &lt;chr&gt;                 &lt;chr&gt;     &lt;int&gt;
-##  1 aceva001              2013          2
-##  2 arrob001              2004          8
-##  3 arrob001              2005          9
-##  4 arror001              2000          5
-##  5 arror001              2001          1
-##  6 atchs001              2010          1
-##  7 bardd001              2012          2
-##  8 beckj002              2006          9
-##  9 beckj002              2007         10
-## 10 beckj002              2008          5
+## # Groups:   h_starting_pitcher_name, year [155]
+##    h_starting_pitcher_name year  games_won
+##    &lt;chr&gt;                   &lt;chr&gt;     &lt;int&gt;
+##  1 Brandon Workman         2013          1
+##  2 Brandon Workman         2014          1
+##  3 Bret Saberhagen         2001          1
+##  4 Brian Rose              2000          1
+##  5 Bruce Chen              2003          1
+##  6 Byung-Hyun Kim          2004          1
+##  7 Charlie Zink            2008          1
+##  8 Craig Breslow           2015          1
+##  9 David Pauley            2008          1
+## 10 Devern Hansack          2006          1
 ## # … with 145 more rows</code></pre>
 <pre class="r"><code>(pitcher_played&lt;-baseball %&gt;% filter(h_name==&quot;BOS&quot;) %&gt;% 
-                              group_by(h_starting_pitcher_id,year) %&gt;% 
-                              count(h_starting_pitcher_id) %&gt;% 
-                              rename(games_played=n))</code></pre>
+                              group_by(h_starting_pitcher_name,year) %&gt;% 
+                              count(h_starting_pitcher_name) %&gt;% 
+                              rename(games_played=n) %&gt;% 
+                              arrange(games_played))</code></pre>
 <pre><code>## # A tibble: 168 × 3
-## # Groups:   h_starting_pitcher_id, year [168]
-##    h_starting_pitcher_id year  games_played
-##    &lt;chr&gt;                 &lt;chr&gt;        &lt;int&gt;
-##  1 aceva001              2011             3
-##  2 aceva001              2013             4
-##  3 alvaa001              2004             1
-##  4 arrob001              2004            13
-##  5 arrob001              2005            17
-##  6 arror001              2000             7
-##  7 arror001              2001             4
-##  8 arror001              2002             2
-##  9 atchs001              2010             1
-## 10 bardd001              2012             4
+## # Groups:   h_starting_pitcher_name, year [168]
+##    h_starting_pitcher_name year  games_played
+##    &lt;chr&gt;                   &lt;chr&gt;        &lt;int&gt;
+##  1 Abe Alvarez             2004             1
+##  2 Bruce Chen              2003             1
+##  3 Charlie Zink            2008             1
+##  4 Craig Breslow           2015             1
+##  5 David Pauley            2006             1
+##  6 Devern Hansack          2006             1
+##  7 Devern Hansack          2007             1
+##  8 Dustin Hermanson        2002             1
+##  9 Geremi Gonzalez         2005             1
+## 10 Henry Owens             2016             1
 ## # … with 158 more rows</code></pre>
 <pre class="r"><code>(pitcher_prop&lt;-full_join(pitcher_played,pitcher_win) %&gt;% 
                mutate(prop=games_won/games_played) %&gt;% 
-               replace_na(list(games_won=0,prop=0,games_played=0)))</code></pre>
-<pre><code>## Joining, by = c(&quot;h_starting_pitcher_id&quot;, &quot;year&quot;)</code></pre>
+               replace_na(list(games_won=0,prop=0,games_played=0)) %&gt;% 
+               arrange(prop))</code></pre>
+<pre><code>## Joining, by = c(&quot;h_starting_pitcher_name&quot;, &quot;year&quot;)</code></pre>
 <pre><code>## # A tibble: 168 × 5
-## # Groups:   h_starting_pitcher_id, year [168]
-##    h_starting_pitcher_id year  games_played games_won  prop
-##    &lt;chr&gt;                 &lt;chr&gt;        &lt;int&gt;     &lt;int&gt; &lt;dbl&gt;
-##  1 aceva001              2011             3         0 0    
-##  2 aceva001              2013             4         2 0.5  
-##  3 alvaa001              2004             1         0 0    
-##  4 arrob001              2004            13         8 0.615
-##  5 arrob001              2005            17         9 0.529
-##  6 arror001              2000             7         5 0.714
-##  7 arror001              2001             4         1 0.25 
-##  8 arror001              2002             2         0 0    
-##  9 atchs001              2010             1         1 1    
-## 10 bardd001              2012             4         2 0.5  
+## # Groups:   h_starting_pitcher_name, year [168]
+##    h_starting_pitcher_name year  games_played games_won  prop
+##    &lt;chr&gt;                   &lt;chr&gt;        &lt;int&gt;     &lt;int&gt; &lt;dbl&gt;
+##  1 Abe Alvarez             2004             1         0     0
+##  2 David Pauley            2006             1         0     0
+##  3 Devern Hansack          2007             1         0     0
+##  4 Lenny DiNardo           2005             1         0     0
+##  5 Michael Bowden          2009             1         0     0
+##  6 Paxton Crawford         2000             1         0     0
+##  7 Roenis Elias            2016             1         0     0
+##  8 Steven Wright           2014             1         0     0
+##  9 Derek Lowe              2001             2         0     0
+## 10 Kevin Jarvis            2006             2         0     0
 ## # … with 158 more rows</code></pre>
 <p>With these data sets, we can now graph both the proportion of games each pitcher wins and the number of games each pitcher wins. Each year corresponds to an individual season.</p>
 <pre class="r"><code>pitcher_prop %&gt;% group_by(year) %&gt;%
-                ggplot(aes(h_starting_pitcher_id,prop,fill=h_starting_pitcher_id))+
+                ggplot(aes(h_starting_pitcher_name,prop,fill=h_starting_pitcher_name))+
                 geom_col(show.legend=FALSE)+
                 coord_flip()+
                 facet_wrap(vars(year),scales=&quot;free_y&quot;,ncol=3)+
                 labs(title=&quot;Proportion of Games Won for each Starting Pitcher of the Boston Red Sox&quot;)+
                 xlab(&quot;Proportion&quot;)+
                 ylab(&quot;Pitcher&quot;)</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/graph1cont-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/graph1cont-1.png" width="960" /></p>
 <pre class="r"><code>pitcher_win %&gt;% group_by(year) %&gt;%
-                ggplot(aes(h_starting_pitcher_id,games_won,fill=h_starting_pitcher_id))+
+                ggplot(aes(h_starting_pitcher_name,games_won,fill=h_starting_pitcher_name))+
                 geom_col(show.legend=FALSE)+
                 coord_flip()+
                 facet_wrap(vars(year),scales=&quot;free_y&quot;,ncol=3)+
                 labs(title=&quot;Games Won for each Starting Pitcher of the Boston Red Sox&quot;)+
                 xlab(&quot;Number of Games Won&quot;)+
                 ylab(&quot;Pitcher by ID&quot;)</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/graph1cont-2.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/graph1cont-2.png" width="960" /></p>
 <p>There are clearly starting pitchers that win more games than others. In this case, the number of games won offers a little better insight than the proportion of games won, since multiple pitchers only started one game and won that one game, so are given a 100% win percentage. Starting pitchers is a factor that can definitely be explored further.</p>
 <p>Graph #2 - An experiment in the accuracy of the Pythagorean Winning Percentage (PWP)</p>
 <p><span class="math display">\[Pythagroean\ Winning\ Percentage = runs\ scored\ ^{2} / (run\ scored\ ^{2} + runs\ allowed\  ^{2})\]</span></p>
