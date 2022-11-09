@@ -24,7 +24,7 @@ source(
   here::here("static", "load_and_clean_data.R"),
   echo = TRUE
   )
-suppressPackageStartupMessages(library(tidyverse)) 
+suppressPackageStartupMessages(library(tidyverse))
 data <- read_csv(here::here("dataset", "dataset-ignore", "game_logs.csv"))
 (baseball <- as_tibble(data))
 ```
