@@ -19,13 +19,7 @@ For this week’s blog post, please describe the datasets you are combining, how
 
 ```{r loading_data}
 library(tidyverse)
-data <- read_csv(here::here("dataset-ignore", "game_logs.csv"))
-baseball <- as_tibble(data)
-years<-c(2013,2014,2015,2016)
-(baseball <- baseball %>% separate(date,into=c("year","month_day"),sep=4) %>% 
-                          separate(month_day,into=c("month","day"),sep=2) %>% 
-                          filter(year %in% years) %>% 
-                          mutate(score_diff=h_score-v_score))
+load(here::here("dataseet-ignore", "baseball.RData"))
 temperature <- read_csv(here::here("dataset", "temperature.csv"))
 temp <- as_tibble(temperature)
 ```
