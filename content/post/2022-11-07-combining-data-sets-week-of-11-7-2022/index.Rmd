@@ -24,8 +24,13 @@ It was important that this weather data include a number of cities to ensure con
 
 
 ```{r loading_data}
+<<<<<<< HEAD
 library(tidyverse)
 baseball <- load(here::here("dataset", "baseball.RData"))
+=======
+suppressPackageStartupMessages(library(tidyverse))
+load(here::here("dataseet-ignore", "baseball.RData"))
+>>>>>>> 1d1769640c834dfdbaa20bb4290e929ca5428d78
 temperature <- read_csv(here::here("dataset", "temperature.csv"))
 temp <- as_tibble(temperature)
 ```
