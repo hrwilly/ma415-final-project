@@ -25,8 +25,7 @@ source(
   echo = TRUE
   )
 suppressPackageStartupMessages(library(tidyverse))
-data <- read_csv(here::here("dataset", "dataset-ignore", "game_logs.csv"))
-(baseball <- as_tibble(data))
+load(here::here("dataset", "baseball.RData"))
 ```
 
 \n
