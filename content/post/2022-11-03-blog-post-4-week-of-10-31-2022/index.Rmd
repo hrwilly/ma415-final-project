@@ -51,13 +51,13 @@ With these data sets, we can now graph both the proportion of games each pitcher
 ```{r graph1cont,fig.height=10,fig.width=10}
 
 pitcher_prop %>% group_by(year) %>%
-                ggplot(aes(h_starting_pitcher_name,prop,fill=h_starting_pitcher_name))+
-                geom_col(show.legend=FALSE)+
-                coord_flip()+
-                facet_wrap(vars(year),scales="free_y",ncol=3)+
-                labs(title="Proportion of Games Won for each Starting Pitcher of the Boston Red Sox")+
-                xlab("Proportion")+
-                ylab("Pitcher")
+                 ggplot(aes(x=reorder(h_starting_pitcher_name,prop),y=prop,fill=h_starting_pitcher_name))+
+                 geom_col(show.legend=FALSE)+
+                 coord_flip()+
+                 facet_wrap(vars(year),scales="free_y",ncol=3)+
+                 labs(title="Proportion of Games Won for each Starting Pitcher of the Boston Red Sox")+
+                 xlab("Proportion")+
+                 ylab("Pitcher")
 
 pitcher_win %>% group_by(year) %>%
                 ggplot(aes(h_starting_pitcher_name,games_won,fill=h_starting_pitcher_name))+
