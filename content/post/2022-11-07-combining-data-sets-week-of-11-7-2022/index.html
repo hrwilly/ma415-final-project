@@ -32,7 +32,7 @@ For this week’s blog post, please describe the datasets you are combining, how
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>baseball &lt;- load(here::here(&quot;dataset&quot;, &quot;baseball.RData&quot;))
+<pre class="r"><code>load(here::here(&quot;dataset&quot;, &quot;baseball.RData&quot;))
 temperature &lt;- read_csv(here::here(&quot;dataset&quot;, &quot;temperature.csv&quot;))</code></pre>
 <pre><code>## Rows: 45253 Columns: 37
 ## ── Column specification ────────────────────────────────────────────────────────
