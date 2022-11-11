@@ -42,8 +42,10 @@ temp <- as_tibble(temperature)
 
 
 ```{r maysen}
-
-
+#converting data from kelvin to celsius
+celsius <- as_tibble(temp %>% select(-datetime) %>% map(function(x) x-273.15))
+temp2 <- data.frame(temp[1], celsius)
+temp <- as_tibble(temp2)
 ```
 
 
