@@ -56,7 +56,7 @@ baseball_NYA <- Baseball %>% filter(h_name == "NYA")
 
 ```{r ben}
 library(dplyr)
-win_perc <- load(here::here("dataset", "win_perc.RData"))
+load(here::here("dataset", "win_perc.RData"))
 
 proll <- read_csv(here::here("dataset", "mlb_payroll.csv"))
 (mlb_pay <- as_tibble(proll))
