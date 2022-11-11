@@ -31,3 +31,30 @@ baseball <- load(here::here("dataset", "baseball.RData"))
 temperature <- read_csv(here::here("dataset", "temperature.csv"))
 temp <- as_tibble(temperature)
 ```
+
+
+
+```{r hannah_w}
+
+```
+
+
+
+
+```{r maysen}
+
+
+```
+
+
+```{r hannah h}
+
+
+```
+
+
+
+```{r ben}
+
+
+```
