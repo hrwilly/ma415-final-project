@@ -48,8 +48,8 @@ temp <- as_tibble(temperature)
 
 
 ```{r hannah h}
-
-
+temp_NYC <- temperature %>% select(datetime, 'New York')
+baseball_NYA <- Baseball %>% filter(h_name == "NYA")
 ```
 
 
