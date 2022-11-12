@@ -27,10 +27,12 @@ load(here::here("dataset", "win_perc.RData"))
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(dplyr)) 
 
-mlb_pay <- as_tibble(read_csv(here::here("dataset", "mlb_payroll.csv")))
-temperature <- read_csv(here::here("dataset", "temperature.csv"))
+mlb_pay <- as_tibble(read_csv(here::here("dataset", "mlb_payroll.csv"), show_col_types = FALSE))
+temperature <- read_csv(here::here("dataset", "temperature.csv"), show_col_types = FALSE)
 temp <- as_tibble(temperature)
 ```
+
+
 ```{r, payroll}
 
 mlb_pay$year <- as.character(mlb_pay$year)

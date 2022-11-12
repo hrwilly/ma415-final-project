@@ -19,27 +19,73 @@ featuredImage: ~
 
 </div>
 
-<p>One of the requirements for your project is that you bring together multiple datasets to enable a more in depth analysis. This could be including weather data based on dates, including demographic data based on location, among many other possibilities.
-For this week’s blog post, please describe the datasets you are combining, how you are combining them, and what your initial findings were. Also, were there any difficulties in combining the data? If you haven’t finished combining datasets, that is fine, just discuss where you are in the process and what your next steps are.</p>
-<p>We chose to combine baseball data with weather data to investigate whether factors such as temperate, wind speed, humidity, etc. effect the outcome of the game. We retrieved a number of individual datasets, each from the same source, for the same cities, with different weather statistics respectively. Those weather factor datasets were combined into a master weather dataset and then cleaned to eliminate excessive data from times not represented in the baseball dataset. The two were combined (joined) by cities.</p>
-<p>It was important that this weather data include a number of cities to ensure consistent reporting between cities. We intend to initially keep our investigation of weather as a contributing factor to a few cities, starting with Boston, and then proving reproducability on other cities. If weather is found to be significant, more comprehensive data for weather from ALL .This particular set came from Kaggle, but was originally sourced from Weather API on the OpenWeatherMap website, and was available under the ODbL License.</p>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-## ✔ ggplot2 3.3.6      ✔ purrr   0.3.4 
-## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-## ✔ tidyr   1.2.0      ✔ stringr 1.4.1 
-## ✔ readr   2.1.2      ✔ forcats 0.5.2 
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<p>We thought it might be interesting to examine the payroll of each MLB team in relation to the teams record. We predicted that teams with larger salaries may in turn have more successful programs, reflected by greater win percentage.</p>
+<p>The data used to answer this question was gathered from <a href="http://www.stevetheump.com/Payrolls.htm#2020_payrolls" class="uri">http://www.stevetheump.com/Payrolls.htm#2020_payrolls</a>. This data set was a really small collection of annual payroll in USD for each of the MLB teams from 1998 to 2022. A challenge of this data set was exporting and manipulating the original data into one concise table. We also had to change the names of some teams in certain years to that they would be consistent throughout the dataset. It was imported and joined with the winning percentage, a derivative of the baseball dataset, by year and team name.</p>
+<p>Upon most initial exploration, the correlation between annual team pay and winning percentage is not obvious. There looks like, with some manipulation, this could prove to be correlated. We proposed that perhaps there are additional considerations required, such as the pay relative to the cost of the living in each city. Perhaps payroll data and winning are not correlated in the same year, but a large payroll predicts winning in the next year. We are hopeful about continuing to investigate these connections.</p>
 <pre class="r"><code>load(here::here(&quot;dataset&quot;, &quot;baseball.RData&quot;))
-temperature &lt;- read_csv(here::here(&quot;dataset&quot;, &quot;temperature.csv&quot;))</code></pre>
-<pre><code>## Rows: 45253 Columns: 37
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## dbl  (36): Vancouver, Portland, San Francisco, Seattle, Los Angeles, San Die...
-## dttm  (1): datetime
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>temp &lt;- as_tibble(temperature)</code></pre>
+load(here::here(&quot;dataset&quot;, &quot;win_perc.RData&quot;))
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(dplyr)) 
+
+mlb_pay &lt;- as_tibble(read_csv(here::here(&quot;dataset&quot;, &quot;mlb_payroll.csv&quot;), show_col_types = FALSE))
+temperature &lt;- read_csv(here::here(&quot;dataset&quot;, &quot;temperature.csv&quot;), show_col_types = FALSE)
+temp &lt;- as_tibble(temperature)</code></pre>
+<pre class="r"><code>mlb_pay$year &lt;- as.character(mlb_pay$year)
+
+pay_tibble &lt;- win_perc %&gt;% inner_join(mlb_pay, by = c(&#39;year&#39;=&#39;year&#39;, &#39;h_name&#39;=&#39;h_name&#39;)) %&gt;% arrange(year)
+
+pay_tibble</code></pre>
+<pre><code>## # A tibble: 490 × 9
+## # Groups:   h_name [32]
+##    h_name year  home_games away_games games_played games…¹ win_p…² payroll  rank
+##    &lt;chr&gt;  &lt;chr&gt;      &lt;int&gt;      &lt;int&gt;        &lt;int&gt;   &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;
+##  1 ANA    2000          81         81          162      82   0.506  5.15e7    18
+##  2 ARI    2000          81         81          162      85   0.525  8.10e7     5
+##  3 ATL    2000          81         81          162      95   0.586  8.45e7     3
+##  4 BAL    2000          81         81          162      74   0.457  8.14e7     4
+##  5 BOS    2000          81         81          162      85   0.525  7.79e7     7
+##  6 CHA    2000          81         81          162      95   0.586  3.11e7    26
+##  7 CHN    2000          81         81          162      65   0.401  6.05e7    13
+##  8 CIN    2000          82         81          163      85   0.521  4.69e7    21
+##  9 CLE    2000          81         81          162      90   0.556  7.59e7     8
+## 10 COL    2000          81         81          162      82   0.506  6.11e7    12
+## # … with 480 more rows, and abbreviated variable names ¹​games_won, ²​win_perc</code></pre>
+<pre class="r"><code>ggplot(pay_tibble) + geom_point(aes(x = payroll, y = win_perc, color = h_name)) + 
+                     labs(title = &quot;MLB Payroll versus Winnning Percentage&quot;, 
+                             x  = &quot;Annual Payroll in USD&quot;, 
+                             y  = &quot;Winning Percentage&quot;, 
+                          color = &quot;Team Key&quot;)</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/payroll-1.png" width="672" /></p>
+<p>One consideration that must be made with the payroll dataset is it’s accuracy. Because we gathered it from an independently run site, we have no knowledge of it’s collection methods. We reached out to the owner of the site for more information but currently must acknowledge the potential error in the data.</p>
+<p>Another interesting correlation we predict is an effect of weather on the outcome of individual games. We chose to combine baseball data with weather data to investigate whether factors such as temperate, wind speed, humidity, etc. effect the outcome of the game. We retrieved a number of individual datasets, each from the same source, for the same cities, with different weather statistics respectively. Those weather factor datasets were combined into a master weather dataset and then cleaned to eliminate excessive data from times not represented in the baseball dataset. The two were combined (joined) by cities.</p>
+<p>It was important that this weather data include a number of cities to ensure consistent reporting between cities. We intend to initially keep our investigation of weather as a contributing factor to a few cities, starting with Boston, and then proving reproducibility on other cities. If weather is found to be significant, more comprehensive data for weather from ALL .This particular set came from Kaggle, but was originally sourced from Weather API on the OpenWeatherMap website, and was available under the ODbL License.</p>
+<p>We are still examining and trouble shooting with this exploration!</p>
+<p>Continuing work…</p>
+<pre class="r"><code>#converting data from kelvin to celsius
+celsius &lt;- as_tibble(temp %&gt;% select(-datetime) %&gt;% map(function(x) x-273.15))
+temp2 &lt;- data.frame(temp[1], celsius)
+temp &lt;- as_tibble(temp2)</code></pre>
+<pre class="r"><code>temp_NYC &lt;- temperature %&gt;% select(datetime, &#39;New York&#39;)
+baseball_NYA &lt;- baseball %&gt;% filter(h_name == &quot;NYA&quot;) 
+baseball_NYA   </code></pre>
+<pre><code>## # A tibble: 1,375 × 164
+##    year  month day   number_of_g…¹ day_o…² v_name v_lea…³ v_gam…⁴ h_name h_lea…⁵
+##    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  
+##  1 2000  04    12                0 Wed     TEX    AL            8 NYA    AL     
+##  2 2000  04    13                0 Thu     TEX    AL            9 NYA    AL     
+##  3 2000  04    14                0 Fri     KCA    AL           12 NYA    AL     
+##  4 2000  04    15                0 Sat     KCA    AL           13 NYA    AL     
+##  5 2000  04    16                0 Sun     KCA    AL           14 NYA    AL     
+##  6 2000  04    24                0 Mon     MIN    AL           21 NYA    AL     
+##  7 2000  04    25                0 Tue     MIN    AL           22 NYA    AL     
+##  8 2000  04    26                0 Wed     MIN    AL           23 NYA    AL     
+##  9 2000  04    28                0 Fri     TOR    AL           24 NYA    AL     
+## 10 2000  04    29                0 Sat     TOR    AL           25 NYA    AL     
+## # … with 1,365 more rows, 154 more variables: h_game_number &lt;dbl&gt;,
+## #   v_score &lt;dbl&gt;, h_score &lt;dbl&gt;, length_outs &lt;dbl&gt;, day_night &lt;chr&gt;,
+## #   completion &lt;lgl&gt;, forefeit &lt;lgl&gt;, protest &lt;chr&gt;, park_id &lt;chr&gt;,
+## #   attendance &lt;dbl&gt;, length_minutes &lt;dbl&gt;, v_line_score &lt;chr&gt;,
+## #   h_line_score &lt;chr&gt;, v_at_bats &lt;dbl&gt;, v_hits &lt;dbl&gt;, v_doubles &lt;dbl&gt;,
+## #   v_triples &lt;dbl&gt;, v_homeruns &lt;dbl&gt;, v_rbi &lt;dbl&gt;, v_sacrifice_hits &lt;dbl&gt;,
+## #   v_sacrifice_flies &lt;dbl&gt;, v_hit_by_pitch &lt;dbl&gt;, v_walks &lt;dbl&gt;, …</code></pre>
+<pre class="r"><code>pay_tibble_han &lt;- pay_tibble %&gt;% filter(h_name == &quot;NYA&quot;)</code></pre>
