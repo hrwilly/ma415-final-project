@@ -26,7 +26,7 @@ It was important that this weather data include a number of cities to ensure con
 ```{r loading_data}
 
 suppressPackageStartupMessages(library(tidyverse))
-baseball <- load(here::here("dataset", "baseball.RData"))
+load(here::here("dataset", "baseball.RData"))
 
 temperature <- read_csv(here::here("dataset", "temperature.csv"))
 temp <- as_tibble(temperature)
@@ -35,7 +35,8 @@ temp <- as_tibble(temperature)
 
 
 ```{r hannah_w}
-
+bos_temp<- temp %>%  mutate(date=as.Date(datetime),time=format(as.POSIXct(datetime),format="%H:%M:%S")) %>% separate(date,into=c("year","month_day"),sep=4) %>% 
+separate(month_day,into=c("slash","month_day"),sep=1) %>% separate(month_day,into=c("month","day"),sep=2) %>% separate(day,into=c("slash","day"),sep=1) %>% select(year,month,day,time,Boston)
 ```
 
 
@@ -48,25 +49,13 @@ temp <- as_tibble(temperature)
 
 
 ```{r hannah h}
-temp_NYC <- temperature %>% select(datetime, 'New York')
-baseball_NYA <- Baseball %>% filter(h_name == "NYA")
+
+
 ```
 
 
 
 ```{r ben}
-library(dplyr)
-win_perc <- load(here::here("dataset", "win_perc.RData"))
 
-proll <- read_csv(here::here("dataset", "mlb_payroll.csv"))
-(mlb_pay <- as_tibble(proll))
-
-mlb_pay$year <- as.character(mlb_pay$year)
-
-pay_tibble <- win_perc %>% inner_join(mlb_pay, by = c('year'='year', 'h_name'='h_name')) %>% arrange(year)
-
-pay_tibble
-
-ggplot(pay_tibble) + geom_point(aes(x = payroll, y = win_perc, color = h_name))
 
 ```
