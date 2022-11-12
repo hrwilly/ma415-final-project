@@ -53,11 +53,20 @@ One consideration that must be made with the payroll dataset is it's accuracy. B
 
 Another interesting correlation we predict is an effect of weather on the outcome of individual games. We chose to combine baseball data with weather data to investigate whether factors such as temperate, wind speed, humidity, etc. effect the outcome of the game. We retrieved a number of individual datasets, each from the same source, for the same cities, with different weather statistics respectively. Those weather factor datasets were combined into a master weather dataset and then cleaned to eliminate excessive data from times not represented in the baseball dataset. The two were combined (joined) by cities. 
 
+<<<<<<< HEAD
 It was important that this weather data include a number of cities to ensure consistent reporting between cities. We intend to initially keep our investigation of weather as a contributing factor to a few cities, starting with Boston, and then proving reproducibility on other cities. If weather is found to be significant, more comprehensive data for weather from ALL  .This particular set came from Kaggle, but was originally sourced from Weather API on the OpenWeatherMap website, and was available under the ODbL License.
 
 We are still examining and trouble shooting with this exploration!
 
 
+=======
+```{r maysen}
+#converting data from kelvin to celsius
+celsius <- as_tibble(temp %>% select(-datetime) %>% map(function(x) x-273.15))
+temp2 <- data.frame(temp[1], celsius)
+temp <- as_tibble(temp2)
+```
+>>>>>>> 439b6ae456f6e6f2bedc5fd07b1311c15126ba72
 
 
 
