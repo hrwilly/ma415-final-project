@@ -20,7 +20,6 @@ featuredImage: ~
 </div>
 
 <p>Before analysis, the data must be loaded and mutated with extra columns we need for analysis.</p>
-<<<<<<< HEAD
 <pre class="r"><code>suppressPackageStartupMessages(library(tidyverse)) 
 data &lt;- read_csv(here::here(&quot;dataset-ignore&quot;, &quot;game_logs.csv&quot;))</code></pre>
 <pre><code>## Warning: One or more parsing issues, see `problems()` for details</code></pre>
@@ -33,7 +32,9 @@ data &lt;- read_csv(here::here(&quot;dataset-ignore&quot;, &quot;game_logs.csv&q
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>baseball &lt;- as_tibble(data)
+<pre class="r"><code>load(here::here(&quot;dataset&quot;, &quot;baseball.RData&quot;))
+
+baseball &lt;- as_tibble(data)
 years&lt;-c(2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016)
 (baseball &lt;- baseball %&gt;% separate(date,into=c(&quot;year&quot;,&quot;month_day&quot;),sep=4) %&gt;% 
                           separate(month_day,into=c(&quot;month&quot;,&quot;day&quot;),sep=2) %&gt;% 
@@ -59,10 +60,6 @@ years&lt;-c(2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,201
 ## #   h_line_score &lt;chr&gt;, v_at_bats &lt;dbl&gt;, v_hits &lt;dbl&gt;, v_doubles &lt;dbl&gt;,
 ## #   v_triples &lt;dbl&gt;, v_homeruns &lt;dbl&gt;, v_rbi &lt;dbl&gt;, v_sacrifice_hits &lt;dbl&gt;,
 ## #   v_sacrifice_flies &lt;dbl&gt;, v_hit_by_pitch &lt;dbl&gt;, v_walks &lt;dbl&gt;, …</code></pre>
-=======
-<pre class="r"><code>suppressPackageStartupMessages(library(tidyverse))
-load(here::here(&quot;dataset&quot;, &quot;baseball.RData&quot;))</code></pre>
->>>>>>> 592d8f056996cb06cadf5c1e66b6f5f1b714fb0a
 <p>Graph #1 - Truly Exploratory Data:</p>
 <p>While exploring trends in the data, we set out to see if starting pitcher has an impact on the outcome. In the following code, we compare the starting pitchers in each season to both the proportion of their games played that they won, and the number of games that they won. We specifically are focusing on Boston Red Sox at their home stadium, but hope to explore more teams as well as away games in the future.</p>
 <p>The first step is to create different data sets to see the number of games each pitcher wins, the number of games each pitcher plays, and the proportion of wins to the games played.</p>
