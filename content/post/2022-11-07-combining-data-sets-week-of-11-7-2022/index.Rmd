@@ -83,7 +83,7 @@ temp_NYC <- temperature %>% select(datetime, 'New York')
 baseball_NYA <- baseball %>% filter(h_name == "NYA") 
 baseball_NYA   
 
-pay_tibble_han <- pay_tibble %>% filter(h_name == "NYA")
+#pay_tibble_han <- pay_tibble %>% filter(h_name == "NYA")
 
 ```
 
