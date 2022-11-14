@@ -1,0 +1,28 @@
+---
+title: Interactive Plot, Week of 11/14/22
+author: Daniel Sussman
+date: '2022-11-14'
+slug: []
+categories: []
+tags: []
+description: ~
+toc: yes
+authors: []
+series: []
+lastmod: '2022-11-14T09:43:26-05:00'
+featuredVideo: ~
+featuredImage: ~
+---
+
+Today, we’ll build and deploy a very simple interactive in class and discuss what makes a good interactive.
+For this weeks post, describe your thoughts and progress on the interactive for your final project. Think about the principals we talked about from last week the interactive should :
+
+allow the user to both see the big picture trends and to “zoom in” on subsets or individual data points.
+
+be interactive, it should be more than just static plots, allowing the user to provide input to explore the data,
+
+guide the user, providing clear ways to use the interactive and highlighting interesting findings to start a user’s exploration,
+
+if you can, be personal. Not all data will be conducive to this but if you allow a user to see information relevant to them specifically, it can help pull people in.
+
+Discuss your ideas and, if you’ve made progress, provide a link to a draft of the interactive. Note, I’m requiring all groups to use Shiny this semester. The directions on the Big Picture page were not properly updated.
