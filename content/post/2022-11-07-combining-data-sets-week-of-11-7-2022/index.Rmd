@@ -22,10 +22,11 @@ Upon most initial exploration, the correlation between annual team pay and winni
 
 
 ```{r, loading_data}
-load(here::here("dataset", "baseball.RData"))
-load(here::here("dataset", "win_perc.RData"))
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(dplyr)) 
+
+load(here::here("dataset", "baseball.RData"))
+load(here::here("dataset", "win_perc.RData"))
 
 mlb_pay <- as_tibble(read_csv(here::here("dataset", "mlb_payroll.csv"), show_col_types = FALSE))
 temperature <- read_csv(here::here("dataset", "temperature.csv"), show_col_types = FALSE)
@@ -63,29 +64,23 @@ We are still examining and trouble shooting with this exploration!
 Continuing work...
 
 ```{r maysen}
-#converting data from kelvin to celsius
+#converting data from kelvin to Celsius
 celsius <- as_tibble(temp %>% select(-datetime) %>% map(function(x) x-273.15))
 temp2 <- data.frame(temp[1], celsius)
 temp <- as_tibble(temp2)
 ```
 
 ```{r hannah_w}
-
+bos_temp<- temp %>%  mutate(date=as.Date(datetime),time=format(as.POSIXct(datetime),format="%H:%M:%S")) %>% separate(date,into=c("year","month_day"),sep=4) %>% 
+separate(month_day,into=c("slash","month_day"),sep=1) %>% separate(month_day,into=c("month","day"),sep=2) %>% separate(day,into=c("slash","day"),sep=1) %>% select(year,month,day,time,Boston)
 ```
 
-```{r ben}
-
-
-```
 
 ```{r hannah h}
 temp_NYC <- temperature %>% select(datetime, 'New York')
 baseball_NYA <- baseball %>% filter(h_name == "NYA") 
-baseball_NYA   
+baseball_NYA
 
 pay_tibble_han <- pay_tibble %>% filter(h_name == "NYA")
 
 ```
-
-
-

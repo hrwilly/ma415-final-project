@@ -22,10 +22,11 @@ featuredImage: ~
 <p>We thought it might be interesting to examine the payroll of each MLB team in relation to the teams record. We predicted that teams with larger salaries may in turn have more successful programs, reflected by greater win percentage.</p>
 <p>The data used to answer this question was gathered from <a href="http://www.stevetheump.com/Payrolls.htm#2020_payrolls" class="uri">http://www.stevetheump.com/Payrolls.htm#2020_payrolls</a>. This data set was a really small collection of annual payroll in USD for each of the MLB teams from 1998 to 2022. A challenge of this data set was exporting and manipulating the original data into one concise table. We also had to change the names of some teams in certain years to that they would be consistent throughout the dataset. It was imported and joined with the winning percentage, a derivative of the baseball dataset, by year and team name.</p>
 <p>Upon most initial exploration, the correlation between annual team pay and winning percentage is not obvious. There looks like, with some manipulation, this could prove to be correlated. We proposed that perhaps there are additional considerations required, such as the pay relative to the cost of the living in each city. Perhaps payroll data and winning are not correlated in the same year, but a large payroll predicts winning in the next year. We are hopeful about continuing to investigate these connections.</p>
-<pre class="r"><code>load(here::here(&quot;dataset&quot;, &quot;baseball.RData&quot;))
-load(here::here(&quot;dataset&quot;, &quot;win_perc.RData&quot;))
-suppressPackageStartupMessages(library(tidyverse))
+<pre class="r"><code>suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(dplyr)) 
+
+load(here::here(&quot;dataset&quot;, &quot;baseball.RData&quot;))
+load(here::here(&quot;dataset&quot;, &quot;win_perc.RData&quot;))
 
 mlb_pay &lt;- as_tibble(read_csv(here::here(&quot;dataset&quot;, &quot;mlb_payroll.csv&quot;), show_col_types = FALSE))
 temperature &lt;- read_csv(here::here(&quot;dataset&quot;, &quot;temperature.csv&quot;), show_col_types = FALSE)
@@ -61,13 +62,15 @@ pay_tibble</code></pre>
 <p>It was important that this weather data include a number of cities to ensure consistent reporting between cities. We intend to initially keep our investigation of weather as a contributing factor to a few cities, starting with Boston, and then proving reproducibility on other cities. If weather is found to be significant, more comprehensive data for weather from ALL .This particular set came from Kaggle, but was originally sourced from Weather API on the OpenWeatherMap website, and was available under the ODbL License.</p>
 <p>We are still examining and trouble shooting with this exploration!</p>
 <p>Continuing work…</p>
-<pre class="r"><code>#converting data from kelvin to celsius
+<pre class="r"><code>#converting data from kelvin to Celsius
 celsius &lt;- as_tibble(temp %&gt;% select(-datetime) %&gt;% map(function(x) x-273.15))
 temp2 &lt;- data.frame(temp[1], celsius)
 temp &lt;- as_tibble(temp2)</code></pre>
+<pre class="r"><code>bos_temp&lt;- temp %&gt;%  mutate(date=as.Date(datetime),time=format(as.POSIXct(datetime),format=&quot;%H:%M:%S&quot;)) %&gt;% separate(date,into=c(&quot;year&quot;,&quot;month_day&quot;),sep=4) %&gt;% 
+separate(month_day,into=c(&quot;slash&quot;,&quot;month_day&quot;),sep=1) %&gt;% separate(month_day,into=c(&quot;month&quot;,&quot;day&quot;),sep=2) %&gt;% separate(day,into=c(&quot;slash&quot;,&quot;day&quot;),sep=1) %&gt;% select(year,month,day,time,Boston)</code></pre>
 <pre class="r"><code>temp_NYC &lt;- temperature %&gt;% select(datetime, &#39;New York&#39;)
 baseball_NYA &lt;- baseball %&gt;% filter(h_name == &quot;NYA&quot;) 
-baseball_NYA   </code></pre>
+baseball_NYA</code></pre>
 <pre><code>## # A tibble: 1,375 × 164
 ##    year  month day   number_of_g…¹ day_o…² v_name v_lea…³ v_gam…⁴ h_name h_lea…⁵
 ##    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  
