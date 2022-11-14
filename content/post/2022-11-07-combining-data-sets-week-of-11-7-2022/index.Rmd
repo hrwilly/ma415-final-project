@@ -14,25 +14,61 @@ featuredVideo: ~
 featuredImage: ~
 ---
 
-One of the requirements for your project is that you bring together multiple datasets to enable a more in depth analysis. This could be including weather data based on dates, including demographic data based on location, among many other possibilities.
-For this week’s blog post, please describe the datasets you are combining, how you are combining them, and what your initial findings were. Also, were there any difficulties in combining the data? If you haven’t finished combining datasets, that is fine, just discuss where you are in the process and what your next steps are.
+We thought it might be interesting to examine the payroll of each MLB team in relation to the teams record. We predicted that teams with larger salaries may in turn have more successful programs, reflected by greater win percentage. 
 
-We chose to combine baseball data with weather data to investigate whether factors such as temperate, wind speed, humidity, etc. effect the outcome of the game. We retrieved a number of individual datasets, each from the same source, for the same cities, with different weather statistics respectively. Those weather factor datasets were combined into a master weather dataset and then cleaned to eliminate excessive data from times not represented in the baseball dataset. The two were combined (joined) by cities. 
+The data used to answer this question was gathered from http://www.stevetheump.com/Payrolls.htm#2020_payrolls. This data set was a really small collection of annual payroll in USD for each of the MLB teams from 1998 to 2022. A challenge of this data set was exporting and manipulating the original data into one concise table. We also had to change the names of some teams in certain years to that they would be consistent throughout the dataset. It was imported and joined with the winning percentage, a derivative of the baseball dataset, by year and team name. 
 
-It was important that this weather data include a number of cities to ensure consistent reporting between cities. We intend to initially keep our investigation of weather as a contributing factor to a few cities, starting with Boston, and then proving reproducability on other cities. If weather is found to be significant, more comprehensive data for weather from ALL  .This particular set came from Kaggle, but was originally sourced from Weather API on the OpenWeatherMap website, and was available under the ODbL License.
-
+Upon most initial exploration, the correlation between annual team pay and winning percentage is not obvious. There looks like, with some manipulation, this could prove to be correlated. We proposed that perhaps there are additional considerations required, such as the pay relative to the cost of the living in each city. Perhaps payroll data and winning are not correlated in the same year, but a large payroll predicts winning in the next year. We are hopeful about continuing to investigate these connections.   
 
 
-```{r loading_data}
-
+```{r, loading_data}
 suppressPackageStartupMessages(library(tidyverse))
-load(here::here("dataset", "baseball.RData"))
+suppressPackageStartupMessages(library(dplyr)) 
 
-temperature <- read_csv(here::here("dataset", "temperature.csv"))
+load(here::here("dataset", "baseball.RData"))
+load(here::here("dataset", "win_perc.RData"))
+
+mlb_pay <- as_tibble(read_csv(here::here("dataset", "mlb_payroll.csv"), show_col_types = FALSE))
+temperature <- read_csv(here::here("dataset", "temperature.csv"), show_col_types = FALSE)
 temp <- as_tibble(temperature)
 ```
 
 
+```{r, payroll}
+
+mlb_pay$year <- as.character(mlb_pay$year)
+
+pay_tibble <- win_perc %>% inner_join(mlb_pay, by = c('year'='year', 'h_name'='h_name')) %>% arrange(year)
+
+pay_tibble
+
+ggplot(pay_tibble) + geom_point(aes(x = payroll, y = win_perc, color = h_name)) + 
+                     labs(title = "MLB Payroll versus Winnning Percentage", 
+                             x  = "Annual Payroll in USD", 
+                             y  = "Winning Percentage", 
+                          color = "Team Key")
+
+
+```
+
+One consideration that must be made with the payroll dataset is it's accuracy. Because we gathered it from an independently run site, we have no knowledge of it's collection methods. We reached out to the owner of the site for more information but currently  must acknowledge the potential error in the data. 
+
+
+Another interesting correlation we predict is an effect of weather on the outcome of individual games. We chose to combine baseball data with weather data to investigate whether factors such as temperate, wind speed, humidity, etc. effect the outcome of the game. We retrieved a number of individual datasets, each from the same source, for the same cities, with different weather statistics respectively. Those weather factor datasets were combined into a master weather dataset and then cleaned to eliminate excessive data from times not represented in the baseball dataset. The two were combined (joined) by cities. 
+
+
+It was important that this weather data include a number of cities to ensure consistent reporting between cities. We intend to initially keep our investigation of weather as a contributing factor to a few cities, starting with Boston, and then proving reproducibility on other cities. If weather is found to be significant, more comprehensive data for weather from ALL  .This particular set came from Kaggle, but was originally sourced from Weather API on the OpenWeatherMap website, and was available under the ODbL License.
+
+We are still examining and trouble shooting with this exploration!
+
+Continuing work...
+
+```{r maysen}
+#converting data from kelvin to celsius
+celsius <- as_tibble(temp %>% select(-datetime) %>% map(function(x) x-273.15))
+temp2 <- data.frame(temp[1], celsius)
+temp <- as_tibble(temp2)
+```
 
 ```{r hannah_w}
 bos_temp<- temp %>%  mutate(date=as.Date(datetime),time=format(as.POSIXct(datetime),format="%H:%M:%S")) %>% separate(date,into=c("year","month_day"),sep=4) %>% 
@@ -40,22 +76,11 @@ separate(month_day,into=c("slash","month_day"),sep=1) %>% separate(month_day,int
 ```
 
 
-
-
-```{r maysen}
-
-
-```
-
-
 ```{r hannah h}
+temp_NYC <- temperature %>% select(datetime, 'New York')
+baseball_NYA <- baseball %>% filter(h_name == "NYA") 
+baseball_NYA %>% knitr::kable()
 
-
-```
-
-
-
-```{r ben}
-
+pay_tibble_han <- pay_tibble %>% filter(h_name == "NYA")
 
 ```
