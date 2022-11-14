@@ -14,13 +14,16 @@ featuredVideo: ~
 featuredImage: ~
 ---
 
+<script src="{{< blogdown/postref >}}index_files/kePrint/kePrint.js"></script>
+<link href="{{< blogdown/postref >}}index_files/lightable/lightable.css" rel="stylesheet" />
 
 <div id="TOC">
 
 </div>
 
 <p>Our data set of MLB game statistics is &gt;50mb and can be found in the <code>dataset-ignore</code> folder. After reading in the CSV file, we converted it into a tibble.</p>
-<pre class="r"><code>suppressPackageStartupMessages(library(tidyverse))
+<pre class="r"><code>suppressPackageStartupMessages(library(&quot;kableExtra&quot;))
+suppressPackageStartupMessages(library(tidyverse))
 suppressWarnings(data &lt;- read_csv(here::here(&quot;dataset-ignore&quot;, &quot;game_logs.csv&quot;), col_types = cols(forefeit = col_character(), completion = col_character())))
 (baseball &lt;- as_tibble(data))</code></pre>
 <pre><code>## # A tibble: 171,907 × 161
@@ -136,69 +139,1124 @@ suppressWarnings(data &lt;- read_csv(here::here(&quot;dataset-ignore&quot;, &quo
 <p>We filtered to select Boston Red Sox as the home team, since we have already found weather data for Boston and are considering taking this into account later on.</p>
 <p>For our initial exploration of the data, we first looked at the average runs scored by each team at home as well as away arranged in descending order. Here, we can see which team scores the most runs on average. The Colorado Rockies score the most runs on average at home while the New York Yankees score the most runs on average away. Using our created variable <code>score_diff</code>, we can also observe which teams tend to lose or win more often.</p>
 <pre class="r"><code>#Average runs scored by home teams
-baseball %&gt;% group_by(h_name) %&gt;% summarize(average_score = mean(h_score)) %&gt;% arrange(desc(average_score))</code></pre>
-<pre><code>## # A tibble: 32 × 2
-##    h_name average_score
-##    &lt;chr&gt;          &lt;dbl&gt;
-##  1 COL             5.99
-##  2 BOS             5.45
-##  3 TEX             5.42
-##  4 NYA             5.25
-##  5 TOR             4.97
-##  6 CHA             4.87
-##  7 CLE             4.77
-##  8 ARI             4.76
-##  9 SLN             4.74
-## 10 DET             4.70
-## # … with 22 more rows</code></pre>
+baseball %&gt;% group_by(h_name) %&gt;% 
+  summarize(average_score = round(mean(h_score), 2)) %&gt;% 
+  arrange(desc(average_score)) %&gt;% 
+  kbl(caption = &quot;Average Runs Scored by Home Teams from 2000 to 2016&quot;, align = &quot;c&quot;, col.names = c(&quot;Home Team Name&quot;, &quot;Average Runs Scored&quot;)) %&gt;% 
+  kable_classic_2(&quot;striped&quot;, html_font = &quot;Georgia&quot;) %&gt;% 
+  kable_styling(position = &quot;center&quot;)</code></pre>
+<table class=" lightable-classic-2 lightable-striped table" style="font-family: Georgia; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:unnamed-chunk-6">Table 1: </span>Average Runs Scored by Home Teams from 2000 to 2016
+</caption>
+<thead>
+<tr>
+<th style="text-align:center;">
+Home Team Name
+</th>
+<th style="text-align:center;">
+Average Runs Scored
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+COL
+</td>
+<td style="text-align:center;">
+5.99
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+BOS
+</td>
+<td style="text-align:center;">
+5.45
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+TEX
+</td>
+<td style="text-align:center;">
+5.42
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+NYA
+</td>
+<td style="text-align:center;">
+5.25
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+TOR
+</td>
+<td style="text-align:center;">
+4.97
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+CHA
+</td>
+<td style="text-align:center;">
+4.87
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+CLE
+</td>
+<td style="text-align:center;">
+4.77
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ARI
+</td>
+<td style="text-align:center;">
+4.76
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SLN
+</td>
+<td style="text-align:center;">
+4.74
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+DET
+</td>
+<td style="text-align:center;">
+4.70
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+MIN
+</td>
+<td style="text-align:center;">
+4.65
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+PHI
+</td>
+<td style="text-align:center;">
+4.62
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+KCA
+</td>
+<td style="text-align:center;">
+4.60
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+BAL
+</td>
+<td style="text-align:center;">
+4.59
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+OAK
+</td>
+<td style="text-align:center;">
+4.59
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ANA
+</td>
+<td style="text-align:center;">
+4.58
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+CIN
+</td>
+<td style="text-align:center;">
+4.58
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+MON
+</td>
+<td style="text-align:center;">
+4.58
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+HOU
+</td>
+<td style="text-align:center;">
+4.52
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ATL
+</td>
+<td style="text-align:center;">
+4.51
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+CHN
+</td>
+<td style="text-align:center;">
+4.51
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+FLO
+</td>
+<td style="text-align:center;">
+4.49
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+MIL
+</td>
+<td style="text-align:center;">
+4.49
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+TBA
+</td>
+<td style="text-align:center;">
+4.37
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SFN
+</td>
+<td style="text-align:center;">
+4.28
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+PIT
+</td>
+<td style="text-align:center;">
+4.27
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+WAS
+</td>
+<td style="text-align:center;">
+4.24
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+LAN
+</td>
+<td style="text-align:center;">
+4.17
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SEA
+</td>
+<td style="text-align:center;">
+4.13
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+NYN
+</td>
+<td style="text-align:center;">
+4.12
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SDN
+</td>
+<td style="text-align:center;">
+3.83
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+MIA
+</td>
+<td style="text-align:center;">
+3.81
+</td>
+</tr>
+</tbody>
+</table>
 <pre class="r"><code>#Average runs scored by away/visiting teams
-baseball %&gt;% group_by(v_name) %&gt;% summarize(average_score = mean(v_score)) %&gt;% arrange(desc(average_score))</code></pre>
-<pre><code>## # A tibble: 32 × 2
-##    v_name average_score
-##    &lt;chr&gt;          &lt;dbl&gt;
-##  1 NYA             5.00
-##  2 BOS             4.86
-##  3 ANA             4.84
-##  4 SLN             4.80
-##  5 CLE             4.72
-##  6 OAK             4.67
-##  7 SEA             4.63
-##  8 TOR             4.62
-##  9 TEX             4.60
-## 10 DET             4.60
-## # … with 22 more rows</code></pre>
+baseball %&gt;% group_by(v_name) %&gt;% 
+  summarize(average_score = round(mean(v_score), 2)) %&gt;% 
+  arrange(desc(average_score)) %&gt;% 
+  kbl(caption = &quot;Average Runs Scored by Away Teams from 2000 to 2016&quot;, align = &quot;c&quot;, col.names = c(&quot;Away Team Name&quot;, &quot;Average Runs Scored&quot;)) %&gt;% 
+  kable_classic_2(&quot;striped&quot;, html_font = &quot;Georgia&quot;) %&gt;% 
+  kable_styling(position = &quot;center&quot;)</code></pre>
+<table class=" lightable-classic-2 lightable-striped table" style="font-family: Georgia; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:unnamed-chunk-6">Table 1: </span>Average Runs Scored by Away Teams from 2000 to 2016
+</caption>
+<thead>
+<tr>
+<th style="text-align:center;">
+Away Team Name
+</th>
+<th style="text-align:center;">
+Average Runs Scored
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+NYA
+</td>
+<td style="text-align:center;">
+5.00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+BOS
+</td>
+<td style="text-align:center;">
+4.86
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ANA
+</td>
+<td style="text-align:center;">
+4.84
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SLN
+</td>
+<td style="text-align:center;">
+4.80
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+CLE
+</td>
+<td style="text-align:center;">
+4.72
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+OAK
+</td>
+<td style="text-align:center;">
+4.67
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SEA
+</td>
+<td style="text-align:center;">
+4.63
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+TOR
+</td>
+<td style="text-align:center;">
+4.62
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+DET
+</td>
+<td style="text-align:center;">
+4.60
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+TEX
+</td>
+<td style="text-align:center;">
+4.60
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+LAN
+</td>
+<td style="text-align:center;">
+4.57
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SFN
+</td>
+<td style="text-align:center;">
+4.57
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+FLO
+</td>
+<td style="text-align:center;">
+4.56
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+NYN
+</td>
+<td style="text-align:center;">
+4.54
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+PHI
+</td>
+<td style="text-align:center;">
+4.54
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ATL
+</td>
+<td style="text-align:center;">
+4.53
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SDN
+</td>
+<td style="text-align:center;">
+4.50
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+MIN
+</td>
+<td style="text-align:center;">
+4.47
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+CHA
+</td>
+<td style="text-align:center;">
+4.46
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+BAL
+</td>
+<td style="text-align:center;">
+4.45
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+TBA
+</td>
+<td style="text-align:center;">
+4.45
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+CHN
+</td>
+<td style="text-align:center;">
+4.33
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+CIN
+</td>
+<td style="text-align:center;">
+4.33
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+MIL
+</td>
+<td style="text-align:center;">
+4.31
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+HOU
+</td>
+<td style="text-align:center;">
+4.30
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+KCA
+</td>
+<td style="text-align:center;">
+4.27
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+WAS
+</td>
+<td style="text-align:center;">
+4.23
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ARI
+</td>
+<td style="text-align:center;">
+4.19
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+PIT
+</td>
+<td style="text-align:center;">
+4.15
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+MON
+</td>
+<td style="text-align:center;">
+4.04
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+COL
+</td>
+<td style="text-align:center;">
+3.90
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+MIA
+</td>
+<td style="text-align:center;">
+3.70
+</td>
+</tr>
+</tbody>
+</table>
 <pre class="r"><code>#Proportion of games won by home team
-baseball %&gt;% group_by(h_name) %&gt;% summarize(win_prop = mean(score_diff&gt;0)) %&gt;% arrange(desc(win_prop))</code></pre>
-<pre><code>## # A tibble: 32 × 2
-##    h_name win_prop
-##    &lt;chr&gt;     &lt;dbl&gt;
-##  1 NYA       0.619
-##  2 SLN       0.607
-##  3 BOS       0.581
-##  4 LAN       0.574
-##  5 ANA       0.573
-##  6 ATL       0.573
-##  7 OAK       0.572
-##  8 SFN       0.571
-##  9 TEX       0.555
-## 10 CHA       0.548
-## # … with 22 more rows</code></pre>
+baseball %&gt;% group_by(h_name) %&gt;% summarize(win_prop = round(mean(score_diff&gt;0), 4)) %&gt;% 
+  arrange(desc(win_prop)) %&gt;% 
+  kbl(caption = &quot;Proportion of Games Won by Home Team from 2000 to 2016&quot;, align = &quot;c&quot;, col.names = c(&quot;Home Team Name&quot;, &quot;Proportion of Games Won&quot;)) %&gt;% 
+  kable_classic_2(&quot;striped&quot;, html_font = &quot;Georgia&quot;) %&gt;% 
+  kable_styling(position = &quot;center&quot;)</code></pre>
+<table class=" lightable-classic-2 lightable-striped table" style="font-family: Georgia; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:unnamed-chunk-6">Table 1: </span>Proportion of Games Won by Home Team from 2000 to 2016
+</caption>
+<thead>
+<tr>
+<th style="text-align:center;">
+Home Team Name
+</th>
+<th style="text-align:center;">
+Proportion of Games Won
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+NYA
+</td>
+<td style="text-align:center;">
+0.6189
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SLN
+</td>
+<td style="text-align:center;">
+0.6071
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+BOS
+</td>
+<td style="text-align:center;">
+0.5810
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+LAN
+</td>
+<td style="text-align:center;">
+0.5744
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ANA
+</td>
+<td style="text-align:center;">
+0.5733
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ATL
+</td>
+<td style="text-align:center;">
+0.5730
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+OAK
+</td>
+<td style="text-align:center;">
+0.5723
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SFN
+</td>
+<td style="text-align:center;">
+0.5711
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+TEX
+</td>
+<td style="text-align:center;">
+0.5547
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+CHA
+</td>
+<td style="text-align:center;">
+0.5479
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+TOR
+</td>
+<td style="text-align:center;">
+0.5479
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+COL
+</td>
+<td style="text-align:center;">
+0.5406
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+CLE
+</td>
+<td style="text-align:center;">
+0.5393
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+PHI
+</td>
+<td style="text-align:center;">
+0.5356
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+MIN
+</td>
+<td style="text-align:center;">
+0.5341
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+WAS
+</td>
+<td style="text-align:center;">
+0.5340
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+FLO
+</td>
+<td style="text-align:center;">
+0.5299
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+DET
+</td>
+<td style="text-align:center;">
+0.5280
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SEA
+</td>
+<td style="text-align:center;">
+0.5250
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+HOU
+</td>
+<td style="text-align:center;">
+0.5247
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+NYN
+</td>
+<td style="text-align:center;">
+0.5233
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+CHN
+</td>
+<td style="text-align:center;">
+0.5229
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ARI
+</td>
+<td style="text-align:center;">
+0.5192
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+TBA
+</td>
+<td style="text-align:center;">
+0.5185
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+MIL
+</td>
+<td style="text-align:center;">
+0.5156
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+MON
+</td>
+<td style="text-align:center;">
+0.5124
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SDN
+</td>
+<td style="text-align:center;">
+0.5084
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+PIT
+</td>
+<td style="text-align:center;">
+0.5069
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+CIN
+</td>
+<td style="text-align:center;">
+0.5040
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+BAL
+</td>
+<td style="text-align:center;">
+0.5025
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+MIA
+</td>
+<td style="text-align:center;">
+0.4876
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+KCA
+</td>
+<td style="text-align:center;">
+0.4800
+</td>
+</tr>
+</tbody>
+</table>
 <pre class="r"><code>#Proportion of games won by away/visiting team
-baseball %&gt;% group_by(v_name) %&gt;% summarize(win_prop = mean(score_diff&gt;0)) %&gt;% arrange(desc(win_prop))</code></pre>
-<pre><code>## # A tibble: 32 × 2
-##    v_name win_prop
-##    &lt;chr&gt;     &lt;dbl&gt;
-##  1 COL       0.617
-##  2 MON       0.603
-##  3 MIA       0.602
-##  4 PIT       0.600
-##  5 KCA       0.584
-##  6 TBA       0.582
-##  7 MIL       0.575
-##  8 BAL       0.574
-##  9 HOU       0.573
-## 10 SDN       0.564
-## # … with 22 more rows</code></pre>
+baseball %&gt;% group_by(v_name) %&gt;% 
+  summarize(win_prop = round(mean(score_diff&gt;0), 4)) %&gt;% 
+  arrange(desc(win_prop)) %&gt;% 
+  kbl(caption = &quot;Proportion of Games Won by Away Team from 2000 to 2016&quot;, align = &quot;c&quot;, col.names = c(&quot;Away Team Name&quot;, &quot;Proportion of Games Won&quot;)) %&gt;% 
+  kable_classic_2(&quot;striped&quot;, html_font = &quot;Georgia&quot;) %&gt;% 
+  kable_styling(position = &quot;center&quot;)</code></pre>
+<table class=" lightable-classic-2 lightable-striped table" style="font-family: Georgia; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:unnamed-chunk-6">Table 1: </span>Proportion of Games Won by Away Team from 2000 to 2016
+</caption>
+<thead>
+<tr>
+<th style="text-align:center;">
+Away Team Name
+</th>
+<th style="text-align:center;">
+Proportion of Games Won
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+COL
+</td>
+<td style="text-align:center;">
+0.6173
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+MON
+</td>
+<td style="text-align:center;">
+0.6034
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+MIA
+</td>
+<td style="text-align:center;">
+0.6025
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+PIT
+</td>
+<td style="text-align:center;">
+0.6003
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+KCA
+</td>
+<td style="text-align:center;">
+0.5845
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+TBA
+</td>
+<td style="text-align:center;">
+0.5824
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+MIL
+</td>
+<td style="text-align:center;">
+0.5752
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+BAL
+</td>
+<td style="text-align:center;">
+0.5743
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+HOU
+</td>
+<td style="text-align:center;">
+0.5726
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SDN
+</td>
+<td style="text-align:center;">
+0.5639
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+DET
+</td>
+<td style="text-align:center;">
+0.5570
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+WAS
+</td>
+<td style="text-align:center;">
+0.5556
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+CIN
+</td>
+<td style="text-align:center;">
+0.5490
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ARI
+</td>
+<td style="text-align:center;">
+0.5476
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+MIN
+</td>
+<td style="text-align:center;">
+0.5439
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+TOR
+</td>
+<td style="text-align:center;">
+0.5433
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+TEX
+</td>
+<td style="text-align:center;">
+0.5414
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+CHN
+</td>
+<td style="text-align:center;">
+0.5389
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+FLO
+</td>
+<td style="text-align:center;">
+0.5381
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SEA
+</td>
+<td style="text-align:center;">
+0.5375
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+CLE
+</td>
+<td style="text-align:center;">
+0.5327
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+CHA
+</td>
+<td style="text-align:center;">
+0.5323
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+NYN
+</td>
+<td style="text-align:center;">
+0.5240
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+OAK
+</td>
+<td style="text-align:center;">
+0.5113
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+PHI
+</td>
+<td style="text-align:center;">
+0.5113
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SFN
+</td>
+<td style="text-align:center;">
+0.5080
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ATL
+</td>
+<td style="text-align:center;">
+0.5004
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+LAN
+</td>
+<td style="text-align:center;">
+0.5000
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ANA
+</td>
+<td style="text-align:center;">
+0.4913
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+BOS
+</td>
+<td style="text-align:center;">
+0.4862
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SLN
+</td>
+<td style="text-align:center;">
+0.4811
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+NYA
+</td>
+<td style="text-align:center;">
+0.4611
+</td>
+</tr>
+</tbody>
+</table>
 <p>We can also look at <code>score_diff</code> for the Boston Red Sox on different days of the week. From the boxplot, it does not seem like the day of the week has an effect on whether the Red Sox win or lose.</p>
 <pre class="r"><code>baseball %&gt;% filter(h_name == &quot;BOS&quot;) %&gt;% ggplot(aes(x = reorder(day_of_week, score_diff), y = score_diff)) + geom_boxplot()</code></pre>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
