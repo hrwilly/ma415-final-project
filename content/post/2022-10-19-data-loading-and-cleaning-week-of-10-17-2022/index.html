@@ -19,53 +19,10 @@ featuredImage: ~
 
 </div>
 
-<p>TEST EDIT</p>
 <p>Our data set of MLB game statistics is &gt;50mb and can be found in the <code>dataset-ignore</code> folder. After reading in the CSV file, we converted it into a tibble.</p>
-<pre class="r"><code>source(
-  here::here(&quot;static&quot;, &quot;load_and_clean_data.R&quot;),
-  echo = TRUE
-)</code></pre>
-<pre><code>## 
-## &gt; library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-## ✔ ggplot2 3.3.6      ✔ purrr   0.3.4 
-## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-## ✔ tidyr   1.2.0      ✔ stringr 1.4.1 
-## ✔ readr   2.1.2      ✔ forcats 0.5.2 
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<pre><code>## 
-## &gt; loan_data &lt;- read_csv(here::here(&quot;dataset&quot;, &quot;loan_refusal.csv&quot;))</code></pre>
-<pre><code>## Rows: 20 Columns: 5
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (1): bank
-## dbl (4): min, white, himin, hiwhite
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre><code>## 
-## &gt; loan_data_clean &lt;- loan_data
-## 
-## &gt; write_csv(loan_data_clean, file = here::here(&quot;dataset&quot;, 
-## +     &quot;loan_refusal_clean.csv&quot;))
-## 
-## &gt; save(loan_data_clean, file = here::here(&quot;dataset/loan_refusal.RData&quot;))</code></pre>
-<pre class="r"><code>library(tidyverse)
-
-data &lt;- read_csv(here::here(&quot;dataset&quot;, &quot;dataset-ignore&quot;, &quot;game_logs.csv&quot;))</code></pre>
-<pre><code>## Warning: One or more parsing issues, see `problems()` for details</code></pre>
-<pre><code>## Rows: 171907 Columns: 161
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (75): day_of_week, v_name, v_league, h_name, h_league, day_night, protes...
-## dbl (83): date, number_of_game, v_game_number, h_game_number, v_score, h_sco...
-## lgl  (3): completion, forefeit, rf_umpire_id
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>(baseball &lt;- as_tibble(data))</code></pre>
+<pre class="r"><code>suppressPackageStartupMessages(library(tidyverse))
+suppressWarnings(data &lt;- read_csv(here::here(&quot;dataset-ignore&quot;, &quot;game_logs.csv&quot;), col_types = cols(forefeit = col_character(), completion = col_character())))
+(baseball &lt;- as_tibble(data))</code></pre>
 <pre><code>## # A tibble: 171,907 × 161
 ##       date numbe…¹ day_o…² v_name v_lea…³ v_gam…⁴ h_name h_lea…⁵ h_gam…⁶ v_score
 ##      &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;
@@ -80,7 +37,7 @@ data &lt;- read_csv(here::here(&quot;dataset&quot;, &quot;dataset-ignore&quot;, 
 ##  9  1.87e7       0 Mon     WS3    na            3 FW1    na            3       6
 ## 10  1.87e7       0 Tue     TRO    na            2 BS1    na            3      29
 ## # … with 171,897 more rows, 151 more variables: h_score &lt;dbl&gt;,
-## #   length_outs &lt;dbl&gt;, day_night &lt;chr&gt;, completion &lt;lgl&gt;, forefeit &lt;lgl&gt;,
+## #   length_outs &lt;dbl&gt;, day_night &lt;chr&gt;, completion &lt;chr&gt;, forefeit &lt;chr&gt;,
 ## #   protest &lt;chr&gt;, park_id &lt;chr&gt;, attendance &lt;dbl&gt;, length_minutes &lt;dbl&gt;,
 ## #   v_line_score &lt;chr&gt;, h_line_score &lt;chr&gt;, v_at_bats &lt;dbl&gt;, v_hits &lt;dbl&gt;,
 ## #   v_doubles &lt;dbl&gt;, v_triples &lt;dbl&gt;, v_homeruns &lt;dbl&gt;, v_rbi &lt;dbl&gt;,
@@ -104,7 +61,7 @@ data &lt;- read_csv(here::here(&quot;dataset&quot;, &quot;dataset-ignore&quot;, 
 ## 10 1871  05    16                0 Tue     TRO    na            2 BS1    na     
 ## # … with 171,897 more rows, 153 more variables: h_game_number &lt;dbl&gt;,
 ## #   v_score &lt;dbl&gt;, h_score &lt;dbl&gt;, length_outs &lt;dbl&gt;, day_night &lt;chr&gt;,
-## #   completion &lt;lgl&gt;, forefeit &lt;lgl&gt;, protest &lt;chr&gt;, park_id &lt;chr&gt;,
+## #   completion &lt;chr&gt;, forefeit &lt;chr&gt;, protest &lt;chr&gt;, park_id &lt;chr&gt;,
 ## #   attendance &lt;dbl&gt;, length_minutes &lt;dbl&gt;, v_line_score &lt;chr&gt;,
 ## #   h_line_score &lt;chr&gt;, v_at_bats &lt;dbl&gt;, v_hits &lt;dbl&gt;, v_doubles &lt;dbl&gt;,
 ## #   v_triples &lt;dbl&gt;, v_homeruns &lt;dbl&gt;, v_rbi &lt;dbl&gt;, v_sacrifice_hits &lt;dbl&gt;,
@@ -127,7 +84,7 @@ data &lt;- read_csv(here::here(&quot;dataset&quot;, &quot;dataset-ignore&quot;, 
 ## 10 2000  04    03                0 Mon     CLE    AL            1 BAL    AL     
 ## # … with 41,288 more rows, 153 more variables: h_game_number &lt;dbl&gt;,
 ## #   v_score &lt;dbl&gt;, h_score &lt;dbl&gt;, length_outs &lt;dbl&gt;, day_night &lt;chr&gt;,
-## #   completion &lt;lgl&gt;, forefeit &lt;lgl&gt;, protest &lt;chr&gt;, park_id &lt;chr&gt;,
+## #   completion &lt;chr&gt;, forefeit &lt;chr&gt;, protest &lt;chr&gt;, park_id &lt;chr&gt;,
 ## #   attendance &lt;dbl&gt;, length_minutes &lt;dbl&gt;, v_line_score &lt;chr&gt;,
 ## #   h_line_score &lt;chr&gt;, v_at_bats &lt;dbl&gt;, v_hits &lt;dbl&gt;, v_doubles &lt;dbl&gt;,
 ## #   v_triples &lt;dbl&gt;, v_homeruns &lt;dbl&gt;, v_rbi &lt;dbl&gt;, v_sacrifice_hits &lt;dbl&gt;,
@@ -149,7 +106,7 @@ data &lt;- read_csv(here::here(&quot;dataset&quot;, &quot;dataset-ignore&quot;, 
 ## 10 2000  04    03                0 Mon     CLE    AL            1 BAL    AL     
 ## # … with 41,288 more rows, 154 more variables: h_game_number &lt;dbl&gt;,
 ## #   v_score &lt;dbl&gt;, h_score &lt;dbl&gt;, length_outs &lt;dbl&gt;, day_night &lt;chr&gt;,
-## #   completion &lt;lgl&gt;, forefeit &lt;lgl&gt;, protest &lt;chr&gt;, park_id &lt;chr&gt;,
+## #   completion &lt;chr&gt;, forefeit &lt;chr&gt;, protest &lt;chr&gt;, park_id &lt;chr&gt;,
 ## #   attendance &lt;dbl&gt;, length_minutes &lt;dbl&gt;, v_line_score &lt;chr&gt;,
 ## #   h_line_score &lt;chr&gt;, v_at_bats &lt;dbl&gt;, v_hits &lt;dbl&gt;, v_doubles &lt;dbl&gt;,
 ## #   v_triples &lt;dbl&gt;, v_homeruns &lt;dbl&gt;, v_rbi &lt;dbl&gt;, v_sacrifice_hits &lt;dbl&gt;,
@@ -171,7 +128,7 @@ data &lt;- read_csv(here::here(&quot;dataset&quot;, &quot;dataset-ignore&quot;, 
 ## 10 2000  05    03                0 Wed     DET    AL           26 BOS    AL     
 ## # … with 1,367 more rows, 154 more variables: h_game_number &lt;dbl&gt;,
 ## #   v_score &lt;dbl&gt;, h_score &lt;dbl&gt;, length_outs &lt;dbl&gt;, day_night &lt;chr&gt;,
-## #   completion &lt;lgl&gt;, forefeit &lt;lgl&gt;, protest &lt;chr&gt;, park_id &lt;chr&gt;,
+## #   completion &lt;chr&gt;, forefeit &lt;chr&gt;, protest &lt;chr&gt;, park_id &lt;chr&gt;,
 ## #   attendance &lt;dbl&gt;, length_minutes &lt;dbl&gt;, v_line_score &lt;chr&gt;,
 ## #   h_line_score &lt;chr&gt;, v_at_bats &lt;dbl&gt;, v_hits &lt;dbl&gt;, v_doubles &lt;dbl&gt;,
 ## #   v_triples &lt;dbl&gt;, v_homeruns &lt;dbl&gt;, v_rbi &lt;dbl&gt;, v_sacrifice_hits &lt;dbl&gt;,
