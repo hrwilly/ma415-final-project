@@ -35,8 +35,10 @@ library(readxl)
 library(leaflet)
 library(dplyr)
 library(readr)
+library(googlesheets4)
 
 load(here::here("dataset", "baseball.RData"))
+<<<<<<< HEAD
 #stadiums <- read_excel("/Users/hannahholbert/Documents/stadiums.xlsx")
 
 # Until I can solve out how to get the data via web-scraping, I j loaded it from data
@@ -50,6 +52,13 @@ load(here::here("dataset", "baseball.RData"))
 
 #baseball_w_stadiums <- merge(baseball, stadiums, by.x=c("h_name"), 
  #                                                by.y =("homename")) 
+=======
+stadiums <- read_sheet("https://docs.google.com/spreadsheets/d/1p0R5qqR7XjoRG2mR5E1D_trlygHSqMOUdMgMpzq0gjU/htmlview")
+
+
+baseball_w_stadiums <- merge(baseball, stadiums, by.x=c("h_name"), 
+                                                 by.y =("Abbreviation")) 
+>>>>>>> 8b7538ac08d0ceac31f6331bb4bef1f30df39d5a
 
 #leaflet(baseball_w_stadiums) %>% 
 #      setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
