@@ -26,3 +26,37 @@ guide the user, providing clear ways to use the interactive and highlighting int
 if you can, be personal. Not all data will be conducive to this but if you allow a user to see information relevant to them specifically, it can help pull people in.
 
 Discuss your ideas and, if you’ve made progress, provide a link to a draft of the interactive. Note, I’m requiring all groups to use Shiny this semester. The directions on the Big Picture page were not properly updated.
+
+```{r, Hannah h}
+library(tidyverse)
+library(rvest)
+library(tibble)
+library(readxl)
+library(leaflet)
+library(dplyr)
+library(readr)
+
+load(here::here("dataset", "baseball.RData"))
+stadiums <- read_excel("/Users/hannahholbert/Documents/stadiums.xlsx")
+
+# Until I can solve out how to get the data via web-scraping, I j loaded it from data
+
+#src <- read_html("https://docs.google.com/spreadsheets/d/1p0R5qqR7XjoRG2mR5E1D_trlygHSqMOUdMgMpzq0gjU/htmlview")
+#(node <- src %>% html_node("table"))
+#(html_nodes(src, "div diiv table") %>% html_text() %>% cat() %>% as_tibble())
+#stad <- read_excel(here::here("dataset", "stadiums.xlsx"))
+
+
+
+baseball_w_stadiums <- merge(baseball, stadiums, by.x=c("h_name"), 
+                                                 by.y =("homename")) 
+
+leaflet(baseball_w_stadiums) %>% 
+      setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
+      addTiles() %>% 
+      addAwesomeMarkers(~long, ~lat, label = ~as.character(h_name)) #%>%
+      #addLegend(position = 'bottomleft', opacity = 1,title = 'Divisions')
+
+                       
+    
+```
