@@ -18,6 +18,7 @@ featuredImage: ~
 Our data set of MLB game statistics is >50mb and can be found in the `dataset-ignore` folder. After reading in the CSV file, we converted it into a tibble. 
 
 ```{r}
+suppressPackageStartupMessages(library("kableExtra"))
 suppressPackageStartupMessages(library(tidyverse))
 suppressWarnings(data <- read_csv(here::here("dataset-ignore", "game_logs.csv"), col_types = cols(forefeit = col_character(), completion = col_character())))
 (baseball <- as_tibble(data))
@@ -69,16 +70,36 @@ For our initial exploration of the data, we first looked at the average runs sco
 
 ``` {r}
 #Average runs scored by home teams
-baseball %>% group_by(h_name) %>% summarize(average_score = mean(h_score)) %>% arrange(desc(average_score))
+baseball %>% group_by(h_name) %>% 
+  summarize(average_score = round(mean(h_score), 2)) %>% 
+  arrange(desc(average_score)) %>% 
+  kbl(caption = "Average Runs Scored by Home Teams from 2000 to 2016", align = "c", col.names = c("Home Team Name", "Average Runs Scored")) %>% 
+  kable_classic_2("striped", html_font = "Georgia") %>% 
+  kable_styling(position = "center")
+  
 
 #Average runs scored by away/visiting teams
-baseball %>% group_by(v_name) %>% summarize(average_score = mean(v_score)) %>% arrange(desc(average_score))
+baseball %>% group_by(v_name) %>% 
+  summarize(average_score = round(mean(v_score), 2)) %>% 
+  arrange(desc(average_score)) %>% 
+  kbl(caption = "Average Runs Scored by Away Teams from 2000 to 2016", align = "c", col.names = c("Away Team Name", "Average Runs Scored")) %>% 
+  kable_classic_2("striped", html_font = "Georgia") %>% 
+  kable_styling(position = "center")
 
 #Proportion of games won by home team
-baseball %>% group_by(h_name) %>% summarize(win_prop = mean(score_diff>0)) %>% arrange(desc(win_prop))
+baseball %>% group_by(h_name) %>% summarize(win_prop = round(mean(score_diff>0), 4)) %>% 
+  arrange(desc(win_prop)) %>% 
+  kbl(caption = "Proportion of Games Won by Home Team from 2000 to 2016", align = "c", col.names = c("Home Team Name", "Proportion of Games Won")) %>% 
+  kable_classic_2("striped", html_font = "Georgia") %>% 
+  kable_styling(position = "center")
 
 #Proportion of games won by away/visiting team
-baseball %>% group_by(v_name) %>% summarize(win_prop = mean(score_diff>0)) %>% arrange(desc(win_prop))
+baseball %>% group_by(v_name) %>% 
+  summarize(win_prop = round(mean(score_diff>0), 4)) %>% 
+  arrange(desc(win_prop)) %>% 
+  kbl(caption = "Proportion of Games Won by Away Team from 2000 to 2016", align = "c", col.names = c("Away Team Name", "Proportion of Games Won")) %>% 
+  kable_classic_2("striped", html_font = "Georgia") %>% 
+  kable_styling(position = "center")
 ```
 
 We can also look at `score_diff` for the Boston Red Sox on different days of the week. From the boxplot, it does not seem like the day of the week has an effect on whether the Red Sox win or lose. 
