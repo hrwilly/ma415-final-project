@@ -26,3 +26,45 @@ For this weeks post, describe your thoughts and progress on the interactive for 
 <p>guide the user, providing clear ways to use the interactive and highlighting interesting findings to start a user’s exploration,</p>
 <p>if you can, be personal. Not all data will be conducive to this but if you allow a user to see information relevant to them specifically, it can help pull people in.</p>
 <p>Discuss your ideas and, if you’ve made progress, provide a link to a draft of the interactive. Note, I’m requiring all groups to use Shiny this semester. The directions on the Big Picture page were not properly updated.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.3.6      ✔ purrr   0.3.4 
+## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
+## ✔ tidyr   1.2.0      ✔ stringr 1.4.1 
+## ✔ readr   2.1.2      ✔ forcats 0.5.2 
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(rvest)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;rvest&#39;
+## 
+## The following object is masked from &#39;package:readr&#39;:
+## 
+##     guess_encoding</code></pre>
+<pre class="r"><code>library(tibble)
+library(readxl)
+library(leaflet)
+library(dplyr)
+library(readr)
+
+load(here::here(&quot;dataset&quot;, &quot;baseball.RData&quot;))
+#stadiums &lt;- read_excel(&quot;/Users/hannahholbert/Documents/stadiums.xlsx&quot;)
+
+# Until I can solve out how to get the data via web-scraping, I j loaded it from data
+
+#src &lt;- read_html(&quot;https://docs.google.com/spreadsheets/d/1p0R5qqR7XjoRG2mR5E1D_trlygHSqMOUdMgMpzq0gjU/htmlview&quot;)
+#(node &lt;- src %&gt;% html_node(&quot;table&quot;))
+#(table &lt;- node  %&gt;% html_text() %&gt;% cat() %&gt;% as_tibble())
+#stad &lt;- read_excel(here::here(&quot;dataset&quot;, &quot;stadiums.xlsx&quot;))
+
+
+
+#baseball_w_stadiums &lt;- merge(baseball, stadiums, by.x=c(&quot;h_name&quot;), 
+ #                                                by.y =(&quot;homename&quot;)) 
+
+#leaflet(baseball_w_stadiums) %&gt;% 
+#      setView(lng = -98.5795, lat = 39.8283, zoom = 5) %&gt;% 
+ #     addTiles() %&gt;% 
+#      addAwesomeMarkers(~long, ~lat, label = ~as.character(h_name)) #%&gt;%
+      #addLegend(position = &#39;bottomleft&#39;, opacity = 1,title = &#39;Divisions&#39;)</code></pre>

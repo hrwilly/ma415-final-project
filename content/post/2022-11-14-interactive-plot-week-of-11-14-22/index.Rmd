@@ -37,24 +37,24 @@ library(dplyr)
 library(readr)
 
 load(here::here("dataset", "baseball.RData"))
-stadiums <- read_excel("/Users/hannahholbert/Documents/stadiums.xlsx")
+#stadiums <- read_excel("/Users/hannahholbert/Documents/stadiums.xlsx")
 
 # Until I can solve out how to get the data via web-scraping, I j loaded it from data
 
 #src <- read_html("https://docs.google.com/spreadsheets/d/1p0R5qqR7XjoRG2mR5E1D_trlygHSqMOUdMgMpzq0gjU/htmlview")
 #(node <- src %>% html_node("table"))
-#(html_nodes(src, "div diiv table") %>% html_text() %>% cat() %>% as_tibble())
+#(table <- node  %>% html_text() %>% cat() %>% as_tibble())
 #stad <- read_excel(here::here("dataset", "stadiums.xlsx"))
 
 
 
-baseball_w_stadiums <- merge(baseball, stadiums, by.x=c("h_name"), 
-                                                 by.y =("homename")) 
+#baseball_w_stadiums <- merge(baseball, stadiums, by.x=c("h_name"), 
+ #                                                by.y =("homename")) 
 
-leaflet(baseball_w_stadiums) %>% 
-      setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
-      addTiles() %>% 
-      addAwesomeMarkers(~long, ~lat, label = ~as.character(h_name)) #%>%
+#leaflet(baseball_w_stadiums) %>% 
+#      setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
+ #     addTiles() %>% 
+#      addAwesomeMarkers(~long, ~lat, label = ~as.character(h_name)) #%>%
       #addLegend(position = 'bottomleft', opacity = 1,title = 'Divisions')
 
                        
