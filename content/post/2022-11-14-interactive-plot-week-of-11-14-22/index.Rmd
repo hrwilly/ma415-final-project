@@ -35,22 +35,14 @@ library(readxl)
 library(leaflet)
 library(dplyr)
 library(readr)
+library(googlesheets4)
 
 load(here::here("dataset", "baseball.RData"))
-#stadiums <- read_excel("/Users/hannahholbert/Documents/stadiums.xlsx")
-
-# Until I can solve out how to get the data via web-scraping, I j loaded it from data
-
-#src <- read_html("https://docs.google.com/spreadsheets/d/1p0R5qqR7XjoRG2mR5E1D_trlygHSqMOUdMgMpzq0gjU/htmlview")
-#(node <- src %>% html_node("table"))
-#(html_nodes(src, "div diiv table") %>% html_text() %>% cat() %>% as_tibble())
-
-stadiums <- read_csv("dataset/stadiums.csv")
-
+stadiums <- read_sheet("https://docs.google.com/spreadsheets/d/1p0R5qqR7XjoRG2mR5E1D_trlygHSqMOUdMgMpzq0gjU/htmlview")
 
 
 baseball_w_stadiums <- merge(baseball, stadiums, by.x=c("h_name"), 
-                                                 by.y =("homename")) 
+                                                 by.y =("Abbreviation")) 
 
 leaflet(baseball_w_stadiums) %>% 
       setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
