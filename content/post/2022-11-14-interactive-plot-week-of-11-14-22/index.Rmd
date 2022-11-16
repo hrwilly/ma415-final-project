@@ -38,17 +38,21 @@ library(readr)
 library(googlesheets4)
 
 load(here::here("dataset", "baseball.RData"))
+
+# someone pls save this data so we don't ahve to load it everytime :)
 stadiums <- read_sheet("https://docs.google.com/spreadsheets/d/1p0R5qqR7XjoRG2mR5E1D_trlygHSqMOUdMgMpzq0gjU/htmlview")
 
+stadiums <- stadiums %>% filter(Sport == "MLB")
 
 baseball_w_stadiums <- merge(baseball, stadiums, by.x=c("h_name"), 
                                                  by.y =("Abbreviation")) 
 
-leaflet(baseball_w_stadiums) %>% 
+leaflet(stadiums) %>% 
       setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
       addTiles() %>% 
-      addAwesomeMarkers(~long, ~lat, label = ~as.character(h_name)) #%>%
-      #addLegend(position = 'bottomleft', opacity = 1,title = 'Divisions')
+      addAwesomeMarkers(~Longitude, ~Latitude, label = ~as.character(Abbreviation) 
+                        
+       #%>%addLegend(position = 'bottomleft', opacity = 1,title = 'Divisions')
 
                        
     
