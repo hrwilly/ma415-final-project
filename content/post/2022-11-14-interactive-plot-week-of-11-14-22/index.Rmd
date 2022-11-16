@@ -38,49 +38,23 @@ library(readr)
 library(googlesheets4)
 
 load(here::here("dataset", "baseball.RData"))
-<<<<<<< HEAD
-
-# someone pls save this data so we don't ahve to load it everytime :)
-=======
-<<<<<<< HEAD
-#stadiums <- read_excel("/Users/hannahholbert/Documents/stadiums.xlsx")
-
-# Until I can solve out how to get the data via web-scraping, I j loaded it from data
-
-#src <- read_html("https://docs.google.com/spreadsheets/d/1p0R5qqR7XjoRG2mR5E1D_trlygHSqMOUdMgMpzq0gjU/htmlview")
-#(node <- src %>% html_node("table"))
-#(table <- node  %>% html_text() %>% cat() %>% as_tibble())
-#stad <- read_excel(here::here("dataset", "stadiums.xlsx"))
 
 
+# someone pls save this data so we don't have to load it everytime :)
 
-#baseball_w_stadiums <- merge(baseball, stadiums, by.x=c("h_name"), 
- #                                                by.y =("homename")) 
-=======
->>>>>>> 346ac7febb27096ea4731a62fa78368498e5d959
 stadiums <- read_sheet("https://docs.google.com/spreadsheets/d/1p0R5qqR7XjoRG2mR5E1D_trlygHSqMOUdMgMpzq0gjU/htmlview")
 
 stadiums <- stadiums %>% filter(Sport == "MLB")
 
 baseball_w_stadiums <- merge(baseball, stadiums, by.x=c("h_name"), 
                                                  by.y =("Abbreviation")) 
->>>>>>> 8b7538ac08d0ceac31f6331bb4bef1f30df39d5a
 
-<<<<<<< HEAD
 leaflet(stadiums) %>% 
       setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
       addTiles() %>% 
-      addAwesomeMarkers(~Longitude, ~Latitude, label = ~as.character(Abbreviation) 
+      addAwesomeMarkers(~Longitude, ~Latitude, label = ~as.character(Abbreviation)) 
                         
        #%>%addLegend(position = 'bottomleft', opacity = 1,title = 'Divisions')
-=======
-#leaflet(baseball_w_stadiums) %>% 
-#      setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
- #     addTiles() %>% 
-#      addAwesomeMarkers(~long, ~lat, label = ~as.character(h_name)) #%>%
-      #addLegend(position = 'bottomleft', opacity = 1,title = 'Divisions')
->>>>>>> 346ac7febb27096ea4731a62fa78368498e5d959
 
-                       
     
 ```
