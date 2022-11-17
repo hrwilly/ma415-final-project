@@ -116,7 +116,7 @@ df <- tibble(
 )
 
 df %>% mutate(
-  Link = glue::glue("[https://data.world/dataquest/mlb-game-logs/workspace/file?filename=game_logs.csv]({Link})"),
+  Link = glue::glue("[Website]({Link})"),
   Link = map(Link, gt::md)
 ) %>% 
   gt() %>% tab_header(title = "DATASETS")
