@@ -39,12 +39,11 @@ c
 
 load(here::here("dataset", "baseball.RData"))
 
-<<<<<<< HEAD
-=======
+
 
 # someone pls save this data so we don't have to load it everytime :)
 
->>>>>>> 98a33d83ddfceca70bbd0cebf40b725b663b87ca
+
 stadiums <- read_sheet("https://docs.google.com/spreadsheets/d/1p0R5qqR7XjoRG2mR5E1D_trlygHSqMOUdMgMpzq0gjU/htmlview")
 
 stadiums <- stadiums %>% filter(Sport == "MLB")
@@ -52,21 +51,21 @@ stadiums <- stadiums %>% filter(Sport == "MLB")
 baseball_w_stadiums <- merge(baseball, stadiums, by.x=c("h_name"), 
                                                  by.y =("Abbreviation")) 
 
-<<<<<<< HEAD
+
 
 leaflet(baseball_w_stadiums) %>% 
       setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
       addTiles() %>% 
       addAwesomeMarkers(~Longitude, ~Latitude, label = ~as.character(h_name)) #%>%
       #addLegend(position = 'bottomleft', opacity = 1,title = 'Divisions')
-=======
+
 leaflet(stadiums) %>% 
       setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
       addTiles() %>% 
       addAwesomeMarkers(~Longitude, ~Latitude, label = ~as.character(Abbreviation)) 
                         
        #%>%addLegend(position = 'bottomleft', opacity = 1,title = 'Divisions')
->>>>>>> 98a33d83ddfceca70bbd0cebf40b725b663b87ca
+
 
     
 ```
