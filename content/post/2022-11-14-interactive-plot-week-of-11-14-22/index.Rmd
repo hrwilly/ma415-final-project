@@ -36,11 +36,10 @@ library(leaflet)
 library(dplyr)
 library(readr)
 library(googlesheets4)
-<<<<<<< HEAD
+
 
 load(here::here("dataset", "baseball.RData"))
-=======
->>>>>>> 44be3bb6c20cf7ce5a12e0478c66085b451e2bb9
+
 
 
 load(here::here("dataset", "baseball.RData"))
@@ -71,17 +70,17 @@ stadiums$Abbreviation[stadiums$Abbreviation == 'STL'] <- 'SLN'
 stadiums$Abbreviation[stadiums$Abbreviation == 'TBR'] <- 'TBA'
 
 
-<<<<<<< HEAD
+
 baseball_w_stadiums <- merge(baseball, stadiums, by.x=c("h_name"), 
                                                  by.y =("Abbreviation")) 
-=======
+
 
 #leaflet(baseball_w_stadiums) %>% 
   #    setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
   #    addTiles() %>% 
   #    addAwesomeMarkers(~Longitude, ~Latitude, label = ~as.character(h_name)) #%>%
       #addLegend(position = 'bottomleft', opacity = 1,title = 'Divisions')
->>>>>>> 44be3bb6c20cf7ce5a12e0478c66085b451e2bb9
+
 
 mlbDivision <- function(x){
     
