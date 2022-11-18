@@ -37,7 +37,7 @@ library(dplyr)
 library(readr)
 
 load(here::here("dataset", "baseball.RData"))
-stadiums <- read_excel("/Users/hannahholbert/Documents/stadiums.xlsx")
+stadiums <- read_excel("dataset/stadiums.xlsx")
 
 # Until I can solve out how to get the data via web-scraping, I j loaded it from data
 
