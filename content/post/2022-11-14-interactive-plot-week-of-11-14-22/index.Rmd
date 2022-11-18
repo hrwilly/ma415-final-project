@@ -40,9 +40,17 @@ library(googlesheets4)
 
 load(here::here("dataset", "baseball.RData"))
 
+# Until I can solve out how to get the data via web-scraping, I j loaded it from data
+
+#src <- read_html("https://docs.google.com/spreadsheets/d/1p0R5qqR7XjoRG2mR5E1D_trlygHSqMOUdMgMpzq0gjU/htmlview")
+#(node <- src %>% html_node("table"))
+#(html_nodes(src, "div diiv table") %>% html_text() %>% cat() %>% as_tibble())
+#stad <- read_excel(here::here("dataset", "stadiums.xlsx"))
+
 stadiums <- read_sheet("https://docs.google.com/spreadsheets/d/1p0R5qqR7XjoRG2mR5E1D_trlygHSqMOUdMgMpzq0gjU/htmlview")
 
-stadiums <- stadiums %>% filter(Sport == "MLB")
+MLBstadiums <- stadiums %>% filter(Sport == "MLB")
+save(MLBstadiums, file = "dataset/MLBstadiums.Rdata")
 
 baseball_w_stadiums <- merge(baseball, stadiums, by.x=c("h_name"), 
                                                  by.y =("Abbreviation")) 
@@ -72,13 +80,15 @@ mlbDivision <- function(x){
     }
     
     return(y)
+}
+  
+makeColorsandNames <- data.frame(divisions = c('AL East','AL Central','AL West','NL East','NL Central','NL West'))
 
 leaflet(stadiums) %>% 
       setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
       addTiles() %>% 
-      addAwesomeMarkers(~Longitude, ~Latitude, label = ~as.character(Abbreviation)) 
-                        
-       #%>%addLegend(position = 'bottomleft', opacity = 1,title = 'Divisions')
+      addAwesomeMarkers(~Longitude, ~Latitude, label = ~as.character(Abbreviation)) %>% 
+      addLegend(position = 'bottomleft',labels = makeColorsandNames[,1],opacity = 1,title = 'Divisions')
 
 
     
