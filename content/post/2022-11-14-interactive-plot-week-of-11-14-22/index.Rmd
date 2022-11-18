@@ -35,7 +35,7 @@ library(readxl)
 library(leaflet)
 library(dplyr)
 library(readr)
-c
+library(googlesheets4)
 
 load(here::here("dataset", "baseball.RData"))
 
@@ -48,16 +48,22 @@ stadiums <- read_sheet("https://docs.google.com/spreadsheets/d/1p0R5qqR7XjoRG2mR
 
 stadiums <- stadiums %>% filter(Sport == "MLB")
 
+stadiums$Abbreviation[stadiums$Abbreviation == 'CHC'] <- 'CHN'
+stadiums$Abbreviation[stadiums$Abbreviation == 'CHW'] <- 'CHA'
+stadiums$Abbreviation[stadiums$Abbreviation == 'KCR'] <- 'KCN'
+stadiums$Abbreviation[stadiums$Abbreviation == 'LAA'] <- 'ANA'
+stadiums$Abbreviation[stadiums$Abbreviation == 'LAD'] <- 'LAN'
+stadiums$Abbreviation[stadiums$Abbreviation == 'MIA'] <- 'FLO'
+stadiums$Abbreviation[stadiums$Abbreviation == 'NYM'] <- 'NYN'
+stadiums$Abbreviation[stadiums$Abbreviation == 'NYY'] <- 'NYA'
+stadiums$Abbreviation[stadiums$Abbreviation == 'SDP'] <- 'SDN'
+stadiums$Abbreviation[stadiums$Abbreviation == 'SFG'] <- 'SFN'
+stadiums$Abbreviation[stadiums$Abbreviation == 'STL'] <- 'SLN'
+stadiums$Abbreviation[stadiums$Abbreviation == 'TBR'] <- 'TBA'
+
+
 baseball_w_stadiums <- merge(baseball, stadiums, by.x=c("h_name"), 
                                                  by.y =("Abbreviation")) 
-
-
-
-leaflet(baseball_w_stadiums) %>% 
-      setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
-      addTiles() %>% 
-      addAwesomeMarkers(~Longitude, ~Latitude, label = ~as.character(h_name)) #%>%
-      #addLegend(position = 'bottomleft', opacity = 1,title = 'Divisions')
 
 leaflet(stadiums) %>% 
       setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
