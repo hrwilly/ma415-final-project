@@ -8,3 +8,8 @@ loan_data_clean <- loan_data
 write_csv(loan_data_clean, file = here::here("dataset", "loan_refusal_clean.csv"))
 
 save(loan_data_clean, file = here::here("dataset/loan_refusal.RData"))
+
+save(baseball, file = "dataset/baseball.RData")
+
+save(MLBstadiums, file = "dataset/MLBstadiums.RData")
+     
