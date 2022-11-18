@@ -36,27 +36,16 @@ library(leaflet)
 library(dplyr)
 library(readr)
 library(googlesheets4)
-<<<<<<< HEAD
 
 load(here::here("dataset", "baseball.RData"))
-=======
->>>>>>> 44be3bb6c20cf7ce5a12e0478c66085b451e2bb9
-
-
-load(here::here("dataset", "baseball.RData"))
-
-# Until I can solve out how to get the data via web-scraping, I j loaded it from data
-
-#src <- read_html("https://docs.google.com/spreadsheets/d/1p0R5qqR7XjoRG2mR5E1D_trlygHSqMOUdMgMpzq0gjU/htmlview")
-#(node <- src %>% html_node("table"))
-#(html_nodes(src, "div diiv table") %>% html_text() %>% cat() %>% as_tibble())
-#stad <- read_excel(here::here("dataset", "stadiums.xlsx"))
 
 stadiums <- read_sheet("https://docs.google.com/spreadsheets/d/1p0R5qqR7XjoRG2mR5E1D_trlygHSqMOUdMgMpzq0gjU/htmlview")
 
-MLBstadiums <- stadiums %>% filter(Sport == "MLB")
-save(MLBstadiums, file = "dataset/MLBstadiums.Rdata")
+MLBstadiums <- stadiums %>% filter(Sport == "MLB") #%>% 
+ # mutate(Divisions = sapply(X = stadiums$'Team(s)', ))
 
+
+save(MLBstadiums, file = "dataset/MLBstadiums.Rdata")
 stadiums$Abbreviation[stadiums$Abbreviation == 'CHC'] <- 'CHN'
 stadiums$Abbreviation[stadiums$Abbreviation == 'CHW'] <- 'CHA'
 stadiums$Abbreviation[stadiums$Abbreviation == 'KCR'] <- 'KCN'
@@ -70,18 +59,6 @@ stadiums$Abbreviation[stadiums$Abbreviation == 'SFG'] <- 'SFN'
 stadiums$Abbreviation[stadiums$Abbreviation == 'STL'] <- 'SLN'
 stadiums$Abbreviation[stadiums$Abbreviation == 'TBR'] <- 'TBA'
 
-
-<<<<<<< HEAD
-baseball_w_stadiums <- merge(baseball, stadiums, by.x=c("h_name"), 
-                                                 by.y =("Abbreviation")) 
-=======
-
-#leaflet(baseball_w_stadiums) %>% 
-  #    setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
-  #    addTiles() %>% 
-  #    addAwesomeMarkers(~Longitude, ~Latitude, label = ~as.character(h_name)) #%>%
-      #addLegend(position = 'bottomleft', opacity = 1,title = 'Divisions')
->>>>>>> 44be3bb6c20cf7ce5a12e0478c66085b451e2bb9
 
 mlbDivision <- function(x){
     
