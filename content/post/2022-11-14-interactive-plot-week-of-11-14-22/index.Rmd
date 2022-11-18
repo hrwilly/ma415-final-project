@@ -35,9 +35,10 @@ library(readxl)
 library(leaflet)
 library(dplyr)
 library(readr)
+library(googlesheets4)
+
 
 load(here::here("dataset", "baseball.RData"))
-stadiums <- read_excel("dataset/stadiums.xlsx")
 
 # Until I can solve out how to get the data via web-scraping, I j loaded it from data
 
@@ -46,17 +47,47 @@ stadiums <- read_excel("dataset/stadiums.xlsx")
 #(html_nodes(src, "div diiv table") %>% html_text() %>% cat() %>% as_tibble())
 #stad <- read_excel(here::here("dataset", "stadiums.xlsx"))
 
+stadiums <- read_sheet("https://docs.google.com/spreadsheets/d/1p0R5qqR7XjoRG2mR5E1D_trlygHSqMOUdMgMpzq0gjU/htmlview")
 
+stadiums <- stadiums %>% filter(Sport == "MLB")
 
 baseball_w_stadiums <- merge(baseball, stadiums, by.x=c("h_name"), 
-                                                 by.y =("homename")) 
+                                                 by.y =("Abbreviation")) 
 
-leaflet(baseball_w_stadiums) %>% 
-      setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
-      addTiles() %>% 
-      addAwesomeMarkers(~long, ~lat, label = ~as.character(h_name)) #%>%
+
+
+#leaflet(baseball_w_stadiums) %>% 
+  #    setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
+  #    addTiles() %>% 
+  #    addAwesomeMarkers(~Longitude, ~Latitude, label = ~as.character(h_name)) #%>%
       #addLegend(position = 'bottomleft', opacity = 1,title = 'Divisions')
 
-                       
+mlbDivision <- function(x){
+    
+    if(x %in% c('Baltimore Orioles','Boston Red Sox','New York Yankees','Tampa Bay Rays','Toronto Blue Jays')){
+        y <- 'AL East'
+    } else if(x %in% c('Minnesota Twins','Cleveland Indians','Chicago White Sox','Detroit Tigers','Kansas City Royals')){
+        y <- 'AL Central'
+    } else if(x %in% c('Los Angeles Angels','Houston Astros','Seattle Mariners','Oakland Athletics','Texas Rangers')){
+        y <- 'AL West'
+    } else if(x %in% c('New York Mets','Philadelphia Phillies','Atlanta Braves','Washington Nationals','Miami Marlins')){
+        y <- 'NL East'
+    } else if(x %in% c('Pittsburgh Pirates','St. Louis Cardinals','Atlanta Braves','Chicago Cubs','Milwaukee Brewers','Cincinnati Reds')){
+        y <- 'NL Central'
+    } else {
+        y <- 'NL West'
+    }
+    
+    return(y)
+}
+
+leaflet(stadiums) %>% 
+      setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
+      addTiles() %>% 
+      addAwesomeMarkers(~Longitude, ~Latitude, label = ~as.character(Abbreviation)) 
+                        
+       #%>%addLegend(position = 'bottomleft', opacity = 1,title = 'Divisions')
+
+
     
 ```
