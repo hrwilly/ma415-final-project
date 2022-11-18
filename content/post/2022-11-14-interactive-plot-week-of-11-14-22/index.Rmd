@@ -42,7 +42,8 @@ load(here::here("dataset", "baseball.RData"))
 
 stadiums <- read_sheet("https://docs.google.com/spreadsheets/d/1p0R5qqR7XjoRG2mR5E1D_trlygHSqMOUdMgMpzq0gjU/htmlview")
 
-stadiums <- stadiums %>% filter(Sport == "MLB")
+MLBstadiums <- stadiums %>% filter(Sport == "MLB")
+save(MLBstadiums, file = "dataset/MLBstadiums.Rdata")
 
 baseball_w_stadiums <- merge(baseball, stadiums, by.x=c("h_name"), 
                                                  by.y =("Abbreviation")) 
@@ -72,13 +73,14 @@ mlbDivision <- function(x){
     }
     
     return(y)
+  
+makeColorsandNames <- data.frame(divisions = c('AL East','AL Central','AL West','NL East','NL Central','NL West'))
 
 leaflet(stadiums) %>% 
       setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
       addTiles() %>% 
-      addAwesomeMarkers(~Longitude, ~Latitude, label = ~as.character(Abbreviation)) 
-                        
-       #%>%addLegend(position = 'bottomleft', opacity = 1,title = 'Divisions')
+      addAwesomeMarkers(~Longitude, ~Latitude, label = ~as.character(Abbreviation)) %>% 
+      addLegend(position = 'bottomleft',labels = makeColorsandNames[,1],opacity = 1,title = 'Divisions')
 
 
     
