@@ -30,37 +30,10 @@ This folder is reserved by <code>hugo</code>.
 If you create a folder named <code>data</code> this will cause problems.</p>
 <p>For larger datasets, you’ll need to create a new folder in the project root directory named <code>dataset-ignore</code>. This will be ignored by git (based off the <code>.gitignore</code> file in the project root directory) which will help you avoid issues with Github’s size limits. Your team will have to manually make sure the data files in <code>dataset-ignore</code> are synced across team members.</p>
 <p>Your <a href="/load_and_clean_data.R">load_and_clean_data.R</a> file is how you will load and clean your data. Here is a an example of a very simple one.</p>
-<pre class="r"><code>source(
-  here::here(&quot;static&quot;, &quot;load_and_clean_data.R&quot;),
-  echo = TRUE # Use echo=FALSE or omit it to avoid code output  
-)</code></pre>
-<pre><code>## 
-## &gt; library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-## ✔ ggplot2 3.3.6      ✔ purrr   0.3.4 
-## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-## ✔ tidyr   1.2.0      ✔ stringr 1.4.1 
-## ✔ readr   2.1.2      ✔ forcats 0.5.2 
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<pre><code>## 
-## &gt; loan_data &lt;- read_csv(here::here(&quot;dataset&quot;, &quot;loan_refusal.csv&quot;))</code></pre>
-<pre><code>## Rows: 20 Columns: 5
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (1): bank
-## dbl (4): min, white, himin, hiwhite
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre><code>## 
-## &gt; loan_data_clean &lt;- loan_data
-## 
-## &gt; write_csv(loan_data_clean, file = here::here(&quot;dataset&quot;, 
-## +     &quot;loan_refusal_clean.csv&quot;))
-## 
-## &gt; save(loan_data_clean, file = here::here(&quot;dataset/loan_refusal.RData&quot;))</code></pre>
+<pre class="r"><code>#source(
+ # here::here(&quot;static&quot;, &quot;load_and_clean_data.R&quot;),
+  #echo = TRUE # Use echo=FALSE or omit it to avoid code output  
+#)</code></pre>
 <p>Note how I use the <code>here::here</code> function from the <a href="https://here.r-lib.org/articles/here.html"><code>here</code> package</a> to avoid path problems.
 This function is used to specify directories within the project’s root directory.
 You should never use absolute paths (eg. <code>/Users/danielsussman/path/to/project/</code> or <code>C:\\MA415\\Final_Project\\</code>) and using <code>here</code> ensures that it doesn’t matter what the current working directory is as long as you have this RStudio Project open.</p>
@@ -114,12 +87,20 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
 <div id="datasets-used" class="section level2">
 <h2>Datasets Used</h2>
 <p>The datasets analyzed in this project can be found at the following links listed below.</p>
-<div id="qxsotshvol" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.3.6      ✔ purrr   0.3.4 
+## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
+## ✔ tidyr   1.2.0      ✔ stringr 1.4.1 
+## ✔ readr   2.1.2      ✔ forcats 0.5.2 
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<div id="rvkkqdxrog" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#qxsotshvol .gt_table {
+#rvkkqdxrog .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -144,7 +125,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   border-left-color: #D3D3D3;
 }
 
-#qxsotshvol .gt_heading {
+#rvkkqdxrog .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -156,12 +137,12 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   border-right-color: #D3D3D3;
 }
 
-#qxsotshvol .gt_caption {
+#rvkkqdxrog .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#qxsotshvol .gt_title {
+#rvkkqdxrog .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -173,7 +154,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   border-bottom-width: 0;
 }
 
-#qxsotshvol .gt_subtitle {
+#rvkkqdxrog .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -185,13 +166,13 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   border-top-width: 0;
 }
 
-#qxsotshvol .gt_bottom_border {
+#rvkkqdxrog .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qxsotshvol .gt_col_headings {
+#rvkkqdxrog .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -206,7 +187,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   border-right-color: #D3D3D3;
 }
 
-#qxsotshvol .gt_col_heading {
+#rvkkqdxrog .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -226,7 +207,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   overflow-x: hidden;
 }
 
-#qxsotshvol .gt_column_spanner_outer {
+#rvkkqdxrog .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -238,15 +219,15 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   padding-right: 4px;
 }
 
-#qxsotshvol .gt_column_spanner_outer:first-child {
+#rvkkqdxrog .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qxsotshvol .gt_column_spanner_outer:last-child {
+#rvkkqdxrog .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qxsotshvol .gt_column_spanner {
+#rvkkqdxrog .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -258,7 +239,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   width: 100%;
 }
 
-#qxsotshvol .gt_group_heading {
+#rvkkqdxrog .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -284,7 +265,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   text-align: left;
 }
 
-#qxsotshvol .gt_empty_group_heading {
+#rvkkqdxrog .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -299,15 +280,15 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   vertical-align: middle;
 }
 
-#qxsotshvol .gt_from_md > :first-child {
+#rvkkqdxrog .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qxsotshvol .gt_from_md > :last-child {
+#rvkkqdxrog .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qxsotshvol .gt_row {
+#rvkkqdxrog .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -326,7 +307,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   overflow-x: hidden;
 }
 
-#qxsotshvol .gt_stub {
+#rvkkqdxrog .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -339,7 +320,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   padding-right: 5px;
 }
 
-#qxsotshvol .gt_stub_row_group {
+#rvkkqdxrog .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -353,11 +334,11 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   vertical-align: top;
 }
 
-#qxsotshvol .gt_row_group_first td {
+#rvkkqdxrog .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#qxsotshvol .gt_summary_row {
+#rvkkqdxrog .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -367,16 +348,16 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   padding-right: 5px;
 }
 
-#qxsotshvol .gt_first_summary_row {
+#rvkkqdxrog .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#qxsotshvol .gt_first_summary_row.thick {
+#rvkkqdxrog .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#qxsotshvol .gt_last_summary_row {
+#rvkkqdxrog .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -386,7 +367,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   border-bottom-color: #D3D3D3;
 }
 
-#qxsotshvol .gt_grand_summary_row {
+#rvkkqdxrog .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -396,7 +377,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   padding-right: 5px;
 }
 
-#qxsotshvol .gt_first_grand_summary_row {
+#rvkkqdxrog .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -406,11 +387,11 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   border-top-color: #D3D3D3;
 }
 
-#qxsotshvol .gt_striped {
+#rvkkqdxrog .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qxsotshvol .gt_table_body {
+#rvkkqdxrog .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -419,7 +400,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   border-bottom-color: #D3D3D3;
 }
 
-#qxsotshvol .gt_footnotes {
+#rvkkqdxrog .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -433,7 +414,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   border-right-color: #D3D3D3;
 }
 
-#qxsotshvol .gt_footnote {
+#rvkkqdxrog .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -442,7 +423,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   padding-right: 5px;
 }
 
-#qxsotshvol .gt_sourcenotes {
+#rvkkqdxrog .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -456,7 +437,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   border-right-color: #D3D3D3;
 }
 
-#qxsotshvol .gt_sourcenote {
+#rvkkqdxrog .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -464,64 +445,64 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   padding-right: 5px;
 }
 
-#qxsotshvol .gt_left {
+#rvkkqdxrog .gt_left {
   text-align: left;
 }
 
-#qxsotshvol .gt_center {
+#rvkkqdxrog .gt_center {
   text-align: center;
 }
 
-#qxsotshvol .gt_right {
+#rvkkqdxrog .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qxsotshvol .gt_font_normal {
+#rvkkqdxrog .gt_font_normal {
   font-weight: normal;
 }
 
-#qxsotshvol .gt_font_bold {
+#rvkkqdxrog .gt_font_bold {
   font-weight: bold;
 }
 
-#qxsotshvol .gt_font_italic {
+#rvkkqdxrog .gt_font_italic {
   font-style: italic;
 }
 
-#qxsotshvol .gt_super {
+#rvkkqdxrog .gt_super {
   font-size: 65%;
 }
 
-#qxsotshvol .gt_footnote_marks {
+#rvkkqdxrog .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#qxsotshvol .gt_asterisk {
+#rvkkqdxrog .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#qxsotshvol .gt_indent_1 {
+#rvkkqdxrog .gt_indent_1 {
   text-indent: 5px;
 }
 
-#qxsotshvol .gt_indent_2 {
+#rvkkqdxrog .gt_indent_2 {
   text-indent: 10px;
 }
 
-#qxsotshvol .gt_indent_3 {
+#rvkkqdxrog .gt_indent_3 {
   text-indent: 15px;
 }
 
-#qxsotshvol .gt_indent_4 {
+#rvkkqdxrog .gt_indent_4 {
   text-indent: 20px;
 }
 
-#qxsotshvol .gt_indent_5 {
+#rvkkqdxrog .gt_indent_5 {
   text-indent: 25px;
 }
 </style>

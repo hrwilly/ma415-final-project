@@ -42,10 +42,10 @@ For larger datasets, you'll need to create a new folder in the project root dire
 Your [load_and_clean_data.R](/load_and_clean_data.R) file is how you will load and clean your data. Here is a an example of a very simple one.
 
 ```{r}
-source(
-  here::here("static", "load_and_clean_data.R"),
-  echo = TRUE # Use echo=FALSE or omit it to avoid code output  
-)
+#source(
+ # here::here("static", "load_and_clean_data.R"),
+  #echo = TRUE # Use echo=FALSE or omit it to avoid code output  
+#)
 ```
 
 Note how I use the `here::here` function from the [`here` package](https://here.r-lib.org/articles/here.html) to avoid path problems.
@@ -103,6 +103,7 @@ you will
 The datasets analyzed in this project can be found at the following links listed below.
 
 ```{r dataset links, echo=FALSE}
+library(tidyverse)
 library(gt)
 df <- tibble(
   Dataset = c("Baseball Game Logs from 1871-2016", 

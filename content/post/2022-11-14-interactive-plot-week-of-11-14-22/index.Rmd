@@ -42,7 +42,7 @@ load(here::here("dataset", "baseball.RData"))
 
 stadiums <- read_sheet("https://docs.google.com/spreadsheets/d/1p0R5qqR7XjoRG2mR5E1D_trlygHSqMOUdMgMpzq0gjU/htmlview")
 
-MLBstadiums <- stadiums %>% filter(Sport == "MLB")
+stadiums <- stadiums %>% filter(Sport == "MLB")
 
 baseball_w_stadiums <- merge(baseball, stadiums, by.x=c("h_name"), 
                                                  by.y =("Abbreviation")) 
