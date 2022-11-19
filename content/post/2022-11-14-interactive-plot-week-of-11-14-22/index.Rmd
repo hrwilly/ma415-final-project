@@ -40,26 +40,6 @@ library(googlesheets4)
 load(here::here("dataset", "baseball.RData"))
 stadiums <- read_sheet("https://docs.google.com/spreadsheets/d/1p0R5qqR7XjoRG2mR5E1D_trlygHSqMOUdMgMpzq0gjU/htmlview")
 
-stadiums$Abbreviation[stadiums$Abbreviation == 'CHC'] <- 'CHN'
-stadiums$Abbreviation[stadiums$Abbreviation == 'CHW'] <- 'CHA'
-stadiums$Abbreviation[stadiums$Abbreviation == 'KCR'] <- 'KCN'
-stadiums$Abbreviation[stadiums$Abbreviation == 'LAA'] <- 'ANA'
-stadiums$Abbreviation[stadiums$Abbreviation == 'LAD'] <- 'LAN'
-stadiums$Abbreviation[stadiums$Abbreviation == 'MIA'] <- 'FLO'
-stadiums$Abbreviation[stadiums$Abbreviation == 'NYM'] <- 'NYN'
-stadiums$Abbreviation[stadiums$Abbreviation == 'NYY'] <- 'NYA'
-stadiums$Abbreviation[stadiums$Abbreviation == 'SDP'] <- 'SDN'
-stadiums$Abbreviation[stadiums$Abbreviation == 'SFG'] <- 'SFN'
-stadiums$Abbreviation[stadiums$Abbreviation == 'STL'] <- 'SLN'
-stadiums$Abbreviation[stadiums$Abbreviation == 'TBR'] <- 'TBA'
-
-MLBstadiums <- stadiums %>% filter(Sport == "MLB") %>% 
-  mutate(Division = sapply(X = Abbreviation, FUN = mlbDivision),
-           DivisionColor = sapply(X = Division, FUN = mlbColor),
-           teamLabs = paste0('Team: ',Abbreviation,'\nField: ',Venue))
-
-save(MLBstadiums, file = "dataset/MLBstadiums.Rdata")
-
 AL_east <- c('BAL', 'BOS', 'NYA', 'TBA', 'TOR')
 AL_central <- c('MIN', 'CLE', 'CHA', 'DET', 'KCN')
 AL_west <- c('ANA', 'HOU', 'SEA', 'OAK', 'TEX' )
@@ -87,6 +67,8 @@ icons <- makeAwesomeIcon(
                   ifelse(stadiums$`Team(s)` %in% NL_east,'green',
                   ifelse(stadiums$`Team(s)` %in% NL_central,'darkpurple','black'))))))
 
+
+
 mlbColor <- function(x){
     
   if(x == 'AL East'){y <- 'blue'}
@@ -98,10 +80,32 @@ mlbColor <- function(x){
   return(y)
   }
 
+
+stadiums$Abbreviation[stadiums$Abbreviation == 'CHC'] <- 'CHN'
+stadiums$Abbreviation[stadiums$Abbreviation == 'CHW'] <- 'CHA'
+stadiums$Abbreviation[stadiums$Abbreviation == 'KCR'] <- 'KCN'
+stadiums$Abbreviation[stadiums$Abbreviation == 'LAA'] <- 'ANA'
+stadiums$Abbreviation[stadiums$Abbreviation == 'LAD'] <- 'LAN'
+stadiums$Abbreviation[stadiums$Abbreviation == 'MIA'] <- 'FLO'
+stadiums$Abbreviation[stadiums$Abbreviation == 'NYM'] <- 'NYN'
+stadiums$Abbreviation[stadiums$Abbreviation == 'NYY'] <- 'NYA'
+stadiums$Abbreviation[stadiums$Abbreviation == 'SDP'] <- 'SDN'
+stadiums$Abbreviation[stadiums$Abbreviation == 'SFG'] <- 'SFN'
+stadiums$Abbreviation[stadiums$Abbreviation == 'STL'] <- 'SLN'
+stadiums$Abbreviation[stadiums$Abbreviation == 'TBR'] <- 'TBA'
+
+MLBstadiums <- stadiums %>% filter(Sport == "MLB") %>% 
+  mutate(Division = sapply(X = Abbreviation, FUN = mlbDivision),
+           DivisionColor = sapply(X = Division, FUN = mlbColor),
+           teamLabs = paste0('Team: ',Abbreviation,'\nField: ',Venue))
+
+
+#save(MLBstadiums, file = "dataset/MLBstadiums.Rdata")
+
   
 makeColorsandNames <- data.frame(divisions = c('AL East','AL Central','AL West','NL East','NL Central','NL West'), division.cent = c('#CC0000','#3399FF','#FFA500','#9ACD32','#483D8B','#000000'))
 
-leaflet(stadiums) %>% 
+leaflet(MLBstadiums) %>% 
       setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
       addTiles() %>% 
       addAwesomeMarkers(~Longitude, ~Latitude, icon = icons, label = ~as.character(Abbreviation)) %>% 
