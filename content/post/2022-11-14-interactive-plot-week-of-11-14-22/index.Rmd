@@ -27,6 +27,8 @@ if you can, be personal. Not all data will be conducive to this but if you allow
 
 Discuss your ideas and, if you’ve made progress, provide a link to a draft of the interactive. Note, I’m requiring all groups to use Shiny this semester. The directions on the Big Picture page were not properly updated.
 
+Maybe use shiny to sort by years, and then in leaflet have a popup for winning percentage, and a scroll bar to select for certain winning percentages
+
 ```{r, Hannah h}
 library(tidyverse)
 library(rvest)
@@ -38,23 +40,55 @@ library(readr)
 library(googlesheets4)
 
 
-load(here::here("dataset", "baseball.RData"))
-
-
 
 load(here::here("dataset", "baseball.RData"))
 
-# Until I can solve out how to get the data via web-scraping, I j loaded it from data
 
-#src <- read_html("https://docs.google.com/spreadsheets/d/1p0R5qqR7XjoRG2mR5E1D_trlygHSqMOUdMgMpzq0gjU/htmlview")
-#(node <- src %>% html_node("table"))
-#(html_nodes(src, "div diiv table") %>% html_text() %>% cat() %>% as_tibble())
-#stad <- read_excel(here::here("dataset", "stadiums.xlsx"))
 
+load(here::here("dataset", "baseball.RData"))
 stadiums <- read_sheet("https://docs.google.com/spreadsheets/d/1p0R5qqR7XjoRG2mR5E1D_trlygHSqMOUdMgMpzq0gjU/htmlview")
 
-MLBstadiums <- stadiums %>% filter(Sport == "MLB")
-save(MLBstadiums, file = "dataset/MLBstadiums.Rdata")
+
+AL_east <- c('BAL', 'BOS', 'NYA', 'TBA', 'TOR')
+AL_central <- c('MIN', 'CLE', 'CHA', 'DET', 'KCN', 'KCR')
+AL_west <- c('ANA', 'HOU', 'SEA', 'OAK', 'TEX' )
+NL_east <- c('NYM', 'PHI', 'ATL', 'WAS', 'FLO' )
+NL_central<- c('PTL','SLN',  'ATL', 'CHN', 'MIL', 'CIN')
+
+mlbDivision <- function(x){
+    
+  if(x %in% AL_east){y <- 'AL East'} 
+  else if(x %in% AL_central){y <- 'AL Central'} 
+  else if(x %in% AL_west){y <- 'AL West'} 
+  else if(x %in% NL_east){y <- 'NL East'} 
+  else if(x %in% c(NL_central)){y <- 'NL Central'} 
+  else { y <- 'NL West'}
+  return(y)
+}
+
+icons <- makeAwesomeIcon(
+    icon = 'circle',
+    iconColor = 'black',
+    library = 'glyphicon',
+    markerColor = ifelse(stadiums$Abbreviation %in% AL_east, 'red',
+                  ifelse(stadiums$`Team(s)` %in% AL_central,'blue',
+                  ifelse(stadiums$`Team(s)` %in% AL_west, 'orange',
+                  ifelse(stadiums$`Team(s)` %in% NL_east,'green',
+                  ifelse(stadiums$`Team(s)` %in% NL_central,'darkpurple','black'))))))
+
+
+
+mlbColor <- function(x){
+    
+  if(x == 'AL East'){y <- 'blue'}
+  else if(x == 'AL Central'){y <- 'green'}
+  else if(x == 'AL West'){y <- 'yellow'}
+  else if(x == 'NL East'){y <- 'red'}
+  else if(x == 'NL Central'){y <- 'purple'} 
+  else {y <- 'black'}
+  return(y)
+  }
+
 
 stadiums$Abbreviation[stadiums$Abbreviation == 'CHC'] <- 'CHN'
 stadiums$Abbreviation[stadiums$Abbreviation == 'CHW'] <- 'CHA'
@@ -69,6 +103,11 @@ stadiums$Abbreviation[stadiums$Abbreviation == 'SFG'] <- 'SFN'
 stadiums$Abbreviation[stadiums$Abbreviation == 'STL'] <- 'SLN'
 stadiums$Abbreviation[stadiums$Abbreviation == 'TBR'] <- 'TBA'
 
+MLBstadiums <- stadiums %>% filter(Sport == "MLB") %>% 
+  mutate(Division = sapply(X = Abbreviation, FUN = mlbDivision),
+           DivisionColor = sapply(X = Division, FUN = mlbColor),
+           teamLabs = paste0('Team: ',Abbreviation,'\nField: ',Venue))
+
 
 
 baseball_w_stadiums <- merge(baseball, stadiums, by.x=c("h_name"), 
@@ -82,33 +121,17 @@ baseball_w_stadiums <- merge(baseball, stadiums, by.x=c("h_name"),
       #addLegend(position = 'bottomleft', opacity = 1,title = 'Divisions')
 
 
-mlbDivision <- function(x){
-    
-    if(x %in% c('Baltimore Orioles','Boston Red Sox','New York Yankees','Tampa Bay Rays','Toronto Blue Jays')){
-        y <- 'AL East'
-    } else if(x %in% c('Minnesota Twins','Cleveland Indians','Chicago White Sox','Detroit Tigers','Kansas City Royals')){
-        y <- 'AL Central'
-    } else if(x %in% c('Los Angeles Angels','Houston Astros','Seattle Mariners','Oakland Athletics','Texas Rangers')){
-        y <- 'AL West'
-    } else if(x %in% c('New York Mets','Philadelphia Phillies','Atlanta Braves','Washington Nationals','Miami Marlins')){
-        y <- 'NL East'
-    } else if(x %in% c('Pittsburgh Pirates','St. Louis Cardinals','Atlanta Braves','Chicago Cubs','Milwaukee Brewers','Cincinnati Reds')){
-        y <- 'NL Central'
-    } else {
-        y <- 'NL West'
-    }
-    
-    return(y)
-}
-  
-makeColorsandNames <- data.frame(divisions = c('AL East','AL Central','AL West','NL East','NL Central','NL West'))
+#save(MLBstadiums, file = "dataset/MLBstadiums.Rdata")
 
-leaflet(stadiums) %>% 
+
+  
+makeColorsandNames <- data.frame(divisions = c('AL East','AL Central','AL West','NL East','NL Central','NL West'), division.cent = c('#CC0000','#3399FF','#FFA500','#9ACD32','#483D8B','#000000'))
+
+leaflet(MLBstadiums) %>% 
       setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
       addTiles() %>% 
-      addAwesomeMarkers(~Longitude, ~Latitude, label = ~as.character(Abbreviation)) %>% 
-      addLegend(position = 'bottomleft',labels = makeColorsandNames[,1],opacity = 1,title = 'Divisions')
-
+      addAwesomeMarkers(~Longitude, ~Latitude, icon = icons, label = ~as.character(Venue), popup = ~as.character(Sport)) %>% 
+      addLegend(position = 'bottomleft', colors = makeColorsandNames[,2],labels = makeColorsandNames[,1],opacity = 1,title = 'Divisions')
 
     
 ```
