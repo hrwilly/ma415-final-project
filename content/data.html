@@ -14,87 +14,15 @@ draft: false
 
 </div>
 
-<p>This comes from the file <code>content/data.Rmd</code>.</p>
-<p>Your first steps in this project will be to find data to work on.</p>
-<p>I recommend trying to find data that interests you and that you are knowledgeable about. A bad example would be if you have no interest in video games but your data set is about video games. I also recommend finding data that is related to current events, social justice, and other areas that have an impact.</p>
-<p>You are <strong>not</strong> allowed to work on COVID data.</p>
-<p>Initially, you will study <em>one dataset</em> but later you will need to combine that data with another dataset. For this reason, I recommend finding data that has some date and/or location components. These types of data are conducive to interesting visualizations and analysis and you can also combine this data with other data that also has a date or location variable.
-Data from the census, weather data, economic data, are all relatively easy to combine with other data with time/location components.</p>
-<div id="where-to-keep-data" class="section level2">
-<h2>Where to keep data?</h2>
-<p>Below 50mb: In <code>dataset</code> folder</p>
-<p>Above 50mb: In <code>dataset_ignore</code> folder. This folder will be ignored by <code>git</code> so you’ll have to manually sync these files across your team.</p>
-<div id="sharing-your-data" class="section level3">
-<h3>Sharing your data</h3>
-<p>For small datasets (&lt;50mb), you can use the <code>dataset</code> folder that is tracked by github. Add the files just like you would any other file.</p>
-<p><strong>Do not</strong> use a folder named <code>data</code>.
-This folder is reserved by <code>hugo</code>.
-If you create a folder named <code>data</code> this will cause problems.</p>
-<p>For larger datasets, you’ll need to create a new folder in the project root directory named <code>dataset-ignore</code>. This will be ignored by git (based off the <code>.gitignore</code> file in the project root directory) which will help you avoid issues with Github’s size limits. Your team will have to manually make sure the data files in <code>dataset-ignore</code> are synced across team members.</p>
-<p>Your <a href="/load_and_clean_data.R">load_and_clean_data.R</a> file is how you will load and clean your data. Here is a an example of a very simple one.</p>
-<pre class="r"><code>#source(
- # here::here(&quot;static&quot;, &quot;load_and_clean_data.R&quot;),
-  #echo = TRUE # Use echo=FALSE or omit it to avoid code output  
-#)</code></pre>
-<p>Note how I use the <code>here::here</code> function from the <a href="https://here.r-lib.org/articles/here.html"><code>here</code> package</a> to avoid path problems.
-This function is used to specify directories within the project’s root directory.
-You should never use absolute paths (eg. <code>/Users/danielsussman/path/to/project/</code> or <code>C:\\MA415\\Final_Project\\</code>) and using <code>here</code> ensures that it doesn’t matter what the current working directory is as long as you have this RStudio Project open.</p>
-<hr />
-</div>
-</div>
-<div id="files-in-static" class="section level2">
-<h2>Files in static</h2>
-<div id="load_and_clean_data.r" class="section level3">
-<h3><code>load_and_clean_data.R</code></h3>
-<p>The idea behind this file is that someone coming to your website could largely replicate your analyses after running this script on the original data sets to clean them.
-This file might create a derivative data set that you then use for your subsequent analysis.
-Note that you don’t need to run this script from every post/page.
-Instead, you can load in the results of this script, which could be plain text files or <code>.RData</code> files. In your data page you’ll describe how these results were created. If you have a very large data set, you might save smaller data sets that you can use for exploration purposes.
-To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R)</code>.</p>
-<p>When you are loading in data, I recommend using the <code>here::here</code> function to specify the file path. This function is used to specify a path relative to your project’s root directory. Hence, you can read a file using eg, <code>read_csv(here::here("dataset/data_file.csv"))</code>.</p>
-</div>
-<div id="shiny-interactive" class="section level3">
-<h3>Shiny Interactive</h3>
-<p>If you are using a shiny interactive, you’ll need to keep that in a separate folder (i.e. not in <code>static</code> or <code>content</code>). For the shiny interactive you’ll need to publish the app on <code>shinyapps.io</code> where the app can be run. When you publish, make sure to include any data sets you are loading in among the files you publish since those datasets will need to be loaded by your app.</p>
-<hr />
-</div>
-</div>
-<div id="rubric-on-this-page" class="section level2">
-<h2>Rubric: On this page</h2>
-<p>you will</p>
-<ul>
-<li>Describe where/how to find data.
-<ul>
-<li>You must include a link to the original data source(s). Make sure to provide attribution to those who collected the data.</li>
-<li>Why was the data collected/curated? Who put it together? (This is important, if you don’t know why it was collected then that might not be a good dataset to look at.</li>
-</ul></li>
-<li>Describe the different data files used and what each variable means.
-<ul>
-<li>If you have many variables then only describe the most relevant ones and summarize the rest.</li>
-</ul></li>
-<li>Describe any cleaning you had to do for your data.
-<ul>
-<li>You <em>must</em> include a link to your <code>load_and_clean_data.R</code> file.</li>
-<li>Also, describe any additional R packages you used outside of those covered in class.</li>
-<li>Describe and show code for how you combined multiple data files and any cleaning that was necessary for that.</li>
-<li>Some repetition of what you do in your <code>load_and_clean_data.R</code> file is fine and encouraged if it helps explain what you did.</li>
-</ul></li>
-<li>Organization, clarity, cleanliness of the page
-<ul>
-<li>Make sure to remove excessive warnings, use clean easy-to-read code (without side scrolling), organize with sections, use bullets and other organization tools, etc.</li>
-</ul></li>
-</ul>
-<hr />
-</div>
 <div id="datasets-used" class="section level2">
 <h2>Datasets Used</h2>
 <p>The datasets analyzed in this project can be found at the following links listed below.</p>
-<div id="dewwcljxrx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="lmxyrijxea" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#dewwcljxrx .gt_table {
+#lmxyrijxea .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -119,7 +47,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   border-left-color: #D3D3D3;
 }
 
-#dewwcljxrx .gt_heading {
+#lmxyrijxea .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -131,12 +59,12 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   border-right-color: #D3D3D3;
 }
 
-#dewwcljxrx .gt_caption {
+#lmxyrijxea .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#dewwcljxrx .gt_title {
+#lmxyrijxea .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -148,7 +76,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   border-bottom-width: 0;
 }
 
-#dewwcljxrx .gt_subtitle {
+#lmxyrijxea .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -160,13 +88,13 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   border-top-width: 0;
 }
 
-#dewwcljxrx .gt_bottom_border {
+#lmxyrijxea .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#dewwcljxrx .gt_col_headings {
+#lmxyrijxea .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -181,7 +109,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   border-right-color: #D3D3D3;
 }
 
-#dewwcljxrx .gt_col_heading {
+#lmxyrijxea .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -201,7 +129,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   overflow-x: hidden;
 }
 
-#dewwcljxrx .gt_column_spanner_outer {
+#lmxyrijxea .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -213,15 +141,15 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   padding-right: 4px;
 }
 
-#dewwcljxrx .gt_column_spanner_outer:first-child {
+#lmxyrijxea .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#dewwcljxrx .gt_column_spanner_outer:last-child {
+#lmxyrijxea .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#dewwcljxrx .gt_column_spanner {
+#lmxyrijxea .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -233,7 +161,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   width: 100%;
 }
 
-#dewwcljxrx .gt_group_heading {
+#lmxyrijxea .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -259,7 +187,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   text-align: left;
 }
 
-#dewwcljxrx .gt_empty_group_heading {
+#lmxyrijxea .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -274,15 +202,15 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   vertical-align: middle;
 }
 
-#dewwcljxrx .gt_from_md > :first-child {
+#lmxyrijxea .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#dewwcljxrx .gt_from_md > :last-child {
+#lmxyrijxea .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#dewwcljxrx .gt_row {
+#lmxyrijxea .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -301,7 +229,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   overflow-x: hidden;
 }
 
-#dewwcljxrx .gt_stub {
+#lmxyrijxea .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -314,7 +242,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   padding-right: 5px;
 }
 
-#dewwcljxrx .gt_stub_row_group {
+#lmxyrijxea .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -328,11 +256,11 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   vertical-align: top;
 }
 
-#dewwcljxrx .gt_row_group_first td {
+#lmxyrijxea .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#dewwcljxrx .gt_summary_row {
+#lmxyrijxea .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -342,16 +270,16 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   padding-right: 5px;
 }
 
-#dewwcljxrx .gt_first_summary_row {
+#lmxyrijxea .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#dewwcljxrx .gt_first_summary_row.thick {
+#lmxyrijxea .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#dewwcljxrx .gt_last_summary_row {
+#lmxyrijxea .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -361,7 +289,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   border-bottom-color: #D3D3D3;
 }
 
-#dewwcljxrx .gt_grand_summary_row {
+#lmxyrijxea .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -371,7 +299,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   padding-right: 5px;
 }
 
-#dewwcljxrx .gt_first_grand_summary_row {
+#lmxyrijxea .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -381,11 +309,11 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   border-top-color: #D3D3D3;
 }
 
-#dewwcljxrx .gt_striped {
+#lmxyrijxea .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#dewwcljxrx .gt_table_body {
+#lmxyrijxea .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -394,7 +322,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   border-bottom-color: #D3D3D3;
 }
 
-#dewwcljxrx .gt_footnotes {
+#lmxyrijxea .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -408,7 +336,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   border-right-color: #D3D3D3;
 }
 
-#dewwcljxrx .gt_footnote {
+#lmxyrijxea .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -417,7 +345,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   padding-right: 5px;
 }
 
-#dewwcljxrx .gt_sourcenotes {
+#lmxyrijxea .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -431,7 +359,7 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   border-right-color: #D3D3D3;
 }
 
-#dewwcljxrx .gt_sourcenote {
+#lmxyrijxea .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -439,64 +367,64 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   padding-right: 5px;
 }
 
-#dewwcljxrx .gt_left {
+#lmxyrijxea .gt_left {
   text-align: left;
 }
 
-#dewwcljxrx .gt_center {
+#lmxyrijxea .gt_center {
   text-align: center;
 }
 
-#dewwcljxrx .gt_right {
+#lmxyrijxea .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#dewwcljxrx .gt_font_normal {
+#lmxyrijxea .gt_font_normal {
   font-weight: normal;
 }
 
-#dewwcljxrx .gt_font_bold {
+#lmxyrijxea .gt_font_bold {
   font-weight: bold;
 }
 
-#dewwcljxrx .gt_font_italic {
+#lmxyrijxea .gt_font_italic {
   font-style: italic;
 }
 
-#dewwcljxrx .gt_super {
+#lmxyrijxea .gt_super {
   font-size: 65%;
 }
 
-#dewwcljxrx .gt_footnote_marks {
+#lmxyrijxea .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#dewwcljxrx .gt_asterisk {
+#lmxyrijxea .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#dewwcljxrx .gt_indent_1 {
+#lmxyrijxea .gt_indent_1 {
   text-indent: 5px;
 }
 
-#dewwcljxrx .gt_indent_2 {
+#lmxyrijxea .gt_indent_2 {
   text-indent: 10px;
 }
 
-#dewwcljxrx .gt_indent_3 {
+#lmxyrijxea .gt_indent_3 {
   text-indent: 15px;
 }
 
-#dewwcljxrx .gt_indent_4 {
+#lmxyrijxea .gt_indent_4 {
   text-indent: 20px;
 }
 
-#dewwcljxrx .gt_indent_5 {
+#lmxyrijxea .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -527,6 +455,9 @@ To link to this file, you can use <code>[cleaning script](/load_and_clean_data.R
   
 </table>
 </div>
+</div>
+<div id="baseball-game-logs" class="section level2">
+<h2>Baseball Game Logs</h2>
 <p>The main dataset used in our analysis of factors that influence a win among Major League Baseball teams is the Baseball Game Logs from 1871-2016 which is a dataset that can be found on the Data.World website. This dataset was compiled from 127 separate CSV files from <a href="https://www.retrosheet.org">Retrosheet</a>, a website dedicated to providing as many play-by-play accounts of major league games as possible. Many people have contributed to providing the game logs, however, baseball historian Bob Tiemann is credited with originating the logs and Arnie Braunstein is credited with computerizing them. The data from Retrosheet was collected for the purpose of providing fans access to data that allows them to compare player and team performances to other years.</p>
 <div id="variables" class="section level3">
 <h3>Variables</h3>
@@ -684,7 +615,12 @@ Due to the largeness of the dataset as well as significant missing data from the
 The last step in cleaning our <code>baseball</code> dataset was to mutate a column titled <code>score_diff</code>. <code>v_score</code> and <code>h_score</code> provides the number of runs scored by each team, but the dataset does not include a variable that states which team won a given game. <code>score_diff</code> takes the number of the visiting team’s runs subtracted from the number of the home team’s runs. A positive value represents a win for the home team, a negative value represents a loss, and a zero is a tie. The higher absolute value of <code>score_diff</code> represents a larger win or loss.<br />
 <br />
 </p>
-<p>In order to analyze the effects of teams’ payrolls on their success each season, we compiled a csv file based on data found from the “MLB Team Payrolls” link found in our “DATASETS” table. The website itself did not contain any easily downloadable data file, so we copied the columns “Team”, “Rank”, and “Total (Payroll)” from the years 2000-2016 into a csv file, adding a column indicating the year for each observation. It is important to note that not each year has consistent column names on the website, so we consistently interpreted the highest value payroll columns as the “Total” payroll values. Additionally, since not each year had a “Rank” column, we manually observed and added “Rank” values for those that were missing. Lastly, we adjusted the team names to match our main dataset’s unique h_name abbreviations. This csv file can be found in our dataset folder.</p>
+<hr />
+</div>
+</div>
+<div id="mlb-team-payrolls" class="section level2">
+<h2>MLB Team Payrolls</h2>
+<p>In order to analyze the effects of teams’ payrolls on their winning percentage each season, we compiled a CSV file based on data found from the “MLB Team Payrolls” link found in our <code>DATASETS</code> table. The website itself did not contain any easily downloadable data file, so we copied the columns <code>Team</code>, <code>Rank</code>, and <code>Total (Payroll)</code> from the years 2000-2016 into a CSV file, adding a column indicating the year for each observation. It is important to note that not each year has consistent column names on the website, so we consistently interpreted the highest value payroll columns as the <code>Total</code> payroll values. Additionally, since not each year had a <code>Rank</code> column, we manually observed and added <code>Rank</code> values for those that were missing. Lastly, we adjusted the team names to match our main dataset’s unique h_name abbreviations. This csv file can be found in our dataset folder.</p>
 <pre class="r"><code>mlb_pay &lt;- as_tibble(read_csv(here::here(&quot;dataset&quot;, &quot;mlb_payroll.csv&quot;), show_col_types = FALSE))
 
 knitr::kable(mlb_pay[1:20,])</code></pre>
@@ -988,5 +924,4 @@ PHI
 </tr>
 </tbody>
 </table>
-</div>
 </div>
