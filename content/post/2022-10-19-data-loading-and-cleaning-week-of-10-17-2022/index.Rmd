@@ -48,7 +48,7 @@ years<-c(2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2
 \n
 
 
-This data set does not specify whether the home team wins or loses, but it does contain information on the home team's and the away team's number of runs. Since we are interested in seeing if a team wins or loses, we created a column in the dataset called `score_diff`, which takes the number of the visiting team's runs subtracted from the number of the one team's runs. A positive value represents a win, a negative value represents a loss, and a zero is a tie. The higher absolute values represent a bigger win/loss.
+This data set does not specify whether the home team wins or loses, but it does contain information on the home team's and the away team's number of runs. Since we are interested in seeing if a team wins or loses, we created a column in the dataset called `score_diff`, which takes the number of the visiting team's runs subtracted from the number of the home team's runs. A positive value represents a win, a negative value represents a loss, and a zero is a tie. The higher absolute values represent a bigger win/loss.
 
 ```{r}
 (baseball <- baseball %>% mutate(score_diff=h_score-v_score))

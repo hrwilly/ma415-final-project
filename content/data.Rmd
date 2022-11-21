@@ -102,6 +102,7 @@ you will
 
 The datasets analyzed in this project can be found at the following links listed below.
 
+
 ```{r dataset links, echo=FALSE}
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(kableExtra))
@@ -127,7 +128,7 @@ df %>% mutate(
 ```
 
 
-The main dataset used in our analysis of Major League Baseball teams is the Baseball Game Logs from 1871-2016 which is a dataset that can be found on the Data.World website. This dataset was compiled from 127 separate CSV files from [Retrosheet](https://www.retrosheet.org), a website dedicated to providing as many play-by-play accounts of major league games as possible. Many people have contributed to providing the game logs, however, baseball historian Bob Tiemann is credited with originating the logs and Arnie Braunstein is credited with computerizing them. The data from Retrosheet was collected for the purpose of providing fans access to data that allows them to compare player and team performances to other years. 
+The main dataset used in our analysis of factors that influence a win among Major League Baseball teams is the Baseball Game Logs from 1871-2016 which is a dataset that can be found on the Data.World website. This dataset was compiled from 127 separate CSV files from [Retrosheet](https://www.retrosheet.org), a website dedicated to providing as many play-by-play accounts of major league games as possible. Many people have contributed to providing the game logs, however, baseball historian Bob Tiemann is credited with originating the logs and Arnie Braunstein is credited with computerizing them. The data from Retrosheet was collected for the purpose of providing fans access to data that allows them to compare player and team performances to other years. 
 
 ### Variables
 
@@ -172,7 +173,7 @@ data.frame(
 ) %>% 
   kbl() %>% 
   row_spec(0, bold = TRUE) %>% 
-  kable_classic_2("striped", html_font = "Georgia") %>% 
+  kable_classic_2(html_font = "Georgia") %>% 
   kable_styling(position = "center")
 
 ```
@@ -181,12 +182,16 @@ The remaining variables of the game logs datasest include the names of the start
 
 ### Cleaning
 
-
-
-
-
-
-
+A link to our `load_and_clean_data.R` file can be found [here](/load_and_clean_data.R).\
+\
+This dataset is >50mb and can therefore be found in our `dataset-ignore` folder. After reading in the CSV file, we specified the column types for variables `forfeit` and `completion` to remove any problems. We converted the dataset into a tibble and saved it under the variable `baseball`.\
+\
+Our next step in cleaning the data was to take the date as an integer and separate it into three columns: `year`, `month`, and `day`.\
+\
+Due to the largeness of the dataset as well as significant missing data from the 1970s and 1990s, we chose to work with more recent years and so filtered the data to only include those baseball games that took place between the years 2000 and 2016.\
+\
+The last step in cleaning our `baseball` dataset was to mutate a column titled `score_diff`. `v_score` and `h_score` provides the number of runs scored by each team, but the dataset does not include a variable that states which team won a given game. `score_diff` takes the number of the visiting team's runs subtracted from the number of the home team's runs. A positive value represents a win for the home team, a negative value represents a loss, and a zero is a tie. The higher absolute value of `score_diff` represents a larger win or loss.\
+\
 
 
 ```{r park_locations}

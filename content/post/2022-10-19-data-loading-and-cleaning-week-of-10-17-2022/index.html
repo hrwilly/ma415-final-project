@@ -92,7 +92,7 @@ suppressWarnings(data &lt;- read_csv(here::here(&quot;dataset-ignore&quot;, &quo
 ## #   h_line_score &lt;chr&gt;, v_at_bats &lt;dbl&gt;, v_hits &lt;dbl&gt;, v_doubles &lt;dbl&gt;,
 ## #   v_triples &lt;dbl&gt;, v_homeruns &lt;dbl&gt;, v_rbi &lt;dbl&gt;, v_sacrifice_hits &lt;dbl&gt;,
 ## #   v_sacrifice_flies &lt;dbl&gt;, v_hit_by_pitch &lt;dbl&gt;, v_walks &lt;dbl&gt;, …</code></pre>
-<p>This data set does not specify whether the home team wins or loses, but it does contain information on the home team’s and the away team’s number of runs. Since we are interested in seeing if a team wins or loses, we created a column in the dataset called <code>score_diff</code>, which takes the number of the visiting team’s runs subtracted from the number of the one team’s runs. A positive value represents a win, a negative value represents a loss, and a zero is a tie. The higher absolute values represent a bigger win/loss.</p>
+<p>This data set does not specify whether the home team wins or loses, but it does contain information on the home team’s and the away team’s number of runs. Since we are interested in seeing if a team wins or loses, we created a column in the dataset called <code>score_diff</code>, which takes the number of the visiting team’s runs subtracted from the number of the home team’s runs. A positive value represents a win, a negative value represents a loss, and a zero is a tie. The higher absolute values represent a bigger win/loss.</p>
 <pre class="r"><code>(baseball &lt;- baseball %&gt;% mutate(score_diff=h_score-v_score))</code></pre>
 <pre><code>## # A tibble: 41,298 × 164
 ##    year  month day   number_of_g…¹ day_o…² v_name v_lea…³ v_gam…⁴ h_name h_lea…⁵
