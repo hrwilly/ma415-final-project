@@ -127,10 +127,9 @@ df %>% mutate(
 The main dataset used in our analysis of Major League Baseball teams is the Baseball Game Logs from 1871-2016 which is a dataset that can be found on the Data.World website. This dataset was compiled from 127 separate CSV files from Retrosheet, a website dedicated to providing as many play-by-play accounts of major league games as possible. Many people have contributed to providing game logs...
 
 
-```{r weather}
 
 
-```
+
 
 
 ```{r park_locations}
