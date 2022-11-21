@@ -139,8 +139,6 @@ The main dataset used in our analysis of Major League Baseball teams is the Base
 
 
 ```{r payroll}
-load(here::here("dataset", "win_perc.RData"))
-
 mlb_pay <- as_tibble(read_csv(here::here("dataset", "mlb_payroll.csv"), show_col_types = FALSE))
 
 knitr::kable(mlb_pay[1:20,])
