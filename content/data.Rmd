@@ -131,17 +131,44 @@ The main dataset used in our analysis of Major League Baseball teams is the Base
 
 ### Variables
 
+Provided in the table below are a list of all the relevant variables used in our analysis.
+
 ```{r variables, echo = FALSE}
 data.frame(
   Variable = c("date",
                "day_of_week",
-               "v_name"),
+               "v_name",
+               "h_name",
+               "v_score",
+               "h_score",
+               "day_night",
+               "park_id",
+               "winning_pitcher_name",
+               "v_starting_pitcher_name",
+               "h_starting_pitcher_name"),
   Type = c("date",
+           "string",
+           "string",
+           "string",
+           "integer",
+           "integer",
+           "string",
+           "string",
+           "string",
            "string",
            "string"),
   Description = c("Date of game played",
                   "Day of week game was played",
-                  "Visiting team name")
+                  "Visiting team name",
+                  "Home team name",
+                  "Visiting team score",
+                  "Home team score",
+                  'Day/Night indicator ("D" or "N")',
+                  "Park ID of location of game played",
+                  "Name of winning pitcher",
+                  "Visiting team starting pitcher name",
+                  "Home team starting pitcher name")
+        
 ) %>% 
   kbl() %>% 
   row_spec(0, bold = TRUE) %>% 
@@ -149,6 +176,13 @@ data.frame(
   kable_styling(position = "center")
 
 ```
+
+The remaining variables of the game logs datasest include the names of the starting position players for both the home and visiting teams as well as statistics for each team of the game including hits, walks, rbi's, errors, and double plays. 
+
+### Cleaning
+
+
+
 
 ```{r weather}
 
