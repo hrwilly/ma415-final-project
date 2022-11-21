@@ -73,26 +73,30 @@ temp <- as_tibble(temp2)
 
 ```{r hannah_w}
 
-day_times<-c(10,11,12,13,14,15,16,17)
-night_times<-c(18,19,20,21,22,23)
+day_times<-c(10:00:00,11:00:00,12:00:00,13:00:00,14:00:00,15:00:00,16:00:00,17:00:00)
+night_times<-c(18:00:00,19:00:00,20:00:00,21:00:00,22:00:00,23:00:00)
 bos_temp_day<- temp %>% mutate(date=as.Date(datetime),time=format(as.POSIXct(datetime),format="%H:%M:%S")) %>%   
-                    separate(date,into=c("year","month_day"),sep=4) %>% 
-                    separate(month_day,into=c("slash","month_day"),sep=1) %>% 
-                    separate(month_day,into=c("month","day"),sep=2) %>% separate(day,into=c("slash","day"),sep=1) %>%
-                    separate(time,into=c('time','temp_col'),sep=2) %>% 
-                    select(year,month,day,time,Boston) %>%
-                    filter(time%in%day_times,!is.na(Boston)) %>% 
-                    group_by(year,month,day) %>% 
-                    summarize(temp=mean(Boston))
+                        separate(date,into=c("year","month_day"),sep=4) %>% 
+                        separate(month_day,into=c("temp_col","month_day"),sep=1) %>% 
+                        separate(month_day,into=c("month","day"),sep=2) %>% 
+                        separate(day,into=c("temp_col","day"),sep=1) %>%
+                        separate(time,into=c("time","temp_col"),sep=2) %>%
+                        select(year,month,day,time,Boston) %>%
+                        filter(time%in%day_times,!is.na(Boston)) %>% 
+                        group_by(year,month,day) %>% 
+                        summarize(temp=mean(Boston))
+knitr::kable(bos_temp_day)
 bos_temp_night<- temp %>% mutate(date=as.Date(datetime),time=format(as.POSIXct(datetime),format="%H:%M:%S")) %>%   
-                    separate(date,into=c("year","month_day"),sep=4) %>% 
-                    separate(month_day,into=c("slash","month_day"),sep=1) %>% 
-                    separate(month_day,into=c("month","day"),sep=2) %>% separate(day,into=c("slash","day"),sep=1) %>%
-                    separate(time,into=c('time','temp_col'),sep=2) %>% 
-                    select(year,month,day,time,Boston) %>%
-                    filter(time%in%night_times,!is.na(Boston)) %>% 
-                    group_by(year,month,day) %>% 
-                    summarize(temp=mean(Boston))
+                          separate(date,into=c("year","month_day"),sep=4) %>% 
+                          separate(month_day,into=c("temp_col","month_day"),sep=1) %>% 
+                          separate(month_day,into=c("month","day"),sep=2) %>% 
+                          separate(day,into=c("temp_col","day"),sep=1) %>%
+                          separate(time,into=c("time","temp_col"),sep=2) %>%
+                          select(year,month,day,time,Boston) %>%
+                          filter(time%in%night_times,!is.na(Boston)) %>% 
+                          group_by(year,month,day) %>% 
+                          summarize(temp=mean(Boston))
+knitr::kable(bos_temp_night)
 ```
 
 
