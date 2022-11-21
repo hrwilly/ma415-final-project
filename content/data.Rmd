@@ -184,10 +184,9 @@ The remaining variables of the game logs datasest include the names of the start
 
 
 
-```{r weather}
 
 
-```
+
 
 
 ```{r park_locations}
@@ -196,7 +195,11 @@ The remaining variables of the game logs datasest include the names of the start
 ```
 
 
-```{r payroll}
+In order to analyze the effects of teams' payrolls on their success each season, we compiled a csv file based on data found from the "MLB Team Payrolls" link found in our "DATASETS" table. The website itself did not contain any easily downloadable data file, so we copied the columns "Team", "Rank", and "Total (Payroll)" from the years 2000-2016 into a csv file, adding a column indicating the year for each observation. It is important to note that not each year has consistent column names on the website, so we consistently interpreted the highest value payroll columns as the "Total" payroll values. Additionally, since not each year had a "Rank" column, we manually observed and added "Rank" values for those that were missing. Lastly, we adjusted the team names to match our main dataset's unique h_name abbreviations. This csv file can be found in our dataset folder.
 
+```{r payroll}
+mlb_pay <- as_tibble(read_csv(here::here("dataset", "mlb_payroll.csv"), show_col_types = FALSE))
+
+knitr::kable(mlb_pay[1:20,])
 
 ```
