@@ -104,6 +104,7 @@ The datasets analyzed in this project can be found at the following links listed
 
 ```{r dataset links, echo=FALSE}
 suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(kableExtra))
 library(gt)
 df <- tibble(
   Dataset = c("Baseball Game Logs from 1871-2016", 
@@ -122,8 +123,30 @@ df %>% mutate(
 ) %>% 
   gt() %>% tab_header(title = "DATASETS")
 
+
 ```
 
-The main dataset used in our analysis of Major League Baseball teams is the Baseball Game Logs from 1871-2016 which is a dataset that can be found on the Data.World website. This dataset was compiled from 127 separate CSV files from Retrosheet, a website dedicated to providing as many play-by-play accounts of major league games as possible. Many people have contributed to providing the game logs, however, baseball historian Bob Tiemann is credited with originating the logs and Arnie Braunstein is credited with computerizing these logs. The data from Retrosheet was collected for the purpose of...
 
+The main dataset used in our analysis of Major League Baseball teams is the Baseball Game Logs from 1871-2016 which is a dataset that can be found on the Data.World website. This dataset was compiled from 127 separate CSV files from [Retrosheet](https://www.retrosheet.org), a website dedicated to providing as many play-by-play accounts of major league games as possible. Many people have contributed to providing the game logs, however, baseball historian Bob Tiemann is credited with originating the logs and Arnie Braunstein is credited with computerizing them. The data from Retrosheet was collected for the purpose of providing fans access to data that allows them to compare player and team performances to other years. 
+
+### Variables
+
+```{r variables, echo = FALSE}
+data.frame(
+  Variable = c("date",
+               "day_of_week",
+               "v_name"),
+  Type = c("date",
+           "string",
+           "string"),
+  Description = c("Date of game played",
+                  "Day of week game was played",
+                  "Visiting team name")
+) %>% 
+  kbl() %>% 
+  row_spec(0, bold = TRUE) %>% 
+  kable_classic_2("striped", html_font = "Georgia") %>% 
+  kable_styling(position = "center")
+
+```
 
