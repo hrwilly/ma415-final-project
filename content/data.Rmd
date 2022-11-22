@@ -84,7 +84,7 @@ data.frame(
 ) %>% 
   kbl() %>% 
   row_spec(0, bold = TRUE) %>% 
-  kable_classic_2(html_font = "Georgia") %>% 
+  kable_classic_2("basic", html_font = "Georgia") %>% 
   kable_styling(position = "center")
 
 ```
@@ -147,7 +147,9 @@ We then joined `mlb_payroll` with `win_perc` to get our final payroll tibble.\
 ```{r payroll}
 load(here::here("dataset", "mlb_payroll.RData"))
 
-pay_tibble <- win_perc %>% left_join(mlb_payroll, by = c('year'='year', 'h_name'='h_name')) %>% arrange(year)
+pay_tibble <- win_perc %>% 
+  left_join(mlb_payroll, by = c('year'='year', 'h_name'='h_name')) %>% 
+  arrange(year)
 
 knitr::kable(pay_tibble[1:20,])
 
