@@ -45,7 +45,7 @@ The main dataset used in our analysis of factors that influence a win among Majo
 
 Provided in the table below are a list of all the relevant variables used in our analysis.
 
-```{r variables, echo = FALSE}
+```{r game_logs_variables, echo = FALSE}
 data.frame(
   Variable = c("date",
                "day_of_week",
@@ -103,20 +103,52 @@ Due to the largeness of the dataset as well as significant missing data from the
 \
 The last step in cleaning our `baseball` dataset was to mutate a column titled `score_diff`. `v_score` and `h_score` provides the number of runs scored by each team, but the dataset does not include a variable that states which team won a given game. `score_diff` takes the number of the visiting team's runs subtracted from the number of the home team's runs. A positive value represents a win for the home team, a negative value represents a loss, and a zero is a tie. The higher absolute value of `score_diff` represents a larger win or loss.\
 \
+This cleaned `baseball` dataset can be found in the `dataset` folder. 
 
+### Winning Percentage
 
-```{r park_locations}
+Another variable not included in the game logs dataset that would useful in our analyses is that of winning percentage. Winning percentage is the percentage of games played that resulted in a win for a given team and given season. The following code calculates the winning percentage for each team and year from 2000 to 2016. This code can also be found in the `load_and_clean_data.R` where the data is saved in `win_perc.RData`.
 
+```{r win_perc}
+load(here::here("dataset", "baseball.RData"))
+options(dplyr.summarise.inform = FALSE)
 
+#win/loss column (1 = win, 0 = loss or tie)
+h_win_loss <- function(h, v) {
+  ifelse(h > v, 1, 0)
+}
+(baseball <- baseball %>% mutate(h_win_loss = h_win_loss(h_score, v_score)))
+
+#total games won
+home_wins <- baseball %>% group_by(h_name, year) %>% summarize(h_wins = sum(h_win_loss == 1))
+away_wins <- baseball %>% group_by(v_name, year) %>% summarize(a_wins = sum(h_win_loss == 0))
+team_year_wins <- home_wins %>% add_column(a_wins = away_wins$a_wins) %>% 
+  mutate(games_won = h_wins + a_wins)
+
+#total games played
+home_games <- baseball %>% group_by(h_name, year) %>% summarize(home_games = n())
+away_games <- baseball %>% group_by(v_name, year) %>% summarize(away_games = n())
+win_perc <- home_games %>% add_column(away_games = away_games$away_games) %>% 
+  mutate(games_played = home_games + away_games) %>% 
+  add_column(games_won = team_year_wins$games_won) %>% 
+  mutate(win_perc = games_won/games_played)
 ```
 
 ----
 ## MLB Team Payrolls
-In order to analyze the effects of teams' payrolls on their winning percentage each season, we compiled a CSV file based on data found from the "MLB Team Payrolls" link found in our `DATASETS` table. The website itself did not contain any easily downloadable data file, so we copied the columns `Team`, `Rank`, and `Total (Payroll)` from the years 2000-2016 into a CSV file, adding a column indicating the year for each observation. It is important to note that not each year has consistent column names on the website, so we consistently interpreted the highest value payroll columns as the `Total` payroll values. Additionally, since not each year had a `Rank` column, we manually observed and added `Rank` values for those that were missing. Lastly, we adjusted the team names to match our main dataset's unique h_name abbreviations. This csv file can be found in our dataset folder.
+In order to analyze the effects of teams' payrolls on their winning percentage each season, we compiled a CSV file based on data found from the "MLB Team Payrolls" link found in our `DATASETS` table. The website itself did not contain any easily downloadable data file, so we copied the columns `Team`, `Rank`, and `Total (Payroll)` from the years 2000-2016 into a CSV file, adding a column indicating the year for each observation. It is important to note that not each year has consistent column names on the website, so we consistently interpreted the highest value payroll columns as the `Total` payroll values. Additionally, since not each year had a `Rank` column, we manually observed and added `Rank` values for those that were missing. Lastly, we adjusted the team names to match our main dataset's unique h_name abbreviations. This csv file can be found in our dataset folder.\
+\
+We combined this dataset with the `win_perc` dataset by first converting the `year` variable from type double to character type. This code can be found in the `load_and_clean_data.R` where the data is saved in `mlb_payroll.RData`.\
+\
+We then joined `mlb_payroll` with `win_perc` to get our final payroll tibble.\
+\
+*Only the first 20 rows of the payroll data is displayed for concision.
 
 ```{r payroll}
-mlb_pay <- as_tibble(read_csv(here::here("dataset", "mlb_payroll.csv"), show_col_types = FALSE))
+load(here::here("dataset", "mlb_payroll.RData"))
 
-knitr::kable(mlb_pay[1:20,])
+pay_tibble <- win_perc %>% left_join(mlb_payroll, by = c('year'='year', 'h_name'='h_name')) %>% arrange(year)
+
+knitr::kable(pay_tibble[1:20,])
 
 ```
