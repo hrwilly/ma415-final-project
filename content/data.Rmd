@@ -84,7 +84,7 @@ data.frame(
 ) %>% 
   kbl() %>% 
   row_spec(0, bold = TRUE) %>% 
-  kable_classic_2("basic", html_font = "Georgia") %>% 
+  kable_classic(html_font = "Georgia") %>% 
   kable_styling(position = "center")
 
 ```
