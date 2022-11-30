@@ -3,7 +3,7 @@ title: Analysis
 description:
 toc: true
 featuredVideo:
-featuredImage: https://upload.wikimedia.org/wikipedia/commons/7/77/Pebbleswithquarzite.jpg
+featuredImage: images/analysis_page.jpg
 draft: false
 ---
 
@@ -13,7 +13,7 @@ We describe here our detailed data analysis.
 
 
 ```{r}
-library(tidyverse)
+suppressPackagestartupMessages(library(tidyverse))
 print(getwd())
 data <- read_csv(here::here("dataset/loan_refusal_clean.csv"))
 load(here::here("dataset/loan_refusal.RData"))
