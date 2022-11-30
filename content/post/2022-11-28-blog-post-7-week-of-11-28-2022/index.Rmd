@@ -32,5 +32,6 @@ load(here::here("dataset","win_perc.Rdata"))
 
 combined<-full_join(mlb_payroll,win_perc,by=c('year','h_name'))
 
-ggplot(combined)+geom_point(aes(payroll,win_perc))+facet_wrap(vars(h_name))
+ggplot(combined)+geom_point(aes(payroll,win_perc,color=year))+facet_wrap(vars(h_name))+scale_color_viridis_c()
+ggplot(combined)+geom_point(aes(payroll,win_perc,color=h_name))+facet_wrap(vars(year))
 ```
