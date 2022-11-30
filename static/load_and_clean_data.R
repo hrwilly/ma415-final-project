@@ -29,6 +29,8 @@ save(baseball, file = "dataset/baseball.RData")
 
 #Winning Percentage RData file
 
+load(here::here("dataset", "baseball.RData"))
+options(dplyr.summarise.inform = FALSE)
 #win/loss column (1 = win, 0 = loss or tie)
 h_win_loss <- function(h, v) {
   ifelse(h > v, 1, 0)
