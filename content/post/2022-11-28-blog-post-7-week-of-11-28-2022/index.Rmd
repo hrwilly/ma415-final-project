@@ -22,6 +22,7 @@ Please answer these questions over the next two weeks in your posts, in whatever
 
 
 ```{r hannah_notes}
+suppressPackageStartupMessages(library(tidyverse))
 load(here::here("dataset", "baseball.RData"))
 baseball_2<-baseball %>% group_by(as.dbl(year),h_name) %>% summarize(win=mean(score_diff))
 
