@@ -24,9 +24,13 @@ Please answer these questions over the next two weeks in your posts, in whatever
 ```{r hannah_notes}
 suppressPackageStartupMessages(library(tidyverse))
 load(here::here("dataset", "baseball.RData"))
-baseball_2<-baseball %>% group_by(as.dbl(year),h_name) %>% summarize(win=mean(score_diff))
+baseball_2<-baseball %>% group_by(year,h_name) %>% summarize(win=mean(score_diff))
 
-mlb_pay <- as_tibble(read_csv(here::here("dataset", "mlb_payroll.csv"), show_col_types = FALSE))
+load(here::here("dataset","mlb_payroll.Rdata"))
 
-combined<-full_join(mlb_pay,baseball_2,by=c('year','h_name'))
+load(here::here("dataset","win_perc.Rdata"))
+
+combined<-full_join(mlb_payroll,win_perc,by=c('year','h_name'))
+
+ggplot(combined)+geom_point(aes(payroll,win_perc))+facet_wrap(vars(h_name))
 ```
