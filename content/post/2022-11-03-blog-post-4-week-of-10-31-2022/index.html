@@ -20,6 +20,7 @@ featuredImage: ~
 </div>
 
 <p>Before analysis, the data must be loaded and mutated with extra columns we need for analysis.</p>
+<p>We are only printing the first 20 rows of our data sets, for concision.</p>
 <pre class="r"><code>suppressPackageStartupMessages(library(tidyverse)) 
 suppressWarnings(data &lt;- read_csv(here::here(&quot;dataset-ignore&quot;, &quot;game_logs.csv&quot;),show_col_types=FALSE))
 load(here::here(&quot;dataset&quot;, &quot;baseball.RData&quot;))
@@ -3696,6 +3697,7 @@ knitr::kable(baseball[1:20,])</code></pre>
 <h2>Graph #1 - Truly Exploratory Data:</h2>
 <p>While exploring trends in the data, we set out to see if starting pitcher has an impact on the outcome. In the following code, we compare the starting pitchers in each season to both the proportion of their games played that they won, and the number of games that they won. We specifically are focusing on Boston Red Sox at their home stadium, but hope to explore more teams as well as away games in the future.</p>
 <p>The first step is to create different data sets to see the number of games each pitcher wins, the number of games each pitcher plays, and the proportion of wins to the games played.</p>
+<p>Only the first 20 rows are shown in the data table</p>
 <pre class="r"><code>pitcher_win&lt;-baseball %&gt;% filter(h_name==&quot;BOS&quot;,h_score&gt;v_score) %&gt;% 
                            group_by(h_starting_pitcher_name,year) %&gt;% 
                            count(h_starting_pitcher_name) %&gt;% 
