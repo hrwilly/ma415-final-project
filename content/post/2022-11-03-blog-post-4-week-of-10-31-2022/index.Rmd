@@ -78,8 +78,8 @@ pitcher_prop %>% group_by(year) %>%
                  coord_flip()+
                  facet_wrap(vars(year),scales="free_y",ncol=3)+
                  labs(title="Proportion of Games Won for each Starting Pitcher of the Boston Red Sox")+
-                 xlab("Proportion")+
-                 ylab("Pitcher")
+                 ylab("Proportion")+
+                 xlab("Pitcher")
 
 pitcher_win %>% group_by(year) %>%
                 ggplot(aes(h_starting_pitcher_name,games_won,fill=h_starting_pitcher_name))+
@@ -87,8 +87,8 @@ pitcher_win %>% group_by(year) %>%
                 coord_flip()+
                 facet_wrap(vars(year),scales="free_y",ncol=3)+
                 labs(title="Games Won for each Starting Pitcher of the Boston Red Sox")+
-                xlab("Number of Games Won")+
-                ylab("Pitcher by ID")
+                ylab("Number of Games Won")+
+                xlab("Pitcher by ID")
 ```
 
 <br>
@@ -150,12 +150,12 @@ teams_pythag <- runs_total %>% add_column(allowed_total = allowed_total$allowed_
                                mutate(pythag_win = ((runs_total)^2)/(((runs_total)^2) + ((allowed_total)^2))) %>%
                                add_column(win_perc = win_perc$win_perc)
 
-
 #barplot for Boston Red Sox
 teams_pythag %>% filter(h_name == "BOS") %>% 
                  select(year, win_perc, pythag_win) %>% 
                  pivot_longer(-(h_name:year), names_to = "pythag_actual", values_to = "percentage") %>%
                  ggplot(aes(x=year, y=percentage, fill = pythag_actual)) + 
+                 coord_cartesian(ylim=c(0.4,0.7))+
                  geom_bar(stat = "identity", position = "dodge") + 
                  scale_x_discrete(guide = guide_axis(n.dodge=2)) + 
                  labs(title = "Pythagorean Winning Prediction versus Actual Winning Percentage", 
