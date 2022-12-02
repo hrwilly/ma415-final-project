@@ -19,19 +19,13 @@ featuredImage: ~
 
 </div>
 
-<p>For the final two blog posts I’m looking to see how you plan to wrap up the project. I’d like to hear about three things.
-How are you continuing your exploratory data analysis? Remember all the ways we visualized the COVID data in just a couple days. Make sure you’ve done a thorough exploration for your project. Lots of ideas will be dead ends but keep looking and think about attaching more data.
-What is your tentative thesis? Note that a thesis is not a hypothesis or a question. It should in some ways answer a question. (Eg. rather than, “What are the patterns of housing prices in Boston?“, something like, “Housing prices in Boston are rising rapidly, especially near T stations and along the water.“) The rest of the project should work to support that thesis. That doesn’t mean there won’t be any caveats or uncertainty, but you should try to accurately provide details that provide evidence for your thesis.
-How do you plan to polish your visualizations and tables? Think about titles, captions, annotations, highlights. Look into ggpubr for tools to improve your figures and look into some of the options for displaying tables using <a href="https://gallery.htmlwidgets.org/" class="uri">https://gallery.htmlwidgets.org/</a>.
-Please answer these questions over the next two weeks in your posts, in whatever order you like.</p>
 <p>Our main data sets that we are comparing are the baseball statistics and the payroll statistics. Our exploratory data analysis is continuing by looking for trends in these data sets combined, whereas before we looked at trends in each data set individually.</p>
 <pre class="r"><code>suppressPackageStartupMessages(library(tidyverse))
 
 load(here::here(&quot;dataset&quot;, &quot;baseball.RData&quot;))
 load(here::here(&quot;dataset&quot;,&quot;mlb_payroll.Rdata&quot;))
 load(here::here(&quot;dataset&quot;,&quot;win_perc.Rdata&quot;))</code></pre>
-<p>We first are looking at the basics, seeing if there is a correlation between winning and payroll data.To do this, we plot the payroll by the winning percentage, and facet by team which</p>
-<p>NOTE FOR SELF: WRITE IN EXPLANATION FOR GRAPHS; CURRENTLY BRAIN DEAD AND MY THOUGHTS ARE BAD</p>
+<p>We first are looking at the basics, seeing if there is a correlation between winning and payroll data. To do this, we plot the payroll by the winning percentage, and facet by team. We then added a line of best fit to the data, which allows us to see if the overall trend is up, down, or zero for each team.</p>
 <pre class="r"><code>combined&lt;-full_join(mlb_payroll,win_perc,by=c(&#39;year&#39;,&#39;h_name&#39;))
 
 ggplot(combined,aes(log(payroll),win_perc))+geom_point()+
@@ -41,17 +35,12 @@ ggplot(combined,aes(log(payroll),win_perc))+geom_point()+
 <pre><code>## Warning: Removed 40 rows containing non-finite values (stat_smooth).</code></pre>
 <pre><code>## Warning: Removed 40 rows containing missing values (geom_point).</code></pre>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/trends_1-1.png" width="672" /></p>
-<p>PUT EXPLANATION FOR WHAT WE SEE ABOVE</p>
-<p>EXPLAIN WHAT WE ARE DOING IN NEXT GRAPH</p>
+<p>Some teams clearly have an upward trend, others clearly downward, and some have no clear trend. From this graph, we chose teams to focus in on to see if there is anything else that contributes to the trend we see and could be correlated. We chose to look more closely at Pittsburgh (upward trend) and Chicago (downward trend).</p>
+<p>We next looked at payroll and win percentage, but faceted by year instead of home team.</p>
 <pre class="r"><code>ggplot(combined,aes(log(payroll),win_perc))+geom_point(aes(color=h_name))+
                                             facet_wrap(vars(year),ncol=3)+
                                             theme(legend.position = &#39;bottom&#39;)</code></pre>
 <pre><code>## Warning: Removed 40 rows containing missing values (geom_point).</code></pre>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/trends_2-1.png" width="672" /></p>
-<p>EXPLAIN TRENDS FROM GRAPH ABOVE</p>
-<p>SAY SOMETHING ABOUT FOCUSING ON TEAMS FROM ABOVE THAT HAD INTERESTING RESULTS OR WHATEVER TO LEAD INTO MAYSEN’S PART</p>
-<p>*maysen’s exploratory of select teams (I think she said they’ll be model fits? I can explain above that my “lines of best fit” are just for quick glances and then we are choosing specific teams to ACTUALLY analyze if my fake model looks interesting)</p>
-<p>MAYBE WE CAN EXPLORE PAYROLL BASED ON SKILL IN GAME? LIKE WE CAN SEE NUMBERS OF HOMERUNS AND HITS AND ALL THAT DATA SO IT COULD BE AN INTERESTING TOUCH, NOT SURE WHERE IN THE POST THIS SHOULD GO OR IF IT SHOULD BE IN NEXT WEEK’S BUT I THINK ITS WORTH LOOKING INTO
-SHOULD WE DO ANYTHING WITH THE PITCHER DATA WE ANALYZED? ANY TYPE OF MODEL?</p>
-<p>TALK ABOUT THESIS????</p>
-<p>I DONT THINK ITS CURRENTLY WORTH TALKING ABOUT HOW WE ARE GOING TO POLISH EVERYTHING, I THINK THATS BETTER FIT FOR NEXT WEEK AFTER</p>
+<p>While looking at each individual year appears to have no trend, when looking from year to year, we can see which teams continuously perform better and which teams continuously perform worse. For almost all of the years, the Yankees are outliers and typically pay the most money while also having a rather high win percentage. In 2014, the Dodgers surpass the Yankees in payroll, and also have a higher win percentage. In the later years, the Astros tend to have a low win percentage, however it can be seen that as they pay more money, this winning percentage improves and they are no longer an outlier on the lower end.These three teams are also worth looking into.</p>
+<p>We have looked at payroll data versus number of homeruns, hits, double plays, doubles, and strikeouts. Correlation was only found in the number of strikeouts. We will continue to explore more variables to uncover all possible trends.</p>
