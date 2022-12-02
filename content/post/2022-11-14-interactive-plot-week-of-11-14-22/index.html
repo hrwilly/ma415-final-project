@@ -32,19 +32,19 @@ featuredImage: ~
 
 </div>
 
-<p>Today, we’ll build and deploy a very simple interactive in class and discuss what makes a good interactive.
-For this weeks post, describe your thoughts and progress on the interactive for your final project. Think about the principals we talked about from last week the interactive should :</p>
-<p>allow the user to both see the big picture trends and to “zoom in” on subsets or individual data points.</p>
-<p>be interactive, it should be more than just static plots, allowing the user to provide input to explore the data,</p>
-<p>guide the user, providing clear ways to use the interactive and highlighting interesting findings to start a user’s exploration,</p>
-<p>if you can, be personal. Not all data will be conducive to this but if you allow a user to see information relevant to them specifically, it can help pull people in.</p>
-<p>Discuss your ideas and, if you’ve made progress, provide a link to a draft of the interactive. Note, I’m requiring all groups to use Shiny this semester. The directions on the Big Picture page were not properly updated.</p>
-<p>Maybe use shiny to sort by years, and then in leaflet have a popup for winning percentage, and a scroll bar to select for certain winning percentages</p>
+<p>For our interactive, we want to put the geographic location of all of the stadiums onto a map of the United States, colored by division. When your mouse hovers over a stadium, the name of the stadium will pop up. Clicking on a stadium will provide statistics for the home team.</p>
+<p>The personalized aspect will be how the user has the ability to choose a stadium; they will be able to look at their home stadiums and/or favorite teams specifically.</p>
+<p>DISCUSS: need big picture trends and zooming in – ideas?
+plots themselves also can’t be static, use must provide input that changes what is displayed in plots themselves
+interactions must be clear
+maybe for highlighting interesting findings we can choose a few cool stats that will appear with the stadium name when you hover over it?
+‘Maybe use shiny to sort by years, and then in leaflet have a popup for winning percentage, and a scroll bar to select for certain winning percentages’</p>
+<p>Our rough outline of our interactive is shown below. We still need to convert to Shiny.</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
 ## ✔ ggplot2 3.3.6      ✔ purrr   0.3.4 
 ## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-## ✔ tidyr   1.2.0      ✔ stringr 1.4.1 
+## ✔ tidyr   1.2.1      ✔ stringr 1.4.1 
 ## ✔ readr   2.1.2      ✔ forcats 0.5.2 
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
@@ -76,7 +76,7 @@ stadiums &lt;- read_sheet(&quot;https://docs.google.com/spreadsheets/d/1p0R5qqR7
 ##   the use of a cached token.
 ##   See gargle&#39;s &quot;Non-interactive auth&quot; vignette for more details:
 ##   &lt;]8;;https://gargle.r-lib.org/articles/non-interactive-auth.htmlhttps://gargle.r-lib.org/articles/non-interactive-auth.html]8;;&gt;
-## ℹ The googlesheets4 package is using a cached token for &#39;]8;;mailto:mppagan@bu.edumppagan@bu.edu]8;;&#39;.
+## ℹ The googlesheets4 package is using a cached token for &#39;]8;;mailto:hrwilly@bu.eduhrwilly@bu.edu]8;;&#39;.
 ## Auto-refreshing stale OAuth token.
 ## ✔ Reading from &quot;US Pro Sports Venues&quot;.
 ## ✔ Range &#39;Sheet1&#39;.</code></pre>

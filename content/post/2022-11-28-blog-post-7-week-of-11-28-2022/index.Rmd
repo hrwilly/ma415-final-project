@@ -21,17 +21,59 @@ How do you plan to polish your visualizations and tables? Think about titles, ca
 Please answer these questions over the next two weeks in your posts, in whatever order you like.
 
 
-```{r hannah_notes}
+
+Our main data sets that we are comparing are the baseball statistics and the payroll statistics. Our exploratory data analysis is continuing by looking for trends in these data sets combined, whereas before we looked at trends in each data set individually.
+
+```{r loading_data}
 suppressPackageStartupMessages(library(tidyverse))
+
 load(here::here("dataset", "baseball.RData"))
-baseball_2<-baseball %>% group_by(year,h_name) %>% summarize(win=mean(score_diff))
-
 load(here::here("dataset","mlb_payroll.Rdata"))
-
 load(here::here("dataset","win_perc.Rdata"))
+```
 
+We first are looking at the basics, seeing if there is a correlation between winning and payroll data.To do this, we plot the payroll by the winning percentage, and facet by team which
+
+NOTE FOR SELF: WRITE IN EXPLANATION FOR GRAPHS; CURRENTLY BRAIN DEAD AND MY THOUGHTS ARE BAD
+```{r trends_1,fig.height=20}
 combined<-full_join(mlb_payroll,win_perc,by=c('year','h_name'))
 
+<<<<<<< HEAD
 ggplot(combined)+geom_point(aes(log(payroll),win_perc,color=year))+facet_wrap(vars(h_name))+scale_color_viridis_c()
 ggplot(combined)+geom_point(aes(log(payroll),win_perc,color=h_name))+facet_wrap(vars(year))
 ```
+=======
+ggplot(combined,aes(payroll,win_perc))+geom_point()+
+                                       geom_smooth(method='glm')+
+                                       facet_wrap(vars(h_name),ncol=3)
+```
+
+PUT EXPLANATION FOR WHAT WE SEE ABOVE
+
+EXPLAIN WHAT WE ARE DOING IN NEXT GRAPH 
+```{r trends_2,fig.height=20}
+ggplot(combined,aes(payroll,win_perc))+geom_point(aes(color=h_name))+
+                                       facet_wrap(vars(year),ncol=3)+
+                                       theme(legend.position = 'bottom')
+```
+
+EXPLAIN TRENDS FROM GRAPH ABOVE
+
+
+
+SAY SOMETHING ABOUT FOCUSING ON TEAMS FROM ABOVE THAT HAD INTERESTING RESULTS OR WHATEVER TO LEAD INTO MAYSEN'S PART
+
+*maysen's exploratory of select teams (I think she said they'll be model fits? I can explain above that my "lines of best fit" are just for quick glances and then we are choosing specific teams to ACTUALLY analyze if my fake model looks interesting)
+
+
+MAYBE WE CAN EXPLORE PAYROLL BASED ON SKILL IN GAME? LIKE WE CAN SEE NUMBERS OF HOMERUNS AND HITS AND ALL THAT DATA SO IT COULD BE AN INTERESTING TOUCH, NOT SURE WHERE IN THE POST THIS SHOULD GO OR IF IT SHOULD BE IN NEXT WEEK'S BUT I THINK ITS WORTH LOOKING INTO
+SHOULD WE DO ANYTHING WITH THE PITCHER DATA WE ANALYZED? ANY TYPE OF MODEL?
+
+
+
+TALK ABOUT THESIS????
+
+
+
+I DONT THINK ITS CURRENTLY WORTH TALKING ABOUT HOW WE ARE GOING TO POLISH EVERYTHING, I THINK THATS BETTER FIT FOR NEXT WEEK AFTER 
+>>>>>>> a72e6daecf8a94e1593cea4ffd80884414c9a9ec
