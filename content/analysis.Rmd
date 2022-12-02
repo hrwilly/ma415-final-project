@@ -7,32 +7,9 @@ featuredImage: images/analysis_page.jpg
 draft: false
 ---
 
-This comes from the file `content/analysis.Rmd`.
-
 We describe here our detailed data analysis.
 
 
-```{r}
-suppressPackagestartupMessages(library(tidyverse))
-print(getwd())
-data <- read_csv(here::here("dataset/loan_refusal_clean.csv"))
-load(here::here("dataset/loan_refusal.RData"))
-print(ls())
-```
-
-## Note on Attribution
-
-If you are directly quoting from a source, please make that clear. You can show quotes using `>` like this
-
-```
-> To be or not to be.
-```
-
-> To be or not to be.
-
-Also, make sure to provide a link or citation to where you are quoting from.
-
--------
 
 
 ## Rubric: On this page
@@ -64,11 +41,6 @@ you will
   * Do you provide interpretations that suggest further analysis or explanations for observed phenomenon?
 * Organization and cleanliness.
   * Make sure to remove excessive warnings, use clean easy-to-read code, organize with sections or multiple pages, use bullets, etc.
-  
-  
-**NOTE**: Your Data Analysis can be broken up into multiple pages if that helps with your organization.
-
-
 
 
 ```{r maysen_modeling}
@@ -76,8 +48,7 @@ load(here::here("dataset", "win_perc.RData"))
 load(here::here("dataset", "mlb_payroll.RData"))
 load(here::here("dataset", "baseball.RData"))
 
-payroll_win <- win_perc %>% left_join(mlb_payroll, by = c("year", "h_name")) %>% f
-ilter(!is.na(payroll))
+payroll_win <- win_perc %>% left_join(mlb_payroll, by = c("year", "h_name")) %>% filter(!is.na(payroll))
 
 (payroll_mod <- lm(win_perc ~ log(payroll), data = payroll_win))
 beta <- coef(payroll_mod)
