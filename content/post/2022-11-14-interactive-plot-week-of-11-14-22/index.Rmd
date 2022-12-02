@@ -123,45 +123,20 @@ leaflet(MLBstadiums) %>%
 ```
 
 ```{r, combining sets}
-baseball_years_for_map <- baseball %>% group_by(year) %>% select(year, h_name, h_league)
-baseball_years_for_map %>% pivot_wider(names_from = year, values_from = h_league)
+load(here::here("dataset", "win_perc.RData"))
+shiny_wins <- win_perc %>%  select(h_name, year, win_perc)
+shiny_wins <- pivot_wider(shiny_wins, id_cols = h_name, names_from = year, values_from = win_perc)
+shiny_wins
 ```
 
 ```{r, shiny map}
+rsconnect::setAccountInfo(name='bu-ma415-hgb-stadium-map', token='AC86430056BEE712DADDBB47C5B56B5A', secret='sPdprlQo0fcDettSUrK/b++IIRdzexqNZs7jiSa3')
+
+library(rsconnect)
+#rsconnect::deployApp('shiny_app/stadium_map_2/app')
+
 library(shiny)
-
-ui <- ui <- fluidPage(
-  leafletOutput("mymap"),
-  p()
-)
-
-
-server <- function(input,output, session){
-  data <- reactive({
-   x <- MLBstadiums
-   
-   #filteredData=subset(MLBstadiums, Year == input$yearselected)
-   #return(filteredData)
- })  
-  
-  output$mymap <- renderLeaflet({
-   #df <- data()
-   
-  m <- leaflet(MLBstadiums) %>% 
-       setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
-       addTiles() %>% 
-       addAwesomeMarkers(~Longitude, ~Latitude, 
-                        icon = icons, 
-                        label = ~as.character(Venue), 
-                        popup = ~as.character(Sport)) %>% 
-      addLegend(position = 'bottomleft', 
-                colors = makeColorsandNames[,2],
-                labels = makeColorsandNames[,1],
-                opacity = 1,title = 'Divisions')
-   m
- }) 
-}
-
-shinyApp(ui, server, options = list(height = 550)) 
+runApp()
 ```
+
 
