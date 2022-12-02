@@ -43,8 +43,6 @@ ggplot(combined,aes(log(payroll),win_perc))+geom_point()+
                                             facet_wrap(vars(h_name),ncol=3)
 ```
 
-
-
 PUT EXPLANATION FOR WHAT WE SEE ABOVE
 
 EXPLAIN WHAT WE ARE DOING IN NEXT GRAPH 
