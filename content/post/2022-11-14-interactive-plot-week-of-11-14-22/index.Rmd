@@ -109,20 +109,10 @@ MLBstadiums <- stadiums %>% filter(Sport == "MLB") %>%
 baseball_w_stadiums <- merge(baseball, stadiums, by.x=c("h_name"), 
                                                  by.y =("Abbreviation")) 
 
-
-#leaflet(baseball_w_stadiums) %>% 
-  #    setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
-  #    addTiles() %>% 
-  #    addAwesomeMarkers(~Longitude, ~Latitude, label = ~as.character(h_name)) #%>%
-      #addLegend(position = 'bottomleft', opacity = 1,title = 'Divisions')
-
-
-#save(MLBstadiums, file = "dataset/MLBstadiums.Rdata")
-
-
   
 makeColorsandNames <- data.frame(divisions = c('AL East','AL Central','AL West','NL East','NL Central','NL West'), division.cent = c('#CC0000','#3399FF','#FFA500','#9ACD32','#483D8B','#000000'))
-
+  
+  
 leaflet(MLBstadiums) %>% 
       setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
       addTiles() %>% 
@@ -131,3 +121,47 @@ leaflet(MLBstadiums) %>%
 
     
 ```
+
+```{r, combining sets}
+baseball_years_for_map <- baseball %>% group_by(year) %>% select(year, h_name, h_league)
+baseball_years_for_map %>% pivot_wider(names_from = year, values_from = h_league)
+```
+
+```{r, shiny map}
+library(shiny)
+
+ui <- ui <- fluidPage(
+  leafletOutput("mymap"),
+  p()
+)
+
+
+server <- function(input,output, session){
+  data <- reactive({
+   x <- MLBstadiums
+   
+   #filteredData=subset(MLBstadiums, Year == input$yearselected)
+   #return(filteredData)
+ })  
+  
+  output$mymap <- renderLeaflet({
+   #df <- data()
+   
+  m <- leaflet(MLBstadiums) %>% 
+       setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
+       addTiles() %>% 
+       addAwesomeMarkers(~Longitude, ~Latitude, 
+                        icon = icons, 
+                        label = ~as.character(Venue), 
+                        popup = ~as.character(Sport)) %>% 
+      addLegend(position = 'bottomleft', 
+                colors = makeColorsandNames[,2],
+                labels = makeColorsandNames[,1],
+                opacity = 1,title = 'Divisions')
+   m
+ }) 
+}
+
+shinyApp(ui, server, options = list(height = 550)) 
+```
+
