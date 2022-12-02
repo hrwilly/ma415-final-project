@@ -38,23 +38,18 @@ NOTE FOR SELF: WRITE IN EXPLANATION FOR GRAPHS; CURRENTLY BRAIN DEAD AND MY THOU
 ```{r trends_1,fig.height=20}
 combined<-full_join(mlb_payroll,win_perc,by=c('year','h_name'))
 
-<<<<<<< HEAD
-ggplot(combined)+geom_point(aes(log(payroll),win_perc,color=year))+facet_wrap(vars(h_name))+scale_color_viridis_c()
-ggplot(combined)+geom_point(aes(log(payroll),win_perc,color=h_name))+facet_wrap(vars(year))
-```
-=======
-ggplot(combined,aes(payroll,win_perc))+geom_point()+
-                                       geom_smooth(method='glm')+
-                                       facet_wrap(vars(h_name),ncol=3)
+ggplot(combined,aes(log(payroll),win_perc))+geom_point()+
+                                            geom_smooth(method='glm')+
+                                            facet_wrap(vars(h_name),ncol=3)
 ```
 
 PUT EXPLANATION FOR WHAT WE SEE ABOVE
 
 EXPLAIN WHAT WE ARE DOING IN NEXT GRAPH 
 ```{r trends_2,fig.height=20}
-ggplot(combined,aes(payroll,win_perc))+geom_point(aes(color=h_name))+
-                                       facet_wrap(vars(year),ncol=3)+
-                                       theme(legend.position = 'bottom')
+ggplot(combined,aes(log(payroll),win_perc))+geom_point(aes(color=h_name))+
+                                            facet_wrap(vars(year),ncol=3)+
+                                            theme(legend.position = 'bottom')
 ```
 
 EXPLAIN TRENDS FROM GRAPH ABOVE
@@ -76,4 +71,3 @@ TALK ABOUT THESIS????
 
 
 I DONT THINK ITS CURRENTLY WORTH TALKING ABOUT HOW WE ARE GOING TO POLISH EVERYTHING, I THINK THATS BETTER FIT FOR NEXT WEEK AFTER 
->>>>>>> a72e6daecf8a94e1593cea4ffd80884414c9a9ec

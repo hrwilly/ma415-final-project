@@ -34,18 +34,18 @@ load(here::here(&quot;dataset&quot;,&quot;win_perc.Rdata&quot;))</code></pre>
 <p>NOTE FOR SELF: WRITE IN EXPLANATION FOR GRAPHS; CURRENTLY BRAIN DEAD AND MY THOUGHTS ARE BAD</p>
 <pre class="r"><code>combined&lt;-full_join(mlb_payroll,win_perc,by=c(&#39;year&#39;,&#39;h_name&#39;))
 
-ggplot(combined,aes(payroll,win_perc))+geom_point()+
-                                       geom_smooth(method=&#39;glm&#39;)+
-                                       facet_wrap(vars(h_name),ncol=3)</code></pre>
+ggplot(combined,aes(log(payroll),win_perc))+geom_point()+
+                                            geom_smooth(method=&#39;glm&#39;)+
+                                            facet_wrap(vars(h_name),ncol=3)</code></pre>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <pre><code>## Warning: Removed 40 rows containing non-finite values (stat_smooth).</code></pre>
 <pre><code>## Warning: Removed 40 rows containing missing values (geom_point).</code></pre>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/trends_1-1.png" width="672" /></p>
 <p>PUT EXPLANATION FOR WHAT WE SEE ABOVE</p>
 <p>EXPLAIN WHAT WE ARE DOING IN NEXT GRAPH</p>
-<pre class="r"><code>ggplot(combined,aes(payroll,win_perc))+geom_point(aes(color=h_name))+
-                                       facet_wrap(vars(year),ncol=3)+
-                                       theme(legend.position = &#39;bottom&#39;)</code></pre>
+<pre class="r"><code>ggplot(combined,aes(log(payroll),win_perc))+geom_point(aes(color=h_name))+
+                                            facet_wrap(vars(year),ncol=3)+
+                                            theme(legend.position = &#39;bottom&#39;)</code></pre>
 <pre><code>## Warning: Removed 40 rows containing missing values (geom_point).</code></pre>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/trends_2-1.png" width="672" /></p>
 <p>EXPLAIN TRENDS FROM GRAPH ABOVE</p>

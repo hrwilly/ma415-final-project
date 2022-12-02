@@ -4100,8 +4100,8 @@ With these data sets, we can now graph both the proportion of games each pitcher
                  coord_flip()+
                  facet_wrap(vars(year),scales=&quot;free_y&quot;,ncol=3)+
                  labs(title=&quot;Proportion of Games Won for each Starting Pitcher of the Boston Red Sox&quot;)+
-                 xlab(&quot;Proportion&quot;)+
-                 ylab(&quot;Pitcher&quot;)</code></pre>
+                 ylab(&quot;Proportion&quot;)+
+                 xlab(&quot;Pitcher&quot;)</code></pre>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/graph1cont-1.png" width="960" /></p>
 <pre class="r"><code>pitcher_win %&gt;% group_by(year) %&gt;%
                 ggplot(aes(h_starting_pitcher_name,games_won,fill=h_starting_pitcher_name))+
@@ -4109,8 +4109,8 @@ With these data sets, we can now graph both the proportion of games each pitcher
                 coord_flip()+
                 facet_wrap(vars(year),scales=&quot;free_y&quot;,ncol=3)+
                 labs(title=&quot;Games Won for each Starting Pitcher of the Boston Red Sox&quot;)+
-                xlab(&quot;Number of Games Won&quot;)+
-                ylab(&quot;Pitcher by ID&quot;)</code></pre>
+                ylab(&quot;Number of Games Won&quot;)+
+                xlab(&quot;Pitcher by ID&quot;)</code></pre>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/graph1cont-2.png" width="960" /></p>
 <p><br>
 There are clearly starting pitchers that win more games than others. In this case, the number of games won offers a little better insight than the proportion of games won, since multiple pitchers only started one game and won that one game, so are given a 100% win percentage. Starting pitchers is a factor that can definitely be explored further.</p>
@@ -7864,12 +7864,12 @@ teams_pythag &lt;- runs_total %&gt;% add_column(allowed_total = allowed_total$al
                                mutate(pythag_win = ((runs_total)^2)/(((runs_total)^2) + ((allowed_total)^2))) %&gt;%
                                add_column(win_perc = win_perc$win_perc)
 
-
 #barplot for Boston Red Sox
 teams_pythag %&gt;% filter(h_name == &quot;BOS&quot;) %&gt;% 
                  select(year, win_perc, pythag_win) %&gt;% 
                  pivot_longer(-(h_name:year), names_to = &quot;pythag_actual&quot;, values_to = &quot;percentage&quot;) %&gt;%
                  ggplot(aes(x=year, y=percentage, fill = pythag_actual)) + 
+                 coord_cartesian(ylim=c(0.4,0.7))+
                  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;) + 
                  scale_x_discrete(guide = guide_axis(n.dodge=2)) + 
                  labs(title = &quot;Pythagorean Winning Prediction versus Actual Winning Percentage&quot;, 
