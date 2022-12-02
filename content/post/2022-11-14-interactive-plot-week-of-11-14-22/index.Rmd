@@ -109,17 +109,6 @@ MLBstadiums <- stadiums %>% filter(Sport == "MLB") %>%
 baseball_w_stadiums <- merge(baseball, stadiums, by.x=c("h_name"), 
                                                  by.y =("Abbreviation")) 
 
-
-#leaflet(baseball_w_stadiums) %>% 
-  #    setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
-  #    addTiles() %>% 
-  #    addAwesomeMarkers(~Longitude, ~Latitude, label = ~as.character(h_name)) #%>%
-      #addLegend(position = 'bottomleft', opacity = 1,title = 'Divisions')
-
-
-#save(MLBstadiums, file = "dataset/MLBstadiums.Rdata")
-
-
   
 makeColorsandNames <- data.frame(divisions = c('AL East','AL Central','AL West','NL East','NL Central','NL West'), division.cent = c('#CC0000','#3399FF','#FFA500','#9ACD32','#483D8B','#000000'))
   
