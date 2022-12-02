@@ -67,3 +67,130 @@ you will
   
   
 **NOTE**: Your Data Analysis can be broken up into multiple pages if that helps with your organization.
+
+
+
+
+```{r maysen_modeling}
+load(here::here("dataset", "win_perc.RData"))
+load(here::here("dataset", "mlb_payroll.RData"))
+load(here::here("dataset", "baseball.RData"))
+
+payroll_win <- win_perc %>% left_join(mlb_payroll, by = c("year", "h_name")) %>% f
+ilter(!is.na(payroll))
+
+(payroll_mod <- lm(win_perc ~ log(payroll), data = payroll_win))
+beta <- coef(payroll_mod)
+
+# for all teams, as payroll increases, winning percentage for a given year increases
+ggplot(payroll_win) + geom_point(aes(log(payroll), win_perc)) + 
+  geom_abline(intercept = beta[1], slope = beta[2], color = "red")
+
+#Pittsburgh pirates are a team who match this overall pattern
+pit <- payroll_win %>% filter(h_name == "PIT")
+pit_mod <- lm(win_perc~log(payroll), data = pit)
+pit_beta <- coef(pit_mod)
+ggplot(pit) + geom_point(aes(log(payroll), win_perc)) + 
+  geom_abline(intercept = pit_beta[1], slope = pit_beta[2], color = "red")
+
+#find year payroll was lowest and highest for Pittsburgh
+mlb_payroll %>% filter(h_name == "PIT") %>% arrange(payroll)
+#2000 lowest 2015 highest
+
+bb <- baseball %>% mutate(win_loss = ifelse(score_diff>1, 1, 0))
+
+#home games - each starting pitcher's prop of games winning of games started
+#2000
+bb %>% filter(h_name == "PIT", year == 2000) %>% 
+  group_by(h_starting_pitcher_name) %>%
+  summarize(games_started = n(), 
+            games_won = sum(h_starting_pitcher_name==winning_pitcher_name), 
+            prop = games_won/games_started) %>% 
+  arrange(desc(games_started)) %>%
+  ggplot(aes(games_started, prop)) + 
+  geom_point(aes(color = h_starting_pitcher_name))
+#2015
+bb %>% filter(h_name == "PIT", year == 2015) %>% 
+  group_by(h_starting_pitcher_name) %>%
+  summarize(games_started = n(), 
+            games_won = sum(h_starting_pitcher_name==winning_pitcher_name), 
+            prop = games_won/games_started) %>% 
+  arrange(desc(games_started)) %>%
+  ggplot(aes(games_started, prop)) + 
+  geom_point(aes(color = h_starting_pitcher_name))
+
+#away games - each starting pitcher's prop of games winning of games started
+#2000
+bb %>% filter(v_name == "PIT", year == 2000) %>% 
+  group_by(v_starting_pitcher_name) %>%
+  summarize(games_started = n(), 
+            games_won = sum(v_starting_pitcher_name==winning_pitcher_name), 
+            prop = games_won/games_started) %>% 
+  arrange(desc(games_started)) %>%
+  ggplot(aes(games_started, prop)) + 
+  geom_point(aes(color = v_starting_pitcher_name))
+
+#2015
+bb %>% filter(v_name == "PIT", year == 2015) %>% 
+  group_by(v_starting_pitcher_name) %>%
+  summarize(games_started = n(), 
+            games_won = sum(v_starting_pitcher_name==winning_pitcher_name), 
+            prop = games_won/games_started) %>% 
+  arrange(desc(games_started)) %>%
+  ggplot(aes(games_started, prop)) + 
+  geom_point(aes(color = v_starting_pitcher_name))
+
+
+# for chicago white sox, as payroll increases, winning percentage decreases
+cha <- payroll_win %>% filter(h_name == "CHA")
+cha_mod <- lm(win_perc~log(payroll), data = cha)
+cha_beta <- coef(cha_mod)
+ggplot(cha) + geom_point(aes(log(payroll), win_perc)) + 
+  geom_abline(intercept = cha_beta[1], slope = cha_beta[2], color = "red")
+
+#find year payroll was lowest and highest for chicago
+mlb_payroll %>% filter(h_name == "CHA") %>% arrange(payroll)
+#2000 lowest 2011 highest
+
+#home games - each starting pitcher's prop of games winning of games started
+#2000
+bb %>% filter(h_name == "CHA", year == 2000) %>% 
+  group_by(h_starting_pitcher_name) %>%
+  summarize(games_started = n(), 
+            games_won = sum(h_starting_pitcher_name==winning_pitcher_name), 
+            prop = games_won/games_started) %>% 
+  arrange(desc(games_started)) %>%
+  ggplot(aes(games_started, prop)) + 
+  geom_point(aes(color = h_starting_pitcher_name))
+
+#2011
+bb %>% filter(h_name == "CHA", year == 2011) %>% 
+  group_by(h_starting_pitcher_name) %>%
+  summarize(games_started = n(), 
+            games_won = sum(h_starting_pitcher_name==winning_pitcher_name), 
+            prop = games_won/games_started) %>% 
+  arrange(desc(games_started)) %>%
+  ggplot(aes(games_started, prop)) + 
+  geom_point(aes(color = h_starting_pitcher_name))
+
+#away games - each starting pitcher's prop of games winning of games started
+#2000
+bb %>% filter(v_name == "CHA", year == 2000) %>% 
+  group_by(v_starting_pitcher_name) %>%
+  summarize(games_started = n(), 
+            games_won = sum(v_starting_pitcher_name==winning_pitcher_name), 
+            prop = games_won/games_started) %>% 
+  arrange(desc(games_started)) %>%
+  ggplot(aes(games_started, prop)) + 
+  geom_point(aes(color = v_starting_pitcher_name))
+
+#2011
+bb %>% filter(v_name == "CHA", year == 2011) %>% 
+  group_by(v_starting_pitcher_name) %>%
+  summarize(games_started = n(), 
+            games_won = sum(v_starting_pitcher_name==winning_pitcher_name), 
+            prop = games_won/games_started) %>% 
+  arrange(desc(games_started)) %>%
+  ggplot(aes(games_started, prop)) + 
+  geom_point(aes(color = v_starting_pitcher_name))
+```

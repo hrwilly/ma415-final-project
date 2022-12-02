@@ -18,11 +18,9 @@ suppressPackageStartupMessages(library(kableExtra))
 library(gt)
 df <- tibble(
   Dataset = c("Baseball Game Logs from 1871-2016", 
-              "Hourly Weather Data from 2012-2017", 
               "MLB Park Locations",
               "MLB Team Payrolls"),
   Link = c("https://data.world/dataquest/mlb-game-logs/workspace/file?filename=game_logs.csv",
-           "https://www.kaggle.com/datasets/selfishgene/historical-hourly-weather-data?select=temperature.csv",
            "https://docs.google.com/spreadsheets/d/1p0R5qqR7XjoRG2mR5E1D_trlygHSqMOUdMgMpzq0gjU/htmlview",
            "http://www.stevetheump.com/Payrolls.htm#2020_payrolls")
 )
