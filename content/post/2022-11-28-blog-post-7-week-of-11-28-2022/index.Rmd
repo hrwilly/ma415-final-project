@@ -38,7 +38,7 @@ NOTE FOR SELF: WRITE IN EXPLANATION FOR GRAPHS; CURRENTLY BRAIN DEAD AND MY THOU
 ```{r trends_1,fig.height=20}
 combined<-full_join(mlb_payroll,win_perc,by=c('year','h_name'))
 
-<<<<<<< HEAD
+
 ggplot(combined)+geom_point(aes(log(payroll),win_perc,color=year))+facet_wrap(vars(h_name))+scale_color_viridis_c()
 ggplot(combined)+geom_point(aes(log(payroll),win_perc,color=h_name))+facet_wrap(vars(year))
 ```
