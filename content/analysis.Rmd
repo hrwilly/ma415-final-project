@@ -75,8 +75,7 @@ load(here::here("dataset", "win_perc.RData"))
 load(here::here("dataset", "mlb_payroll.RData"))
 load(here::here("dataset", "baseball.RData"))
 
-payroll_win <- win_perc %>% left_join(mlb_payroll, by = c("year", "h_name")) %>% f
-ilter(!is.na(payroll))
+payroll_win <- win_perc %>% left_join(mlb_payroll, by = c("year", "h_name")) %>% filter(!is.na(payroll))
 
 (payroll_mod <- lm(win_perc ~ log(payroll), data = payroll_win))
 beta <- coef(payroll_mod)
