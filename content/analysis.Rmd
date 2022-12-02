@@ -70,7 +70,6 @@ you will
 
 
 
-
 ```{r maysen_modeling}
 load(here::here("dataset", "win_perc.RData"))
 load(here::here("dataset", "mlb_payroll.RData"))
