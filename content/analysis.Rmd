@@ -10,22 +10,11 @@ draft: false
 We describe here our detailed data analysis.
 
 
-
-
 ## Rubric: On this page
 
 you will
 
 
-* Introduce what motivates your Data Analysis (DA)
-  * Which variables and relationships are you most interested in?
-  * What questions are you interested in answering?
-* Breadth of the DA
-  * Make sure that you ask enough initial questions to explore the different variables in your data.
-  * i.e. Do you explore more than just one or two variables? Do you explore a few different relationships or many?
-* Depth of the DA
-  * When you answer one question, usually more questions arise as well. 
-  * The depth of the DA is about coming up with and exploring the answers to these questions, often iterating the process a few times.
 * Modeling and Inference 
   * You should also include some kind of formal statistical model and/or inference. This could be a linear regression, logistic regression, hypothesis testing etc.
   * Explain the techniques you used for validating your results.
@@ -41,15 +30,20 @@ you will
   * Do you provide interpretations that suggest further analysis or explanations for observed phenomenon?
 * Organization and cleanliness.
   * Make sure to remove excessive warnings, use clean easy-to-read code, organize with sections or multiple pages, use bullets, etc.
+  
+
+## Data Analysis Motivations
+
+For our data analysis, we are most interested in the relationship between the `win_perc` variable in our `win_perc` data set we created, which can be found in our Data page, and the `payroll` variable from our `mlb_payroll` dataset. We are also interested in the effects of a team's payroll on their offensive performance of a given season explained by variables such as `hits` and `homeruns`. We wish to look at the whether a particular team's winning percentage changes each season with that team's payroll. Does a high payroll correspond with more wins and therefore higher success? If not, what factors lead to a team losing even with such high payrolls?
 
 
 ```{r maysen_modeling}
+suppressPackageStartupMessages(library(tidyverse))
 load(here::here("dataset", "win_perc.RData"))
 load(here::here("dataset", "mlb_payroll.RData"))
 load(here::here("dataset", "baseball.RData"))
 
 payroll_win <- win_perc %>% left_join(mlb_payroll, by = c("year", "h_name")) %>% filter(!is.na(payroll))
-
 (payroll_mod <- lm(win_perc ~ log(payroll), data = payroll_win))
 beta <- coef(payroll_mod)
 
@@ -164,4 +158,24 @@ bb %>% filter(v_name == "CHA", year == 2011) %>%
   arrange(desc(games_started)) %>%
   ggplot(aes(games_started, prop)) + 
   geom_point(aes(color = v_starting_pitcher_name))
-```
+
+#########################
+
+bb %>% filter(h_name == "CHA", year == 2000) %>% group_by(h_player_3_name) %>% summarize(count = n())
+#home games, 2000, how many games Thomas Frank won when he started first base
+bb %>% filter(h_name == "CHA", year == 2000) %>% summarize(FT_start = sum(h_player_3_name=="Frank Thomas"), wins = sum(h_player_3_name=="Frank Thomas" & win_loss==1), prop = wins/FT_start)
+
+#away games, 2000, how many games Thomas Frank won when he started first base
+bb %>% filter(v_name == "CHA", year == 2000) %>% summarize(FT_start = sum(v_player_3_name=="Frank Thomas"), wins = sum(v_player_3_name=="Frank Thomas" & score_diff<0), prop = wins/FT_start)
+
+bb %>% filter(h_name == "CHA", year == 2011) %>% group_by(h_player_3_name) %>% summarize(count = n())
+#home games, 2000, how many games paul konerko, carlos Q, Adam D won when he started first base
+bb %>% filter(h_name == "CHA", year == 2011) %>% summarize(FT_start = sum(h_player_3_name=="Paul Konerko"), wins = sum(h_player_3_name=="Paul Konerko" & win_loss==1), prop = wins/FT_start)
+bb %>% filter(h_name == "CHA", year == 2011) %>% summarize(FT_start = sum(h_player_3_name=="Carlos Quentin"), wins = sum(h_player_3_name=="Carlos Quentin" & win_loss==1), prop = wins/FT_start)
+bb %>% filter(h_name == "CHA", year == 2011) %>% summarize(FT_start = sum(h_player_3_name=="Adam Dunn"), wins = sum(h_player_3_name=="Adam Dunn" & win_loss==1), prop = wins/FT_start)
+
+#away games, 2000, how many games paul konerko, carlos Q, Adam D won when he started first base
+bb %>% filter(v_name == "CHA", year == 2011) %>% summarize(FT_start = sum(v_player_3_name=="Paul Konerko"), wins = sum(v_player_3_name=="Paul Konerko" & score_diff<0), prop = wins/FT_start)
+bb %>% filter(v_name == "CHA", year == 2011) %>% summarize(FT_start = sum(v_player_3_name=="Carlos Quentin"), wins = sum(v_player_3_name=="Carlos Quentin" & score_diff<0), prop = wins/FT_start)
+bb %>% filter(v_name == "CHA", year == 2011) %>% summarize(FT_start = sum(v_player_3_name=="Adam Dunn"), wins = sum(v_player_3_name=="Adam Dunn" & score_diff<0), prop = wins/FT_start)
+#concl --> chicago won more games when frank thomas started in 2000 than combo of three players in 2011

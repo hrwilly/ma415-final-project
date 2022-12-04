@@ -3,70 +3,20 @@ title: Analysis
 description:
 toc: true
 featuredVideo:
-featuredImage: https://upload.wikimedia.org/wikipedia/commons/7/77/Pebbleswithquarzite.jpg
+featuredImage: images/analysis_page.jpg
 draft: false
 ---
 
-<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 <div id="TOC">
 
 </div>
 
-<p>This comes from the file <code>content/analysis.Rmd</code>.</p>
 <p>We describe here our detailed data analysis.</p>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
-<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
-## ✓ tibble  3.1.6     ✓ dplyr   1.0.8
-## ✓ tidyr   1.1.4     ✓ stringr 1.4.0
-## ✓ readr   2.1.1     ✓ forcats 0.5.1</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>print(getwd())</code></pre>
-<pre><code>## [1] &quot;/Users/dsussman/Dropbox (Personal)/Teaching/MA_415/project_template/content&quot;</code></pre>
-<pre class="r"><code>data &lt;- read_csv(here::here(&quot;dataset/loan_refusal_clean.csv&quot;))</code></pre>
-<pre><code>## Rows: 20 Columns: 5</code></pre>
-<pre><code>## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (1): bank
-## dbl (4): min, white, himin, hiwhite
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>load(here::here(&quot;dataset/loan_refusal.RData&quot;))
-print(ls())</code></pre>
-<pre><code>## [1] &quot;data&quot;            &quot;loan_data_clean&quot;</code></pre>
-<div id="note-on-attribution" class="section level2">
-<h2>Note on Attribution</h2>
-<p>If you are directly quoting from a source, please make that clear. You can show quotes using <code>&gt;</code> like this</p>
-<pre><code>&gt; To be or not to be.</code></pre>
-<blockquote>
-<p>To be or not to be.</p>
-</blockquote>
-<p>Also, make sure to provide a link or citation to where you are quoting from.</p>
-<hr />
-</div>
 <div id="rubric-on-this-page" class="section level2">
 <h2>Rubric: On this page</h2>
 <p>you will</p>
 <ul>
-<li>Introduce what motivates your Data Analysis (DA)
-<ul>
-<li>Which variables and relationships are you most interested in?</li>
-<li>What questions are you interested in answering?</li>
-</ul></li>
-<li>Breadth of the DA
-<ul>
-<li>Make sure that you ask enough initial questions to explore the different variables in your data.</li>
-<li>i.e. Do you explore more than just one or two variables? Do you explore a few different relationships or many?</li>
-</ul></li>
-<li>Depth of the DA
-<ul>
-<li>When you answer one question, usually more questions arise as well.</li>
-<li>The depth of the DA is about coming up with and exploring the answers to these questions, often iterating the process a few times.</li>
-</ul></li>
 <li>Modeling and Inference
 <ul>
 <li>You should also include some kind of formal statistical model and/or inference. This could be a linear regression, logistic regression, hypothesis testing etc.</li>
@@ -93,5 +43,239 @@ print(ls())</code></pre>
 <li>Make sure to remove excessive warnings, use clean easy-to-read code, organize with sections or multiple pages, use bullets, etc.</li>
 </ul></li>
 </ul>
-<p><strong>NOTE</strong>: Your Data Analysis can be broken up into multiple pages if that helps with your organization.</p>
+</div>
+<div id="data-analysis-motivations" class="section level2">
+<h2>Data Analysis Motivations</h2>
+<p>For our data analysis, we are most interested in the relationship between the <code>win_perc</code> variable in our <code>win_perc</code> data set we created, which can be found in our Data page, and the <code>payroll</code> variable from our <code>mlb_payroll</code> dataset. We are also interested in the effects of a team’s payroll on their offensive performance of a given season explained by variables such as <code>hits</code> and <code>homeruns</code>. We wish to look at the whether a particular team’s winning percentage changes each season with that team’s payroll. Does a high payroll correspond with more wins and therefore higher success? If not, what factors lead to a team losing even with such high payrolls?</p>
+<pre class="r"><code>suppressPackageStartupMessages(library(tidyverse))
+load(here::here(&quot;dataset&quot;, &quot;win_perc.RData&quot;))
+load(here::here(&quot;dataset&quot;, &quot;mlb_payroll.RData&quot;))
+load(here::here(&quot;dataset&quot;, &quot;baseball.RData&quot;))
+
+payroll_win &lt;- win_perc %&gt;% left_join(mlb_payroll, by = c(&quot;year&quot;, &quot;h_name&quot;)) %&gt;% filter(!is.na(payroll))
+(payroll_mod &lt;- lm(win_perc ~ log(payroll), data = payroll_win))</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = win_perc ~ log(payroll), data = payroll_win)
+## 
+## Coefficients:
+##  (Intercept)  log(payroll)  
+##     -0.34855       0.04676</code></pre>
+<pre class="r"><code>beta &lt;- coef(payroll_mod)
+
+# for all teams, as payroll increases, winning percentage for a given year increases
+ggplot(payroll_win) + geom_point(aes(log(payroll), win_perc)) + 
+  geom_abline(intercept = beta[1], slope = beta[2], color = &quot;red&quot;)</code></pre>
+<p><img src="/analysis_files/figure-html/maysen_modeling-1.png" width="672" /></p>
+<pre class="r"><code>#Pittsburgh pirates are a team who match this overall pattern
+pit &lt;- payroll_win %&gt;% filter(h_name == &quot;PIT&quot;)
+pit_mod &lt;- lm(win_perc~log(payroll), data = pit)
+pit_beta &lt;- coef(pit_mod)
+ggplot(pit) + geom_point(aes(log(payroll), win_perc)) + 
+  geom_abline(intercept = pit_beta[1], slope = pit_beta[2], color = &quot;red&quot;)</code></pre>
+<p><img src="/analysis_files/figure-html/maysen_modeling-2.png" width="672" /></p>
+<pre class="r"><code>#find year payroll was lowest and highest for Pittsburgh
+mlb_payroll %&gt;% filter(h_name == &quot;PIT&quot;) %&gt;% arrange(payroll)</code></pre>
+<pre><code>## # A tibble: 17 × 4
+##     year h_name  payroll  rank
+##    &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;
+##  1  2000 PIT    28928333    27
+##  2  2004 PIT    32227929    28
+##  3  2010 PIT    34943000    30
+##  4  2005 PIT    38138000    28
+##  5  2007 PIT    38537833    27
+##  6  2002 PIT    42323598    24
+##  7  2011 PIT    46047000    27
+##  8  2006 PIT    46717750    27
+##  9  2008 PIT    48689783    27
+## 10  2009 PIT    48743000    28
+## 11  2001 PIT    52698333    19
+## 12  2003 PIT    54812429    19
+## 13  2012 PIT    63431999    26
+## 14  2014 PIT    78111667    27
+## 15  2013 PIT    79555000    20
+## 16  2016 PIT    85885832    25
+## 17  2015 PIT    88278500    25</code></pre>
+<pre class="r"><code>#2000 lowest 2015 highest
+
+bb &lt;- baseball %&gt;% mutate(win_loss = ifelse(score_diff&gt;1, 1, 0))
+
+#home games - each starting pitcher&#39;s prop of games winning of games started
+#2000
+bb %&gt;% filter(h_name == &quot;PIT&quot;, year == 2000) %&gt;% 
+  group_by(h_starting_pitcher_name) %&gt;%
+  summarize(games_started = n(), 
+            games_won = sum(h_starting_pitcher_name==winning_pitcher_name), 
+            prop = games_won/games_started) %&gt;% 
+  arrange(desc(games_started)) %&gt;%
+  ggplot(aes(games_started, prop)) + 
+  geom_point(aes(color = h_starting_pitcher_name))</code></pre>
+<p><img src="/analysis_files/figure-html/maysen_modeling-3.png" width="672" /></p>
+<pre class="r"><code>#2015
+bb %&gt;% filter(h_name == &quot;PIT&quot;, year == 2015) %&gt;% 
+  group_by(h_starting_pitcher_name) %&gt;%
+  summarize(games_started = n(), 
+            games_won = sum(h_starting_pitcher_name==winning_pitcher_name), 
+            prop = games_won/games_started) %&gt;% 
+  arrange(desc(games_started)) %&gt;%
+  ggplot(aes(games_started, prop)) + 
+  geom_point(aes(color = h_starting_pitcher_name))</code></pre>
+<p><img src="/analysis_files/figure-html/maysen_modeling-4.png" width="672" /></p>
+<pre class="r"><code>#away games - each starting pitcher&#39;s prop of games winning of games started
+#2000
+bb %&gt;% filter(v_name == &quot;PIT&quot;, year == 2000) %&gt;% 
+  group_by(v_starting_pitcher_name) %&gt;%
+  summarize(games_started = n(), 
+            games_won = sum(v_starting_pitcher_name==winning_pitcher_name), 
+            prop = games_won/games_started) %&gt;% 
+  arrange(desc(games_started)) %&gt;%
+  ggplot(aes(games_started, prop)) + 
+  geom_point(aes(color = v_starting_pitcher_name))</code></pre>
+<p><img src="/analysis_files/figure-html/maysen_modeling-5.png" width="672" /></p>
+<pre class="r"><code>#2015
+bb %&gt;% filter(v_name == &quot;PIT&quot;, year == 2015) %&gt;% 
+  group_by(v_starting_pitcher_name) %&gt;%
+  summarize(games_started = n(), 
+            games_won = sum(v_starting_pitcher_name==winning_pitcher_name), 
+            prop = games_won/games_started) %&gt;% 
+  arrange(desc(games_started)) %&gt;%
+  ggplot(aes(games_started, prop)) + 
+  geom_point(aes(color = v_starting_pitcher_name))</code></pre>
+<p><img src="/analysis_files/figure-html/maysen_modeling-6.png" width="672" /></p>
+<pre class="r"><code># for chicago white sox, as payroll increases, winning percentage decreases
+cha &lt;- payroll_win %&gt;% filter(h_name == &quot;CHA&quot;)
+cha_mod &lt;- lm(win_perc~log(payroll), data = cha)
+cha_beta &lt;- coef(cha_mod)
+ggplot(cha) + geom_point(aes(log(payroll), win_perc)) + 
+  geom_abline(intercept = cha_beta[1], slope = cha_beta[2], color = &quot;red&quot;)</code></pre>
+<p><img src="/analysis_files/figure-html/maysen_modeling-7.png" width="672" /></p>
+<pre class="r"><code>#find year payroll was lowest and highest for chicago
+mlb_payroll %&gt;% filter(h_name == &quot;CHA&quot;) %&gt;% arrange(payroll)</code></pre>
+<pre><code>## # A tibble: 17 × 4
+##     year h_name   payroll  rank
+##    &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;
+##  1  2000 CHA     31133500    26
+##  2  2003 CHA     51010000    22
+##  3  2002 CHA     57052833    18
+##  4  2001 CHA     62363000    16
+##  5  2004 CHA     65212500    14
+##  6  2005 CHA     75228000    13
+##  7  2014 CHA     91159254    20
+##  8  2009 CHA     96068500    12
+##  9  2012 CHA     96919500    11
+## 10  2016 CHA     98712867    20
+## 11  2006 CHA    102750667     4
+## 12  2010 CHA    108273197     7
+## 13  2007 CHA    108671833     5
+## 14  2015 CHA    115238678    15
+## 15  2013 CHA    119073277     8
+## 16  2008 CHA    121189332     5
+## 17  2011 CHA    129285539     5</code></pre>
+<pre class="r"><code>#2000 lowest 2011 highest
+
+#home games - each starting pitcher&#39;s prop of games winning of games started
+#2000
+bb %&gt;% filter(h_name == &quot;CHA&quot;, year == 2000) %&gt;% 
+  group_by(h_starting_pitcher_name) %&gt;%
+  summarize(games_started = n(), 
+            games_won = sum(h_starting_pitcher_name==winning_pitcher_name), 
+            prop = games_won/games_started) %&gt;% 
+  arrange(desc(games_started)) %&gt;%
+  ggplot(aes(games_started, prop)) + 
+  geom_point(aes(color = h_starting_pitcher_name))</code></pre>
+<p><img src="/analysis_files/figure-html/maysen_modeling-8.png" width="672" /></p>
+<pre class="r"><code>#2011
+bb %&gt;% filter(h_name == &quot;CHA&quot;, year == 2011) %&gt;% 
+  group_by(h_starting_pitcher_name) %&gt;%
+  summarize(games_started = n(), 
+            games_won = sum(h_starting_pitcher_name==winning_pitcher_name), 
+            prop = games_won/games_started) %&gt;% 
+  arrange(desc(games_started)) %&gt;%
+  ggplot(aes(games_started, prop)) + 
+  geom_point(aes(color = h_starting_pitcher_name))</code></pre>
+<p><img src="/analysis_files/figure-html/maysen_modeling-9.png" width="672" /></p>
+<pre class="r"><code>#away games - each starting pitcher&#39;s prop of games winning of games started
+#2000
+bb %&gt;% filter(v_name == &quot;CHA&quot;, year == 2000) %&gt;% 
+  group_by(v_starting_pitcher_name) %&gt;%
+  summarize(games_started = n(), 
+            games_won = sum(v_starting_pitcher_name==winning_pitcher_name), 
+            prop = games_won/games_started) %&gt;% 
+  arrange(desc(games_started)) %&gt;%
+  ggplot(aes(games_started, prop)) + 
+  geom_point(aes(color = v_starting_pitcher_name))</code></pre>
+<p><img src="/analysis_files/figure-html/maysen_modeling-10.png" width="672" /></p>
+<pre class="r"><code>#2011
+bb %&gt;% filter(v_name == &quot;CHA&quot;, year == 2011) %&gt;% 
+  group_by(v_starting_pitcher_name) %&gt;%
+  summarize(games_started = n(), 
+            games_won = sum(v_starting_pitcher_name==winning_pitcher_name), 
+            prop = games_won/games_started) %&gt;% 
+  arrange(desc(games_started)) %&gt;%
+  ggplot(aes(games_started, prop)) + 
+  geom_point(aes(color = v_starting_pitcher_name))</code></pre>
+<p><img src="/analysis_files/figure-html/maysen_modeling-11.png" width="672" /></p>
+<pre class="r"><code>#########################
+
+bb %&gt;% filter(h_name == &quot;CHA&quot;, year == 2000) %&gt;% group_by(h_player_3_name) %&gt;% summarize(count = n())</code></pre>
+<pre><code>## # A tibble: 2 × 2
+##   h_player_3_name count
+##   &lt;chr&gt;           &lt;int&gt;
+## 1 Frank Thomas       79
+## 2 Harold Baines       2</code></pre>
+<pre class="r"><code>#home games, 2000, how many games Thomas Frank won when he started first base
+bb %&gt;% filter(h_name == &quot;CHA&quot;, year == 2000) %&gt;% summarize(FT_start = sum(h_player_3_name==&quot;Frank Thomas&quot;), wins = sum(h_player_3_name==&quot;Frank Thomas&quot; &amp; win_loss==1), prop = wins/FT_start)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   FT_start  wins  prop
+##      &lt;int&gt; &lt;int&gt; &lt;dbl&gt;
+## 1       79    36 0.456</code></pre>
+<pre class="r"><code>#away games, 2000, how many games Thomas Frank won when he started first base
+bb %&gt;% filter(v_name == &quot;CHA&quot;, year == 2000) %&gt;% summarize(FT_start = sum(v_player_3_name==&quot;Frank Thomas&quot;), wins = sum(v_player_3_name==&quot;Frank Thomas&quot; &amp; score_diff&lt;0), prop = wins/FT_start)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   FT_start  wins  prop
+##      &lt;int&gt; &lt;int&gt; &lt;dbl&gt;
+## 1       78    47 0.603</code></pre>
+<pre class="r"><code>bb %&gt;% filter(h_name == &quot;CHA&quot;, year == 2011) %&gt;% group_by(h_player_3_name) %&gt;% summarize(count = n())</code></pre>
+<pre><code>## # A tibble: 6 × 2
+##   h_player_3_name count
+##   &lt;chr&gt;           &lt;int&gt;
+## 1 A.J. Pierzynski     2
+## 2 Adam Dunn          18
+## 3 Alex Rios           5
+## 4 Alexei Ramirez      3
+## 5 Carlos Quentin     21
+## 6 Paul Konerko       32</code></pre>
+<pre class="r"><code>#home games, 2000, how many games paul konerko, carlos Q, Adam D won when he started first base
+bb %&gt;% filter(h_name == &quot;CHA&quot;, year == 2011) %&gt;% summarize(FT_start = sum(h_player_3_name==&quot;Paul Konerko&quot;), wins = sum(h_player_3_name==&quot;Paul Konerko&quot; &amp; win_loss==1), prop = wins/FT_start)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   FT_start  wins  prop
+##      &lt;int&gt; &lt;int&gt; &lt;dbl&gt;
+## 1       32     9 0.281</code></pre>
+<pre class="r"><code>bb %&gt;% filter(h_name == &quot;CHA&quot;, year == 2011) %&gt;% summarize(FT_start = sum(h_player_3_name==&quot;Carlos Quentin&quot;), wins = sum(h_player_3_name==&quot;Carlos Quentin&quot; &amp; win_loss==1), prop = wins/FT_start)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   FT_start  wins  prop
+##      &lt;int&gt; &lt;int&gt; &lt;dbl&gt;
+## 1       21     5 0.238</code></pre>
+<pre class="r"><code>bb %&gt;% filter(h_name == &quot;CHA&quot;, year == 2011) %&gt;% summarize(FT_start = sum(h_player_3_name==&quot;Adam Dunn&quot;), wins = sum(h_player_3_name==&quot;Adam Dunn&quot; &amp; win_loss==1), prop = wins/FT_start)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   FT_start  wins  prop
+##      &lt;int&gt; &lt;int&gt; &lt;dbl&gt;
+## 1       18     4 0.222</code></pre>
+<pre class="r"><code>#away games, 2000, how many games paul konerko, carlos Q, Adam D won when he started first base
+bb %&gt;% filter(v_name == &quot;CHA&quot;, year == 2011) %&gt;% summarize(FT_start = sum(v_player_3_name==&quot;Paul Konerko&quot;), wins = sum(v_player_3_name==&quot;Paul Konerko&quot; &amp; score_diff&lt;0), prop = wins/FT_start)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   FT_start  wins  prop
+##      &lt;int&gt; &lt;int&gt; &lt;dbl&gt;
+## 1       32    18 0.562</code></pre>
+<pre class="r"><code>bb %&gt;% filter(v_name == &quot;CHA&quot;, year == 2011) %&gt;% summarize(FT_start = sum(v_player_3_name==&quot;Carlos Quentin&quot;), wins = sum(v_player_3_name==&quot;Carlos Quentin&quot; &amp; score_diff&lt;0), prop = wins/FT_start)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   FT_start  wins  prop
+##      &lt;int&gt; &lt;int&gt; &lt;dbl&gt;
+## 1       25    11  0.44</code></pre>
+<pre class="r"><code>bb %&gt;% filter(v_name == &quot;CHA&quot;, year == 2011) %&gt;% summarize(FT_start = sum(v_player_3_name==&quot;Adam Dunn&quot;), wins = sum(v_player_3_name==&quot;Adam Dunn&quot; &amp; score_diff&lt;0), prop = wins/FT_start)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   FT_start  wins  prop
+##      &lt;int&gt; &lt;int&gt; &lt;dbl&gt;
+## 1       19    10 0.526</code></pre>
+<pre class="r"><code>#concl --&gt; chicago won more games when frank thomas started in 2000 than combo of three players in 2011</code></pre>
 </div>
