@@ -9,29 +9,6 @@ draft: false
 
 We describe here our detailed data analysis.
 
-
-## Rubric: On this page
-
-you will
-
-
-* Modeling and Inference 
-  * You should also include some kind of formal statistical model and/or inference. This could be a linear regression, logistic regression, hypothesis testing etc.
-  * Explain the techniques you used for validating your results.
-  * Describe the results of your modelling and make sure to give a sense of the uncertainty in your estimates and conclusions.
-* Explain the flaws and limitations of your analysis
-  * Are there some assumptions that you needed to make that might not hold? Is there other data that would help to answer your questions? ...
-* Clarity Figures
-  * Are your figures/tables/results easy to read, informative, without problems like overplotting, hard-to-read labels, etc?
-  * Each figure should provide a key insight. Too many figures or other data summaries can detract from this.
-* Clarity of Explanations
-  * Do you introduce why you are doing each analysis?
-  * How well do you explain each figure/result?
-  * Do you provide interpretations that suggest further analysis or explanations for observed phenomenon?
-* Organization and cleanliness.
-  * Make sure to remove excessive warnings, use clean easy-to-read code, organize with sections or multiple pages, use bullets, etc.
-  
-
 ## Data Analysis Motivations
 
 For our data analysis, we are most interested in the relationship between the `win_perc` variable in our `win_perc` data set we created, which can be found in our Data page, and the `payroll` variable from our `mlb_payroll` dataset. We wish to look at the whether a particular team's winning percentage changes each season with that team's payroll. Does a high payroll correspond with more wins and therefore higher success? If so, where do the dollars from an increase in the payroll go? If not, what factors lead to a team losing even with such high payrolls?
@@ -46,7 +23,7 @@ load(here::here("dataset", "baseball.RData"))
 ## Initial Analysis
 
 To begin, we looked at the relationship between payrolls and the winning percentage for a certain season and team. 
-
+\
 ```{r payroll_win_model}
 payroll_win <- win_perc %>% left_join(mlb_payroll, by = c("year", "h_name")) %>% filter(!is.na(payroll))
 (payroll_mod <- lm(win_perc ~ log(payroll), data = payroll_win))
@@ -56,6 +33,7 @@ beta <- coef(payroll_mod)
 ggplot(payroll_win) + geom_point(aes(log(payroll), win_perc, color = h_name)) + 
   geom_abline(intercept = beta[1], slope = beta[2], color = "red")
 ```
+\
 From the model, we see the coefficient for the log(payroll) is positive suggesting a positive relationship between payroll and winning percentage. We can also see this relationship in the plot. Overall, as log(payroll) increases, winning percentage increases.\
 \
 We then faceted by team to observe the relationship between payroll and winning percentage for each team.
@@ -67,14 +45,16 @@ ggplot(payroll_win,aes(log(payroll),win_perc))+geom_point(aes(color = year), siz
                                             geom_smooth(method='lm', color = "red", lwd = 0.8)+
                                             facet_wrap(vars(h_name))
 ```
+\
 From these faceted plots, it is not consistent among all teams that as payroll increases, winning percentage also increases. For about half of the teams, including teams like the Chicago White Sox (`CHA`) and the Oakland Athletics (`OAK`), as payroll increases, their winning percentage for that year decreases.\
 \
-In our analyses that follow, we look at what factors influence this divide between a positive and negative relationship between payroll and winning percentage.
+In our analyses that follow, we look at what factors influence this divide between a positive and negative relationship between payroll and winning percentage.\
+\
 
-##Positve Relationship
+## Positive Relationship
 
 When analyzing the positive relationship between payroll and winning percentage, we wanted to look at the relationships between payroll and certain game statistics for each season. We first looked at payroll and hits to see if an increase in the number of hits per season was influencing this positive relationship. To do this, we calculated the total hits for each team each year by summing their home hits and their away hits. We then joined this dataset with the `mlb_payroll` dataset and plotted `total_hits` against `log(payroll)`.
-
+\
 ```{r payroll_hits}
 #home hits per team per year
 h_hits <- baseball %>% select(year, h_name, h_hits) %>% 
@@ -99,11 +79,11 @@ payroll_hits %>% filter(!is.na(total_hits)) %>%
   geom_smooth(method = "lm", color = "red") + 
   facet_wrap(vars(h_name))
 ```
-
+\
 To our surprise, for most teams, as payroll increases, the total number of hits in a season decreases. This suggests that even though teams are spending more money on more valuable players, their offensive performance in their total hits for a season does not increase.\
 \
 We then looked at the relationships between payroll and homeruns for each season. It is possible that teams are spending more money on players known for hitting home runs and therefore bring in more runs rather than players who just hit and get on base without bringing in a run. We first calculated the total home runs for each team each year by summing their home home runs and their away home runs. We then joined this dataset with the `mlb_payroll` dataset and plotted `total_hits` against `log(payroll)`.
-
+\
 ```{r payroll_homeruns}
 h_hruns <- baseball %>% select(year, h_name, h_homeruns) %>% 
   group_by(year,h_name) %>% 
@@ -127,6 +107,7 @@ payroll_hruns %>% filter(!is.na(total_hruns)) %>%
   geom_smooth(method = "lm", color = "red") + 
   facet_wrap(vars(h_name))
 ```
+\
 Again, to our surprise most teams produced fewer home runs as payroll increased. From these graphs on the relationships between payroll and hits and payroll and home runs, it appears as though the offensive performance does not improve. So what then are these teams spending money on to increase their winning percentage?\
 \
 
