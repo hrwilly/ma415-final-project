@@ -34,22 +34,226 @@ you will
 
 ## Data Analysis Motivations
 
-For our data analysis, we are most interested in the relationship between the `win_perc` variable in our `win_perc` data set we created, which can be found in our Data page, and the `payroll` variable from our `mlb_payroll` dataset. We are also interested in the effects of a team's payroll on their offensive performance of a given season explained by variables such as `hits` and `homeruns`. We wish to look at the whether a particular team's winning percentage changes each season with that team's payroll. Does a high payroll correspond with more wins and therefore higher success? If not, what factors lead to a team losing even with such high payrolls?
+For our data analysis, we are most interested in the relationship between the `win_perc` variable in our `win_perc` data set we created, which can be found in our Data page, and the `payroll` variable from our `mlb_payroll` dataset. We wish to look at the whether a particular team's winning percentage changes each season with that team's payroll. Does a high payroll correspond with more wins and therefore higher success? If so, where do the dollars from an increase in the payroll go? If not, what factors lead to a team losing even with such high payrolls?
 
-
-```{r maysen_modeling}
+```{r loading, echo = FALSE}
 suppressPackageStartupMessages(library(tidyverse))
 load(here::here("dataset", "win_perc.RData"))
 load(here::here("dataset", "mlb_payroll.RData"))
 load(here::here("dataset", "baseball.RData"))
+```
+
+## Initial Analysis
+
+To begin, we looked at the relationship between payrolls and the winning percentage for a certain season and team. 
+
+```{r payroll_win_model}
+payroll_win <- win_perc %>% left_join(mlb_payroll, by = c("year", "h_name")) %>% filter(!is.na(payroll))
+(payroll_mod <- lm(win_perc ~ log(payroll), data = payroll_win))
+beta <- coef(payroll_mod)
+
+# for all teams, as payroll increases, winning percentage for a given year increases
+ggplot(payroll_win) + geom_point(aes(log(payroll), win_perc, color = h_name)) + 
+  geom_abline(intercept = beta[1], slope = beta[2], color = "red")
+```
+From the model, we see the coefficient for the log(payroll) is positive suggesting a positive relationship between payroll and winning percentage. We can also see this relationship in the plot. Overall, as log(payroll) increases, winning percentage increases.\
+\
+We then faceted by team to observe the relationship between payroll and winning percentage for each team.
+
+
+```{r payroll_win_facet}
+#faceted
+ggplot(payroll_win,aes(log(payroll),win_perc))+geom_point(aes(color = year), size = 0.5)+
+                                            geom_smooth(method='lm', color = "red", lwd = 0.8)+
+                                            facet_wrap(vars(h_name))
+```
+From these faceted plots, it is not consistent among all teams that as payroll increases, winning percentage also increases. For about half of the teams, including teams like the Chicago White Sox (`CHA`) and the Oakland Athletics (`OAK`), as payroll increases, their winning percentage for that year decreases.\
+\
+In our analyses that follow, we look at what factors influence this divide between a positive and negative relationship between payroll and winning percentage.
+
+##Positve Relationship
+
+When analyzing the positive relationship between payroll and winning percentage, we wanted to look at the relationships between payroll and certain game statistics for each season. We first looked at payroll and hits to see if an increase in the number of hits per season was influencing this positive relationship. To do this, we calculated the total hits for each team each year by summing their home hits and their away hits. We then joined this dataset with the `mlb_payroll` dataset and plotted `total_hits` against `log(payroll)`.
+
+```{r payroll_hits}
+#home hits per team per year
+h_hits <- baseball %>% select(year, h_name, h_hits) %>% 
+  group_by(year,h_name) %>% 
+  summarize(h_hits = sum(h_hits))
+#visiting hits per team per year
+v_hits <- baseball %>% select(year, v_name, v_hits) %>% 
+  group_by(year,v_name) %>% 
+  summarize(v_hits = sum(v_hits))
+#join and total hits per team per year
+total_hits <- h_hits %>% left_join(v_hits, by = c("year" = "year", "h_name" = "v_name")) %>% 
+  mutate(total_hits = h_hits + v_hits)
+#join with mlb_payroll
+payroll_hits <- mlb_payroll %>% left_join(total_hits, by = c("year", "h_name"))
+```
+
+```{r payroll_hits_plot}
+#for each team
+payroll_hits %>% filter(!is.na(total_hits)) %>% 
+  ggplot(aes(log(payroll), total_hits)) + 
+  geom_point(aes(color = year)) + 
+  geom_smooth(method = "lm", color = "red") + 
+  facet_wrap(vars(h_name))
+```
+
+To our surprise, for most teams, as payroll increases, the total number of hits in a season decreases. This suggests that even though teams are spending more money on more valuable players, their offensive performance in their total hits for a season does not increase.\
+\
+We then looked at the relationships between payroll and homeruns for each season. It is possible that teams are spending more money on players known for hitting home runs and therefore bring in more runs rather than players who just hit and get on base without bringing in a run. We first calculated the total home runs for each team each year by summing their home home runs and their away home runs. We then joined this dataset with the `mlb_payroll` dataset and plotted `total_hits` against `log(payroll)`.
+
+```{r payroll_homeruns}
+h_hruns <- baseball %>% select(year, h_name, h_homeruns) %>% 
+  group_by(year,h_name) %>% 
+  summarize(h_hruns = sum(h_homeruns))
+#visiting hits per team per year
+v_hruns <- baseball %>% select(year, v_name, v_homeruns) %>% 
+  group_by(year,v_name) %>% 
+  summarize(v_hruns = sum(v_homeruns))
+#join and total hits per team per year
+total_hruns <- h_hruns %>% left_join(v_hruns, by = c("year" = "year", "h_name" = "v_name")) %>% 
+  mutate(total_hruns = h_hruns + v_hruns)
+#join with mlb_payroll
+payroll_hruns <- mlb_payroll %>% left_join(total_hruns, by = c("year", "h_name"))
+```
+
+```{r payroll_homeruns_plot}
+#for each team
+payroll_hruns %>% filter(!is.na(total_hruns)) %>% 
+  ggplot(aes(log(payroll), total_hruns)) + 
+  geom_point(aes(color = year)) + 
+  geom_smooth(method = "lm", color = "red") + 
+  facet_wrap(vars(h_name))
+```
+Again, to our surprise most teams produced fewer home runs as payroll increased. From these graphs on the relationships between payroll and hits and payroll and home runs, it appears as though the offensive performance does not improve. So what then are these teams spending money on to increase their winning percentage?\
+\
+
+
+
+
+Strikeouts
+```{r payroll_so}
+#home hits per team per year
+h_so <- baseball %>% select(year, h_name, v_strikeouts) %>% 
+  group_by(year,h_name) %>% 
+  summarize(h_so = sum(v_strikeouts))
+#visiting hits per team per year
+v_so <- baseball %>% select(year, v_name, h_strikeouts) %>% 
+  group_by(year,v_name) %>% 
+  summarize(v_so = sum(h_strikeouts))
+#join and total hits per team per year
+total_so <- h_so %>% left_join(v_so, by = c("year" = "year", "h_name" = "v_name")) %>% 
+  mutate(total_so = h_so + v_so)
+#join with mlb_payroll
+payroll_so <- mlb_payroll %>% left_join(total_so, by = c("year", "h_name"))
+```
+
+```{r payroll_so_plot}
+#overall
+payroll_so %>% ggplot(aes(log(payroll), total_so)) +
+  geom_point(aes(color = h_name))
+
+#for each team
+payroll_so %>% filter(!is.na(total_so)) %>% 
+  ggplot(aes(log(payroll), total_so)) + 
+  geom_point(aes(color = year)) + 
+  geom_smooth(method = "lm", color = "red") + 
+  facet_wrap(vars(h_name))
+```
+
+Earned Runs
+```{r payroll_er}
+#home hits per team per year
+h_er <- baseball %>% select(year, h_name, v_team_earned_runs) %>% 
+  group_by(year,h_name) %>% 
+  summarize(h_er = sum(v_team_earned_runs))
+#visiting hits per team per year
+v_er <- baseball %>% select(year, v_name, h_team_earned_runs) %>% 
+  group_by(year,v_name) %>% 
+  summarize(v_er = sum(h_team_earned_runs))
+#join and total hits per team per year
+total_er <- h_er %>% left_join(v_er, by = c("year" = "year", "h_name" = "v_name")) %>% 
+  mutate(total_er = h_er + v_er)
+#join with mlb_payroll
+payroll_er <- mlb_payroll %>% left_join(total_er, by = c("year", "h_name"))
+```
+
+```{r payroll_er_plot}
+#overall
+payroll_er %>% ggplot(aes(log(payroll), total_er)) +
+  geom_point(aes(color = h_name))
+
+#for each team
+payroll_er %>% filter(!is.na(total_er)) %>% 
+  ggplot(aes(log(payroll), total_er)) + 
+  geom_point(aes(color = year)) + 
+  geom_smooth(method = "lm", color = "red") + 
+  facet_wrap(vars(h_name))
+```
+
+
+
+
+
+
+
+```{r PIT_CHA}
+#Pittsburgh pirates are a team who match this overall pattern
+pit <- payroll_win %>% filter(h_name == "PIT")
+pit_mod <- lm(win_perc~log(payroll), data = pit)
+pit_beta <- coef(pit_mod)
+ggplot(pit) + geom_point(aes(log(payroll), win_perc)) + 
+  geom_abline(intercept = pit_beta[1], slope = pit_beta[2], color = "red")
+
+# for chicago white sox, as payroll increases, winning percentage decreases
+cha <- payroll_win %>% filter(h_name == "CHA")
+cha_mod <- lm(win_perc~log(payroll), data = cha)
+cha_beta <- coef(cha_mod)
+ggplot(cha) + geom_point(aes(log(payroll), win_perc)) + 
+  geom_abline(intercept = cha_beta[1], slope = cha_beta[2], color = "red")
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r modeling}
 
 payroll_win <- win_perc %>% left_join(mlb_payroll, by = c("year", "h_name")) %>% filter(!is.na(payroll))
 (payroll_mod <- lm(win_perc ~ log(payroll), data = payroll_win))
 beta <- coef(payroll_mod)
 
 # for all teams, as payroll increases, winning percentage for a given year increases
-ggplot(payroll_win) + geom_point(aes(log(payroll), win_perc)) + 
+ggplot(payroll_win) + geom_point(aes(log(payroll), win_perc, color = h_name)) + 
   geom_abline(intercept = beta[1], slope = beta[2], color = "red")
+
+#faceted
+ggplot(payroll_win,aes(log(payroll),win_perc))+geom_point(aes(color = year), size = 0.5)+
+                                            geom_smooth(method='lm')+
+                                            facet_wrap(vars(h_name))
 
 #Pittsburgh pirates are a team who match this overall pattern
 pit <- payroll_win %>% filter(h_name == "PIT")
