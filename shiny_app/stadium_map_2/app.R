@@ -72,7 +72,7 @@ ui <- fluidPage(
   fluidRow(
     column(width=4, 
            selectizeInput(inputId = "yearSelected",label = "Year", choices = win_perc$year),
-           uiOutput(win_perc$win_perc))
+           uiOutput(win_perc$year))
   )
 )
 
@@ -88,15 +88,16 @@ server <- function(input, output, session){
   output$mymap <- renderLeaflet({
     #df <- data()
     
-    winning <- win_perc %>% filter(year == input$year)
+    winning <- left_join( MLBstadiums, win_perc,by = c("Abbreviation" = "h_name")) %>% filter(year %in% uiOutput )
     
-    m <- leaflet(MLBstadiums) %>% 
+    
+    m <- leaflet(winning) %>% 
       setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
       addTiles() %>% 
       addAwesomeMarkers(~Longitude, ~Latitude, 
                         icon = icons, 
                         label = ~as.character(Venue), 
-                        popup = ~as.character(winning$win_perc)) %>% 
+                        popup = ~as.character(winning)) %>% 
       addLegend(position = 'bottomleft', 
                 colors = makeColorsandNames[,2],
                 labels = makeColorsandNames[,1],

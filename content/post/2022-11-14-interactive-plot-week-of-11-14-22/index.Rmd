@@ -14,17 +14,12 @@ featuredVideo: ~
 featuredImage: ~
 ---
 
-For our interactive, we want to put the geographic location of all of the stadiums onto a map of the United States, colored by division. When your mouse hovers over a stadium, the name of the stadium will pop up. Clicking on a stadium will provide statistics for the home team.
+For our interactive, we want to put the geographic location of all of the stadiums onto a map of the United States, colored by division. This was a good contribution to the website because it provides context and  When you click on a stadium, the team name and winning percentage of games played will pop up. Using the drop down menu, you can select one year for the winning percentages to be displayed from. 
 
-The personalized aspect will be how the user has the ability to choose a stadium; they will be able to look at their home stadiums and/or favorite teams specifically.
+The personalized aspect will be how the user has the ability to choose a stadium; they will be able to investigate the statistics for their favorite teams.
 
-DISCUSS: need big picture trends and zooming in -- ideas?
-plots themselves also can't be static, use must provide input that changes what is displayed in plots themselves
-interactions must be clear
-maybe for highlighting interesting findings we can choose a few cool stats that will appear with the stadium name when you hover over it?
-'Maybe use shiny to sort by years, and then in leaflet have a popup for winning percentage, and a scroll bar to select for certain winning percentages'
 
-Our rough outline of our interactive is shown below. We still need to convert to Shiny.
+* Our rough outline of our interactive is shown below. We still need to convert to Shiny.
 ```{r, interactive}
 library(tidyverse)
 library(rvest)
@@ -45,11 +40,12 @@ load(here::here("dataset", "baseball.RData"))
 stadiums <- read_sheet("https://docs.google.com/spreadsheets/d/1p0R5qqR7XjoRG2mR5E1D_trlygHSqMOUdMgMpzq0gjU/htmlview")
 
 
-AL_east <- c('BAL', 'BOS', 'NYA', 'TBA', 'TOR')
-AL_central <- c('MIN', 'CLE', 'CHA', 'DET', 'KCN', 'KCR')
-AL_west <- c('ANA', 'HOU', 'SEA', 'OAK', 'TEX' )
-NL_east <- c('NYM', 'PHI', 'ATL', 'WAS', 'FLO' )
-NL_central<- c('PTL','SLN',  'ATL', 'CHN', 'MIL', 'CIN')
+AL_east <- c('BAL', 'BOS', 'NYA', 'TBR', 'TOR')
+AL_central <- c('MIN', 'CLE', 'CHW', 'DET','KCR')
+AL_west <- c('HOU', 'SEA', 'OAK', 'TEX', 'LAA')
+NL_east <- c('ATL', 'MIA', 'NYM', 'PHI', 'WAS')
+NL_central<- c('CHC', 'CIN', 'MIL', 'PIT','STL')
+NL_west <- c('ARI', 'COL', 'LAD', 'SFG', 'SDP')
 
 mlbDivision <- function(x){
     
@@ -130,12 +126,14 @@ shiny_wins
 ```
 
 ```{r, shiny map}
-rsconnect::setAccountInfo(name='bu-ma415-hgb-stadium-map', token='AC86430056BEE712DADDBB47C5B56B5A', secret='sPdprlQo0fcDettSUrK/b++IIRdzexqNZs7jiSa3')
+#rsconnect::setAccountInfo(name='bu-ma415-hgb-stadium-map', token='AC86430056BEE712DADDBB47C5B56B5A', secret='sPdprlQo0fcDettSUrK/b++IIRdzexqNZs7jiSa3')
 
 library(rsconnect)
-#rsconnect::deployApp('shiny_app/stadium_map_2/app')
+rsconnect::deployApp('shiny_app/stadium_map_2/app.R')
 
 library(shiny)
+
+deployApp()
 runApp()
 ```
 
