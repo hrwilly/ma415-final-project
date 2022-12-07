@@ -81,19 +81,19 @@ mlbColor <- function(x){
   return(y)
   }
 
-
-stadiums$Abbreviation[stadiums$Abbreviation == 'CHC'] <- 'CHN'
-stadiums$Abbreviation[stadiums$Abbreviation == 'CHW'] <- 'CHA'
-stadiums$Abbreviation[stadiums$Abbreviation == 'KCR'] <- 'KCN'
-stadiums$Abbreviation[stadiums$Abbreviation == 'LAA'] <- 'ANA'
-stadiums$Abbreviation[stadiums$Abbreviation == 'LAD'] <- 'LAN'
-stadiums$Abbreviation[stadiums$Abbreviation == 'MIA'] <- 'FLO'
-stadiums$Abbreviation[stadiums$Abbreviation == 'NYM'] <- 'NYN'
-stadiums$Abbreviation[stadiums$Abbreviation == 'NYY'] <- 'NYA'
-stadiums$Abbreviation[stadiums$Abbreviation == 'SDP'] <- 'SDN'
-stadiums$Abbreviation[stadiums$Abbreviation == 'SFG'] <- 'SFN'
-stadiums$Abbreviation[stadiums$Abbreviation == 'STL'] <- 'SLN'
-stadiums$Abbreviation[stadiums$Abbreviation == 'TBR'] <- 'TBA'
+# 
+# stadiums$Abbreviation[stadiums$Abbreviation == 'CHC'] <- 'CHN'
+# stadiums$Abbreviation[stadiums$Abbreviation == 'CHW'] <- 'CHA'
+# stadiums$Abbreviation[stadiums$Abbreviation == 'KCR'] <- 'KCN'
+# stadiums$Abbreviation[stadiums$Abbreviation == 'LAA'] <- 'ANA'
+# stadiums$Abbreviation[stadiums$Abbreviation == 'LAD'] <- 'LAN'
+# stadiums$Abbreviation[stadiums$Abbreviation == 'MIA'] <- 'FLO'
+# stadiums$Abbreviation[stadiums$Abbreviation == 'NYM'] <- 'NYN'
+# stadiums$Abbreviation[stadiums$Abbreviation == 'NYY'] <- 'NYA'
+# stadiums$Abbreviation[stadiums$Abbreviation == 'SDP'] <- 'SDN'
+# stadiums$Abbreviation[stadiums$Abbreviation == 'SFG'] <- 'SFN'
+# stadiums$Abbreviation[stadiums$Abbreviation == 'STL'] <- 'SLN'
+# stadiums$Abbreviation[stadiums$Abbreviation == 'TBR'] <- 'TBA'
 
 MLBstadiums <- stadiums %>% filter(Sport == "MLB") %>% 
   mutate(Division = sapply(X = Abbreviation, FUN = mlbDivision),
@@ -122,19 +122,18 @@ leaflet(MLBstadiums) %>%
 load(here::here("dataset", "win_perc.RData"))
 shiny_wins <- win_perc %>%  select(h_name, year, win_perc)
 shiny_wins <- pivot_wider(shiny_wins, id_cols = h_name, names_from = year, values_from = win_perc)
-shiny_wins
 ```
 
 ```{r, shiny map}
 #rsconnect::setAccountInfo(name='bu-ma415-hgb-stadium-map', token='AC86430056BEE712DADDBB47C5B56B5A', secret='sPdprlQo0fcDettSUrK/b++IIRdzexqNZs7jiSa3')
 
-library(rsconnect)
-rsconnect::deployApp('shiny_app/stadium_map_2/app.R')
-
-library(shiny)
-
-deployApp()
-runApp()
+# library(rsconnect)
+# rsconnect::deployApp('shiny_app/stadium_map_2/app.R')
+# 
+# library(shiny)
+# 
+# deployApp()
+# runApp()
 ```
 
 
