@@ -14,7 +14,7 @@ featuredVideo: ~
 featuredImage: ~
 ---
 
-Our main data sets that we are comparing are the baseball statistics and the payroll statistics. Our exploratory data analysis is continuing by looking for trends in these data sets combined, whereas before we looked at trends in each data set individually.
+Our main data sets that we are comparing are the baseball statistics and the payroll statistics. Our exploratory data analysis is continuing by looking for trends in these data sets combined, whereas before we looked at trends in each data set individually. We decided to no longer use the weather dataset.
 
 ```{r loading_data}
 suppressPackageStartupMessages(library(tidyverse))
