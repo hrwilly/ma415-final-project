@@ -31,7 +31,6 @@ df %>% mutate(
 ) %>% 
   gt() %>% tab_header(title = "DATASETS")
 
-
 ```
 
 
