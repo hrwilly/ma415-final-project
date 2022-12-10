@@ -11,39 +11,69 @@ We describe here our detailed data analysis.
 
 ## Data Analysis Motivations
 
-For our data analysis, we are most interested in the relationship between the `win_perc` variable in our `win_perc` data set we created, which can be found in our Data page, and the `payroll` variable from our `mlb_payroll` dataset. We wish to look at the whether a particular team's winning percentage changes each season with that team's payroll. Does a high payroll correspond with more wins and therefore higher success? If so, where do the dollars from an increase in the payroll go? If not, what factors lead to a team losing even with such high payrolls?
+For our data analysis, we are most interested in the relationship between the winning percentage of each Major League Baseball team and each team's payroll for a given season. We wish to look at the whether a particular team's winning percentage changes each season with that team's payroll. Does a high payroll correspond with more wins and therefore higher success? If so, where do the dollars from an increase in the payroll go? If not, what factors lead to a team losing even with such high payrolls? The answers to these questions may differ between the MLB teams. Some teams may consistently perform better with higher payrolls while other teams may not, so we are interested in the variability of these answers among the MLB teams.
 
 ```{r loading, echo = FALSE}
 suppressPackageStartupMessages(library(tidyverse))
+suppressWarnings(suppressPackageStartupMessages(library("kableExtra")))
 load(here::here("dataset", "win_perc.RData"))
 load(here::here("dataset", "mlb_payroll.RData"))
 load(here::here("dataset", "baseball.RData"))
+options(dplyr.summarise.inform = FALSE)
+```
+
+```{r win_perc}
+win_perc$win_perc <- win_perc$win_perc*100
+win_perc %>% ggplot(aes(year, win_perc, fill=h_name)) + geom_bar(stat = "identity", position = "dodge")+facet_wrap(vars(h_name))
+
 ```
 
 ## Initial Analysis
 
-To begin, we looked at the relationship between payrolls and the winning percentage for a certain season and team. 
+To begin, we looked at the relationship between payrolls and the winning percentage for all teams. \
 \
-```{r payroll_win_model}
-payroll_win <- win_perc %>% left_join(mlb_payroll, by = c("year", "h_name")) %>% filter(!is.na(payroll))
-(payroll_mod <- lm(win_perc ~ log(payroll), data = payroll_win))
+*Note each year's payroll is in millions of dollars \
+\
+```{r echo = FALSE}
+payroll_win <- win_perc %>% left_join(mlb_payroll, by = c("year", "h_name")) %>% 
+  filter(!is.na(payroll))
+
+payroll_win$win_perc <- payroll_win$win_perc*100
+payroll_win$payroll <- round(payroll_win$payroll/1e6)
+
+payroll_mod <- lm(win_perc ~ payroll, data = payroll_win)
+
+summary(payroll_mod)$coefficients %>% 
+  kable(caption = "Linear Model",
+      align = "c",
+      col.names = c("estimate", "standard error", "t value", "p value"),
+      digits = c(2, 3, 2, 4)
+      ) %>% 
+  kable_classic_2(html_font = "Georgia") %>% 
+  kable_styling(position = "center")
+
 beta <- coef(payroll_mod)
 
 # for all teams, as payroll increases, winning percentage for a given year increases
-ggplot(payroll_win) + geom_point(aes(log(payroll), win_perc, color = h_name)) + 
-  geom_abline(intercept = beta[1], slope = beta[2], color = "red")
+payroll_win %>% ggplot(aes(payroll, win_perc)) + 
+  geom_point(aes(color = h_name)) + 
+  scale_x_log10() +
+  geom_smooth(method = "lm", se = FALSE, color = "red", lwd =0.5)
 ```
 \
-From the model, we see the coefficient for the log(payroll) is positive suggesting a positive relationship between payroll and winning percentage. We can also see this relationship in the plot. Overall, as log(payroll) increases, winning percentage increases.\
+From the plot as well as Table 1 of the model, we see the coefficient for the payroll is positive suggesting a positive relationship between payroll and winning percentage. For every million dollars increase in a team's payroll, their winning percentage is expected to increase by 0.05%.\
 \
 We then faceted by team to observe the relationship between payroll and winning percentage for each team.\
 \
 
-```{r payroll_win_facet}
+```{r payroll_win_facet, echo = FALSE}
 #faceted
-ggplot(payroll_win,aes(log(payroll),win_perc))+geom_point(aes(color = year), size = 0.5)+
-                                            geom_smooth(method='lm', color = "red", lwd = 0.8)+
-                                            facet_wrap(vars(h_name))
+payroll_win %>% filter(h_name!="KCA", h_name!="MIA") %>% 
+ggplot(aes(payroll,win_perc)) + 
+  scale_x_log10() +
+  geom_point(aes(color = year), size = 0.5) +
+  geom_smooth(method='lm', color = "red", lwd = 0.5, se = FALSE) +
+  facet_wrap(vars(h_name))
 ```
 \
 From these faceted plots, it is not consistent among all teams that as payroll increases, winning percentage also increases. For about half of the teams, including teams like the Chicago White Sox (`CHA`) and the Oakland Athletics (`OAK`), as payroll increases, their winning percentage for that year decreases.\
@@ -53,9 +83,9 @@ In our analyses that follow, we look at what factors influence this divide betwe
 
 ## Positive Relationship
 
-When analyzing the positive relationship between payroll and winning percentage, we wanted to look at the relationships between payroll and certain game statistics for each season. We first looked at payroll and hits to see if an increase in the number of hits per season was influencing this positive relationship. To do this, we calculated the total hits for each team each year by summing their home hits and their away hits. We then joined this dataset with the `mlb_payroll` dataset and plotted `total_hits` against `log(payroll)`.\
+When analyzing the positive relationship between payroll and winning percentage, we wanted to look at the relationships between payroll and certain game statistics for each season. We first looked at payroll and hits to see if an increase in the number of hits per season was influencing this positive relationship. To do this, we calculated the total hits for each team each year by summing their home hits and their away hits. We then joined this dataset with the payroll dataset and plotted the total hits of each team against log(payroll) for each year between 2000 and 2016.\
 \
-```{r payroll_hits}
+```{r payroll_hits, echo = FALSE}
 #home hits per team per year
 h_hits <- baseball %>% select(year, h_name, h_hits) %>% 
   group_by(year,h_name) %>% 
@@ -71,7 +101,7 @@ total_hits <- h_hits %>% left_join(v_hits, by = c("year" = "year", "h_name" = "v
 payroll_hits <- mlb_payroll %>% left_join(total_hits, by = c("year", "h_name"))
 ```
 
-```{r payroll_hits_plot}
+```{r payroll_hits_plot, echo = FALSE}
 #for each team
 payroll_hits %>% filter(!is.na(total_hits)) %>% 
   ggplot(aes(log(payroll), total_hits)) + 
@@ -82,9 +112,9 @@ payroll_hits %>% filter(!is.na(total_hits)) %>%
 \
 To our surprise, for most teams, as payroll increases, the total number of hits in a season decreases. This suggests that even though teams are spending more money on more valuable players, their offensive performance in their total hits for a season does not increase.\
 \
-We then looked at the relationships between payroll and homeruns for each season. It is possible that teams are spending more money on players known for hitting home runs and therefore bring in more runs rather than players who just hit and get on base without bringing in a run. We first calculated the total home runs for each team each year by summing their home home runs and their away home runs. We then joined this dataset with the `mlb_payroll` dataset and plotted `total_hits` against `log(payroll)`.\
+We then looked at the relationships between payroll and homeruns for each season. It is possible that teams are spending more money on players known for hitting home runs and therefore bring in more runs rather than players who just hit and get on base without bringing in a run. We first calculated the total home runs for each team each year by summing their home home runs and their away home runs. We then joined this dataset with the payroll dataset and plotted the total homeruns of each team against log(payroll) for each year between 2000 and 2016.\
 \
-```{r payroll_homeruns}
+```{r payroll_homeruns, echo = FALSE}
 h_hruns <- baseball %>% select(year, h_name, h_homeruns) %>% 
   group_by(year,h_name) %>% 
   summarize(h_hruns = sum(h_homeruns))
@@ -99,7 +129,7 @@ total_hruns <- h_hruns %>% left_join(v_hruns, by = c("year" = "year", "h_name" =
 payroll_hruns <- mlb_payroll %>% left_join(total_hruns, by = c("year", "h_name"))
 ```
 
-```{r payroll_homeruns_plot}
+```{r payroll_homeruns_plot, echo = FALSE}
 #for each team
 payroll_hruns %>% filter(!is.na(total_hruns)) %>% 
   ggplot(aes(log(payroll), total_hruns)) + 
@@ -110,10 +140,10 @@ payroll_hruns %>% filter(!is.na(total_hruns)) %>%
 \
 Again, to our surprise most teams produced fewer home runs as payroll increased. From these graphs on the relationships between payroll and hits and payroll and home runs, it appears as though the offensive performance does not improve. So what then are these teams spending money on to increase their winning percentage?\
 \
-Rather than looking at offensive performance, we looked at defensive performance, particularly pitching. The first statistic we looked at for pitchers was strikeouts. In the `baseball` dataset, the variables `h_strikeouts` and `v_strikeouts` refer to the total number of times players struckout for the home team and visiting team respectively. To make this a statistic for the home team and visiting team pitchers, we reversed their variables. More explicitly, the total strikeouts for the home team pitchers is represented by the visiting team's strikeouts (`v_strikeouts`) and the total strikeouts for the visiting team pitchers is represented by the home team's strikeouts(`h_strikeouts`). We calculated the total strikeouts for each team for each year, joined this dataset with the `mlb_payroll` dataset, and plotted the total strikeouts against `log(payroll)`.\
+Rather than looking at offensive performance, we looked at defensive performance, particularly pitching. The first statistic we looked at for pitchers was strikeouts. In the baseball dataset, the variables `h_strikeouts` and `v_strikeouts` refer to the total number of times players struckout for the home team and visiting team respectively. To make this a statistic for the home team and visiting team pitchers, we reversed their variables. More explicitly, the total strikeouts for the home team pitchers is represented by the visiting team's strikeouts (`v_strikeouts`) and the total strikeouts for the visiting team pitchers is represented by the home team's strikeouts(`h_strikeouts`). We calculated the total strikeouts for each team for each year, joined this dataset with the payroll dataset, and plotted the total number of strikeouts for each team against log(payroll) for each year between 2000 and 2016.\
 \
 
-```{r payroll_so}
+```{r payroll_so, echo = FALSE}
 #home hits per team per year
 h_so <- baseball %>% select(year, h_name, v_strikeouts) %>% 
   group_by(year,h_name) %>% 
@@ -129,7 +159,7 @@ total_so <- h_so %>% left_join(v_so, by = c("year" = "year", "h_name" = "v_name"
 payroll_so <- mlb_payroll %>% left_join(total_so, by = c("year", "h_name"))
 ```
 
-```{r payroll_so_plot}
+```{r payroll_so_plot, echo = FALSE}
 #for each team
 payroll_so %>% filter(!is.na(total_so)) %>% 
   ggplot(aes(log(payroll), total_so)) + 
@@ -138,10 +168,10 @@ payroll_so %>% filter(!is.na(total_so)) %>%
   facet_wrap(vars(h_name))
 ```
 \
-These plots show that for almost all of the teams, as payroll increases, the total number of strikeouts performed by the pitchers of each team also increases. We then looked at the earned runs statistic to see if this change in pitcher performance was consistent with the increase in payroll. Similar to the strikeout variables, `h_team_earned_runs` and `v_team_earned_runs` are the earned runs for the players of the home team and visiting team respectively. Here again we represented the earned runs for the home team pitchers with `v_team_earned_runs` and represented the earned runs for the visiting team pitchers with `h_team_earned_runs`. We calculated the total earned runs for each team for each year, joined this dataset with the `mlb_payroll` dataset, and plotted the total earned runs against `log(payroll)`.\
+These plots show that for almost all of the teams, as payroll increases, the total number of strikeouts performed by the pitchers of each team also increases. We then looked at the earned runs statistic to see if this change in pitcher performance was consistent with the increase in payroll. Similar to the strikeout variables, `h_team_earned_runs` and `v_team_earned_runs` are the earned runs for the players of the home team and visiting team respectively. Here again we represented the earned runs for the home team pitchers with `v_team_earned_runs` and represented the earned runs for the visiting team pitchers with `h_team_earned_runs`. We calculated the total earned runs for each team for each year, joined this dataset with the payroll dataset, and plotted the total earned runs for each team against log(payroll) for each year between 2000 and 2016.\
 \
 
-```{r payroll_er}
+```{r payroll_er, echo = FALSE}
 #home hits per team per year
 h_er <- baseball %>% select(year, h_name, v_team_earned_runs) %>% 
   group_by(year,h_name) %>% 
@@ -157,7 +187,7 @@ total_er <- h_er %>% left_join(v_er, by = c("year" = "year", "h_name" = "v_name"
 payroll_er <- mlb_payroll %>% left_join(total_er, by = c("year", "h_name"))
 ```
 
-```{r payroll_er_plot}
+```{r payroll_er_plot, echo = FALSE}
 #for each team
 payroll_er %>% filter(!is.na(total_er)) %>% 
   ggplot(aes(log(payroll), total_er)) + 
@@ -334,3 +364,11 @@ bb %>% filter(v_name == "CHA", year == 2011) %>% summarize(FT_start = sum(v_play
 bb %>% filter(v_name == "CHA", year == 2011) %>% summarize(FT_start = sum(v_player_3_name=="Carlos Quentin"), wins = sum(v_player_3_name=="Carlos Quentin" & score_diff<0), prop = wins/FT_start)
 bb %>% filter(v_name == "CHA", year == 2011) %>% summarize(FT_start = sum(v_player_3_name=="Adam Dunn"), wins = sum(v_player_3_name=="Adam Dunn" & score_diff<0), prop = wins/FT_start)
 #concl --> chicago won more games when frank thomas started in 2000 than combo of three players in 2011
+```
+
+## Flaws and Limitations
+
+There was missing data of games played in certain seasons for the Montreal Expos (`MON`), Miami Marlins (`MIA`), 
+There was missing data of payroll for certain years for the Kansas City Royals (`KCA`) and the Miami Marlins (`MIA`). As a results these teams were removed from all of our analyses and not represented. 
+
+
