@@ -45,6 +45,8 @@ win_perc <- home_games %>% add_column(away_games = away_games$away_games) %>%
   add_column(games_won = team_year_wins$games_won) %>% 
   mutate(win_perc = games_won/games_played)
 
+win_perc$win_perc <- win_perc$win_perc*100
+
 save(win_perc, file = "dataset/win_perc.RData")
 
 

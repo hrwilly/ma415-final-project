@@ -24,8 +24,31 @@ options(dplyr.summarise.inform = FALSE)
 
 ```{r win_perc}
 win_perc$win_perc <- win_perc$win_perc*100
-win_perc %>% ggplot(aes(year, win_perc, fill=h_name)) + geom_bar(stat = "identity", position = "dodge")+facet_wrap(vars(h_name))
+# faceted graph of winning percentage for each team for each year 2000-2016
+win_perc %>% ggplot(aes(year, win_perc, fill=h_name)) + 
+  geom_bar(stat = "identity", position = "dodge") + 
+  facet_wrap(vars(h_name)) +
+  theme(legend.position = "none")
+#winning percentage rank each year
+y0 <- win_perc %>% filter(year == 2000) %>% arrange(desc(win_perc)) %>% print(n=5)
+y1 <- win_perc %>% filter(year == 2001) %>% arrange(desc(win_perc)) %>% print(n=5)
+y2 <- win_perc %>% filter(year == 2002) %>% arrange(desc(win_perc)) %>% print(n=5)
+y3 <- win_perc %>% filter(year == 2003) %>% arrange(desc(win_perc)) %>% print(n=5)
+y4 <- win_perc %>% filter(year == 2004) %>% arrange(desc(win_perc)) %>% print(n=5)
+y5 <- win_perc %>% filter(year == 2005) %>% arrange(desc(win_perc)) %>% print(n=5)
+y6 <- win_perc %>% filter(year == 2006) %>% arrange(desc(win_perc)) %>% print(n=5)
+y7 <- win_perc %>% filter(year == 2007) %>% arrange(desc(win_perc)) %>% print(n=5)
+y8 <- win_perc %>% filter(year == 2008) %>% arrange(desc(win_perc)) %>% print(n=5)
+y9 <- win_perc %>% filter(year == 2009) %>% arrange(desc(win_perc)) %>% print(n=5)
+y10 <- win_perc %>% filter(year == 2010) %>% arrange(desc(win_perc)) %>% print(n=5)
+y11 <- win_perc %>% filter(year == 2011) %>% arrange(desc(win_perc)) %>% print(n=5)
+y12 <- win_perc %>% filter(year == 2012) %>% arrange(desc(win_perc)) %>% print(n=5)
+y13 <- win_perc %>% filter(year == 2013) %>% arrange(desc(win_perc)) %>% print(n=5)
+y14 <- win_perc %>% filter(year == 2014) %>% arrange(desc(win_perc)) %>% print(n=5)
+y15 <- win_perc %>% filter(year == 2015) %>% arrange(desc(win_perc)) %>% print(n=5)
+y16 <- win_perc %>% filter(year == 2016) %>% arrange(desc(win_perc)) %>% print(n=5)
 
+y0 %>% kable()
 ```
 
 ## Initial Analysis
