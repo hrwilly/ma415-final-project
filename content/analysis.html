@@ -17,268 +17,372 @@ draft: false
 <p>We describe here our detailed data analysis.</p>
 <div id="data-analysis-motivations" class="section level2">
 <h2>Data Analysis Motivations</h2>
-<p>For our data analysis, we are most interested in the relationship between the winning percentage of each Major League Baseball team and each team’s payroll for a given season. We wish to look at the whether a particular team’s winning percentage changes each season with that team’s payroll. Does a high payroll correspond with more wins and therefore higher success? If so, where do the dollars from an increase in the payroll go? If not, what factors lead to a team losing even with such high payrolls? The answers to these questions may differ between the MLB teams. Some teams may consistently perform better with higher payrolls while other teams may not, so we are interested in the variability of these answers among the MLB teams.</p>
-<img src="/analysis_files/figure-html/win_perc-1.png" width="672" />
-<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:300px; ">
-<table class="table lightable-paper lightable-hover lightable-classic-2" style="margin-left: auto; margin-right: auto; font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-family: Georgia; margin-left: auto; margin-right: auto;">
+<p>For our data analysis, we are most interested in the relationship between the winning percentage of each Major League Baseball team and each team’s payroll for a given season. We wish to look at the whether a particular team’s winning percentage changes each season with that team’s payroll. Does a high payroll correspond with more wins and therefore higher success? If so, where do the dollars from an increase in the payroll go? If not, what factors lead to a team losing even with such high payrolls? The answers to these questions may differ between the MLB teams. Some teams may consistently perform better with higher payrolls while other teams may not, so we are interested in the variability of these answers among the MLB teams.<br />
+<br />
+</p>
+</div>
+<div id="summary-statistics" class="section level2">
+<h2>Summary Statistics</h2>
+<p>The table below shows which team had the highest winning percentage each year from 2000 to 2016.<br />
+<br />
+</p>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
+<table class=" lightable-paper lightable-hover lightable-classic-2 table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-family: Georgia; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
 Team
 </th>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
 Games Played
 </th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
 Games Won
 </th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
 Winning Percentage
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:center;">
 2000
 </td>
-<td style="text-align:left;">
+<td style="text-align:center;">
 SFN
 </td>
-<td style="text-align:right;">
+<td style="text-align:center;">
 97
 </td>
-<td style="text-align:right;background-color: #F0F8FF !important;">
+<td style="text-align:center;background-color: #F0F8FF !important;">
 59.87654
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:center;">
 2001
 </td>
-<td style="text-align:left;">
+<td style="text-align:center;">
 SEA
 </td>
-<td style="text-align:right;">
+<td style="text-align:center;">
 116
 </td>
-<td style="text-align:right;background-color: #F0F8FF !important;">
+<td style="text-align:center;background-color: #F0F8FF !important;">
 71.60494
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:center;">
 2002
 </td>
-<td style="text-align:left;">
+<td style="text-align:center;">
 NYA
 </td>
-<td style="text-align:right;">
+<td style="text-align:center;">
 103
 </td>
-<td style="text-align:right;background-color: #F0F8FF !important;">
+<td style="text-align:center;background-color: #F0F8FF !important;">
 63.97516
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:center;">
 2003
 </td>
-<td style="text-align:left;">
+<td style="text-align:center;">
 NYA
 </td>
-<td style="text-align:right;">
+<td style="text-align:center;">
 102
 </td>
-<td style="text-align:right;background-color: #F0F8FF !important;">
+<td style="text-align:center;background-color: #F0F8FF !important;">
 62.57669
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:center;">
 2004
 </td>
-<td style="text-align:left;">
+<td style="text-align:center;">
 SLN
 </td>
-<td style="text-align:right;">
+<td style="text-align:center;">
 105
 </td>
-<td style="text-align:right;background-color: #F0F8FF !important;">
+<td style="text-align:center;background-color: #F0F8FF !important;">
 64.81481
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:center;">
 2005
 </td>
-<td style="text-align:left;">
+<td style="text-align:center;">
 SLN
 </td>
-<td style="text-align:right;">
+<td style="text-align:center;">
 100
 </td>
-<td style="text-align:right;background-color: #F0F8FF !important;">
+<td style="text-align:center;background-color: #F0F8FF !important;">
 61.72840
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:center;">
 2006
 </td>
-<td style="text-align:left;">
+<td style="text-align:center;">
 NYA
 </td>
-<td style="text-align:right;">
+<td style="text-align:center;">
 97
 </td>
-<td style="text-align:right;background-color: #F0F8FF !important;">
+<td style="text-align:center;background-color: #F0F8FF !important;">
 59.87654
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:center;">
 2007
 </td>
-<td style="text-align:left;">
+<td style="text-align:center;">
 BOS
 </td>
-<td style="text-align:right;">
+<td style="text-align:center;">
 96
 </td>
-<td style="text-align:right;background-color: #F0F8FF !important;">
+<td style="text-align:center;background-color: #F0F8FF !important;">
 59.25926
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:center;">
 2008
 </td>
-<td style="text-align:left;">
+<td style="text-align:center;">
 ANA
 </td>
-<td style="text-align:right;">
+<td style="text-align:center;">
 100
 </td>
-<td style="text-align:right;background-color: #F0F8FF !important;">
+<td style="text-align:center;background-color: #F0F8FF !important;">
 61.72840
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:center;">
 2009
 </td>
-<td style="text-align:left;">
+<td style="text-align:center;">
 NYA
 </td>
-<td style="text-align:right;">
+<td style="text-align:center;">
 103
 </td>
-<td style="text-align:right;background-color: #F0F8FF !important;">
+<td style="text-align:center;background-color: #F0F8FF !important;">
 63.58025
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:center;">
 2010
 </td>
-<td style="text-align:left;">
+<td style="text-align:center;">
 PHI
 </td>
-<td style="text-align:right;">
+<td style="text-align:center;">
 97
 </td>
-<td style="text-align:right;background-color: #F0F8FF !important;">
+<td style="text-align:center;background-color: #F0F8FF !important;">
 59.87654
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:center;">
 2011
 </td>
-<td style="text-align:left;">
+<td style="text-align:center;">
 PHI
 </td>
-<td style="text-align:right;">
+<td style="text-align:center;">
 102
 </td>
-<td style="text-align:right;background-color: #F0F8FF !important;">
+<td style="text-align:center;background-color: #F0F8FF !important;">
 62.96296
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:center;">
 2012
 </td>
-<td style="text-align:left;">
+<td style="text-align:center;">
 WAS
 </td>
-<td style="text-align:right;">
+<td style="text-align:center;">
 98
 </td>
-<td style="text-align:right;background-color: #F0F8FF !important;">
+<td style="text-align:center;background-color: #F0F8FF !important;">
 60.49383
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:center;">
 2013
 </td>
-<td style="text-align:left;">
+<td style="text-align:center;">
 BOS
 </td>
-<td style="text-align:right;">
+<td style="text-align:center;">
 97
 </td>
-<td style="text-align:right;background-color: #F0F8FF !important;">
+<td style="text-align:center;background-color: #F0F8FF !important;">
 59.87654
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:center;">
 2014
 </td>
-<td style="text-align:left;">
+<td style="text-align:center;">
 ANA
 </td>
-<td style="text-align:right;">
+<td style="text-align:center;">
 98
 </td>
-<td style="text-align:right;background-color: #F0F8FF !important;">
+<td style="text-align:center;background-color: #F0F8FF !important;">
 60.49383
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:center;">
 2015
 </td>
-<td style="text-align:left;">
+<td style="text-align:center;">
 SLN
 </td>
-<td style="text-align:right;">
+<td style="text-align:center;">
 100
 </td>
-<td style="text-align:right;background-color: #F0F8FF !important;">
+<td style="text-align:center;background-color: #F0F8FF !important;">
 61.72840
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:center;">
 2016
 </td>
-<td style="text-align:left;">
+<td style="text-align:center;">
 CHN
 </td>
-<td style="text-align:right;">
+<td style="text-align:center;">
 104
 </td>
-<td style="text-align:right;background-color: #F0F8FF !important;">
+<td style="text-align:center;background-color: #F0F8FF !important;">
 64.19753
 </td>
 </tr>
 </tbody>
 </table>
 </div>
+<br />
+Among these highest winning percentages for each year, the Seattle Mariners had the overall highest winning percentage in 2001 at 71.60%.<br />
+<br />
+
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
+<table class=" lightable-paper lightable-hover lightable-classic-2 table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-family: Georgia; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Team
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Count
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+NYA
+</td>
+<td style="text-align:center;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SLN
+</td>
+<td style="text-align:center;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ANA
+</td>
+<td style="text-align:center;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+BOS
+</td>
+<td style="text-align:center;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+PHI
+</td>
+<td style="text-align:center;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+CHN
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SEA
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SFN
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+WAS
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><br />
+From 2000 to 2016, the New York Yankees have had the highest winning percentage for the highest number of years. They had the highest winning percentage for the 4 years of 2002, 2003, 2006, and 2009.<br />
+<br />
+</p>
+<p><img src="/analysis_files/figure-html/win_perc-1.png" width="672" /></p>
 </div>
 <div id="initial-analysis" class="section level2">
 <h2>Initial Analysis</h2>
@@ -289,7 +393,7 @@ To begin, we looked at the relationship between payrolls and the winning percent
 
 <table class=" lightable-classic-2 table" style="font-family: Georgia; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-1">Table 1: </span>Linear Model
+<span id="tab:unnamed-chunk-3">Table 1: </span>Linear Model
 </caption>
 <thead>
 <tr>
@@ -347,7 +451,7 @@ payroll
 </tbody>
 </table>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<p><img src="/analysis_files/figure-html/unnamed-chunk-1-1.png" width="672" /><br />
+<p><img src="/analysis_files/figure-html/unnamed-chunk-3-1.png" width="672" /><br />
 From the plot as well as Table 1 of the model, we see the coefficient for the payroll is positive suggesting a positive relationship between payroll and winning percentage. For every million dollars increase in a team’s payroll, their winning percentage is expected to increase by 0.05%.<br />
 <br />
 We then faceted by team to observe the relationship between payroll and winning percentage for each team.<br />
@@ -551,6 +655,5 @@ bb %&gt;% filter(v_name == &quot;CHA&quot;, year == 2011) %&gt;% summarize(FT_st
 </div>
 <div id="flaws-and-limitations" class="section level2">
 <h2>Flaws and Limitations</h2>
-<p>There was missing data of games played in certain seasons for the Montreal Expos (<code>MON</code>), Miami Marlins (<code>MIA</code>),
-There was missing data of payroll for certain years for the Kansas City Royals (<code>KCA</code>) and the Miami Marlins (<code>MIA</code>). As a results these teams were removed from all of our analyses and not represented.</p>
+<p>There was missing data of payroll for certain years for the Kansas City Royals (<code>KCA</code>) and the Miami Marlins (<code>MIA</code>). As a results these teams were removed from all of our analyses and not represented.</p>
 </div>
