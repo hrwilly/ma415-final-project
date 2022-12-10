@@ -13,6 +13,12 @@ baseball <- baseball %>% separate(date,into=c("year","month_day"),sep=4) %>%
                          filter(year %in% years) %>% 
                          mutate(score_diff=h_score-v_score,year=as.numeric(year))
 
+#replace MON and FLO with WAS and MIA (franchises that moved)
+baseball$v_name <- str_replace(baseball$v_name, "MON", "WAS")
+baseball$h_name <- str_replace(baseball$v_name, "MON", "WAS")
+baseball$v_name <- str_replace(baseball$v_name, "FLO", "MIA")
+baseball$h_name <- str_replace(baseball$v_name, "FLO", "MIA")
+
 save(baseball, file = "dataset/baseball.RData")
 
 
