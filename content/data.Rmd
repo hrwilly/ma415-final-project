@@ -98,7 +98,9 @@ Our next step in cleaning the data was to take the date as an integer and separa
 \
 Due to the largeness of the dataset as well as significant missing data from the 1970s and 1990s, we chose to work with more recent years and so filtered the data to only include those baseball games that took place between the years 2000 and 2016.\
 \
-The last step in cleaning our `baseball` dataset was to mutate a column titled `score_diff`. `v_score` and `h_score` provides the number of runs scored by each team, but the dataset does not include a variable that states which team won a given game. `score_diff` takes the number of the visiting team's runs subtracted from the number of the home team's runs. A positive value represents a win for the home team, a negative value represents a loss, and a zero is a tie. The higher absolute value of `score_diff` represents a larger win or loss.\
+The next step in cleaning our `baseball` dataset was to mutate a column titled `score_diff`. `v_score` and `h_score` provides the number of runs scored by each team, but the dataset does not include a variable that states which team won a given game. `score_diff` takes the number of the visiting team's runs subtracted from the number of the home team's runs. A positive value represents a win for the home team, a negative value represents a loss, and a zero is a tie. The higher absolute value of `score_diff` represents a larger win or loss.\
+\
+Lastly, we replaced all team names of `MON` with `WAS` and `FLO` with `MIA`. The Montreal Expos became the Washington Nationals in 2005 and the Florida Marlins became the Miami Marlins in 2012. This prevents the split of each team into two teams with missing data.\
 \
 This cleaned `baseball` dataset can be found in the `dataset` folder. 
 
