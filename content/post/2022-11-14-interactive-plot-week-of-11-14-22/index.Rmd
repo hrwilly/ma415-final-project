@@ -77,7 +77,7 @@ mlbColor <- function(x){
   else if(x == 'AL West'){y <- 'yellow'}
   else if(x == 'NL East'){y <- 'red'}
   else if(x == 'NL Central'){y <- 'purple'} 
-  else {y <- 'black'}
+  else if(x == 'NL West'){y <- 'black'}
   return(y)
   }
 
@@ -113,7 +113,7 @@ leaflet(MLBstadiums) %>%
       setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
       addTiles() %>% 
       addAwesomeMarkers(~Longitude, ~Latitude, icon = icons, label = ~as.character(Venue), popup = ~as.character(Sport)) %>% 
-      addLegend(position = 'bottomleft', colors = makeColorsandNames[,2],labels = makeColorsandNames[,1],opacity = 1,title = 'Divisions')
+      addLegend(position = 'bottomleft', colors = DivisionColor, labels = makeColorsandNames[,1],opacity = 1,title = 'Divisions')
 
     
 ```

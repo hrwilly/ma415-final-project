@@ -13,11 +13,11 @@ ui <- fluidPage(
   fluidRow(column(width=12, leafletOutput("mymap"))),
   fluidRow(
     column(width=4, 
-           selectizeInput(inputId = "yearSelected",
+           selectInput(inputId = "yearSelected",
                             label = "Year", 
                           choices = win_perc$year, 
-                         selected = win_perc$year[3]),
-           uiOutput(win_perc$year))
+                         selected = "win_perc$year[4]"))
+           #uiOutput(win_perc$year))
   )
 )
 
@@ -52,18 +52,5 @@ server <- function(input, output, session){
 }
 
 
-# # NOT WORKING CORRECTLY: Clicking city on map should update country and city selected 
-# observe({
-#   if(!is.null(input$map_marker_click)){
-#     
-#     updateSelectizeInput(
-#       session, "yearSelected", 
-#       selected = win_perc$year[(cities$lat==input$map_marker_click$lat)&(cities$long==input$map_marker_click$lng)])
-#     
-#    
-#   
-# }
-# 
-# })
 
 shinyApp(ui, server, options = list(height = 550)) 
