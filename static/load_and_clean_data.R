@@ -13,6 +13,12 @@ baseball <- baseball %>% separate(date,into=c("year","month_day"),sep=4) %>%
                          filter(year %in% years) %>% 
                          mutate(score_diff=h_score-v_score,year=as.numeric(year))
 
+#replace MON and FLO with WAS and MIA (franchises that moved)
+baseball$v_name <- str_replace(baseball$v_name, "MON", "WAS")
+baseball$h_name <- str_replace(baseball$h_name, "MON", "WAS")
+baseball$v_name <- str_replace(baseball$v_name, "FLO", "MIA")
+baseball$h_name <- str_replace(baseball$h_name, "FLO", "MIA")
+
 save(baseball, file = "dataset/baseball.RData")
 
 
@@ -38,6 +44,8 @@ win_perc <- home_games %>% add_column(away_games = away_games$away_games) %>%
   mutate(games_played = home_games + away_games) %>% 
   add_column(games_won = team_year_wins$games_won) %>% 
   mutate(win_perc = games_won/games_played)
+
+win_perc$win_perc <- win_perc$win_perc*100
 
 save(win_perc, file = "dataset/win_perc.RData")
 

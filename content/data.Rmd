@@ -31,7 +31,6 @@ df %>% mutate(
 ) %>% 
   gt() %>% tab_header(title = "DATASETS")
 
-
 ```
 
 
@@ -99,7 +98,9 @@ Our next step in cleaning the data was to take the date as an integer and separa
 \
 Due to the largeness of the dataset as well as significant missing data from the 1970s and 1990s, we chose to work with more recent years and so filtered the data to only include those baseball games that took place between the years 2000 and 2016.\
 \
-The last step in cleaning our `baseball` dataset was to mutate a column titled `score_diff`. `v_score` and `h_score` provides the number of runs scored by each team, but the dataset does not include a variable that states which team won a given game. `score_diff` takes the number of the visiting team's runs subtracted from the number of the home team's runs. A positive value represents a win for the home team, a negative value represents a loss, and a zero is a tie. The higher absolute value of `score_diff` represents a larger win or loss.\
+The next step in cleaning our `baseball` dataset was to mutate a column titled `score_diff`. `v_score` and `h_score` provides the number of runs scored by each team, but the dataset does not include a variable that states which team won a given game. `score_diff` takes the number of the visiting team's runs subtracted from the number of the home team's runs. A positive value represents a win for the home team, a negative value represents a loss, and a zero is a tie. The higher absolute value of `score_diff` represents a larger win or loss.\
+\
+Lastly, we replaced all team names of `MON` with `WAS` and `FLO` with `MIA`. The Montreal Expos became the Washington Nationals in 2005 and the Florida Marlins became the Miami Marlins in 2012. This prevents the split of each team into two teams with missing data.\
 \
 This cleaned `baseball` dataset can be found in the `dataset` folder. 
 
@@ -107,6 +108,7 @@ This cleaned `baseball` dataset can be found in the `dataset` folder.
 
 Another variable not included in the game logs dataset that would useful in our analyses is that of winning percentage. Winning percentage is the percentage of games played that resulted in a win for a given team and given season. The following code calculates the winning percentage for each team and year from 2000 to 2016. This code can also be found in the `load_and_clean_data.R` where the data is saved in `win_perc.RData`.
 
+*Only the first 20 rows of the data table are shown for concision
 ```{r win_perc}
 load(here::here("dataset", "baseball.RData"))
 options(dplyr.summarise.inform = FALSE)
@@ -115,7 +117,8 @@ options(dplyr.summarise.inform = FALSE)
 h_win_loss <- function(h, v) {
   ifelse(h > v, 1, 0)
 }
-(baseball <- baseball %>% mutate(h_win_loss = h_win_loss(h_score, v_score)))
+baseball <- baseball %>% mutate(h_win_loss = h_win_loss(h_score, v_score))
+knitr::kable(baseball[1:20,])
 
 #total games won
 home_wins <- baseball %>% group_by(h_name, year) %>% summarize(h_wins = sum(h_win_loss == 1))

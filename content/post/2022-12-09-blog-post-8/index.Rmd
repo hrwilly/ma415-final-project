@@ -1,0 +1,23 @@
+---
+title: Ending Thoughts, Week of 12/5/2022
+author: Daniel Sussman
+date: '2022-12-09'
+slug: []
+categories: []
+tags: []
+description: ~
+toc: yes
+authors: []
+series: []
+lastmod: '2022-12-09T09:07:37-05:00'
+featuredVideo: ~
+featuredImage: ~
+---
+
+To wrap up our data analysis, we are doing summary statistics of _____, as well as expanding on our model of _____.We are also adding more of a variety of plots, like ____.
+
+
+The overall question we are answering is "Does a higher payroll correspond with more wins, and therefore higher success?". Throughout our analysis, we have found a variability in the answer between teams. Due to this, we have formed our thesis to be "A team with a higher payroll does not necessarily have a higher winning percentage than other teams in the MLB."
+
+
+To polish our visualizations and tables, we are going back through our blog posts and changing our tibbles to be of the form knitr::kable(). Our graphs will be given titles, and appropriate axes and legend labels.

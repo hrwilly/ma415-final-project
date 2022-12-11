@@ -7,6 +7,8 @@ featuredImage: images/analysis_page.jpg
 draft: false
 ---
 
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+<link href="/rmarkdown-libs/lightable/lightable.css" rel="stylesheet" />
 
 <div id="TOC">
 
@@ -15,36 +17,446 @@ draft: false
 <p>We describe here our detailed data analysis.</p>
 <div id="data-analysis-motivations" class="section level2">
 <h2>Data Analysis Motivations</h2>
-<p>For our data analysis, we are most interested in the relationship between the <code>win_perc</code> variable in our <code>win_perc</code> data set we created, which can be found in our Data page, and the <code>payroll</code> variable from our <code>mlb_payroll</code> dataset. We wish to look at the whether a particular team’s winning percentage changes each season with that team’s payroll. Does a high payroll correspond with more wins and therefore higher success? If so, where do the dollars from an increase in the payroll go? If not, what factors lead to a team losing even with such high payrolls?</p>
+<p>For our data analysis, we are most interested in the relationship between the winning percentage of each Major League Baseball team and each team’s payroll for a given season. We wish to look at the whether a particular team’s winning percentage changes each season with that team’s payroll. Does a high payroll correspond with more wins and therefore higher success? If so, where do the dollars from an increase in the payroll go? If not, what factors lead to a team losing even with such high payrolls? The answers to these questions may differ between the MLB teams. Some teams may consistently perform better with higher payrolls while other teams may not, so we are interested in the variability of these answers among the MLB teams.<br />
+<br />
+</p>
+</div>
+<div id="summary-statistics" class="section level2">
+<h2>Summary Statistics</h2>
+<p>The table below shows which team had the highest winning percentage each year from 2000 to 2016.<br />
+<br />
+</p>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
+<table class=" lightable-paper lightable-hover lightable-classic-2 table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-family: Georgia; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Team
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Games Played
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Games Won
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Winning Percentage
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+2000
+</td>
+<td style="text-align:center;">
+SFN
+</td>
+<td style="text-align:center;">
+97
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+59.87654
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2001
+</td>
+<td style="text-align:center;">
+SEA
+</td>
+<td style="text-align:center;">
+116
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+71.60494
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2002
+</td>
+<td style="text-align:center;">
+NYA
+</td>
+<td style="text-align:center;">
+103
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+63.97516
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2003
+</td>
+<td style="text-align:center;">
+NYA
+</td>
+<td style="text-align:center;">
+102
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+62.57669
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2004
+</td>
+<td style="text-align:center;">
+SLN
+</td>
+<td style="text-align:center;">
+105
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+64.81481
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2005
+</td>
+<td style="text-align:center;">
+SLN
+</td>
+<td style="text-align:center;">
+100
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+61.72840
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2006
+</td>
+<td style="text-align:center;">
+NYA
+</td>
+<td style="text-align:center;">
+97
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+59.87654
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2007
+</td>
+<td style="text-align:center;">
+BOS
+</td>
+<td style="text-align:center;">
+96
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+59.25926
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2008
+</td>
+<td style="text-align:center;">
+ANA
+</td>
+<td style="text-align:center;">
+100
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+61.72840
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2009
+</td>
+<td style="text-align:center;">
+NYA
+</td>
+<td style="text-align:center;">
+103
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+63.58025
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2010
+</td>
+<td style="text-align:center;">
+PHI
+</td>
+<td style="text-align:center;">
+97
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+59.87654
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2011
+</td>
+<td style="text-align:center;">
+PHI
+</td>
+<td style="text-align:center;">
+102
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+62.96296
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2012
+</td>
+<td style="text-align:center;">
+WAS
+</td>
+<td style="text-align:center;">
+98
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+60.49383
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2013
+</td>
+<td style="text-align:center;">
+BOS
+</td>
+<td style="text-align:center;">
+97
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+59.87654
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+ANA
+</td>
+<td style="text-align:center;">
+98
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+60.49383
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2015
+</td>
+<td style="text-align:center;">
+SLN
+</td>
+<td style="text-align:center;">
+100
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+61.72840
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2016
+</td>
+<td style="text-align:center;">
+CHN
+</td>
+<td style="text-align:center;">
+104
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+64.19753
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<br />
+Among these highest winning percentages for each year, the Seattle Mariners had the overall highest winning percentage in 2001 at 71.60%.<br />
+<br />
+
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
+<table class=" lightable-paper lightable-hover lightable-classic-2 table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-family: Georgia; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Team
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Count
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+NYA
+</td>
+<td style="text-align:center;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SLN
+</td>
+<td style="text-align:center;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ANA
+</td>
+<td style="text-align:center;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+BOS
+</td>
+<td style="text-align:center;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+PHI
+</td>
+<td style="text-align:center;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+CHN
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SEA
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SFN
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+WAS
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><br />
+From 2000 to 2016, the New York Yankees have had the highest winning percentage for the highest number of years. They had the highest winning percentage for the 4 years of 2002, 2003, 2006, and 2009.<br />
+<br />
+</p>
+<p><img src="/analysis_files/figure-html/win_perc-1.png" width="672" /></p>
 </div>
 <div id="initial-analysis" class="section level2">
 <h2>Initial Analysis</h2>
-<p>To begin, we looked at the relationship between payrolls and the winning percentage for a certain season and team.<br />
-</p>
-<pre class="r"><code>payroll_win &lt;- win_perc %&gt;% left_join(mlb_payroll, by = c(&quot;year&quot;, &quot;h_name&quot;)) %&gt;% filter(!is.na(payroll))
-(payroll_mod &lt;- lm(win_perc ~ log(payroll), data = payroll_win))</code></pre>
-<pre><code>## 
-## Call:
-## lm(formula = win_perc ~ log(payroll), data = payroll_win)
-## 
-## Coefficients:
-##  (Intercept)  log(payroll)  
-##     -0.34855       0.04676</code></pre>
-<pre class="r"><code>beta &lt;- coef(payroll_mod)
+To begin, we looked at the relationship between payrolls and the winning percentage for all teams.<br />
+<br />
+*Note each year’s payroll is in millions of dollars<br />
+<br />
 
-# for all teams, as payroll increases, winning percentage for a given year increases
-ggplot(payroll_win) + geom_point(aes(log(payroll), win_perc, color = h_name)) + 
-  geom_abline(intercept = beta[1], slope = beta[2], color = &quot;red&quot;)</code></pre>
-<p><img src="/analysis_files/figure-html/payroll_win_model-1.png" width="672" /><br />
-From the model, we see the coefficient for the log(payroll) is positive suggesting a positive relationship between payroll and winning percentage. We can also see this relationship in the plot. Overall, as log(payroll) increases, winning percentage increases.<br />
+<table class=" lightable-classic-2 table" style="font-family: Georgia; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:unnamed-chunk-3">Table 1: </span>Linear Model
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:center;">
+estimate
+</th>
+<th style="text-align:center;">
+standard error
+</th>
+<th style="text-align:center;">
+t value
+</th>
+<th style="text-align:center;">
+p value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:center;">
+4552.19
+</td>
+<td style="text-align:center;">
+75.83
+</td>
+<td style="text-align:center;">
+60.03
+</td>
+<td style="text-align:center;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+payroll
+</td>
+<td style="text-align:center;">
+5.30
+</td>
+<td style="text-align:center;">
+0.77
+</td>
+<td style="text-align:center;">
+6.88
+</td>
+<td style="text-align:center;">
+0
+</td>
+</tr>
+</tbody>
+</table>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="/analysis_files/figure-html/unnamed-chunk-3-1.png" width="672" /><br />
+From the plot as well as Table 1 of the model, we see the coefficient for the payroll is positive suggesting a positive relationship between payroll and winning percentage. For every million dollars increase in a team’s payroll, their winning percentage is expected to increase by 0.05%.<br />
 <br />
 We then faceted by team to observe the relationship between payroll and winning percentage for each team.<br />
 <br />
 </p>
-<pre class="r"><code>#faceted
-ggplot(payroll_win,aes(log(payroll),win_perc))+geom_point(aes(color = year), size = 0.5)+
-                                            geom_smooth(method=&#39;lm&#39;, color = &quot;red&quot;, lwd = 0.8)+
-                                            facet_wrap(vars(h_name))</code></pre>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="/analysis_files/figure-html/payroll_win_facet-1.png" width="672" /><br />
 From these faceted plots, it is not consistent among all teams that as payroll increases, winning percentage also increases. For about half of the teams, including teams like the Chicago White Sox (<code>CHA</code>) and the Oakland Athletics (<code>OAK</code>), as payroll increases, their winning percentage for that year decreases.<br />
@@ -55,119 +467,28 @@ In our analyses that follow, we look at what factors influence this divide betwe
 </div>
 <div id="positive-relationship" class="section level2">
 <h2>Positive Relationship</h2>
-<p>When analyzing the positive relationship between payroll and winning percentage, we wanted to look at the relationships between payroll and certain game statistics for each season. We first looked at payroll and hits to see if an increase in the number of hits per season was influencing this positive relationship. To do this, we calculated the total hits for each team each year by summing their home hits and their away hits. We then joined this dataset with the <code>mlb_payroll</code> dataset and plotted <code>total_hits</code> against <code>log(payroll)</code>.<br />
+<p>When analyzing the positive relationship between payroll and winning percentage, we wanted to look at the relationships between payroll and certain game statistics for each season. We first looked at payroll and hits to see if an increase in the number of hits per season was influencing this positive relationship. To do this, we calculated the total hits for each team each year by summing their home hits and their away hits. We then joined this dataset with the payroll dataset and plotted the total hits of each team against log(payroll) for each year between 2000 and 2016.<br />
 <br />
 </p>
-<pre class="r"><code>#home hits per team per year
-h_hits &lt;- baseball %&gt;% select(year, h_name, h_hits) %&gt;% 
-  group_by(year,h_name) %&gt;% 
-  summarize(h_hits = sum(h_hits))</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;year&#39;. You can override using the
-## `.groups` argument.</code></pre>
-<pre class="r"><code>#visiting hits per team per year
-v_hits &lt;- baseball %&gt;% select(year, v_name, v_hits) %&gt;% 
-  group_by(year,v_name) %&gt;% 
-  summarize(v_hits = sum(v_hits))</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;year&#39;. You can override using the
-## `.groups` argument.</code></pre>
-<pre class="r"><code>#join and total hits per team per year
-total_hits &lt;- h_hits %&gt;% left_join(v_hits, by = c(&quot;year&quot; = &quot;year&quot;, &quot;h_name&quot; = &quot;v_name&quot;)) %&gt;% 
-  mutate(total_hits = h_hits + v_hits)
-#join with mlb_payroll
-payroll_hits &lt;- mlb_payroll %&gt;% left_join(total_hits, by = c(&quot;year&quot;, &quot;h_name&quot;))</code></pre>
-<pre class="r"><code>#for each team
-payroll_hits %&gt;% filter(!is.na(total_hits)) %&gt;% 
-  ggplot(aes(log(payroll), total_hits)) + 
-  geom_point(aes(color = year), size = 0.5) + 
-  geom_smooth(method = &quot;lm&quot;, color = &quot;red&quot;, lwd = 0.8) + 
-  facet_wrap(vars(h_name))</code></pre>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="/analysis_files/figure-html/payroll_hits_plot-1.png" width="672" /><br />
 To our surprise, for most teams, as payroll increases, the total number of hits in a season decreases. This suggests that even though teams are spending more money on more valuable players, their offensive performance in their total hits for a season does not increase.<br />
 <br />
-We then looked at the relationships between payroll and homeruns for each season. It is possible that teams are spending more money on players known for hitting home runs and therefore bring in more runs rather than players who just hit and get on base without bringing in a run. We first calculated the total home runs for each team each year by summing their home home runs and their away home runs. We then joined this dataset with the <code>mlb_payroll</code> dataset and plotted <code>total_hits</code> against <code>log(payroll)</code>.<br />
+We then looked at the relationships between payroll and homeruns for each season. It is possible that teams are spending more money on players known for hitting home runs and therefore bring in more runs rather than players who just hit and get on base without bringing in a run. We first calculated the total home runs for each team each year by summing their home home runs and their away home runs. We then joined this dataset with the payroll dataset and plotted the total homeruns of each team against log(payroll) for each year between 2000 and 2016.<br />
 <br />
 </p>
-<pre class="r"><code>h_hruns &lt;- baseball %&gt;% select(year, h_name, h_homeruns) %&gt;% 
-  group_by(year,h_name) %&gt;% 
-  summarize(h_hruns = sum(h_homeruns))</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;year&#39;. You can override using the
-## `.groups` argument.</code></pre>
-<pre class="r"><code>#visiting hits per team per year
-v_hruns &lt;- baseball %&gt;% select(year, v_name, v_homeruns) %&gt;% 
-  group_by(year,v_name) %&gt;% 
-  summarize(v_hruns = sum(v_homeruns))</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;year&#39;. You can override using the
-## `.groups` argument.</code></pre>
-<pre class="r"><code>#join and total hits per team per year
-total_hruns &lt;- h_hruns %&gt;% left_join(v_hruns, by = c(&quot;year&quot; = &quot;year&quot;, &quot;h_name&quot; = &quot;v_name&quot;)) %&gt;% 
-  mutate(total_hruns = h_hruns + v_hruns)
-#join with mlb_payroll
-payroll_hruns &lt;- mlb_payroll %&gt;% left_join(total_hruns, by = c(&quot;year&quot;, &quot;h_name&quot;))</code></pre>
-<pre class="r"><code>#for each team
-payroll_hruns %&gt;% filter(!is.na(total_hruns)) %&gt;% 
-  ggplot(aes(log(payroll), total_hruns)) + 
-  geom_point(aes(color = year), size = 0.5) + 
-  geom_smooth(method = &quot;lm&quot;, color = &quot;red&quot;, lwd = 0.8) + 
-  facet_wrap(vars(h_name))</code></pre>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="/analysis_files/figure-html/payroll_homeruns_plot-1.png" width="672" /><br />
 Again, to our surprise most teams produced fewer home runs as payroll increased. From these graphs on the relationships between payroll and hits and payroll and home runs, it appears as though the offensive performance does not improve. So what then are these teams spending money on to increase their winning percentage?<br />
 <br />
-Rather than looking at offensive performance, we looked at defensive performance, particularly pitching. The first statistic we looked at for pitchers was strikeouts. In the <code>baseball</code> dataset, the variables <code>h_strikeouts</code> and <code>v_strikeouts</code> refer to the total number of times players struckout for the home team and visiting team respectively. To make this a statistic for the home team and visiting team pitchers, we reversed their variables. More explicitly, the total strikeouts for the home team pitchers is represented by the visiting team’s strikeouts (<code>v_strikeouts</code>) and the total strikeouts for the visiting team pitchers is represented by the home team’s strikeouts(<code>h_strikeouts</code>). We calculated the total strikeouts for each team for each year, joined this dataset with the <code>mlb_payroll</code> dataset, and plotted the total strikeouts against <code>log(payroll)</code>.<br />
+Rather than looking at offensive performance, we looked at defensive performance, particularly pitching. The first statistic we looked at for pitchers was strikeouts. In the baseball dataset, the variables <code>h_strikeouts</code> and <code>v_strikeouts</code> refer to the total number of times players struckout for the home team and visiting team respectively. To make this a statistic for the home team and visiting team pitchers, we reversed their variables. More explicitly, the total strikeouts for the home team pitchers is represented by the visiting team’s strikeouts (<code>v_strikeouts</code>) and the total strikeouts for the visiting team pitchers is represented by the home team’s strikeouts(<code>h_strikeouts</code>). We calculated the total strikeouts for each team for each year, joined this dataset with the payroll dataset, and plotted the total number of strikeouts for each team against log(payroll) for each year between 2000 and 2016.<br />
 <br />
 </p>
-<pre class="r"><code>#home hits per team per year
-h_so &lt;- baseball %&gt;% select(year, h_name, v_strikeouts) %&gt;% 
-  group_by(year,h_name) %&gt;% 
-  summarize(h_so = sum(v_strikeouts))</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;year&#39;. You can override using the
-## `.groups` argument.</code></pre>
-<pre class="r"><code>#visiting hits per team per year
-v_so &lt;- baseball %&gt;% select(year, v_name, h_strikeouts) %&gt;% 
-  group_by(year,v_name) %&gt;% 
-  summarize(v_so = sum(h_strikeouts))</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;year&#39;. You can override using the
-## `.groups` argument.</code></pre>
-<pre class="r"><code>#join and total hits per team per year
-total_so &lt;- h_so %&gt;% left_join(v_so, by = c(&quot;year&quot; = &quot;year&quot;, &quot;h_name&quot; = &quot;v_name&quot;)) %&gt;% 
-  mutate(total_so = h_so + v_so)
-#join with mlb_payroll
-payroll_so &lt;- mlb_payroll %&gt;% left_join(total_so, by = c(&quot;year&quot;, &quot;h_name&quot;))</code></pre>
-<pre class="r"><code>#for each team
-payroll_so %&gt;% filter(!is.na(total_so)) %&gt;% 
-  ggplot(aes(log(payroll), total_so)) + 
-  geom_point(aes(color = year), size = 0.5) + 
-  geom_smooth(method = &quot;lm&quot;, color = &quot;red&quot;, lwd = 0.8) + 
-  facet_wrap(vars(h_name))</code></pre>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="/analysis_files/figure-html/payroll_so_plot-1.png" width="672" /><br />
-These plots show that for almost all of the teams, as payroll increases, the total number of strikeouts performed by the pitchers of each team also increases. We then looked at the earned runs statistic to see if this change in pitcher performance was consistent with the increase in payroll. Similar to the strikeout variables, <code>h_team_earned_runs</code> and <code>v_team_earned_runs</code> are the earned runs for the players of the home team and visiting team respectively. Here again we represented the earned runs for the home team pitchers with <code>v_team_earned_runs</code> and represented the earned runs for the visiting team pitchers with <code>h_team_earned_runs</code>. We calculated the total earned runs for each team for each year, joined this dataset with the <code>mlb_payroll</code> dataset, and plotted the total earned runs against <code>log(payroll)</code>.<br />
+These plots show that for almost all of the teams, as payroll increases, the total number of strikeouts performed by the pitchers of each team also increases. We then looked at the earned runs statistic to see if this change in pitcher performance was consistent with the increase in payroll. Similar to the strikeout variables, <code>h_team_earned_runs</code> and <code>v_team_earned_runs</code> are the earned runs for the players of the home team and visiting team respectively. Here again we represented the earned runs for the home team pitchers with <code>v_team_earned_runs</code> and represented the earned runs for the visiting team pitchers with <code>h_team_earned_runs</code>. We calculated the total earned runs for each team for each year, joined this dataset with the payroll dataset, and plotted the total earned runs for each team against log(payroll) for each year between 2000 and 2016.<br />
 <br />
 </p>
-<pre class="r"><code>#home hits per team per year
-h_er &lt;- baseball %&gt;% select(year, h_name, v_team_earned_runs) %&gt;% 
-  group_by(year,h_name) %&gt;% 
-  summarize(h_er = sum(v_team_earned_runs))</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;year&#39;. You can override using the
-## `.groups` argument.</code></pre>
-<pre class="r"><code>#visiting hits per team per year
-v_er &lt;- baseball %&gt;% select(year, v_name, h_team_earned_runs) %&gt;% 
-  group_by(year,v_name) %&gt;% 
-  summarize(v_er = sum(h_team_earned_runs))</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;year&#39;. You can override using the
-## `.groups` argument.</code></pre>
-<pre class="r"><code>#join and total hits per team per year
-total_er &lt;- h_er %&gt;% left_join(v_er, by = c(&quot;year&quot; = &quot;year&quot;, &quot;h_name&quot; = &quot;v_name&quot;)) %&gt;% 
-  mutate(total_er = h_er + v_er)
-#join with mlb_payroll
-payroll_er &lt;- mlb_payroll %&gt;% left_join(total_er, by = c(&quot;year&quot;, &quot;h_name&quot;))</code></pre>
-<pre class="r"><code>#for each team
-payroll_er %&gt;% filter(!is.na(total_er)) %&gt;% 
-  ggplot(aes(log(payroll), total_er)) + 
-  geom_point(aes(color = year), size = 0.5) + 
-  geom_smooth(method = &quot;lm&quot;, color = &quot;red&quot;, lwd = 0.8) + 
-  facet_wrap(vars(h_name))</code></pre>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="/analysis_files/figure-html/payroll_er_plot-1.png" width="672" /><br />
 According to the plots, as payroll increases, the total earned runs for most teams decreases. These faceted plots along with the plots for total strikeouts against payroll suggest that along with an increase in payroll, the performance of the pitching improves with more strikeouts and less earned runs against the pitchers.<br />
@@ -331,4 +652,8 @@ bb %&gt;% filter(v_name == &quot;CHA&quot;, year == 2011) %&gt;% summarize(FT_st
 bb %&gt;% filter(v_name == &quot;CHA&quot;, year == 2011) %&gt;% summarize(FT_start = sum(v_player_3_name==&quot;Carlos Quentin&quot;), wins = sum(v_player_3_name==&quot;Carlos Quentin&quot; &amp; score_diff&lt;0), prop = wins/FT_start)
 bb %&gt;% filter(v_name == &quot;CHA&quot;, year == 2011) %&gt;% summarize(FT_start = sum(v_player_3_name==&quot;Adam Dunn&quot;), wins = sum(v_player_3_name==&quot;Adam Dunn&quot; &amp; score_diff&lt;0), prop = wins/FT_start)
 #concl --&gt; chicago won more games when frank thomas started in 2000 than combo of three players in 2011</code></pre>
+</div>
+<div id="flaws-and-limitations" class="section level2">
+<h2>Flaws and Limitations</h2>
+<p>There was missing data of payroll for certain years for the Kansas City Royals (<code>KCA</code>) and the Miami Marlins (<code>MIA</code>). As a results these teams were removed from all of our analyses and not represented.</p>
 </div>
