@@ -63,10 +63,10 @@ icons <- makeAwesomeIcon(
     iconColor = 'black',
     library = 'glyphicon',
     markerColor = ifelse(stadiums$Abbreviation %in% AL_east, 'red',
-                  ifelse(stadiums$`Team(s)` %in% AL_central,'blue',
-                  ifelse(stadiums$`Team(s)` %in% AL_west, 'orange',
-                  ifelse(stadiums$`Team(s)` %in% NL_east,'green',
-                  ifelse(stadiums$`Team(s)` %in% NL_central,'darkpurple','black'))))))
+                  ifelse(stadiums$Abbreviation %in% AL_central,'blue',
+                  ifelse(stadiums$Abbreviation %in% AL_west, 'orange',
+                  ifelse(stadiums$Abbreviation %in% NL_east,'green',
+                  ifelse(stadiums$Abbreviation %in% NL_central,'darkpurple', 'black'))))))
 
 
 
@@ -102,6 +102,7 @@ MLBstadiums <- stadiums %>% filter(Sport == "MLB") %>%
 
 
 
+
 baseball_w_stadiums <- merge(baseball, stadiums, by.x=c("h_name"), 
                                                  by.y =("Abbreviation")) 
 
@@ -112,8 +113,17 @@ makeColorsandNames <- data.frame(divisions = c('AL East','AL Central','AL West',
 leaflet(MLBstadiums) %>% 
       setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
       addTiles() %>% 
-      addAwesomeMarkers(~Longitude, ~Latitude, icon = icons, label = ~as.character(Venue), popup = ~as.character(Sport)) %>% 
-      addLegend(position = 'bottomleft', colors = DivisionColor, labels = makeColorsandNames[,1],opacity = 1,title = 'Divisions')
+      addAwesomeMarkers(~Longitude, ~Latitude, 
+                        icon = icons, 
+                        label = ~as.character(Venue),
+                        popup = ~as.character(Sport)) %>%
+      addLegend(position = 'bottomleft', 
+                colors = makeColorsandNames[,2],
+                labels = makeColorsandNames[,1],
+                opacity = 1,
+                title = 'Divisions')
+      # addAwesomeMarkers(~Longitude, ~Latitude, icon = icons, label = ~as.character(Venue), popup = ~as.character(Sport)) %>% 
+      # addLegend(position = 'bottomleft', colors = makeColorsandNames[1], shinylabels = makeColorsandNames[2], opacity = 1,title = 'Divisions')
 
     
 ```

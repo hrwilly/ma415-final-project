@@ -6,8 +6,8 @@ library(leaflet)
 library(dplyr)
 library(readr)
 
-load(here::here("dataset", "shiny_wins.RData"))
-load(here::here("dataset", "MLBstadiums.RData"))
+# load(here::here("dataset", "shiny_wins.RData"))
+# load(here::here("dataset", "MLBstadiums.RData"))
 
 ui <- fluidPage(
   fluidRow(column(width=12, leafletOutput("mymap"))),
@@ -16,8 +16,8 @@ ui <- fluidPage(
            selectInput(inputId = "yearSelected",
                             label = "Year", 
                           choices = win_perc$year, 
-                         selected = "win_perc$year[4]"))
-           #uiOutput(win_perc$year))
+                         selected = "win_perc$year[2]"))
+         
   )
 )
 
