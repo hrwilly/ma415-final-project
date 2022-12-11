@@ -20,7 +20,7 @@ The personalized aspect will be how the user has the ability to choose a stadium
 
 
 * Our rough outline of our interactive is shown below. We still need to convert to Shiny.
-```{r, interactive}
+```{r, interactive, echo=F}
 library(tidyverse)
 library(rvest)
 library(tibble)
