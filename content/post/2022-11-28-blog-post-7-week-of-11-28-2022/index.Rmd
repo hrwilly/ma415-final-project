@@ -16,7 +16,7 @@ featuredImage: ~
 
 Our main data sets that we are comparing are the baseball statistics and the payroll statistics. Our exploratory data analysis is continuing by looking for trends in these data sets combined, whereas before we looked at trends in each data set individually. We decided to no longer use the weather dataset.
 
-```{r loading_data}
+```{r loading_data, echo=F}
 suppressPackageStartupMessages(library(tidyverse))
 
 load(here::here("dataset", "baseball.RData"))
@@ -26,7 +26,7 @@ load(here::here("dataset","win_perc.Rdata"))
 
 We first are looking at the basics, seeing if there is a correlation between winning and payroll data. To do this, we plot the payroll by the winning percentage, and facet by team. We then added a line of best fit to the data, which allows us to see if the overall trend is up, down, or zero for each team.
 
-```{r trends_1,fig.height=20}
+```{r trends_1,fig.height=20, echo=F}
 combined<-full_join(mlb_payroll,win_perc,by=c('year','h_name'))
 
 ggplot(combined,aes(log(payroll),win_perc))+geom_point()+
@@ -38,7 +38,7 @@ Some teams clearly have an upward trend, others clearly downward, and some have 
 
 We next looked at payroll and win percentage, but faceted by year instead of home team.
 
-```{r trends_2,fig.height=20}
+```{r trends_2,fig.height=20, echo=F}
 ggplot(combined,aes(log(payroll),win_perc))+geom_point(aes(color=h_name))+
                                             facet_wrap(vars(year),ncol=3)+
                                             theme(legend.position = 'bottom')
