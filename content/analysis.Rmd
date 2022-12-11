@@ -101,7 +101,12 @@ beta <- coef(payroll_mod)
 payroll_win %>% ggplot(aes(payroll, win_perc)) + 
   geom_point(aes(color = h_name)) + 
   scale_x_log10() +
-  geom_smooth(method = "lm", se = FALSE, color = "red", lwd =0.5)
+  geom_smooth(method = "lm", se = FALSE, color = "red", lwd =0.5) +
+  labs(x = "Payroll (million)", 
+       y = "Winning Percentage", 
+       title = "Relationship Between Winning Percentage and Payroll for the 30 MLB Teams", 
+       fill = "Team") +
+  theme(legend.position = "bottom")
 ```
 \
 From the plot as well as Table 1 of the model, we see the coefficient for the payroll is positive suggesting a positive relationship between payroll and winning percentage. For every million dollars increase in a team's payroll, their winning percentage is expected to increase by 0.05%.\
@@ -109,14 +114,14 @@ From the plot as well as Table 1 of the model, we see the coefficient for the pa
 We then faceted by team to observe the relationship between payroll and winning percentage for each team.\
 \
 
-```{r payroll_win_facet, echo = FALSE}
+```{r payroll_win_facet, echo = FALSE, eval = FALSE}
 #faceted
 payroll_win %>% filter(h_name!="KCA", h_name!="MIA") %>% 
 ggplot(aes(payroll,win_perc)) + 
   scale_x_log10() +
   geom_point(aes(color = year), size = 0.5) +
   geom_smooth(method='lm', color = "red", lwd = 0.5, se = FALSE) +
-  facet_wrap(vars(h_name))
+  facet_wrap(vars(h_name), ncol = 4)
 ```
 \
 From these faceted plots, it is not consistent among all teams that as payroll increases, winning percentage also increases. For about half of the teams, including teams like the Chicago White Sox (`CHA`) and the Oakland Athletics (`OAK`), as payroll increases, their winning percentage for that year decreases.\
