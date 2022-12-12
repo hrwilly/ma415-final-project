@@ -7,8 +7,6 @@ featuredImage: images/analysis_page.jpg
 draft: false
 ---
 
-We describe here our detailed data analysis.
-
 ## Data Analysis Motivations
 
 For our data analysis, we are most interested in the relationship between the winning percentage of each Major League Baseball team and each team's payroll for a given season. We wish to look at the whether a particular team's winning percentage changes each season with that team's payroll. Does a high payroll correspond with more wins and therefore higher success? If so, where do the dollars from an increase in the payroll go? If not, what factors lead to a team losing even with such high payrolls? The answers to these questions may differ between the MLB teams. Some teams may consistently perform better with higher payrolls while other teams may not, so we are interested in the variability of these answers among the MLB teams.\
@@ -17,6 +15,7 @@ For our data analysis, we are most interested in the relationship between the wi
 ```{r loading, echo = FALSE}
 suppressPackageStartupMessages(library(tidyverse))
 suppressWarnings(suppressPackageStartupMessages(library("kableExtra")))
+suppressPackageStartupMessages(library(broom))
 load(here::here("dataset", "win_perc.RData"))
 load(here::here("dataset", "mlb_payroll.RData"))
 load(here::here("dataset", "baseball.RData"))
@@ -62,12 +61,81 @@ highest %>% group_by(h_name) %>%
 \
 From 2000 to 2016, the New York Yankees have had the highest winning percentage for the highest number of years. They had the highest winning percentage for the 4 years of 2002, 2003, 2006, and 2009.\
 \
+We then observed the teams with the highest number of hits, homeruns, and runs each season from 2000 to 2016. From this table and the table with the highest winning percentages each year, we wish to see if those teams with the most hits, homeruns, and runs also ended up having the highest winning percentage (indicated by a `TRUE` in the cell).\
+\
+```{r, echo = FALSE}
+#hits
+h_hits <- baseball %>% select(year, h_name, h_hits) %>% 
+     group_by(year,h_name) %>% 
+     summarize(h_hits = sum(h_hits))
+v_hits <- baseball %>% select(year, v_name, v_hits) %>% 
+     group_by(year,v_name) %>% 
+     summarize(v_hits = sum(v_hits))
+total_hits <- h_hits %>% left_join(v_hits, 
+                                   by = c("year" = "year", "h_name" = "v_name")) %>% 
+     mutate(total_hits = h_hits + v_hits)
 
+highest_hits <- total_hits %>% group_by(year) %>% 
+  slice(which.max(total_hits)) %>% 
+  select(-h_hits, -v_hits)
+
+#homeruns
+h_hruns <- baseball %>% select(year, h_name, h_homeruns) %>% 
+     group_by(year,h_name) %>% 
+     summarize(h_hruns = sum(h_homeruns))
+v_hruns <- baseball %>% select(year, v_name, v_homeruns) %>% 
+     group_by(year,v_name) %>% 
+     summarize(v_hruns = sum(v_homeruns))
+total_hruns <- h_hruns %>% left_join(v_hruns, by = c("year" = "year", "h_name" = "v_name")) %>% 
+     mutate(total_hruns = h_hruns + v_hruns)
+
+highest_hruns <- total_hruns %>% group_by(year) %>% 
+  slice(which.max(total_hruns)) %>% 
+  select(-h_hruns, -v_hruns)
+
+#runs
+h_runs <- baseball %>% select(year, h_name, h_score) %>% 
+     group_by(year,h_name) %>% 
+     summarize(h_runs = sum(h_score))
+v_runs <- baseball %>% select(year, v_name, v_score) %>% 
+     group_by(year,v_name) %>% 
+     summarize(v_runs = sum(v_score))
+total_runs <- h_runs %>% left_join(v_runs, by = c("year" = "year", "h_name" = "v_name")) %>% 
+     mutate(total_runs = h_runs + v_runs)
+
+highest_runs <- total_runs %>% group_by(year) %>% 
+  slice(which.max(total_runs)) %>% 
+  select(-h_runs, -v_runs)
+  
+matches <- highest %>% left_join(highest_hits, by = "year") %>% 
+  mutate(match_hits = (h_name.x==h_name.y)) %>% 
+  left_join(highest_hruns, by = "year") %>% 
+  mutate(match_hruns = (h_name.x==h_name)) %>% 
+  left_join(highest_runs, by = "year") %>% 
+  mutate(match_runs = (h_name.x == h_name.y.y)) %>% 
+  select(year, h_name.x, match_hits, match_hruns, match_runs)
+
+matches %>% 
+  kbl(col.names = c("Year", "Team", "Most Hits", "Most Homeruns", "Most Runs"), align = "c") %>% 
+  kable_paper(full_width = TRUE, "hover") %>% 
+  kable_classic_2(html_font = "Georgia") %>% 
+  kable_styling(position = "center") %>%
+  row_spec(2, background = "#F0F8FF") %>% 
+  row_spec(3, background = "#F0F8FF") %>% 
+  row_spec(7, background = "#F0F8FF") %>% 
+  row_spec(10, background = "#F0F8FF") %>% 
+  row_spec(14, background = "#F0F8FF") %>% 
+  row_spec(15, background = "#F0F8FF") %>% 
+  scroll_box(height = "200px", width = "100%")
+```
+\
+The team with the highest number of total hits did not match the team with the highest winning percentage every season. Only in 2009, the New York Yankees were the team with the highest number of total homeruns as well as total runs. For teams with the highest total runs, only 6 teams matched with the team with the highest winning percentage for that year. Even though teams are offensively performing the best in these major categories of hits, homeruns, and runs, they do not end up performing the best overall according to their winning percentage. Since those teams with the highest numbers do not necessarily mean a team winning the most, we chose to look at weather a team's payroll constituted more wins.\
+\
 ```{r win_perc, echo = FALSE}
 # faceted graph of winning percentage for each team for each year 2000-2016
 win_perc %>% ggplot(aes(year, win_perc, fill=h_name)) + 
   geom_bar(stat = "identity", position = "dodge") + 
-  facet_wrap(vars(h_name)) +
+  facet_wrap(vars(h_name), scales="free_y", ncol = 4) +
   theme(legend.position = "none")
 ```
 
@@ -81,7 +149,6 @@ To begin, we looked at the relationship between payrolls and the winning percent
 payroll_win <- win_perc %>% left_join(mlb_payroll, by = c("year", "h_name")) %>% 
   filter(!is.na(payroll))
 
-payroll_win$win_perc <- payroll_win$win_perc*100
 payroll_win$payroll <- round(payroll_win$payroll/1e6)
 
 payroll_mod <- lm(win_perc ~ payroll, data = payroll_win)
@@ -102,27 +169,54 @@ payroll_win %>% ggplot(aes(payroll, win_perc)) +
   geom_point(aes(color = h_name)) + 
   scale_x_log10() +
   geom_smooth(method = "lm", se = FALSE, color = "red", lwd =0.5) +
+  scale_color_discrete(name = "Team") +
   labs(x = "Payroll (million)", 
        y = "Winning Percentage", 
-       title = "Relationship Between Winning Percentage and Payroll for the 30 MLB Teams", 
-       fill = "Team") +
-  theme(legend.position = "bottom")
+       title = "Relationship Between Winning Percentage and Payroll for the 30 MLB Teams") +
+  geom_label(aes(x = 30, y = 72, label = paste("intercept = 45.17, slope = 0.06")))
+
 ```
 \
-From the plot as well as Table 1 of the model, we see the coefficient for the payroll is positive suggesting a positive relationship between payroll and winning percentage. For every million dollars increase in a team's payroll, their winning percentage is expected to increase by 0.05%.\
+From the plot as well as Table 1 of the model, we see the coefficient for the payroll is positive suggesting a positive relationship between payroll and winning percentage. For every million dollars increase in a team's payroll, their winning percentage is expected to increase by 0.06%.\
 \
-We then faceted by team to observe the relationship between payroll and winning percentage for each team.\
+We then faceted by team to observe the relationship between payroll and winning percentage for each team. We performed linear regression for all teams and provided the slopes in a table and bargraph.\
 \
-
-```{r payroll_win_facet, echo = FALSE, eval = FALSE}
+```{r payroll_win_facet, fig.width = 7, fig.height = 8, echo = FALSE}
 #faceted
-payroll_win %>% filter(h_name!="KCA", h_name!="MIA") %>% 
+payroll_win %>%
 ggplot(aes(payroll,win_perc)) + 
   scale_x_log10() +
-  geom_point(aes(color = year), size = 0.5) +
+  geom_point(aes(color = year)) +
   geom_smooth(method='lm', color = "red", lwd = 0.5, se = FALSE) +
-  facet_wrap(vars(h_name), ncol = 4)
+  facet_wrap(vars(h_name), scales = "free", ncol = 5) +
+  theme(strip.text.x = element_text(size = 12, face = "bold")) +
+  theme(strip.background = element_rect(color = "black", fill = "#F0F8FF", size = 1, linetype = "solid"))
 ```
+```{r coefs, fig.width = 8, fig.height = 6, echo = FALSE}
+slopes <-  payroll_win %>% select(h_name, payroll, win_perc) %>% 
+  nest(-h_name) %>%
+  mutate(model = map(data, ~lm(win_perc ~ payroll, data = .)),
+     tidied = map(model, tidy)) %>%
+  unnest(tidied) %>% 
+  filter(term == "payroll") %>%
+  arrange(desc(estimate)) %>%
+  select(h_name, estimate, std.error, p.value)
+slopes %>% 
+  kbl(col.names = c("Team", "Slope", "Standard Error", "P Value"), align = "c") %>% 
+  kable_paper(full_width = TRUE, "hover") %>% 
+  kable_classic_2(html_font = "Georgia") %>% 
+  kable_styling(position = "center") %>% 
+  scroll_box(height = "200px", width = "100%")
+
+slopes %>% ggplot(aes(x = reorder(h_name, -estimate), y = estimate)) +
+  geom_bar(stat = "identity", aes(fill = estimate)) +
+  scale_fill_gradient(high = "#152238", low = "#BCD2E8") +
+  labs(x = "Teams", y = "Slope", title = "Slopes of Winning Percentage Against Payroll for Each Team") +
+  scale_x_discrete(guide = guide_axis(n.dodge=2))
+
+
+```
+
 \
 From these faceted plots, it is not consistent among all teams that as payroll increases, winning percentage also increases. For about half of the teams, including teams like the Chicago White Sox (`CHA`) and the Oakland Athletics (`OAK`), as payroll increases, their winning percentage for that year decreases.\
 \
@@ -413,8 +507,8 @@ bb %>% filter(v_name == "CHA", year == 2011) %>% summarize(FT_start = sum(v_play
 bb %>% filter(v_name == "CHA", year == 2011) %>% summarize(FT_start = sum(v_player_3_name=="Adam Dunn"), wins = sum(v_player_3_name=="Adam Dunn" & score_diff<0), prop = wins/FT_start)
 #concl --> chicago won more games when frank thomas started in 2000 than combo of three players in 2011
 ```
-
-## Flaws and Limitations
+\
+## Limitations
 
 There was missing data of payroll for certain years for the Kansas City Royals (`KCA`) and the Miami Marlins (`MIA`). As a results these teams were removed from all of our analyses and not represented. 
 
