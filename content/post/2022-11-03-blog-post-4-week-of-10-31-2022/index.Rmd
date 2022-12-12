@@ -18,7 +18,7 @@ Before analysis, the data must be loaded and mutated with extra columns we need 
 
 We are only printing the first 20 rows of our data sets, for concision.
 
-```{r loading_data}
+```{r loading_data, echo=F}
 
 suppressPackageStartupMessages(library(tidyverse)) 
 suppressWarnings(data <- read_csv(here::here("dataset-ignore", "game_logs.csv"),show_col_types=FALSE))
@@ -44,7 +44,7 @@ The first step is to create different data sets to see the number of games each 
 
 Only the first 20 rows are shown in the data table
 
-```{r graph1}
+```{r graph1, echo=F}
 pitcher_win<-baseball %>% filter(h_name=="BOS",h_score>v_score) %>% 
                            group_by(h_starting_pitcher_name,year) %>% 
                            count(h_starting_pitcher_name) %>% 
@@ -70,7 +70,7 @@ knitr::kable(pitcher_prop[1:20,])
 With these data sets, we can now graph both the proportion of games each pitcher wins and the number of games each pitcher wins. Each year corresponds to an individual season.
 <br>
 
-```{r graph1cont,fig.height=10,fig.width=10}
+```{r graph1cont,fig.height=10,fig.width=10, echo=F}
 
 pitcher_prop %>% group_by(year) %>%
                  ggplot(aes(x=reorder(h_starting_pitcher_name,prop),y=prop,fill=h_starting_pitcher_name))+
@@ -98,7 +98,7 @@ There are clearly starting pitchers that win more games than others. In this cas
 
 $$Pythagroean\ Winning\ Percentage = runs\ scored\ ^{2} / (run\ scored\ ^{2} + runs\ allowed\  ^{2})$$
  
-```{r, graph2}
+```{r, graph2, echo=F}
 #win/loss column (1 = win, 0 = loss or tie)
 h_win_loss <- function(h, v) {
   ifelse(h > v, 1, 0)
@@ -165,7 +165,7 @@ teams_pythag %>% filter(h_name == "BOS") %>%
 ```
 Because it can be hard to view how different these two values are, we can run a T-test and check the statistical significance of the prediction we've made. If we had hypothesized if this is an appropriate estimate for wins, we would accept or reject our hypothesis on the basis of the T-test: 
 
-``` {r, graph2_cont}
+``` {r, graph2_cont, echo=F}
 # different representation:
 bos <- teams_pythag %>% filter(h_name=="BOS")
 (stat_sig <- t.test(bos$pythag_win, bos$win_perc, paired = TRUE))
@@ -178,7 +178,7 @@ The next step after this data exploration would be to reproduce the result for m
 
 ## A logistical model predicting wins or losses
 
-```{r}
+```{r, echo=F}
 baseballlog <- baseball %>% filter(h_name=="BOS")
 
 baseballlog

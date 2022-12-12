@@ -21,20 +21,6 @@ featuredImage: ~
 
 <p>Before analysis, the data must be loaded and mutated with extra columns we need for analysis.</p>
 <p>We are only printing the first 20 rows of our data sets, for concision.</p>
-<pre class="r"><code>suppressPackageStartupMessages(library(tidyverse)) 
-suppressWarnings(data &lt;- read_csv(here::here(&quot;dataset-ignore&quot;, &quot;game_logs.csv&quot;),show_col_types=FALSE))
-load(here::here(&quot;dataset&quot;, &quot;baseball.RData&quot;))
-
-baseball &lt;- as_tibble(data)
-years&lt;-c(2000,2001,2002,2003,2004,
-         2005,2006,2007,2008,2009,
-         2010,2011,2012,2013,2014,
-         2015,2016)
-baseball &lt;- baseball %&gt;% separate(date,into=c(&quot;year&quot;,&quot;month_day&quot;),sep=4) %&gt;% 
-                          separate(month_day,into=c(&quot;month&quot;,&quot;day&quot;),sep=2) %&gt;% 
-                          filter(year %in% years) %&gt;% 
-                          mutate(score_diff=h_score-v_score)
-knitr::kable(baseball[1:20,])</code></pre>
 <table>
 <colgroup>
 <col width="0%" />
@@ -3698,12 +3684,6 @@ knitr::kable(baseball[1:20,])</code></pre>
 <p>While exploring trends in the data, we set out to see if starting pitcher has an impact on the outcome. In the following code, we compare the starting pitchers in each season to both the proportion of their games played that they won, and the number of games that they won. We specifically are focusing on Boston Red Sox at their home stadium, but hope to explore more teams as well as away games in the future.</p>
 <p>The first step is to create different data sets to see the number of games each pitcher wins, the number of games each pitcher plays, and the proportion of wins to the games played.</p>
 <p>Only the first 20 rows are shown in the data table</p>
-<pre class="r"><code>pitcher_win&lt;-baseball %&gt;% filter(h_name==&quot;BOS&quot;,h_score&gt;v_score) %&gt;% 
-                           group_by(h_starting_pitcher_name,year) %&gt;% 
-                           count(h_starting_pitcher_name) %&gt;% 
-                           rename(games_won=n) %&gt;% 
-                           arrange(games_won)
-knitr::kable(pitcher_win[1:20,])</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -3815,12 +3795,6 @@ knitr::kable(pitcher_win[1:20,])</code></pre>
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>pitcher_played&lt;-baseball %&gt;% filter(h_name==&quot;BOS&quot;) %&gt;% 
-                              group_by(h_starting_pitcher_name,year) %&gt;% 
-                              count(h_starting_pitcher_name) %&gt;% 
-                              rename(games_played=n) %&gt;% 
-                              arrange(games_played)
-knitr::kable(pitcher_played[1:20,])</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -3932,12 +3906,7 @@ knitr::kable(pitcher_played[1:20,])</code></pre>
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>pitcher_prop&lt;-full_join(pitcher_played,pitcher_win) %&gt;% 
-               mutate(prop=games_won/games_played) %&gt;% 
-               replace_na(list(games_won=0,prop=0,games_played=0)) %&gt;% 
-               arrange(prop)</code></pre>
 <pre><code>## Joining, by = c(&quot;h_starting_pitcher_name&quot;, &quot;year&quot;)</code></pre>
-<pre class="r"><code>knitr::kable(pitcher_prop[1:20,])</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -4094,39 +4063,13 @@ knitr::kable(pitcher_played[1:20,])</code></pre>
 <p><br>
 With these data sets, we can now graph both the proportion of games each pitcher wins and the number of games each pitcher wins. Each year corresponds to an individual season.
 <br></p>
-<pre class="r"><code>pitcher_prop %&gt;% group_by(year) %&gt;%
-                 ggplot(aes(x=reorder(h_starting_pitcher_name,prop),y=prop,fill=h_starting_pitcher_name))+
-                 geom_col(show.legend=FALSE)+
-                 coord_flip()+
-                 facet_wrap(vars(year),scales=&quot;free_y&quot;,ncol=3)+
-                 labs(title=&quot;Proportion of Games Won for each Starting Pitcher of the Boston Red Sox&quot;)+
-                 ylab(&quot;Proportion&quot;)+
-                 xlab(&quot;Pitcher&quot;)</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/graph1cont-1.png" width="960" /></p>
-<pre class="r"><code>pitcher_win %&gt;% group_by(year) %&gt;%
-                ggplot(aes(h_starting_pitcher_name,games_won,fill=h_starting_pitcher_name))+
-                geom_col(show.legend=FALSE)+
-                coord_flip()+
-                facet_wrap(vars(year),scales=&quot;free_y&quot;,ncol=3)+
-                labs(title=&quot;Games Won for each Starting Pitcher of the Boston Red Sox&quot;)+
-                ylab(&quot;Number of Games Won&quot;)+
-                xlab(&quot;Pitcher by ID&quot;)</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/graph1cont-2.png" width="960" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/graph1cont-1.png" width="960" /><img src="{{< blogdown/postref >}}index_files/figure-html/graph1cont-2.png" width="960" /></p>
 <p><br>
 There are clearly starting pitchers that win more games than others. In this case, the number of games won offers a little better insight than the proportion of games won, since multiple pitchers only started one game and won that one game, so are given a 100% win percentage. Starting pitchers is a factor that can definitely be explored further.</p>
 </div>
 <div id="graph-2---an-experiment-in-the-accuracy-of-the-pythagorean-winning-percentage-pwp" class="section level2">
 <h2>Graph #2 - An experiment in the accuracy of the Pythagorean Winning Percentage (PWP)</h2>
 <p><span class="math display">\[Pythagroean\ Winning\ Percentage = runs\ scored\ ^{2} / (run\ scored\ ^{2} + runs\ allowed\  ^{2})\]</span></p>
-<pre class="r"><code>#win/loss column (1 = win, 0 = loss or tie)
-h_win_loss &lt;- function(h, v) {
-  ifelse(h &gt; v, 1, 0)
-  
-  # alternative to win loss function:
-  # mutate(outcome = (ifelse(h_score&gt;v_score, 1, 0))
-}
-baseball &lt;- baseball %&gt;% mutate(h_win_loss = h_win_loss(h_score, v_score))
-knitr::kable(baseball[1:20,])</code></pre>
 <table style="width:100%;">
 <colgroup>
 <col width="0%" />
@@ -7807,81 +7750,25 @@ knitr::kable(baseball[1:20,])</code></pre>
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>#red sox games
-bos &lt;- baseball %&gt;% filter(h_name == &quot;BOS&quot;|v_name == &quot;BOS&quot;)
-
-#for all teams
-#total games won
-home_wins &lt;- baseball %&gt;% group_by(h_name, year) %&gt;% 
-                          summarize(h_wins = sum(h_win_loss == 1))</code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;h_name&#39;. You can override using the
-## `.groups` argument.</code></pre>
-<pre class="r"><code>away_wins &lt;- baseball %&gt;% group_by(v_name, year) %&gt;% 
-                          summarize(a_wins = sum(h_win_loss == 0))</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;v_name&#39;. You can override using the
-## `.groups` argument.</code></pre>
-<pre class="r"><code>team_year_wins &lt;- home_wins %&gt;% add_column(a_wins = away_wins$a_wins) %&gt;% 
-                                mutate(games_won = h_wins + a_wins)
-#total games played
-home_games &lt;- baseball %&gt;% group_by(h_name, year) %&gt;% 
-                           summarize(home_games = n())</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;h_name&#39;. You can override using the
-## `.groups` argument.</code></pre>
-<pre class="r"><code>away_games &lt;- baseball %&gt;% group_by(v_name, year) %&gt;% 
-                           summarize(away_games = n())</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;v_name&#39;. You can override using the
-## `.groups` argument.</code></pre>
-<pre class="r"><code>win_perc &lt;- home_games %&gt;% add_column(away_games = away_games$away_games) %&gt;% 
-                           mutate(games_played = home_games + away_games) %&gt;% 
-                           add_column(games_won = team_year_wins$games_won) %&gt;% 
-                           mutate(win_perc = games_won/games_played)
-
-#pythagorean winning percentage
-runs_h &lt;- baseball %&gt;% group_by(h_name, year) %&gt;% 
-                       summarize(runs_at_home = sum(h_score))</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;h_name&#39;. You can override using the
-## `.groups` argument.</code></pre>
-<pre class="r"><code>runs_a &lt;- baseball %&gt;% group_by(v_name, year) %&gt;% 
-                       summarize(runs_away = sum(v_score))</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;v_name&#39;. You can override using the
-## `.groups` argument.</code></pre>
-<pre class="r"><code>runs_total &lt;- runs_h %&gt;% add_column(runs_away = runs_a$runs_away) %&gt;% 
-                         mutate(runs_total = runs_away +runs_at_home)
-
-
-h_allowed &lt;- baseball %&gt;% group_by(h_name, year) %&gt;% 
-                          summarize(home_allowed = sum(v_score))</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;h_name&#39;. You can override using the
-## `.groups` argument.</code></pre>
-<pre class="r"><code>a_allowed &lt;- baseball %&gt;% group_by(v_name, year) %&gt;% 
-                          summarize(away_allowed = sum(h_score))</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;v_name&#39;. You can override using the
-## `.groups` argument.</code></pre>
-<pre class="r"><code>allowed_total &lt;- h_allowed %&gt;% add_column(away_allowed = a_allowed$away_allowed) %&gt;% 
-                               mutate(allowed_total = home_allowed + away_allowed)
-
-teams_pythag &lt;- runs_total %&gt;% add_column(allowed_total = allowed_total$allowed_total) %&gt;% 
-                               mutate(pythag_win = ((runs_total)^2)/(((runs_total)^2) + ((allowed_total)^2))) %&gt;%
-                               add_column(win_perc = win_perc$win_perc)
-
-#barplot for Boston Red Sox
-teams_pythag %&gt;% filter(h_name == &quot;BOS&quot;) %&gt;% 
-                 select(year, win_perc, pythag_win) %&gt;% 
-                 pivot_longer(-(h_name:year), names_to = &quot;pythag_actual&quot;, values_to = &quot;percentage&quot;) %&gt;%
-                 ggplot(aes(x=year, y=percentage, fill = pythag_actual)) + 
-                 coord_cartesian(ylim=c(0.4,0.7))+
-                 geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;) + 
-                 scale_x_discrete(guide = guide_axis(n.dodge=2)) + 
-                 labs(title = &quot;Pythagorean Winning Prediction versus Actual Winning Percentage&quot;, 
-                      x = &quot;Years&quot;, 
-                      y = &quot;Percentage&quot;, 
-                      color = &quot;Percentage Calculation&quot;)</code></pre>
-<pre><code>## Adding missing grouping variables: `h_name`</code></pre>
+## `.groups` argument.
+## `summarise()` has grouped output by &#39;v_name&#39;. You can override using the
+## `.groups` argument.
+## `summarise()` has grouped output by &#39;h_name&#39;. You can override using the
+## `.groups` argument.
+## `summarise()` has grouped output by &#39;v_name&#39;. You can override using the
+## `.groups` argument.
+## `summarise()` has grouped output by &#39;h_name&#39;. You can override using the
+## `.groups` argument.
+## `summarise()` has grouped output by &#39;v_name&#39;. You can override using the
+## `.groups` argument.
+## `summarise()` has grouped output by &#39;h_name&#39;. You can override using the
+## `.groups` argument.
+## `summarise()` has grouped output by &#39;v_name&#39;. You can override using the
+## `.groups` argument.
+## Adding missing grouping variables: `h_name`</code></pre>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/graph2-1.png" width="672" />
 Because it can be hard to view how different these two values are, we can run a T-test and check the statistical significance of the prediction we’ve made. If we had hypothesized if this is an appropriate estimate for wins, we would accept or reject our hypothesis on the basis of the T-test:</p>
-<pre class="r"><code># different representation:
-bos &lt;- teams_pythag %&gt;% filter(h_name==&quot;BOS&quot;)
-(stat_sig &lt;- t.test(bos$pythag_win, bos$win_perc, paired = TRUE))</code></pre>
 <pre><code>## 
 ##  Paired t-test
 ## 
@@ -7898,9 +7785,6 @@ bos &lt;- teams_pythag %&gt;% filter(h_name==&quot;BOS&quot;)
 </div>
 <div id="a-logistical-model-predicting-wins-or-losses" class="section level2">
 <h2>A logistical model predicting wins or losses</h2>
-<pre class="r"><code>baseballlog &lt;- baseball %&gt;% filter(h_name==&quot;BOS&quot;)
-
-baseballlog</code></pre>
 <pre><code>## # A tibble: 1,377 × 165
 ##    year  month day   number_of_g…¹ day_o…² v_name v_lea…³ v_gam…⁴ h_name h_lea…⁵
 ##    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  
@@ -7921,11 +7805,6 @@ baseballlog</code></pre>
 ## #   h_line_score &lt;chr&gt;, v_at_bats &lt;dbl&gt;, v_hits &lt;dbl&gt;, v_doubles &lt;dbl&gt;,
 ## #   v_triples &lt;dbl&gt;, v_homeruns &lt;dbl&gt;, v_rbi &lt;dbl&gt;, v_sacrifice_hits &lt;dbl&gt;,
 ## #   v_sacrifice_flies &lt;dbl&gt;, v_hit_by_pitch &lt;dbl&gt;, v_walks &lt;dbl&gt;, …</code></pre>
-<pre class="r"><code>mylogit &lt;- glm(h_win_loss ~ h_errors + v_errors + h_left_on_base + v_left_on_base + h_homeruns + v_homeruns, 
-               data = baseballlog, 
-               family = &quot;binomial&quot;)
-
-summary(mylogit)</code></pre>
 <pre><code>## 
 ## Call:
 ## glm(formula = h_win_loss ~ h_errors + v_errors + h_left_on_base + 
@@ -7955,7 +7834,6 @@ summary(mylogit)</code></pre>
 ## AIC: 1535.5
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
-<pre class="r"><code>confint(mylogit)</code></pre>
 <pre><code>## Waiting for profiling to be done...</code></pre>
 <pre><code>##                      2.5 %      97.5 %
 ## (Intercept)     0.26692270  1.26351510
@@ -7965,14 +7843,6 @@ summary(mylogit)</code></pre>
 ## v_left_on_base -0.16941716 -0.07485738
 ## h_homeruns      0.65517821  0.94206501
 ## v_homeruns     -0.93150527 -0.65763928</code></pre>
-<pre class="r"><code>meandata &lt;- with(baseballlog, data.frame(h_errors = mean(h_errors), 
-                                         v_errors = mean(v_errors), 
-                                         h_left_on_base = mean(h_left_on_base), 
-                                         v_left_on_base = mean(v_left_on_base), 
-                                         h_homeruns = mean(h_homeruns), 
-                                         v_homeruns = mean(v_homeruns)))
-
-meandata</code></pre>
 <pre><code>##    h_errors  v_errors h_left_on_base v_left_on_base h_homeruns v_homeruns
 ## 1 0.6318083 0.6492375       7.487291       7.056645   1.089325  0.9440813</code></pre>
 </div>
