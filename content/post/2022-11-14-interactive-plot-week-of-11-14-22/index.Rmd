@@ -19,16 +19,16 @@ For our interactive, we want to put the geographic location of all of the stadiu
 The personalized aspect will be how the user has the ability to choose a stadium; they will be able to investigate the statistics for their favorite teams.
 
 
-* Our rough outline of our interactive is shown below. We still need to convert to Shiny.
-```{r, interactive}
-library(tidyverse)
-library(rvest)
-library(tibble)
-library(readxl)
-library(leaflet)
-library(dplyr)
-library(readr)
-library(googlesheets4)
+* Our rough outline of our interactive is shown below. We still need to convert to Shiny and modify the winning percentage interactive.
+```{r, interactive, echo=F}
+suppressPackageStartupMessages(library(tidyverse)) 
+suppressPackageStartupMessages(library(rvest))
+suppressPackageStartupMessages(library(tibble))
+suppressPackageStartupMessages(library(readxl))
+suppressPackageStartupMessages(library(leaflet))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(readr))
+suppressPackageStartupMessages(library(googlesheets4))
 
 
 
@@ -63,10 +63,10 @@ icons <- makeAwesomeIcon(
     iconColor = 'black',
     library = 'glyphicon',
     markerColor = ifelse(stadiums$Abbreviation %in% AL_east, 'red',
-                  ifelse(stadiums$`Team(s)` %in% AL_central,'blue',
-                  ifelse(stadiums$`Team(s)` %in% AL_west, 'orange',
-                  ifelse(stadiums$`Team(s)` %in% NL_east,'green',
-                  ifelse(stadiums$`Team(s)` %in% NL_central,'darkpurple','black'))))))
+                  ifelse(stadiums$Abbreviation %in% AL_central,'blue',
+                  ifelse(stadiums$Abbreviation %in% AL_west, 'orange',
+                  ifelse(stadiums$Abbreviation %in% NL_east,'green',
+                  ifelse(stadiums$Abbreviation %in% NL_central,'darkpurple', 'black'))))))
 
 
 
@@ -102,6 +102,7 @@ MLBstadiums <- stadiums %>% filter(Sport == "MLB") %>%
 
 
 
+
 baseball_w_stadiums <- merge(baseball, stadiums, by.x=c("h_name"), 
                                                  by.y =("Abbreviation")) 
 
@@ -112,19 +113,28 @@ makeColorsandNames <- data.frame(divisions = c('AL East','AL Central','AL West',
 leaflet(MLBstadiums) %>% 
       setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
       addTiles() %>% 
-      addAwesomeMarkers(~Longitude, ~Latitude, icon = icons, label = ~as.character(Venue), popup = ~as.character(Sport)) %>% 
-      addLegend(position = 'bottomleft', colors = DivisionColor, labels = makeColorsandNames[,1],opacity = 1,title = 'Divisions')
+      addAwesomeMarkers(~Longitude, ~Latitude, 
+                        icon = icons, 
+                        label = ~as.character(Venue),
+                        popup = ~as.character(Sport)) %>%
+      addLegend(position = 'bottomleft', 
+                colors = makeColorsandNames[,2],
+                labels = makeColorsandNames[,1],
+                opacity = 1,
+                title = 'Divisions')
+      # addAwesomeMarkers(~Longitude, ~Latitude, icon = icons, label = ~as.character(Venue), popup = ~as.character(Sport)) %>% 
+      # addLegend(position = 'bottomleft', colors = makeColorsandNames[1], shinylabels = makeColorsandNames[2], opacity = 1,title = 'Divisions')
 
     
 ```
 
-```{r, combining sets}
+```{r, combining sets, echo=F}
 load(here::here("dataset", "win_perc.RData"))
 shiny_wins <- win_perc %>%  select(h_name, year, win_perc)
 shiny_wins <- pivot_wider(shiny_wins, id_cols = h_name, names_from = year, values_from = win_perc)
 ```
 
-```{r, shiny map}
+```{r, shiny map, echo=F}
 #rsconnect::setAccountInfo(name='bu-ma415-hgb-stadium-map', token='AC86430056BEE712DADDBB47C5B56B5A', secret='sPdprlQo0fcDettSUrK/b++IIRdzexqNZs7jiSa3')
 
 # library(rsconnect)

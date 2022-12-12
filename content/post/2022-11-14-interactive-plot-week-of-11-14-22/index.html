@@ -35,133 +35,15 @@ featuredImage: ~
 <p>For our interactive, we want to put the geographic location of all of the stadiums onto a map of the United States, colored by division. This was a good contribution to the website because it provides context and When you click on a stadium, the team name and winning percentage of games played will pop up. Using the drop down menu, you can select one year for the winning percentages to be displayed from.</p>
 <p>The personalized aspect will be how the user has the ability to choose a stadium; they will be able to investigate the statistics for their favorite teams.</p>
 <ul>
-<li>Our rough outline of our interactive is shown below. We still need to convert to Shiny.</li>
+<li>Our rough outline of our interactive is shown below. We still need to convert to Shiny and modify the winning percentage interactive.</li>
 </ul>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-## ✔ ggplot2 3.3.6      ✔ purrr   0.3.4 
-## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-## ✔ tidyr   1.2.0      ✔ stringr 1.4.1 
-## ✔ readr   2.1.2      ✔ forcats 0.5.2 
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>library(rvest)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;rvest&#39;
-## 
-## The following object is masked from &#39;package:readr&#39;:
-## 
-##     guess_encoding</code></pre>
-<pre class="r"><code>library(tibble)
-library(readxl)
-library(leaflet)
-library(dplyr)
-library(readr)
-library(googlesheets4)
-
-
-
-load(here::here(&quot;dataset&quot;, &quot;baseball.RData&quot;))
-
-
-
-load(here::here(&quot;dataset&quot;, &quot;baseball.RData&quot;))
-stadiums &lt;- read_sheet(&quot;https://docs.google.com/spreadsheets/d/1p0R5qqR7XjoRG2mR5E1D_trlygHSqMOUdMgMpzq0gjU/htmlview&quot;)</code></pre>
-<pre><code>## ! Using an auto-discovered, cached token.
-##   To suppress this message, modify your code or options to clearly consent to
-##   the use of a cached token.
-##   See gargle&#39;s &quot;Non-interactive auth&quot; vignette for more details:
-##   &lt;]8;;https://gargle.r-lib.org/articles/non-interactive-auth.htmlhttps://gargle.r-lib.org/articles/non-interactive-auth.html]8;;&gt;
-## ℹ The googlesheets4 package is using a cached token for &#39;]8;;mailto:mppagan@bu.edumppagan@bu.edu]8;;&#39;.
-## Auto-refreshing stale OAuth token.
-## ✔ Reading from &quot;US Pro Sports Venues&quot;.
-## ✔ Range &#39;Sheet1&#39;.</code></pre>
-<pre class="r"><code>AL_east &lt;- c(&#39;BAL&#39;, &#39;BOS&#39;, &#39;NYA&#39;, &#39;TBR&#39;, &#39;TOR&#39;)
-AL_central &lt;- c(&#39;MIN&#39;, &#39;CLE&#39;, &#39;CHW&#39;, &#39;DET&#39;,&#39;KCR&#39;)
-AL_west &lt;- c(&#39;HOU&#39;, &#39;SEA&#39;, &#39;OAK&#39;, &#39;TEX&#39;, &#39;LAA&#39;)
-NL_east &lt;- c(&#39;ATL&#39;, &#39;MIA&#39;, &#39;NYM&#39;, &#39;PHI&#39;, &#39;WAS&#39;)
-NL_central&lt;- c(&#39;CHC&#39;, &#39;CIN&#39;, &#39;MIL&#39;, &#39;PIT&#39;,&#39;STL&#39;)
-NL_west &lt;- c(&#39;ARI&#39;, &#39;COL&#39;, &#39;LAD&#39;, &#39;SFG&#39;, &#39;SDP&#39;)
-
-mlbDivision &lt;- function(x){
-    
-  if(x %in% AL_east){y &lt;- &#39;AL East&#39;} 
-  else if(x %in% AL_central){y &lt;- &#39;AL Central&#39;} 
-  else if(x %in% AL_west){y &lt;- &#39;AL West&#39;} 
-  else if(x %in% NL_east){y &lt;- &#39;NL East&#39;} 
-  else if(x %in% c(NL_central)){y &lt;- &#39;NL Central&#39;} 
-  else { y &lt;- &#39;NL West&#39;}
-  return(y)
-}
-
-icons &lt;- makeAwesomeIcon(
-    icon = &#39;circle&#39;,
-    iconColor = &#39;black&#39;,
-    library = &#39;glyphicon&#39;,
-    markerColor = ifelse(stadiums$Abbreviation %in% AL_east, &#39;red&#39;,
-                  ifelse(stadiums$`Team(s)` %in% AL_central,&#39;blue&#39;,
-                  ifelse(stadiums$`Team(s)` %in% AL_west, &#39;orange&#39;,
-                  ifelse(stadiums$`Team(s)` %in% NL_east,&#39;green&#39;,
-                  ifelse(stadiums$`Team(s)` %in% NL_central,&#39;darkpurple&#39;,&#39;black&#39;))))))
-
-
-
-mlbColor &lt;- function(x){
-    
-  if(x == &#39;AL East&#39;){y &lt;- &#39;blue&#39;}
-  else if(x == &#39;AL Central&#39;){y &lt;- &#39;green&#39;}
-  else if(x == &#39;AL West&#39;){y &lt;- &#39;yellow&#39;}
-  else if(x == &#39;NL East&#39;){y &lt;- &#39;red&#39;}
-  else if(x == &#39;NL Central&#39;){y &lt;- &#39;purple&#39;} 
-  else {y &lt;- &#39;black&#39;}
-  return(y)
-  }
-
-# 
-# stadiums$Abbreviation[stadiums$Abbreviation == &#39;CHC&#39;] &lt;- &#39;CHN&#39;
-# stadiums$Abbreviation[stadiums$Abbreviation == &#39;CHW&#39;] &lt;- &#39;CHA&#39;
-# stadiums$Abbreviation[stadiums$Abbreviation == &#39;KCR&#39;] &lt;- &#39;KCN&#39;
-# stadiums$Abbreviation[stadiums$Abbreviation == &#39;LAA&#39;] &lt;- &#39;ANA&#39;
-# stadiums$Abbreviation[stadiums$Abbreviation == &#39;LAD&#39;] &lt;- &#39;LAN&#39;
-# stadiums$Abbreviation[stadiums$Abbreviation == &#39;MIA&#39;] &lt;- &#39;FLO&#39;
-# stadiums$Abbreviation[stadiums$Abbreviation == &#39;NYM&#39;] &lt;- &#39;NYN&#39;
-# stadiums$Abbreviation[stadiums$Abbreviation == &#39;NYY&#39;] &lt;- &#39;NYA&#39;
-# stadiums$Abbreviation[stadiums$Abbreviation == &#39;SDP&#39;] &lt;- &#39;SDN&#39;
-# stadiums$Abbreviation[stadiums$Abbreviation == &#39;SFG&#39;] &lt;- &#39;SFN&#39;
-# stadiums$Abbreviation[stadiums$Abbreviation == &#39;STL&#39;] &lt;- &#39;SLN&#39;
-# stadiums$Abbreviation[stadiums$Abbreviation == &#39;TBR&#39;] &lt;- &#39;TBA&#39;
-
-MLBstadiums &lt;- stadiums %&gt;% filter(Sport == &quot;MLB&quot;) %&gt;% 
-  mutate(Division = sapply(X = Abbreviation, FUN = mlbDivision),
-           DivisionColor = sapply(X = Division, FUN = mlbColor),
-           teamLabs = paste0(&#39;Team: &#39;,Abbreviation,&#39;\nField: &#39;,Venue))
-
-
-
-baseball_w_stadiums &lt;- merge(baseball, stadiums, by.x=c(&quot;h_name&quot;), 
-                                                 by.y =(&quot;Abbreviation&quot;)) 
-
-  
-makeColorsandNames &lt;- data.frame(divisions = c(&#39;AL East&#39;,&#39;AL Central&#39;,&#39;AL West&#39;,&#39;NL East&#39;,&#39;NL Central&#39;,&#39;NL West&#39;), division.cent = c(&#39;#CC0000&#39;,&#39;#3399FF&#39;,&#39;#FFA500&#39;,&#39;#9ACD32&#39;,&#39;#483D8B&#39;,&#39;#000000&#39;))
-  
-  
-leaflet(MLBstadiums) %&gt;% 
-      setView(lng = -98.5795, lat = 39.8283, zoom = 5) %&gt;% 
-      addTiles() %&gt;% 
-      addAwesomeMarkers(~Longitude, ~Latitude, icon = icons, label = ~as.character(Venue), popup = ~as.character(Sport)) %&gt;% 
-      addLegend(position = &#39;bottomleft&#39;, colors = makeColorsandNames[,2],labels = makeColorsandNames[,1],opacity = 1,title = &#39;Divisions&#39;)</code></pre>
+<pre><code>## ! Using an auto-discovered, cached token.</code></pre>
+<pre><code>##   To suppress this message, modify your code or options to clearly consent to
+##   the use of a cached token.</code></pre>
+<pre><code>##   See gargle&#39;s &quot;Non-interactive auth&quot; vignette for more details:</code></pre>
+<pre><code>##   &lt;https://gargle.r-lib.org/articles/non-interactive-auth.html&gt;</code></pre>
+<pre><code>## ℹ The googlesheets4 package is using a cached token for &#39;hmholber@bu.edu&#39;.</code></pre>
+<pre><code>## ✔ Reading from &quot;US Pro Sports Venues&quot;.</code></pre>
+<pre><code>## ✔ Range &#39;Sheet1&#39;.</code></pre>
 <div id="htmlwidget-1" style="width:672px;height:480px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"setView":[[39.8283,-98.5795],5,[]],"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addAwesomeMarkers","args":[[33.44527778,33.73527778,39.28388889,42.34638889,41.94833333,41.83,39.0975,41.49583333,39.75611111,42.33916667,29.75694444,39.05138889,33.80027778,34.07361111,25.77805556,43.02833333,44.98166667,40.75694444,40.82916667,37.75166667,39.90583333,40.44694444,32.70729983,47.59138889,37.77833333,38.6225,27.76833333,32.75138889,43.64138889,38.87277778],[-112.0669444,-84.38944444,-76.62166667,-71.0975,-87.65555556,-87.63388889,-84.50666667,-81.68527778,-104.9941667,-83.04861111,-95.35555556,-94.48055556,-117.8827778,-118.24,-80.21972222,-87.97111111,-93.27833333,-73.84583333,-73.92638889,-122.2005556,-75.16638889,-80.00583333,-117.1565998,-122.3325,-122.3894444,-90.19305556,-82.65333333,-97.08277778,-79.38916667,-77.0075],{"icon":"circle","markerColor":["black","black","red","red","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","red","black","red","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","red","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","red","black","black","black","black","black","black","black"],"iconColor":"black","spin":false,"squareMarker":false,"iconRotate":0,"font":"monospace","prefix":"glyphicon"},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB"],null,null,null,["Chase Field","Turner Field","Oriole Park at Camden Yards","Fenway Park","Wrigley Field","U.S. Cellular Field","Great American Ball Park","Progressive Field","Coors Field","Comerica Park","Minute Maid Park","Kauffman Stadium","Angel Stadium of Anaheim","Dodger Stadium","Marlins Park","Miller Park","Target Field","Citi Field","Yankee Stadium","O.co Coliseum","Citizens Bank Park","PNC Park","Petco Park","Safeco Field","AT&amp;T Park","Busch Stadium","Tropicana Field","Rangers Ballpark in Arlington","Rogers Centre","Nationals Park"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["#CC0000","#3399FF","#FFA500","#9ACD32","#483D8B","#000000"],"labels":["AL East","AL Central","AL West","NL East","NL Central","NL West"],"na_color":null,"na_label":"NA","opacity":1,"position":"bottomleft","type":"unknown","title":"Divisions","extra":null,"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[25.77805556,47.59138889],"lng":[-122.3894444,-71.0975]}},"evals":[],"jsHooks":[]}</script>
-<pre class="r"><code>load(here::here(&quot;dataset&quot;, &quot;win_perc.RData&quot;))
-shiny_wins &lt;- win_perc %&gt;%  select(h_name, year, win_perc)
-shiny_wins &lt;- pivot_wider(shiny_wins, id_cols = h_name, names_from = year, values_from = win_perc)</code></pre>
-<pre class="r"><code>#rsconnect::setAccountInfo(name=&#39;bu-ma415-hgb-stadium-map&#39;, token=&#39;AC86430056BEE712DADDBB47C5B56B5A&#39;, secret=&#39;sPdprlQo0fcDettSUrK/b++IIRdzexqNZs7jiSa3&#39;)
-
-# library(rsconnect)
-# rsconnect::deployApp(&#39;shiny_app/stadium_map_2/app.R&#39;)
-# 
-# library(shiny)
-# 
-# deployApp()
-# runApp()</code></pre>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"setView":[[39.8283,-98.5795],5,[]],"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addAwesomeMarkers","args":[[33.44527778,33.73527778,39.28388889,42.34638889,41.94833333,41.83,39.0975,41.49583333,39.75611111,42.33916667,29.75694444,39.05138889,33.80027778,34.07361111,25.77805556,43.02833333,44.98166667,40.75694444,40.82916667,37.75166667,39.90583333,40.44694444,32.70729983,47.59138889,37.77833333,38.6225,27.76833333,32.75138889,43.64138889,38.87277778],[-112.0669444,-84.38944444,-76.62166667,-71.0975,-87.65555556,-87.63388889,-84.50666667,-81.68527778,-104.9941667,-83.04861111,-95.35555556,-94.48055556,-117.8827778,-118.24,-80.21972222,-87.97111111,-93.27833333,-73.84583333,-73.92638889,-122.2005556,-75.16638889,-80.00583333,-117.1565998,-122.3325,-122.3894444,-90.19305556,-82.65333333,-97.08277778,-79.38916667,-77.0075],{"icon":"circle","markerColor":["black","green","red","red","darkpurple","blue","darkpurple","blue","black","blue","orange","blue","orange","black","green","darkpurple","blue","green","black","orange","green","darkpurple","black","orange","black","darkpurple","red","orange","red","green","black","black","black","orange","black","darkpurple","black","green","blue","blue","green","black","darkpurple","blue","black","green","black","black","red","black","black","orange","darkpurple","black","black","black","orange","black","black","green","black","green","black","black","black","black","black","darkpurple","black","black","black","black","black","black","black","green","blue","black","black","black","blue","red","blue","black","orange","black","black","green","green"],"iconColor":"black","spin":false,"squareMarker":false,"iconRotate":0,"font":"monospace","prefix":"glyphicon"},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB","MLB"],null,null,null,["Chase Field","Turner Field","Oriole Park at Camden Yards","Fenway Park","Wrigley Field","U.S. Cellular Field","Great American Ball Park","Progressive Field","Coors Field","Comerica Park","Minute Maid Park","Kauffman Stadium","Angel Stadium of Anaheim","Dodger Stadium","Marlins Park","Miller Park","Target Field","Citi Field","Yankee Stadium","O.co Coliseum","Citizens Bank Park","PNC Park","Petco Park","Safeco Field","AT&amp;T Park","Busch Stadium","Tropicana Field","Rangers Ballpark in Arlington","Rogers Centre","Nationals Park"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["#CC0000","#3399FF","#FFA500","#9ACD32","#483D8B","#000000"],"labels":["AL East","AL Central","AL West","NL East","NL Central","NL West"],"na_color":null,"na_label":"NA","opacity":1,"position":"bottomleft","type":"unknown","title":"Divisions","extra":null,"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[25.77805556,47.59138889],"lng":[-122.3894444,-71.0975]}},"evals":[],"jsHooks":[]}</script>
