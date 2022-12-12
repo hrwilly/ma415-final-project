@@ -137,10 +137,10 @@ shiny_wins <- pivot_wider(shiny_wins, id_cols = h_name, names_from = year, value
 ```{r, shiny map, echo=F}
 #rsconnect::setAccountInfo(name='bu-ma415-hgb-stadium-map', token='AC86430056BEE712DADDBB47C5B56B5A', secret='sPdprlQo0fcDettSUrK/b++IIRdzexqNZs7jiSa3')
 
-# library(rsconnect)
+#library(rsconnect)
 # rsconnect::deployApp('shiny_app/stadium_map_2/app.R')
 # 
-# library(shiny)
+library(shiny)
 # 
 # deployApp()
 # runApp()
