@@ -53,6 +53,9 @@ save(win_perc, file = "dataset/win_perc.RData")
 #MLB Team Payrolls Dataset
 mlb_payroll <- as_tibble(read_csv(here::here("dataset", "mlb_payroll.csv"), show_col_types = FALSE))
 
+mlb_payroll$h_name <- str_replace(mlb_payroll$h_name, "KCN", "KCA")
+mlb_payroll$h_name <- str_replace(mlb_payroll$h_name, "FLO", "MIA")
+
 save(mlb_payroll, file = "dataset/mlb_payroll.RData")
 
 

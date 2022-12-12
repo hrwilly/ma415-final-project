@@ -14,7 +14,6 @@ draft: false
 
 </div>
 
-<p>We describe here our detailed data analysis.</p>
 <div id="data-analysis-motivations" class="section level2">
 <h2>Data Analysis Motivations</h2>
 <p>For our data analysis, we are most interested in the relationship between the winning percentage of each Major League Baseball team and each team’s payroll for a given season. We wish to look at the whether a particular team’s winning percentage changes each season with that team’s payroll. Does a high payroll correspond with more wins and therefore higher success? If so, where do the dollars from an increase in the payroll go? If not, what factors lead to a team losing even with such high payrolls? The answers to these questions may differ between the MLB teams. Some teams may consistently perform better with higher payrolls while other teams may not, so we are interested in the variability of these answers among the MLB teams.<br />
@@ -378,11 +377,330 @@ WAS
 </tbody>
 </table>
 </div>
-<p><br />
+<br />
 From 2000 to 2016, the New York Yankees have had the highest winning percentage for the highest number of years. They had the highest winning percentage for the 4 years of 2002, 2003, 2006, and 2009.<br />
 <br />
-</p>
-<p><img src="/analysis_files/figure-html/win_perc-1.png" width="672" /></p>
+We then observed the teams with the highest number of hits, homeruns, and runs each season from 2000 to 2016. From this table and the table with the highest winning percentages each year, we wish to see if those teams with the most hits, homeruns, and runs also ended up having the highest winning percentage (indicated by a <code>TRUE</code> in the cell).<br />
+<br />
+
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
+<table class=" lightable-paper lightable-hover lightable-classic-2 table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-family: Georgia; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Year
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Team
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Most Hits
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Most Homeruns
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Most Runs
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+2000
+</td>
+<td style="text-align:center;">
+SFN
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+2001
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+SEA
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+FALSE
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+FALSE
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+2002
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+NYA
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+FALSE
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+FALSE
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2003
+</td>
+<td style="text-align:center;">
+NYA
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2004
+</td>
+<td style="text-align:center;">
+SLN
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2005
+</td>
+<td style="text-align:center;">
+SLN
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+2006
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+NYA
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+FALSE
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+FALSE
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2007
+</td>
+<td style="text-align:center;">
+BOS
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2008
+</td>
+<td style="text-align:center;">
+ANA
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+2009
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+NYA
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+FALSE
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+TRUE
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2010
+</td>
+<td style="text-align:center;">
+PHI
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2011
+</td>
+<td style="text-align:center;">
+PHI
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2012
+</td>
+<td style="text-align:center;">
+WAS
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+2013
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+BOS
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+FALSE
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+FALSE
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+2014
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+ANA
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+FALSE
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+FALSE
+</td>
+<td style="text-align:center;background-color: #F0F8FF !important;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2015
+</td>
+<td style="text-align:center;">
+SLN
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2016
+</td>
+<td style="text-align:center;">
+CHN
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><br />
+The team with the highest number of total hits did not match the team with the highest winning percentage every season. Only in 2009, the New York Yankees were the team with the highest number of total homeruns as well as total runs. For teams with the highest total runs, only 6 teams matched with the team with the highest winning percentage for that year. Even though teams are offensively performing the best in these major categories of hits, homeruns, and runs, they do not end up performing the best overall according to their winning percentage. Since those teams with the highest numbers do not necessarily mean a team winning the most, we chose to look at weather a team’s payroll constituted more wins.<br />
+<br />
+<img src="/analysis_files/figure-html/win_perc-1.png" width="672" /></p>
 </div>
 <div id="initial-analysis" class="section level2">
 <h2>Initial Analysis</h2>
@@ -393,7 +711,7 @@ To begin, we looked at the relationship between payrolls and the winning percent
 
 <table class=" lightable-classic-2 table" style="font-family: Georgia; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-3">Table 1: </span>Linear Model
+<span id="tab:unnamed-chunk-4">Table 1: </span>Linear Model
 </caption>
 <thead>
 <tr>
@@ -419,13 +737,13 @@ p value
 (Intercept)
 </td>
 <td style="text-align:center;">
-4552.19
+45.17
 </td>
 <td style="text-align:center;">
-75.83
+0.713
 </td>
 <td style="text-align:center;">
-60.03
+63.32
 </td>
 <td style="text-align:center;">
 0
@@ -436,13 +754,13 @@ p value
 payroll
 </td>
 <td style="text-align:center;">
-5.30
+0.06
 </td>
 <td style="text-align:center;">
-0.77
+0.007
 </td>
 <td style="text-align:center;">
-6.88
+7.51
 </td>
 <td style="text-align:center;">
 0
@@ -451,12 +769,459 @@ payroll
 </tbody>
 </table>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<p><img src="/analysis_files/figure-html/unnamed-chunk-3-1.png" width="672" /><br />
-From the plot as well as Table 1 of the model, we see the coefficient for the payroll is positive suggesting a positive relationship between payroll and winning percentage. For every million dollars increase in a team’s payroll, their winning percentage is expected to increase by 0.05%.<br />
+<p><img src="/analysis_files/figure-html/unnamed-chunk-4-1.png" width="672" /><br />
+From the plot as well as Table 1 of the model, we see the coefficient for the payroll is positive suggesting a positive relationship between payroll and winning percentage. For every million dollars increase in a team’s payroll, their winning percentage is expected to increase by 0.06%.<br />
 <br />
-We then faceted by team to observe the relationship between payroll and winning percentage for each team.<br />
+We then faceted by team to observe the relationship between payroll and winning percentage for each team. We performed linear regression for all teams and provided the slopes in a table and bargraph.<br />
 <br />
 </p>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="/analysis_files/figure-html/payroll_win_facet-1.png" width="672" /></p>
+<pre><code>## Warning: All elements of `...` must be named.
+## Did you want `data = -h_name`?</code></pre>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
+<table class=" lightable-paper lightable-hover lightable-classic-2 table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-family: Georgia; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Team
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Slope
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Standard Error
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+P Value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+PIT
+</td>
+<td style="text-align:center;">
+0.2904073
+</td>
+<td style="text-align:center;">
+0.0561717
+</td>
+<td style="text-align:center;">
+0.0001141
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+BAL
+</td>
+<td style="text-align:center;">
+0.2101532
+</td>
+<td style="text-align:center;">
+0.0740555
+</td>
+<td style="text-align:center;">
+0.0124709
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+TBA
+</td>
+<td style="text-align:center;">
+0.1942538
+</td>
+<td style="text-align:center;">
+0.0987662
+</td>
+<td style="text-align:center;">
+0.0679874
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+HOU
+</td>
+<td style="text-align:center;">
+0.1705355
+</td>
+<td style="text-align:center;">
+0.0945569
+</td>
+<td style="text-align:center;">
+0.0914255
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+KCA
+</td>
+<td style="text-align:center;">
+0.1615029
+</td>
+<td style="text-align:center;">
+0.0528941
+</td>
+<td style="text-align:center;">
+0.0080487
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+WAS
+</td>
+<td style="text-align:center;">
+0.1156661
+</td>
+<td style="text-align:center;">
+0.0438551
+</td>
+<td style="text-align:center;">
+0.0248419
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+DET
+</td>
+<td style="text-align:center;">
+0.1088088
+</td>
+<td style="text-align:center;">
+0.0417810
+</td>
+<td style="text-align:center;">
+0.0199290
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+MIL
+</td>
+<td style="text-align:center;">
+0.0972692
+</td>
+<td style="text-align:center;">
+0.0534674
+</td>
+<td style="text-align:center;">
+0.0888942
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+CHN
+</td>
+<td style="text-align:center;">
+0.0935603
+</td>
+<td style="text-align:center;">
+0.0823480
+</td>
+<td style="text-align:center;">
+0.2737177
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+TOR
+</td>
+<td style="text-align:center;">
+0.0449480
+</td>
+<td style="text-align:center;">
+0.0336146
+</td>
+<td style="text-align:center;">
+0.2010973
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+CLE
+</td>
+<td style="text-align:center;">
+0.0397707
+</td>
+<td style="text-align:center;">
+0.0928160
+</td>
+<td style="text-align:center;">
+0.6743843
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+LAN
+</td>
+<td style="text-align:center;">
+0.0302427
+</td>
+<td style="text-align:center;">
+0.0138047
+</td>
+<td style="text-align:center;">
+0.0446764
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+TEX
+</td>
+<td style="text-align:center;">
+0.0221099
+</td>
+<td style="text-align:center;">
+0.0483136
+</td>
+<td style="text-align:center;">
+0.6537747
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ANA
+</td>
+<td style="text-align:center;">
+0.0207393
+</td>
+<td style="text-align:center;">
+0.0400549
+</td>
+<td style="text-align:center;">
+0.6121698
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+PHI
+</td>
+<td style="text-align:center;">
+0.0007358
+</td>
+<td style="text-align:center;">
+0.0384945
+</td>
+<td style="text-align:center;">
+0.9850027
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ARI
+</td>
+<td style="text-align:center;">
+-0.0008359
+</td>
+<td style="text-align:center;">
+0.1155474
+</td>
+<td style="text-align:center;">
+0.9943231
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+CIN
+</td>
+<td style="text-align:center;">
+-0.0080492
+</td>
+<td style="text-align:center;">
+0.0571207
+</td>
+<td style="text-align:center;">
+0.8898113
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SFN
+</td>
+<td style="text-align:center;">
+-0.0243835
+</td>
+<td style="text-align:center;">
+0.0400398
+</td>
+<td style="text-align:center;">
+0.5516491
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+NYA
+</td>
+<td style="text-align:center;">
+-0.0316771
+</td>
+<td style="text-align:center;">
+0.0252467
+</td>
+<td style="text-align:center;">
+0.2287850
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SLN
+</td>
+<td style="text-align:center;">
+-0.0332964
+</td>
+<td style="text-align:center;">
+0.0641266
+</td>
+<td style="text-align:center;">
+0.6111766
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+NYN
+</td>
+<td style="text-align:center;">
+-0.0358778
+</td>
+<td style="text-align:center;">
+0.0741675
+</td>
+<td style="text-align:center;">
+0.6355561
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+MIA
+</td>
+<td style="text-align:center;">
+-0.0414440
+</td>
+<td style="text-align:center;">
+0.0439378
+</td>
+<td style="text-align:center;">
+0.3605024
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SDN
+</td>
+<td style="text-align:center;">
+-0.0456671
+</td>
+<td style="text-align:center;">
+0.0608240
+</td>
+<td style="text-align:center;">
+0.4643846
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+COL
+</td>
+<td style="text-align:center;">
+-0.0585543
+</td>
+<td style="text-align:center;">
+0.0701187
+</td>
+<td style="text-align:center;">
+0.4167790
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+BOS
+</td>
+<td style="text-align:center;">
+-0.0631218
+</td>
+<td style="text-align:center;">
+0.0431592
+</td>
+<td style="text-align:center;">
+0.1642304
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+CHA
+</td>
+<td style="text-align:center;">
+-0.0892536
+</td>
+<td style="text-align:center;">
+0.0441290
+</td>
+<td style="text-align:center;">
+0.0613235
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+MIN
+</td>
+<td style="text-align:center;">
+-0.1077974
+</td>
+<td style="text-align:center;">
+0.0620072
+</td>
+<td style="text-align:center;">
+0.1026056
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SEA
+</td>
+<td style="text-align:center;">
+-0.1253946
+</td>
+<td style="text-align:center;">
+0.1278931
+</td>
+<td style="text-align:center;">
+0.3424072
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ATL
+</td>
+<td style="text-align:center;">
+-0.1995919
+</td>
+<td style="text-align:center;">
+0.2041524
+</td>
+<td style="text-align:center;">
+0.3437471
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+OAK
+</td>
+<td style="text-align:center;">
+-0.2818385
+</td>
+<td style="text-align:center;">
+0.0833713
+</td>
+<td style="text-align:center;">
+0.0041192
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img src="/analysis_files/figure-html/coefs-1.png" width="768" /></p>
 <p><br />
 From these faceted plots, it is not consistent among all teams that as payroll increases, winning percentage also increases. For about half of the teams, including teams like the Chicago White Sox (<code>CHA</code>) and the Oakland Athletics (<code>OAK</code>), as payroll increases, their winning percentage for that year decreases.<br />
 <br />
@@ -651,8 +1416,7 @@ bb %&gt;% filter(v_name == &quot;CHA&quot;, year == 2011) %&gt;% summarize(FT_st
 bb %&gt;% filter(v_name == &quot;CHA&quot;, year == 2011) %&gt;% summarize(FT_start = sum(v_player_3_name==&quot;Carlos Quentin&quot;), wins = sum(v_player_3_name==&quot;Carlos Quentin&quot; &amp; score_diff&lt;0), prop = wins/FT_start)
 bb %&gt;% filter(v_name == &quot;CHA&quot;, year == 2011) %&gt;% summarize(FT_start = sum(v_player_3_name==&quot;Adam Dunn&quot;), wins = sum(v_player_3_name==&quot;Adam Dunn&quot; &amp; score_diff&lt;0), prop = wins/FT_start)
 #concl --&gt; chicago won more games when frank thomas started in 2000 than combo of three players in 2011</code></pre>
-</div>
-<div id="flaws-and-limitations" class="section level2">
-<h2>Flaws and Limitations</h2>
+<p><br />
+## Limitations</p>
 <p>There was missing data of payroll for certain years for the Kansas City Royals (<code>KCA</code>) and the Miami Marlins (<code>MIA</code>). As a results these teams were removed from all of our analyses and not represented.</p>
 </div>
