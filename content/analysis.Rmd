@@ -214,7 +214,6 @@ slopes %>% ggplot(aes(x = reorder(h_name, -estimate), y = estimate)) +
   labs(x = "Teams", y = "Slope", title = "Slopes of Winning Percentage Against Payroll for Each Team") +
   scale_x_discrete(guide = guide_axis(n.dodge=2))
 
-  
 
 ```
 
