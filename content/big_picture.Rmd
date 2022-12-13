@@ -9,6 +9,16 @@ draft: false
 
 This comes from the file `content/big_picture.Rmd`.
 
+```{r echo=FALSE}
+suppressPackageStartupMessages(library(tidyverse))
+suppressWarnings(suppressPackageStartupMessages(library("kableExtra")))
+suppressPackageStartupMessages(library(broom))
+load(here::here("dataset", "win_perc.RData"))
+load(here::here("dataset", "mlb_payroll.RData"))
+load(here::here("dataset", "baseball.RData"))
+```
+
+
 Baseball has always been a numbers game. Whether it be batting average, earned run average, or wins above replacement, players' in-game statistics dictate nearly every management decision, as small as a call to the bullpen and as big as releasing a player. Although these in-game statistics can be very telling on a player-by-player basis, they are not always indicative of a team's success as a whole. 
 
 *figure displaying disparity between highest win perc and highest HR/R/H*
