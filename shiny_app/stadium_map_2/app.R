@@ -5,10 +5,27 @@ library(leaflet)
 library(dplyr)
 library(readr)
 library(shinyWidgets)
-# 
-# load(here::here("dataset", "shiny_wins.RData"))
-# load(here::here("dataset", "MLBstadiums.RData"))
-# load(here::here("dataset", "win_perc.RData"))
+
+load(here::here("shiny_wins.RData"))
+load(here::here("MLBstadiums.RData"))
+load(here::here("win_perc.RData"))
+
+win_perc <- win_perc %>% mutate(win_stats = win_perc) %>%
+  mutate_if(is.numeric, ~round(., 1))
+  
+  
+MLBstadiums$Abbreviation[MLBstadiums$Abbreviation == 'CHC'] <- 'CHN'
+MLBstadiums$Abbreviation[MLBstadiums$Abbreviation == 'CHW'] <- 'CHA'
+MLBstadiums$Abbreviation[MLBstadiums$Abbreviation == 'KCR'] <- 'KCN'
+MLBstadiums$Abbreviation[MLBstadiums$Abbreviation == 'LAA'] <- 'ANA'
+MLBstadiums$Abbreviation[MLBstadiums$Abbreviation == 'LAD'] <- 'LAN'
+MLBstadiums$Abbreviation[MLBstadiums$Abbreviation == 'MIA'] <- 'FLO'
+MLBstadiums$Abbreviation[MLBstadiums$Abbreviation == 'NYM'] <- 'NYN'
+MLBstadiums$Abbreviation[MLBstadiums$Abbreviation == 'NYY'] <- 'NYA'
+MLBstadiums$Abbreviation[MLBstadiums$Abbreviation == 'SDP'] <- 'SDN'
+MLBstadiums$Abbreviation[MLBstadiums$Abbreviation == 'SFG'] <- 'SFN'
+MLBstadiums$Abbreviation[MLBstadiums$Abbreviation == 'STL'] <- 'SLN'
+MLBstadiums$Abbreviation[MLBstadiums$Abbreviation == 'TBR'] <- 'TBA'
 
 makeColorsandNames <- data.frame(divisions = c('AL East','AL Central','AL West','NL East','NL Central','NL West'), 
                                  division.cent = c('#CC0000','#3399FF','#FFA500','#9ACD32','#483D8B','#000000'))
@@ -31,25 +48,28 @@ server <- function(input, output, session){
   
   filteredData <- reactive({
     
-      filter(win_perc, years == input$yearSelected)
+      filter(win_perc, year == input$yearSelected) %>% 
+      left_join(., MLBstadiums, by=c("h_name" = "Abbreviation")) 
+      
     
   })
   
   output$map <- renderLeaflet({
     
-    default <- win_perc %>% filter(year %in% "2002") #%>% trunc(win_perc)
-    
-    leaflet(MLBstadiums) %>% 
+    leaflet(filteredData()) %>% 
       setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
       addTiles() %>% 
       addAwesomeMarkers(~Longitude, ~Latitude, 
                         icon = icons, 
                         label = ~as.character(Venue), 
-                        popup = ~as.character(default$win_perc)) %>% 
+                        popup=paste("Winning Percentage:", filteredData()$win_stats, "<br>",
+                                    "Pitcher:",  "", "<br>", 
+                                    "Team Salary:", "")) %>% 
       addLegend(position = 'bottomleft', 
                 colors = makeColorsandNames[,2],
                 labels = makeColorsandNames[,1],
-                opacity = 1,title = 'Divisions')
+                opacity = 1,
+                title = 'Divisions')
     
   })
   
