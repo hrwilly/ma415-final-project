@@ -768,19 +768,20 @@ payroll
 </tr>
 </tbody>
 </table>
-<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<p><img src="/analysis_files/figure-html/unnamed-chunk-4-1.png" width="672" /><br />
+<img src="/analysis_files/figure-html/unnamed-chunk-4-1.png" width="672" /><br />
 From the plot as well as Table 1 of the model, we see the coefficient for the payroll is positive suggesting a positive relationship between payroll and winning percentage. For every million dollars increase in a team’s payroll, their winning percentage is expected to increase by 0.06%.<br />
 <br />
-We then faceted by team to observe the relationship between payroll and winning percentage for each team. We performed linear regression for all teams and provided the slopes in a table and bargraph.<br />
+We then faceted by team to observe the relationship between payroll and winning percentage for each team. We performed linear regression for all teams.<br />
 <br />
-</p>
-<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<p><img src="/analysis_files/figure-html/payroll_win_facet-1.png" width="672" /></p>
-<pre><code>## Warning: All elements of `...` must be named.
-## Did you want `data = -h_name`?</code></pre>
+<img src="/analysis_files/figure-html/payroll_win_facet-1.png" width="672" /><br />
+The slopes for each plot above are provided in a table below as well as a bargraph to compare the number of slopes that are positive and negative.<br />
+<br />
+
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
 <table class=" lightable-paper lightable-hover lightable-classic-2 table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-family: Georgia; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:coefs">Table 2: </span>Slopes of Winning Percentage Against Payroll for Each Team
+</caption>
 <thead>
 <tr>
 <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
@@ -803,13 +804,13 @@ P Value
 PIT
 </td>
 <td style="text-align:center;">
-0.2904073
+0.2904
 </td>
 <td style="text-align:center;">
-0.0561717
+0.056
 </td>
 <td style="text-align:center;">
-0.0001141
+0.00
 </td>
 </tr>
 <tr>
@@ -817,13 +818,13 @@ PIT
 BAL
 </td>
 <td style="text-align:center;">
-0.2101532
+0.2102
 </td>
 <td style="text-align:center;">
-0.0740555
+0.074
 </td>
 <td style="text-align:center;">
-0.0124709
+0.01
 </td>
 </tr>
 <tr>
@@ -831,13 +832,13 @@ BAL
 TBA
 </td>
 <td style="text-align:center;">
-0.1942538
+0.1943
 </td>
 <td style="text-align:center;">
-0.0987662
+0.099
 </td>
 <td style="text-align:center;">
-0.0679874
+0.07
 </td>
 </tr>
 <tr>
@@ -845,13 +846,13 @@ TBA
 HOU
 </td>
 <td style="text-align:center;">
-0.1705355
+0.1705
 </td>
 <td style="text-align:center;">
-0.0945569
+0.095
 </td>
 <td style="text-align:center;">
-0.0914255
+0.09
 </td>
 </tr>
 <tr>
@@ -859,13 +860,13 @@ HOU
 KCA
 </td>
 <td style="text-align:center;">
-0.1615029
+0.1615
 </td>
 <td style="text-align:center;">
-0.0528941
+0.053
 </td>
 <td style="text-align:center;">
-0.0080487
+0.01
 </td>
 </tr>
 <tr>
@@ -873,13 +874,13 @@ KCA
 WAS
 </td>
 <td style="text-align:center;">
-0.1156661
+0.1157
 </td>
 <td style="text-align:center;">
-0.0438551
+0.044
 </td>
 <td style="text-align:center;">
-0.0248419
+0.02
 </td>
 </tr>
 <tr>
@@ -887,13 +888,13 @@ WAS
 DET
 </td>
 <td style="text-align:center;">
-0.1088088
+0.1088
 </td>
 <td style="text-align:center;">
-0.0417810
+0.042
 </td>
 <td style="text-align:center;">
-0.0199290
+0.02
 </td>
 </tr>
 <tr>
@@ -901,13 +902,13 @@ DET
 MIL
 </td>
 <td style="text-align:center;">
-0.0972692
+0.0973
 </td>
 <td style="text-align:center;">
-0.0534674
+0.053
 </td>
 <td style="text-align:center;">
-0.0888942
+0.09
 </td>
 </tr>
 <tr>
@@ -915,13 +916,13 @@ MIL
 CHN
 </td>
 <td style="text-align:center;">
-0.0935603
+0.0936
 </td>
 <td style="text-align:center;">
-0.0823480
+0.082
 </td>
 <td style="text-align:center;">
-0.2737177
+0.27
 </td>
 </tr>
 <tr>
@@ -929,13 +930,13 @@ CHN
 TOR
 </td>
 <td style="text-align:center;">
-0.0449480
+0.0449
 </td>
 <td style="text-align:center;">
-0.0336146
+0.034
 </td>
 <td style="text-align:center;">
-0.2010973
+0.20
 </td>
 </tr>
 <tr>
@@ -943,13 +944,13 @@ TOR
 CLE
 </td>
 <td style="text-align:center;">
-0.0397707
+0.0398
 </td>
 <td style="text-align:center;">
-0.0928160
+0.093
 </td>
 <td style="text-align:center;">
-0.6743843
+0.67
 </td>
 </tr>
 <tr>
@@ -957,13 +958,13 @@ CLE
 LAN
 </td>
 <td style="text-align:center;">
-0.0302427
+0.0302
 </td>
 <td style="text-align:center;">
-0.0138047
+0.014
 </td>
 <td style="text-align:center;">
-0.0446764
+0.04
 </td>
 </tr>
 <tr>
@@ -971,13 +972,13 @@ LAN
 TEX
 </td>
 <td style="text-align:center;">
-0.0221099
+0.0221
 </td>
 <td style="text-align:center;">
-0.0483136
+0.048
 </td>
 <td style="text-align:center;">
-0.6537747
+0.65
 </td>
 </tr>
 <tr>
@@ -985,13 +986,13 @@ TEX
 ANA
 </td>
 <td style="text-align:center;">
-0.0207393
+0.0207
 </td>
 <td style="text-align:center;">
-0.0400549
+0.040
 </td>
 <td style="text-align:center;">
-0.6121698
+0.61
 </td>
 </tr>
 <tr>
@@ -999,13 +1000,13 @@ ANA
 PHI
 </td>
 <td style="text-align:center;">
-0.0007358
+0.0007
 </td>
 <td style="text-align:center;">
-0.0384945
+0.038
 </td>
 <td style="text-align:center;">
-0.9850027
+0.99
 </td>
 </tr>
 <tr>
@@ -1013,13 +1014,13 @@ PHI
 ARI
 </td>
 <td style="text-align:center;">
--0.0008359
+-0.0008
 </td>
 <td style="text-align:center;">
-0.1155474
+0.116
 </td>
 <td style="text-align:center;">
-0.9943231
+0.99
 </td>
 </tr>
 <tr>
@@ -1027,13 +1028,13 @@ ARI
 CIN
 </td>
 <td style="text-align:center;">
--0.0080492
+-0.0080
 </td>
 <td style="text-align:center;">
-0.0571207
+0.057
 </td>
 <td style="text-align:center;">
-0.8898113
+0.89
 </td>
 </tr>
 <tr>
@@ -1041,13 +1042,13 @@ CIN
 SFN
 </td>
 <td style="text-align:center;">
--0.0243835
+-0.0244
 </td>
 <td style="text-align:center;">
-0.0400398
+0.040
 </td>
 <td style="text-align:center;">
-0.5516491
+0.55
 </td>
 </tr>
 <tr>
@@ -1055,13 +1056,13 @@ SFN
 NYA
 </td>
 <td style="text-align:center;">
--0.0316771
+-0.0317
 </td>
 <td style="text-align:center;">
-0.0252467
+0.025
 </td>
 <td style="text-align:center;">
-0.2287850
+0.23
 </td>
 </tr>
 <tr>
@@ -1069,13 +1070,13 @@ NYA
 SLN
 </td>
 <td style="text-align:center;">
--0.0332964
+-0.0333
 </td>
 <td style="text-align:center;">
-0.0641266
+0.064
 </td>
 <td style="text-align:center;">
-0.6111766
+0.61
 </td>
 </tr>
 <tr>
@@ -1083,13 +1084,13 @@ SLN
 NYN
 </td>
 <td style="text-align:center;">
--0.0358778
+-0.0359
 </td>
 <td style="text-align:center;">
-0.0741675
+0.074
 </td>
 <td style="text-align:center;">
-0.6355561
+0.64
 </td>
 </tr>
 <tr>
@@ -1097,13 +1098,13 @@ NYN
 MIA
 </td>
 <td style="text-align:center;">
--0.0414440
+-0.0414
 </td>
 <td style="text-align:center;">
-0.0439378
+0.044
 </td>
 <td style="text-align:center;">
-0.3605024
+0.36
 </td>
 </tr>
 <tr>
@@ -1111,13 +1112,13 @@ MIA
 SDN
 </td>
 <td style="text-align:center;">
--0.0456671
+-0.0457
 </td>
 <td style="text-align:center;">
-0.0608240
+0.061
 </td>
 <td style="text-align:center;">
-0.4643846
+0.46
 </td>
 </tr>
 <tr>
@@ -1125,13 +1126,13 @@ SDN
 COL
 </td>
 <td style="text-align:center;">
--0.0585543
+-0.0586
 </td>
 <td style="text-align:center;">
-0.0701187
+0.070
 </td>
 <td style="text-align:center;">
-0.4167790
+0.42
 </td>
 </tr>
 <tr>
@@ -1139,13 +1140,13 @@ COL
 BOS
 </td>
 <td style="text-align:center;">
--0.0631218
+-0.0631
 </td>
 <td style="text-align:center;">
-0.0431592
+0.043
 </td>
 <td style="text-align:center;">
-0.1642304
+0.16
 </td>
 </tr>
 <tr>
@@ -1153,13 +1154,13 @@ BOS
 CHA
 </td>
 <td style="text-align:center;">
--0.0892536
+-0.0893
 </td>
 <td style="text-align:center;">
-0.0441290
+0.044
 </td>
 <td style="text-align:center;">
-0.0613235
+0.06
 </td>
 </tr>
 <tr>
@@ -1167,13 +1168,13 @@ CHA
 MIN
 </td>
 <td style="text-align:center;">
--0.1077974
+-0.1078
 </td>
 <td style="text-align:center;">
-0.0620072
+0.062
 </td>
 <td style="text-align:center;">
-0.1026056
+0.10
 </td>
 </tr>
 <tr>
@@ -1181,13 +1182,13 @@ MIN
 SEA
 </td>
 <td style="text-align:center;">
--0.1253946
+-0.1254
 </td>
 <td style="text-align:center;">
-0.1278931
+0.128
 </td>
 <td style="text-align:center;">
-0.3424072
+0.34
 </td>
 </tr>
 <tr>
@@ -1195,13 +1196,13 @@ SEA
 ATL
 </td>
 <td style="text-align:center;">
--0.1995919
+-0.1996
 </td>
 <td style="text-align:center;">
-0.2041524
+0.204
 </td>
 <td style="text-align:center;">
-0.3437471
+0.34
 </td>
 </tr>
 <tr>
@@ -1209,19 +1210,20 @@ ATL
 OAK
 </td>
 <td style="text-align:center;">
--0.2818385
+-0.2818
 </td>
 <td style="text-align:center;">
-0.0833713
+0.083
 </td>
 <td style="text-align:center;">
-0.0041192
+0.00
 </td>
 </tr>
 </tbody>
 </table>
 </div>
-<p><img src="/analysis_files/figure-html/coefs-1.png" width="768" /></p>
+<p><br />
+<img src="/analysis_files/figure-html/coefs_graph-1.png" width="576" /></p>
 <p><br />
 From these faceted plots, it is not consistent among all teams that as payroll increases, winning percentage also increases. For about half of the teams, including teams like the Chicago White Sox (<code>CHA</code>) and the Oakland Athletics (<code>OAK</code>), as payroll increases, their winning percentage for that year decreases.<br />
 <br />

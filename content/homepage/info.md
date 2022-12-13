@@ -2,7 +2,7 @@
 title: MA 415 Final Project
 draft: false
 role: HGB
-bio: This is my data science project. Check out the links at the top. You can update this in `content/homepage/info.md`. You can change the image above by changing `content/homepage/feature_image.md`.
+bio: Through data analysis, we look at how payroll affects team performance in the MLB. We have determined that a team with a higher payroll does not necessarily have a higher winning percentage than other teams in the MLB. The posts below show our weekly progress on the project. The Data link at the top tells you about the data we analyzed. The Big Picture link tells the story of our analysis. It includes an interactive plot of all stadiums with data about each team, as well as a recording detailing how to navigate our interactive plot. The Analysis link shows our main results in the form of graphs and tables. The Posts link is another way to see our weekly progress. The About link tells you more about the members of this team. Clicking HGB on the left will bring you back to this home page!
 organization:
   name: Boston University
   url: https://www.bu.edu/
