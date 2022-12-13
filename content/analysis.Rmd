@@ -517,7 +517,7 @@ bb %>% filter(v_name == "CHA", year == 2011) %>% summarize(FT_start = sum(v_play
 bb %>% filter(v_name == "CHA", year == 2011) %>% summarize(FT_start = sum(v_player_3_name=="Adam Dunn"), wins = sum(v_player_3_name=="Adam Dunn" & score_diff<0), prop = wins/FT_start)
 #concl --> chicago won more games when frank thomas started in 2000 than combo of three players in 2011
 ```
-\
+
 ## Limitations
 
 There was missing data of payroll for certain years for the Kansas City Royals (`KCA`) and the Miami Marlins (`MIA`). As a results these teams were removed from all of our analyses and not represented. 
