@@ -31,7 +31,7 @@ server <- function(input, output, session){
   filteredData <- reactive({
     
     left_join(MLBstadiums, win_perc, by = c("Abbreviation" = "h_name")) %>% 
-      filter(year %in% "input$yearSelected", Sport == "MLB") %>%
+      filter(year %in% "input$yearSelected") %>%
       mutate(percentage = win_perc)
     
     
@@ -39,13 +39,15 @@ server <- function(input, output, session){
   
   output$map <- renderLeaflet({
     
+    default <- win_perc %>% filter(year %in% "2002") #%>% trunc(win_perc)
     
     leaflet(MLBstadiums) %>% 
       setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
       addTiles() %>% 
       addAwesomeMarkers(~Longitude, ~Latitude, 
                         icon = icons, 
-                        label = ~as.character(Venue)) %>% 
+                        label = ~as.character(Venue), 
+                        popup = ~as.character(default$win_perc)) %>% 
       addLegend(position = 'bottomleft', 
                 colors = makeColorsandNames[,2],
                 labels = makeColorsandNames[,1],
@@ -53,15 +55,15 @@ server <- function(input, output, session){
     
   })
   
-  # observe({
-  #   leafletProxy("map", data = filteredData()) %>%
-  #     addAwesomeMarkers(~Longitude, ~Latitude,
-  #                       icon = icons, 
-  #                       label = ~as.character(Venue),
-  #                       popup = ~as.character(percentage))
-  
-  
-  # })
+   # observe({
+   #  leafletProxy("map", data = filteredData()) %>%
+   #   addAwesomeMarkers(~Longitude, ~Latitude,
+   #                      icon = icons,
+   #                     label = ~as.character(Venue),
+   #                     popup = ~as.character(percentage))
+   # 
+   # 
+   # })
   
   # observe({
   #   proxy <- leafletProxy("map", data = filteredData)
