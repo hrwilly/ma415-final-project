@@ -14,7 +14,7 @@ featuredVideo: ~
 featuredImage: ~
 ---
 
-To wrap up our data analysis, we are doing summary statistics of _____, as well as expanding on our model of _____.We are also adding more of a variety of plots, like ____.
+To wrap up our data analysis, we are doing summary statistics of the top winning percentages each year and the count for each team with how many seasons they had the top winning percentage. We are also adding more of a variety of plots, like bar graphs that display the slopes of winning percentage against payroll for each team and a piechart showing which teams had the highest winning percentages the most.
 
 
 The overall question we are answering is "Does a higher payroll correspond with more wins, and therefore higher success?". Throughout our analysis, we have found a variability in the answer between teams. Due to this, we have formed our thesis to be "A team with a higher payroll does not necessarily have a higher winning percentage than other teams in the MLB."
