@@ -33,8 +33,8 @@ highest <- win_perc %>% group_by(year) %>%
   slice(which.max(win_perc)) %>% 
   select(year, h_name, games_won, win_perc)
 
-highest %>% kbl(col.names = c("Team", 
-                              "Games Played", 
+highest %>% kbl(col.names = c("Year", 
+                              "Team", 
                               "Games Won", 
                               "Winning Percentage"), 
                 align = "c") %>%
