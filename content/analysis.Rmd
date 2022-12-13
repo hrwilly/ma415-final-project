@@ -168,7 +168,7 @@ beta <- coef(payroll_mod)
 payroll_win %>% ggplot(aes(payroll, win_perc)) + 
   geom_point(aes(color = h_name)) + 
   scale_x_log10() +
-  geom_smooth(method = "lm", se = FALSE, color = "red", lwd =0.5) +
+  geom_smooth(formula = y ~ x, method = "lm", se = FALSE, color = "red", lwd =0.5) +
   scale_color_discrete(name = "Team") +
   labs(x = "Payroll (million)", 
        y = "Winning Percentage", 
@@ -179,7 +179,7 @@ payroll_win %>% ggplot(aes(payroll, win_perc)) +
 \
 From the plot as well as Table 1 of the model, we see the coefficient for the payroll is positive suggesting a positive relationship between payroll and winning percentage. For every million dollars increase in a team's payroll, their winning percentage is expected to increase by 0.06%.\
 \
-We then faceted by team to observe the relationship between payroll and winning percentage for each team. We performed linear regression for all teams and provided the slopes in a table and bargraph.\
+We then faceted by team to observe the relationship between payroll and winning percentage for each team. We performed linear regression for all teams.\
 \
 ```{r payroll_win_facet, fig.width = 7, fig.height = 8, echo = FALSE}
 #faceted
@@ -187,33 +187,43 @@ payroll_win %>%
 ggplot(aes(payroll,win_perc)) + 
   scale_x_log10() +
   geom_point(aes(color = year)) +
-  geom_smooth(method='lm', color = "red", lwd = 0.5, se = FALSE) +
+  geom_smooth(formula = y ~ x, method='lm', color = "red", lwd = 0.5, se = FALSE) +
   facet_wrap(vars(h_name), scales = "free", ncol = 5) +
   theme(strip.text.x = element_text(size = 12, face = "bold")) +
   theme(strip.background = element_rect(color = "black", fill = "#F0F8FF", size = 1, linetype = "solid"))
 ```
-```{r coefs, fig.width = 8, fig.height = 6, echo = FALSE}
+\
+The slopes for each plot above are provided in a table below as well as a bargraph to compare the number of slopes that are positive and negative.\
+\
+```{r coefs, echo = FALSE}
 slopes <-  payroll_win %>% select(h_name, payroll, win_perc) %>% 
-  nest(-h_name) %>%
+  nest(data = -h_name) %>%
   mutate(model = map(data, ~lm(win_perc ~ payroll, data = .)),
      tidied = map(model, tidy)) %>%
   unnest(tidied) %>% 
   filter(term == "payroll") %>%
   arrange(desc(estimate)) %>%
   select(h_name, estimate, std.error, p.value)
+
+slopes$estimate <- round(slopes$estimate, digits = 4)
+slopes$std.error <- round(slopes$std.error, digits = 3)
+slopes$p.value <- round(slopes$p.value, digits = 2)
+
 slopes %>% 
-  kbl(col.names = c("Team", "Slope", "Standard Error", "P Value"), align = "c") %>% 
+  kbl(caption = "Slopes of Winning Percentage Against Payroll for Each Team", col.names = c("Team", "Slope", "Standard Error", "P Value"), align = "c") %>% 
   kable_paper(full_width = TRUE, "hover") %>% 
   kable_classic_2(html_font = "Georgia") %>% 
   kable_styling(position = "center") %>% 
   scroll_box(height = "200px", width = "100%")
+```
+\
+```{r coefs_graph, fig.width = 6, fig.height = 4, echo = FALSE}
 
-slopes %>% ggplot(aes(x = reorder(h_name, -estimate), y = estimate)) +
+(coefs_bar <- slopes %>% ggplot(aes(x = reorder(h_name, -estimate), y = estimate)) +
   geom_bar(stat = "identity", aes(fill = estimate)) +
   scale_fill_gradient(high = "#152238", low = "#BCD2E8") +
   labs(x = "Teams", y = "Slope", title = "Slopes of Winning Percentage Against Payroll for Each Team") +
-  scale_x_discrete(guide = guide_axis(n.dodge=2))
-
+  scale_x_discrete(guide = guide_axis(n.dodge=2)))
 
 ```
 
