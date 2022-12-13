@@ -1,10 +1,10 @@
-library(shiny)
 library(tidyverse)
 library(rvest)
 library(tibble)
 library(leaflet)
 library(dplyr)
 library(readr)
+library(shinyWidgets)
 # 
 # load(here::here("dataset", "shiny_wins.RData"))
 # load(here::here("dataset", "MLBstadiums.RData"))
@@ -17,10 +17,10 @@ ui <- bootstrapPage(
   tags$style(type = "text/css", "html, body {width:100%;height:100%}"),
   leafletOutput("map", width = "100%", height = "100%"),
   absolutePanel(top = 10, right = 10,
-                selectInput(inputId = "yearSelected",
-                              label = "Year",
-                              choices = win_perc$year,
-                              selected = "win_perc$year[2]"),
+                pickerInput("yearSelected", 
+                            label = "Select a Year:",
+                          choices = c("2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009","2010", "2011", "2012", "2013", "2014", "2015", "2016")),
+                
                 checkboxInput("legend", "Show legend", TRUE)
     )
   )
@@ -28,14 +28,12 @@ ui <- bootstrapPage(
 
 
 server <- function(input, output, session){
+  
   filteredData <- reactive({
     
-    left_join(MLBstadiums, win_perc, by = c("Abbreviation" = "h_name")) %>% 
-      filter(year %in% "input$yearSelected") %>%
-      mutate(percentage = win_perc)
+      filter(win_perc, years == input$yearSelected)
     
-    
-  })  
+  })
   
   output$map <- renderLeaflet({
     
