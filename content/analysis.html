@@ -16,7 +16,7 @@ draft: false
 
 <div id="data-analysis-motivations" class="section level2">
 <h2>Data Analysis Motivations</h2>
-<p>For our data analysis, we are most interested in the relationship between the winning percentage of each Major League Baseball team and each team’s payroll for a given season. We wish to look at the whether a particular team’s winning percentage changes each season with that team’s payroll. Does a high payroll correspond with more wins and therefore higher success? If so, where do the dollars from an increase in the payroll go? If not, what factors lead to a team losing even with such high payrolls? The answers to these questions may differ between the MLB teams. Some teams may consistently perform better with higher payrolls while other teams may not, so we are interested in the variability of these answers among the MLB teams.<br />
+<p>For our data analysis, we are most interested in the relationship between the winning percentage of each Major League Baseball team and each team’s payroll for a given season. We wish to look at the whether a particular team’s winning percentage changes each season with that team’s payroll. How does the payroll affect team performance? Where do the dollars from an increase in the payroll go? What factors lead to a team losing even with such high payrolls? The answers to these questions may differ between the MLB teams. Some teams may consistently perform better with higher payrolls while other teams may not, so we are interested in the variability of these answers among the MLB teams.<br />
 <br />
 </p>
 </div>
@@ -1418,7 +1418,8 @@ bb %&gt;% filter(v_name == &quot;CHA&quot;, year == 2011) %&gt;% summarize(FT_st
 bb %&gt;% filter(v_name == &quot;CHA&quot;, year == 2011) %&gt;% summarize(FT_start = sum(v_player_3_name==&quot;Carlos Quentin&quot;), wins = sum(v_player_3_name==&quot;Carlos Quentin&quot; &amp; score_diff&lt;0), prop = wins/FT_start)
 bb %&gt;% filter(v_name == &quot;CHA&quot;, year == 2011) %&gt;% summarize(FT_start = sum(v_player_3_name==&quot;Adam Dunn&quot;), wins = sum(v_player_3_name==&quot;Adam Dunn&quot; &amp; score_diff&lt;0), prop = wins/FT_start)
 #concl --&gt; chicago won more games when frank thomas started in 2000 than combo of three players in 2011</code></pre>
-<p><br />
-## Limitations</p>
+</div>
+<div id="limitations" class="section level2">
+<h2>Limitations</h2>
 <p>There was missing data of payroll for certain years for the Kansas City Royals (<code>KCA</code>) and the Miami Marlins (<code>MIA</code>). As a results these teams were removed from all of our analyses and not represented.</p>
 </div>
