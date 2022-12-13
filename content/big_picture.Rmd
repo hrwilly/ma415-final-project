@@ -33,6 +33,8 @@ payroll_win <- win_perc %>% left_join(mlb_payroll, by = c("year", "h_name")) %>%
 
 payroll_win$payroll <- round(payroll_win$payroll/1e6)
 
+payroll_mod <- lm(win_perc ~ payroll, data = payroll_win)
+
 beta <- coef(payroll_mod)
 
 payroll_mod <- lm(win_perc ~ payroll, data = payroll_win)
