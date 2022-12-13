@@ -288,99 +288,10 @@ CHN
 <br />
 Among these highest winning percentages for each year, the Seattle Mariners had the overall highest winning percentage in 2001 at 71.60%.<br />
 <br />
-
-<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
-<table class=" lightable-paper lightable-hover lightable-classic-2 table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-family: Georgia; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
-Team
-</th>
-<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
-Count
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center;">
-NYA
-</td>
-<td style="text-align:center;">
-4
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-SLN
-</td>
-<td style="text-align:center;">
-3
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-ANA
-</td>
-<td style="text-align:center;">
-2
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-BOS
-</td>
-<td style="text-align:center;">
-2
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-PHI
-</td>
-<td style="text-align:center;">
-2
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-CHN
-</td>
-<td style="text-align:center;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-SEA
-</td>
-<td style="text-align:center;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-SFN
-</td>
-<td style="text-align:center;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-WAS
-</td>
-<td style="text-align:center;">
-1
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<br />
+<img src="/analysis_files/figure-html/unnamed-chunk-2-1.png" width="672" /><br />
 From 2000 to 2016, the New York Yankees have had the highest winning percentage for the highest number of years. They had the highest winning percentage for the 4 years of 2002, 2003, 2006, and 2009.<br />
 <br />
-We then observed the teams with the highest number of hits, homeruns, and runs each season from 2000 to 2016. From this table and the table with the highest winning percentages each year, we wish to see if those teams with the most hits, homeruns, and runs also ended up having the highest winning percentage (indicated by a <code>TRUE</code> in the cell).<br />
+We then observed the teams with the highest number of hits, homeruns, and runs each season from 2000 to 2016. From this table and the table with the highest winning percentages each year, we wish to see if those teams with the most hits, homeruns, and runs also ended up having the highest winning percentage.<br />
 <br />
 
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
@@ -391,7 +302,7 @@ We then observed the teams with the highest number of hits, homeruns, and runs e
 Year
 </th>
 <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
-Team
+Highest Winning Percentage
 </th>
 <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
 Most Hits
@@ -413,47 +324,47 @@ Most Runs
 SFN
 </td>
 <td style="text-align:center;">
-FALSE
+COL
 </td>
 <td style="text-align:center;">
-FALSE
+HOU
 </td>
 <td style="text-align:center;">
-FALSE
+CHA
 </td>
 </tr>
 <tr>
-<td style="text-align:center;background-color: #F0F8FF !important;">
+<td style="text-align:center;">
 2001
 </td>
-<td style="text-align:center;background-color: #F0F8FF !important;">
+<td style="text-align:center;">
 SEA
 </td>
-<td style="text-align:center;background-color: #F0F8FF !important;">
-FALSE
+<td style="text-align:center;">
+COL
 </td>
-<td style="text-align:center;background-color: #F0F8FF !important;">
-FALSE
+<td style="text-align:center;">
+TEX
 </td>
-<td style="text-align:center;background-color: #F0F8FF !important;">
-TRUE
+<td style="text-align:center;">
+SEA
 </td>
 </tr>
 <tr>
-<td style="text-align:center;background-color: #F0F8FF !important;">
+<td style="text-align:center;">
 2002
 </td>
-<td style="text-align:center;background-color: #F0F8FF !important;">
+<td style="text-align:center;">
 NYA
 </td>
-<td style="text-align:center;background-color: #F0F8FF !important;">
-FALSE
+<td style="text-align:center;">
+ANA
 </td>
-<td style="text-align:center;background-color: #F0F8FF !important;">
-FALSE
+<td style="text-align:center;">
+TEX
 </td>
-<td style="text-align:center;background-color: #F0F8FF !important;">
-TRUE
+<td style="text-align:center;">
+NYA
 </td>
 </tr>
 <tr>
@@ -464,13 +375,13 @@ TRUE
 NYA
 </td>
 <td style="text-align:center;">
-FALSE
+BOS
 </td>
 <td style="text-align:center;">
-FALSE
+TEX
 </td>
 <td style="text-align:center;">
-FALSE
+BOS
 </td>
 </tr>
 <tr>
@@ -481,13 +392,13 @@ FALSE
 SLN
 </td>
 <td style="text-align:center;">
-FALSE
+BAL
 </td>
 <td style="text-align:center;">
-FALSE
+CHA
 </td>
 <td style="text-align:center;">
-FALSE
+BOS
 </td>
 </tr>
 <tr>
@@ -498,30 +409,30 @@ FALSE
 SLN
 </td>
 <td style="text-align:center;">
-FALSE
+BOS
 </td>
 <td style="text-align:center;">
-FALSE
+TEX
 </td>
 <td style="text-align:center;">
-FALSE
+BOS
 </td>
 </tr>
 <tr>
-<td style="text-align:center;background-color: #F0F8FF !important;">
+<td style="text-align:center;">
 2006
 </td>
-<td style="text-align:center;background-color: #F0F8FF !important;">
+<td style="text-align:center;">
 NYA
 </td>
-<td style="text-align:center;background-color: #F0F8FF !important;">
-FALSE
+<td style="text-align:center;">
+MIN
 </td>
-<td style="text-align:center;background-color: #F0F8FF !important;">
-FALSE
+<td style="text-align:center;">
+CHA
 </td>
-<td style="text-align:center;background-color: #F0F8FF !important;">
-TRUE
+<td style="text-align:center;">
+NYA
 </td>
 </tr>
 <tr>
@@ -532,13 +443,13 @@ TRUE
 BOS
 </td>
 <td style="text-align:center;">
-FALSE
+NYA
 </td>
 <td style="text-align:center;">
-FALSE
+MIL
 </td>
 <td style="text-align:center;">
-FALSE
+NYA
 </td>
 </tr>
 <tr>
@@ -549,30 +460,30 @@ FALSE
 ANA
 </td>
 <td style="text-align:center;">
-FALSE
+TEX
 </td>
 <td style="text-align:center;">
-FALSE
+CHA
 </td>
 <td style="text-align:center;">
-FALSE
+TEX
 </td>
 </tr>
 <tr>
-<td style="text-align:center;background-color: #F0F8FF !important;">
+<td style="text-align:center;">
 2009
 </td>
-<td style="text-align:center;background-color: #F0F8FF !important;">
+<td style="text-align:center;">
 NYA
 </td>
-<td style="text-align:center;background-color: #F0F8FF !important;">
-FALSE
+<td style="text-align:center;">
+ANA
 </td>
-<td style="text-align:center;background-color: #F0F8FF !important;">
-TRUE
+<td style="text-align:center;">
+NYA
 </td>
-<td style="text-align:center;background-color: #F0F8FF !important;">
-TRUE
+<td style="text-align:center;">
+NYA
 </td>
 </tr>
 <tr>
@@ -583,13 +494,13 @@ TRUE
 PHI
 </td>
 <td style="text-align:center;">
-FALSE
+TEX
 </td>
 <td style="text-align:center;">
-FALSE
+TOR
 </td>
 <td style="text-align:center;">
-FALSE
+NYA
 </td>
 </tr>
 <tr>
@@ -600,13 +511,13 @@ FALSE
 PHI
 </td>
 <td style="text-align:center;">
-FALSE
+BOS
 </td>
 <td style="text-align:center;">
-FALSE
+NYA
 </td>
 <td style="text-align:center;">
-FALSE
+BOS
 </td>
 </tr>
 <tr>
@@ -617,47 +528,47 @@ FALSE
 WAS
 </td>
 <td style="text-align:center;">
-FALSE
+COL
 </td>
 <td style="text-align:center;">
-FALSE
+NYA
 </td>
 <td style="text-align:center;">
-FALSE
+TEX
 </td>
 </tr>
 <tr>
-<td style="text-align:center;background-color: #F0F8FF !important;">
+<td style="text-align:center;">
 2013
 </td>
-<td style="text-align:center;background-color: #F0F8FF !important;">
+<td style="text-align:center;">
 BOS
 </td>
-<td style="text-align:center;background-color: #F0F8FF !important;">
-FALSE
+<td style="text-align:center;">
+DET
 </td>
-<td style="text-align:center;background-color: #F0F8FF !important;">
-FALSE
+<td style="text-align:center;">
+BAL
 </td>
-<td style="text-align:center;background-color: #F0F8FF !important;">
-TRUE
+<td style="text-align:center;">
+BOS
 </td>
 </tr>
 <tr>
-<td style="text-align:center;background-color: #F0F8FF !important;">
+<td style="text-align:center;">
 2014
 </td>
-<td style="text-align:center;background-color: #F0F8FF !important;">
+<td style="text-align:center;">
 ANA
 </td>
-<td style="text-align:center;background-color: #F0F8FF !important;">
-FALSE
+<td style="text-align:center;">
+DET
 </td>
-<td style="text-align:center;background-color: #F0F8FF !important;">
-FALSE
+<td style="text-align:center;">
+BAL
 </td>
-<td style="text-align:center;background-color: #F0F8FF !important;">
-TRUE
+<td style="text-align:center;">
+ANA
 </td>
 </tr>
 <tr>
@@ -668,13 +579,13 @@ TRUE
 SLN
 </td>
 <td style="text-align:center;">
-FALSE
+DET
 </td>
 <td style="text-align:center;">
-FALSE
+TOR
 </td>
 <td style="text-align:center;">
-FALSE
+TOR
 </td>
 </tr>
 <tr>
@@ -685,13 +596,13 @@ FALSE
 CHN
 </td>
 <td style="text-align:center;">
-FALSE
+BOS
 </td>
 <td style="text-align:center;">
-FALSE
+BAL
 </td>
 <td style="text-align:center;">
-FALSE
+BOS
 </td>
 </tr>
 </tbody>
@@ -774,7 +685,7 @@ From the plot as well as Table 1 of the model, we see the coefficient for the pa
 We then faceted by team to observe the relationship between payroll and winning percentage for each team. We performed linear regression for all teams.<br />
 <br />
 <img src="/analysis_files/figure-html/payroll_win_facet-1.png" width="672" /><br />
-The slopes for each plot above are provided in a table below as well as a bargraph to compare the number of slopes that are positive and negative.<br />
+The slopes for each plot above are provided in a table below as well as a bar graph to compare the number of slopes that are positive and negative.<br />
 <br />
 
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
@@ -1223,9 +1134,9 @@ OAK
 </table>
 </div>
 <p><br />
-<img src="/analysis_files/figure-html/coefs_graph-1.png" width="576" /></p>
+<img src="/analysis_files/figure-html/coefs_graph-1.png" width="960" /></p>
 <p><br />
-From these faceted plots, it is not consistent among all teams that as payroll increases, winning percentage also increases. For about half of the teams, including teams like the Chicago White Sox (<code>CHA</code>) and the Oakland Athletics (<code>OAK</code>), as payroll increases, their winning percentage for that year decreases.<br />
+From these faceted plots, it is not consistent among all teams that as payroll increases, winning percentage also increases. For exactly half of the MLB teams, as payroll increases, their winning percentage for that year decreases.<br />
 <br />
 In our analyses that follow, we look at what factors influence this divide between a positive and negative relationship between payroll and winning percentage.<br />
 <br />
@@ -1233,31 +1144,27 @@ In our analyses that follow, we look at what factors influence this divide betwe
 </div>
 <div id="positive-relationship" class="section level2">
 <h2>Positive Relationship</h2>
-<p>When analyzing the positive relationship between payroll and winning percentage, we wanted to look at the relationships between payroll and certain game statistics for each season. We first looked at payroll and hits to see if an increase in the number of hits per season was influencing this positive relationship. To do this, we calculated the total hits for each team each year by summing their home hits and their away hits. We then joined this dataset with the payroll dataset and plotted the total hits of each team against log(payroll) for each year between 2000 and 2016.<br />
+<p>When analyzing those 15 teams with a positive relationship between payroll and winning percentage, we wanted to further look at the relationships between payroll and certain game statistics for each season. We first looked at payroll and hits to see if an increase in the number of hits per season was influencing this positive relationship. To do this, we calculated the total hits for each team each year by summing their home hits and their away hits. We then joined this dataset with the payroll dataset and plotted the total hits of each team against their payroll for each year between 2000 and 2016.<br />
 <br />
 </p>
-<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<p><img src="/analysis_files/figure-html/payroll_hits_plot-1.png" width="672" /><br />
-To our surprise, for most teams, as payroll increases, the total number of hits in a season decreases. This suggests that even though teams are spending more money on more valuable players, their offensive performance in their total hits for a season does not increase.<br />
+<p><img src="/analysis_files/figure-html/payroll_hits_plot-1.png" width="960" /><br />
+To our surprise, for 11 out of the 15 teams, as payroll increases, the total number of hits in a season decreases. This suggests that even though teams are spending more money on more valuable players, their offensive performance in their total hits for a season does not increase.<br />
 <br />
-We then looked at the relationships between payroll and homeruns for each season. It is possible that teams are spending more money on players known for hitting home runs and therefore bring in more runs rather than players who just hit and get on base without bringing in a run. We first calculated the total home runs for each team each year by summing their home home runs and their away home runs. We then joined this dataset with the payroll dataset and plotted the total homeruns of each team against log(payroll) for each year between 2000 and 2016.<br />
-<br />
-</p>
-<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<p><img src="/analysis_files/figure-html/payroll_homeruns_plot-1.png" width="672" /><br />
-Again, to our surprise most teams produced fewer home runs as payroll increased. From these graphs on the relationships between payroll and hits and payroll and home runs, it appears as though the offensive performance does not improve. So what then are these teams spending money on to increase their winning percentage?<br />
-<br />
-Rather than looking at offensive performance, we looked at defensive performance, particularly pitching. The first statistic we looked at for pitchers was strikeouts. In the baseball dataset, the variables <code>h_strikeouts</code> and <code>v_strikeouts</code> refer to the total number of times players struckout for the home team and visiting team respectively. To make this a statistic for the home team and visiting team pitchers, we reversed their variables. More explicitly, the total strikeouts for the home team pitchers is represented by the visiting team’s strikeouts (<code>v_strikeouts</code>) and the total strikeouts for the visiting team pitchers is represented by the home team’s strikeouts(<code>h_strikeouts</code>). We calculated the total strikeouts for each team for each year, joined this dataset with the payroll dataset, and plotted the total number of strikeouts for each team against log(payroll) for each year between 2000 and 2016.<br />
+We then looked at the relationships between payroll and homeruns for each season. It is possible that teams are spending more money on players known for hitting home runs and therefore bring in more runs rather than players who just hit and get on base without bringing in a run. We first calculated the total home runs for each team each year by summing their home home runs and their away home runs. We then joined this dataset with the payroll dataset and plotted the total homeruns of each team against their payroll for each year between 2000 and 2016.<br />
 <br />
 </p>
-<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<p><img src="/analysis_files/figure-html/payroll_so_plot-1.png" width="672" /><br />
-These plots show that for almost all of the teams, as payroll increases, the total number of strikeouts performed by the pitchers of each team also increases. We then looked at the earned runs statistic to see if this change in pitcher performance was consistent with the increase in payroll. Similar to the strikeout variables, <code>h_team_earned_runs</code> and <code>v_team_earned_runs</code> are the earned runs for the players of the home team and visiting team respectively. Here again we represented the earned runs for the home team pitchers with <code>v_team_earned_runs</code> and represented the earned runs for the visiting team pitchers with <code>h_team_earned_runs</code>. We calculated the total earned runs for each team for each year, joined this dataset with the payroll dataset, and plotted the total earned runs for each team against log(payroll) for each year between 2000 and 2016.<br />
+<p><img src="/analysis_files/figure-html/payroll_homeruns_plot-1.png" width="960" /><br />
+Again, to our surprise, 7 out of he 15 teams produced fewer home runs as payroll increased. From these graphs on the relationships between payroll and hits and payroll and home runs, it appears as though the offensive performance does not improve. So what then are these teams spending money on to increase their winning percentage?<br />
+<br />
+Rather than looking at offensive performance, we looked at defensive performance, particularly pitching. The first statistic we looked at for pitchers was strikeouts. In the baseball dataset, the variables <code>h_strikeouts</code> and <code>v_strikeouts</code> refer to the total number of times players struckout for the home team and visiting team respectively. To make this a statistic for the home team and visiting team pitchers, we reversed their variables. More explicitly, the total strikeouts for the home team pitchers is represented by the visiting team’s strikeouts (<code>v_strikeouts</code>) and the total strikeouts for the visiting team pitchers is represented by the home team’s strikeouts(<code>h_strikeouts</code>). We calculated the total strikeouts for each team for each year, joined this dataset with the payroll dataset, and plotted the total number of strikeouts for each team against their payroll for each year between 2000 and 2016.<br />
 <br />
 </p>
-<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<p><img src="/analysis_files/figure-html/payroll_er_plot-1.png" width="672" /><br />
-According to the plots, as payroll increases, the total earned runs for most teams decreases. These faceted plots along with the plots for total strikeouts against payroll suggest that along with an increase in payroll, the performance of the pitching improves with more strikeouts and less earned runs against the pitchers.<br />
+<p><img src="/analysis_files/figure-html/payroll_so_plot-1.png" width="960" /><br />
+These plots show that for 15 out of the 15 teams, as payroll increases, the total number of strikeouts performed by the pitchers of each team also increases. We then looked at the earned runs statistic to see if this change in pitcher performance was consistent with the increase in payroll. Similar to the strikeout variables, <code>h_team_earned_runs</code> and <code>v_team_earned_runs</code> are the earned runs for the players of the home team and visiting team respectively. Here again we represented the earned runs for the home team pitchers with <code>v_team_earned_runs</code> and represented the earned runs for the visiting team pitchers with <code>h_team_earned_runs</code>. We calculated the total earned runs for each team for each year, joined this dataset with the payroll dataset, and plotted the total earned runs for each team against their payroll for each year between 2000 and 2016.<br />
+<br />
+</p>
+<p><img src="/analysis_files/figure-html/payroll_er_plot-1.png" width="960" /><br />
+According to the plots, as payroll increases, the total earned runs for 10 of the 15 teams decreases. These faceted plots along with the plots for total strikeouts against payroll suggest that along with an increase in payroll, the performance of the pitching improves with more strikeouts and less earned runs against the pitchers.<br />
 <br />
 </p>
 </div>
