@@ -28,6 +28,14 @@ One of the most significant divisions between teams are they're relative payroll
 Our initial and obvious instinct was that teams' winning percentage should increase as their payroll increases, and that certainly holds true, as shown in the figure below:
 
 ```{r echo=FALSE}
+payroll_win <- win_perc %>% left_join(mlb_payroll, by = c("year", "h_name")) %>% 
+  filter(!is.na(payroll))
+
+payroll_win$payroll <- round(payroll_win$payroll/1e6)
+
+beta <- coef(payroll_mod)
+
+payroll_mod <- lm(win_perc ~ payroll, data = payroll_win)
 payroll_win %>% ggplot(aes(payroll, win_perc)) + 
   geom_point(aes(color = h_name)) + 
   scale_x_log10() +
