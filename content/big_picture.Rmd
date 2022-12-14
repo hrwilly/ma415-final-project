@@ -55,7 +55,7 @@ A team with even a two-fold increase of payroll should be expected to drasticall
 However the above plot also has a lot of noise. The team with the highest winning percentage between 2000 and 2016 had a payroll of less than \$100 million. All this noise indicates a more nuanced pattern underlying teams' relative success in the MLB.
 
 
-
+ https://bu-ma415-hgb-stadium-map.shinyapps.io/stadium_map_2/ 
 
 
 

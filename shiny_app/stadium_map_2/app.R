@@ -1,14 +1,31 @@
-library(shiny)
 library(tidyverse)
 library(rvest)
 library(tibble)
 library(leaflet)
 library(dplyr)
 library(readr)
-# 
-# load(here::here("dataset", "shiny_wins.RData"))
-# load(here::here("dataset", "MLBstadiums.RData"))
-# load(here::here("dataset", "win_perc.RData"))
+library(shinyWidgets)
+
+load(here::here("shiny_wins.RData"))
+load(here::here("MLBstadiums.RData"))
+load(here::here("win_perc.RData"))
+
+win_perc <- win_perc %>% mutate(win_stats = win_perc) %>%
+  mutate_if(is.numeric, ~round(., 1))
+  
+  
+MLBstadiums$Abbreviation[MLBstadiums$Abbreviation == 'CHC'] <- 'CHN'
+MLBstadiums$Abbreviation[MLBstadiums$Abbreviation == 'CHW'] <- 'CHA'
+MLBstadiums$Abbreviation[MLBstadiums$Abbreviation == 'KCR'] <- 'KCN'
+MLBstadiums$Abbreviation[MLBstadiums$Abbreviation == 'LAA'] <- 'ANA'
+MLBstadiums$Abbreviation[MLBstadiums$Abbreviation == 'LAD'] <- 'LAN'
+MLBstadiums$Abbreviation[MLBstadiums$Abbreviation == 'MIA'] <- 'FLO'
+MLBstadiums$Abbreviation[MLBstadiums$Abbreviation == 'NYM'] <- 'NYN'
+MLBstadiums$Abbreviation[MLBstadiums$Abbreviation == 'NYY'] <- 'NYA'
+MLBstadiums$Abbreviation[MLBstadiums$Abbreviation == 'SDP'] <- 'SDN'
+MLBstadiums$Abbreviation[MLBstadiums$Abbreviation == 'SFG'] <- 'SFN'
+MLBstadiums$Abbreviation[MLBstadiums$Abbreviation == 'STL'] <- 'SLN'
+MLBstadiums$Abbreviation[MLBstadiums$Abbreviation == 'TBR'] <- 'TBA'
 
 makeColorsandNames <- data.frame(divisions = c('AL East','AL Central','AL West','NL East','NL Central','NL West'), 
                                  division.cent = c('#CC0000','#3399FF','#FFA500','#9ACD32','#483D8B','#000000'))
@@ -17,10 +34,10 @@ ui <- bootstrapPage(
   tags$style(type = "text/css", "html, body {width:100%;height:100%}"),
   leafletOutput("map", width = "100%", height = "100%"),
   absolutePanel(top = 10, right = 10,
-                selectInput(inputId = "yearSelected",
-                              label = "Year",
-                              choices = win_perc$year,
-                              selected = "win_perc$year[2]"),
+                pickerInput("yearSelected", 
+                            label = "Select a Year:",
+                          choices = c("2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009","2010", "2011", "2012", "2013", "2014", "2015", "2016")),
+                
                 checkboxInput("legend", "Show legend", TRUE)
     )
   )
@@ -28,30 +45,31 @@ ui <- bootstrapPage(
 
 
 server <- function(input, output, session){
+  
   filteredData <- reactive({
     
-    left_join(MLBstadiums, win_perc, by = c("Abbreviation" = "h_name")) %>% 
-      filter(year %in% "input$yearSelected") %>%
-      mutate(percentage = win_perc)
+      filter(win_perc, year == input$yearSelected) %>% 
+      left_join(., MLBstadiums, by=c("h_name" = "Abbreviation")) 
+      
     
-    
-  })  
+  })
   
   output$map <- renderLeaflet({
     
-    default <- win_perc %>% filter(year %in% "2002") #%>% trunc(win_perc)
-    
-    leaflet(MLBstadiums) %>% 
+    leaflet(filteredData()) %>% 
       setView(lng = -98.5795, lat = 39.8283, zoom = 5) %>% 
       addTiles() %>% 
       addAwesomeMarkers(~Longitude, ~Latitude, 
                         icon = icons, 
                         label = ~as.character(Venue), 
-                        popup = ~as.character(default$win_perc)) %>% 
+                        popup=paste("Winning Percentage:", filteredData()$win_stats, "<br>",
+                                    "Pitcher:",  "", "<br>", 
+                                    "Team Salary:", "")) %>% 
       addLegend(position = 'bottomleft', 
                 colors = makeColorsandNames[,2],
                 labels = makeColorsandNames[,1],
-                opacity = 1,title = 'Divisions')
+                opacity = 1,
+                title = 'Divisions')
     
   })
   
