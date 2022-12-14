@@ -122,7 +122,7 @@ matches %>%
 \
 The team with the highest number of total hits did not match the team with the highest winning percentage every season. Only in 2009, the New York Yankees were the team with the highest number of total homeruns as well as total runs. For teams with the highest total runs, only 6 teams matched with the team with the highest winning percentage for that year. Even though teams are offensively performing the best in these major categories of hits, homeruns, and runs, they do not end up performing the best overall according to their winning percentage. Since those teams with the highest numbers do not necessarily mean a team winning the most, we chose to look at weather a team's payroll constituted more wins.\
 \
-```{r win_perc, echo = FALSE}
+```{r win_perc, eval = FALSE, echo = FALSE}
 # faceted graph of winning percentage for each team for each year 2000-2016
 win_perc %>% ggplot(aes(year, win_perc, fill=h_name)) + 
   geom_bar(stat = "identity", position = "dodge") + 
@@ -178,10 +178,13 @@ payroll_win %>%
 ggplot(aes(payroll,win_perc)) + 
   scale_x_log10() +
   geom_point(aes(color = year)) +
+  labs(x = "Winning Percentage", y = "Payroll", 
+    title = "Relationship Between Winning Percentage and Payroll for Each Team") +
   geom_smooth(formula = y ~ x, method='lm', color = "red", lwd = 0.5, se = FALSE) +
   facet_wrap(vars(h_name), scales = "free", ncol = 5) +
   theme(strip.text.x = element_text(size = 12, face = "bold")) +
-  theme(strip.background = element_rect(color = "black", fill = "#F0F8FF", size = 1, linetype = "solid"))
+  theme(strip.background = element_rect(color = "black", fill = "#F0F8FF", size = 1, linetype = "solid")) +
+  scale_fill_discrete(name = "Year")
 ```
 \
 The slopes for each plot above are provided in a table below as well as a bar graph to compare the number of slopes that are positive and negative.\
@@ -261,6 +264,9 @@ payroll_hits %>%
   geom_point(aes(color = year)) +
   geom_smooth(formula = y ~ x, method='lm', color = "red", lwd = 0.8, se = FALSE) +
   facet_wrap(vars(h_name), scales = "free", ncol = 5) +
+  labs(x = "Total Hits", y = "Payroll", 
+    title = "Relationship Between Total Hits and Payroll for 15 Positive Relationship Teams") +
+  scale_fill_discrete(name = "Year") +
   theme(strip.text.x = element_text(size = 12, face = "bold")) +
   theme(strip.background = element_rect(color = "black", fill = "#F0F8FF", size = 1, linetype = "solid"))
 ```
@@ -295,6 +301,9 @@ payroll_hruns %>%
   geom_point(aes(color = year)) +
   geom_smooth(formula = y ~ x, method='lm', color = "red", lwd = 0.8, se = FALSE) +
   facet_wrap(vars(h_name), scales = "free", ncol = 5) +
+  labs(x = "Total Homeruns", y = "Payroll", 
+    title = "Relationship Between Total Homeruns and Payroll for 15 Positive Relationship Teams") +
+  scale_fill_discrete(name = "Year") +
   theme(strip.text.x = element_text(size = 12, face = "bold")) +
   theme(strip.background = element_rect(color = "black", fill = "#F0F8FF", size = 1, linetype = "solid"))
 ```
@@ -331,6 +340,9 @@ payroll_so %>%
   geom_point(aes(color = year)) +
   geom_smooth(formula = y ~ x, method='lm', color = "red", lwd = 0.8, se = FALSE) +
   facet_wrap(vars(h_name), scales = "free", ncol = 5) +
+  labs(x = "Total Strikeouts", y = "Payroll", 
+    title = "Relationship Between Total Strikeouts and Payroll for 15 Positive Relationship Teams") +
+  scale_fill_discrete(name = "Year") +
   theme(strip.text.x = element_text(size = 12, face = "bold")) +
   theme(strip.background = element_rect(color = "black", fill = "#F0F8FF", size = 1, linetype = "solid"))
 ```
@@ -365,6 +377,9 @@ payroll_er %>%
   geom_point(aes(color = year)) +
   geom_smooth(formula = y ~ x, method='lm', color = "red", lwd = 0.8, se = FALSE) +
   facet_wrap(vars(h_name), scales = "free", ncol = 5) +
+  labs(x = "Total Earned Runs", y = "Payroll", 
+    title = "Relationship Between Total Earned Runs and Payroll for 15 Positive Relationship Teams") +
+  scale_fill_discrete(name = "Year") +
   theme(strip.text.x = element_text(size = 12, face = "bold")) +
   theme(strip.background = element_rect(color = "black", fill = "#F0F8FF", size = 1, linetype = "solid"))
 ```
