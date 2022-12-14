@@ -179,12 +179,11 @@ ggplot(aes(payroll,win_perc)) +
   scale_x_log10() +
   geom_point(aes(color = year)) +
   labs(x = "Winning Percentage", y = "Payroll", 
-    title = "Relationship Between Winning Percentage and Payroll for Each Team") +
+    title = "Relationship Between Winning Percentage and Payroll for Each Team", color = "Year") +
   geom_smooth(formula = y ~ x, method='lm', color = "red", lwd = 0.5, se = FALSE) +
   facet_wrap(vars(h_name), scales = "free", ncol = 5) +
   theme(strip.text.x = element_text(size = 12, face = "bold")) +
-  theme(strip.background = element_rect(color = "black", fill = "#F0F8FF", size = 1, linetype = "solid")) +
-  scale_fill_discrete(name = "Year")
+  theme(strip.background = element_rect(color = "black", fill = "#F0F8FF", size = 1, linetype = "solid"))
 ```
 \
 The slopes for each plot above are provided in a table below as well as a bar graph to compare the number of slopes that are positive and negative.\
@@ -217,7 +216,8 @@ slopes %>%
   geom_bar(stat = "identity", aes(fill = estimate)) +
   scale_fill_gradient(high = "#152238", low = "#BCD2E8") +
   labs(x = "Teams", y = "Slope", title = "Slopes of Winning Percentage Against Payroll for Each Team") +
-  scale_x_discrete(guide = guide_axis(n.dodge=2)))
+  scale_x_discrete(guide = guide_axis(n.dodge=2))) +
+  theme(legend.position = "none")
 
 ```
 
@@ -264,9 +264,8 @@ payroll_hits %>%
   geom_point(aes(color = year)) +
   geom_smooth(formula = y ~ x, method='lm', color = "red", lwd = 0.8, se = FALSE) +
   facet_wrap(vars(h_name), scales = "free", ncol = 5) +
-  labs(x = "Total Hits", y = "Payroll", 
-    title = "Relationship Between Total Hits and Payroll for 15 Positive Relationship Teams") +
-  scale_fill_discrete(name = "Year") +
+  labs(x = "Payroll", y = "Total Hits", 
+    title = "Relationship Between Total Hits and Payroll for 15 Positive Relationship Teams", color = "Year") +
   theme(strip.text.x = element_text(size = 12, face = "bold")) +
   theme(strip.background = element_rect(color = "black", fill = "#F0F8FF", size = 1, linetype = "solid"))
 ```
@@ -301,9 +300,8 @@ payroll_hruns %>%
   geom_point(aes(color = year)) +
   geom_smooth(formula = y ~ x, method='lm', color = "red", lwd = 0.8, se = FALSE) +
   facet_wrap(vars(h_name), scales = "free", ncol = 5) +
-  labs(x = "Total Homeruns", y = "Payroll", 
-    title = "Relationship Between Total Homeruns and Payroll for 15 Positive Relationship Teams") +
-  scale_fill_discrete(name = "Year") +
+  labs(x = "Payroll", y = "Total Homeruns", 
+    title = "Relationship Between Total Homeruns and Payroll for 15 Positive Relationship Teams", color = "Year") +
   theme(strip.text.x = element_text(size = 12, face = "bold")) +
   theme(strip.background = element_rect(color = "black", fill = "#F0F8FF", size = 1, linetype = "solid"))
 ```
@@ -340,9 +338,8 @@ payroll_so %>%
   geom_point(aes(color = year)) +
   geom_smooth(formula = y ~ x, method='lm', color = "red", lwd = 0.8, se = FALSE) +
   facet_wrap(vars(h_name), scales = "free", ncol = 5) +
-  labs(x = "Total Strikeouts", y = "Payroll", 
-    title = "Relationship Between Total Strikeouts and Payroll for 15 Positive Relationship Teams") +
-  scale_fill_discrete(name = "Year") +
+  labs(x = "Payroll", y = "Total Strikeouts", 
+    title = "Relationship Between Total Strikeouts and Payroll for 15 Positive Relationship Teams", color = "Year") +
   theme(strip.text.x = element_text(size = 12, face = "bold")) +
   theme(strip.background = element_rect(color = "black", fill = "#F0F8FF", size = 1, linetype = "solid"))
 ```
@@ -377,9 +374,8 @@ payroll_er %>%
   geom_point(aes(color = year)) +
   geom_smooth(formula = y ~ x, method='lm', color = "red", lwd = 0.8, se = FALSE) +
   facet_wrap(vars(h_name), scales = "free", ncol = 5) +
-  labs(x = "Total Earned Runs", y = "Payroll", 
-    title = "Relationship Between Total Earned Runs and Payroll for 15 Positive Relationship Teams") +
-  scale_fill_discrete(name = "Year") +
+  labs(x = "Payroll", y = "Total Earned Runs Against", 
+    title = "Relationship Between Total Earned Runs and Payroll for 15 Positive Relationship Teams", color = "Year") +
   theme(strip.text.x = element_text(size = 12, face = "bold")) +
   theme(strip.background = element_rect(color = "black", fill = "#F0F8FF", size = 1, linetype = "solid"))
 ```
