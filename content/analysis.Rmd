@@ -148,7 +148,7 @@ summary(payroll_mod)$coefficients %>%
   kable(caption = "Linear Model",
       align = "c",
       col.names = c("estimate", "standard error", "t value", "p value"),
-      digits = c(2, 3, 2, 4)
+      digits = c(2, 3, 2, 5)
       ) %>% 
   kable_classic_2(html_font = "Georgia") %>% 
   kable_styling(position = "center")
