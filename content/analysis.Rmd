@@ -424,7 +424,8 @@ According to the plots, as payroll increases, the total earned runs for 10 of th
 
 ## Negative Relationship
 
-We will now analyze the Decreased Performance Teams to observe why their winning percentage decreases as their payroll increases. We have chosen to look at 2 of the 15 Decreased Performance Teams and generalize our results to the other 13 teams. First, we look at the Oakland Athletics. 
+We will now analyze the Decreased Performance Teams to observe why their winning percentage decreases as their payroll increases. We have chosen to look at 2 of the 15 Decreased Performance Teams and generalize our results to the other 13 teams. First, we look at the Oakland Athletics. \
+\
 
 ```{r OAK, echo = FALSE}
 oak <- payroll_win %>% filter(h_name == "OAK") %>% 
@@ -444,9 +445,11 @@ kable_styling(position = "center") %>%
 scroll_box(height = "200px", width = "100%")
 ```
 \
-Oakland's largest payroll increase from one year to the next was from the year 2013 to 2014. From 2013 to 2014, there was a \$22 million increase in their payroll, yet their winning percentage decreased by about 5%. Since the performance of the Oakland Athletics did not increase as their payroll increased, we looked at what the team possibly lost from 2013 to 2014 resulting in this decreased winning percentage despite an increase in payroll.\
-
-```{r OAK_pitchers, echo = FALSE}
+Oakland's largest payroll increase from one year to the next was from the year 2013 to 2014. From 2013 to 2014, there was a 22 million dollar increase in their payroll, yet their winning percentage decreased by about 5%. Since the performance of the Oakland Athletics did not increase as their payroll increased, we looked at what the team possibly lost from 2013 to 2014 resulting in this decreased winning percentage despite an increase in payroll.\
+\
+As a result of our findings from the analysis of the positive relationship between payroll and winning percentage, we chose to focus on what pitchers Oakland lost from the 2013 season to the 2014 season. We first summed the number of home games and away games each starting pitcher started for the year of 2013. We then summed the number of times each starting pitcher was named the winning pitcher. A [winning pitcher](https://www.mlb.com/glossary/standard-stats/win) is defined as the pitcher who last pitched when his team takes and maintains the lead. We then divided each pitcher's winning pitcher sum and games started sum and called this the pitcher's winning proportion. We repeated this process for the 2014 season and filtered only those pitchers who pitched over 30 games to compare winning proportions. The results are provided in the following tables.\
+\
+```{r OAK_pitchers_13, echo = FALSE}
 #2013
 home <- baseball %>% filter(h_name == "OAK", year == 2013) %>% 
   group_by(h_starting_pitcher_name) %>% 
@@ -463,15 +466,18 @@ away <- baseball %>% filter(v_name == "OAK", year == 2013) %>%
 home %>% left_join(away, by = c("h_starting_pitcher_name" = "v_starting_pitcher_name")) %>% 
   mutate(games_started = h_started + v_started, games_won = h_won + v_won, win_prop = games_won/games_started) %>% 
   filter(games_started >= 30) %>% 
+  arrange(desc(win_prop)) %>% 
   select(h_starting_pitcher_name, games_started, games_won, win_prop) %>% 
   kable(caption = "2013 Top Pitchers",
         col.names = c("Starting Pitcher", "Games Started", "Games Won", "Winning Proportion"),
         align = "c",
         digits = 2) %>% 
-kable_paper(full_width = TRUE, "hover") %>% 
-kable_classic_2(html_font = "Georgia") %>% 
-kable_styling(position = "center")
+  kable_paper(full_width = TRUE, "hover") %>% 
+  kable_classic_2(html_font = "Georgia") %>% 
+  kable_styling(position = "center")
+```
 
+```{r OAK_pitchers_14, echo = FALSE}
 #2014
 home2 <- baseball %>% filter(h_name == "OAK", year == 2014) %>% 
   group_by(h_starting_pitcher_name) %>% 
@@ -488,6 +494,7 @@ away2 <- baseball %>% filter(v_name == "OAK", year == 2014) %>%
 home2 %>% left_join(away2, by = c("h_starting_pitcher_name" = "v_starting_pitcher_name")) %>% 
   mutate(games_started = h_started + v_started, games_won = h_won + v_won, win_prop = games_won/games_started) %>% 
   filter(games_started >= 30) %>% 
+  arrange(desc(win_prop)) %>% 
   select(h_starting_pitcher_name, games_started, games_won, win_prop) %>% 
   kable(caption = "2014 Top Pitchers",
         col.names = c("Starting Pitcher", "Games Started", "Games Won", "Winning Proportion"),
@@ -498,17 +505,19 @@ home2 %>% left_join(away2, by = c("h_starting_pitcher_name" = "v_starting_pitche
   kable_styling(position = "center")
 ```
 \
-Next, we looked at the Chicago White Sox.
+When comparing the winning proportions of the top Oakland pitchers for the 2013 and 2014 seasons, we see one pitcher stand out: [Bartolo Colón](https://www.mlb.com/player/bartolo-colon-112526). With a winning proportion of about 60%, Colón was traded to the New York Mets in 2014. Colón, along with two other pitchers who started in more than 30 games, did not return to Oakland for the 2014 season. In 2014, Oakland dropped to only having two pitchers start in over 30 games with winning proportions more than 10% less than Colón's. 
 \
-```{r CHA, echo = FALSE}
-cha <- payroll_win %>% filter(h_name == "CHA") %>% 
+Next, we looked at the Atlanta Braves.\
+\
+```{r ATL, echo = FALSE}
+atl <- payroll_win %>% filter(h_name == "ATL") %>% 
   mutate(diff = payroll - lag(payroll), diff2 = win_perc - lag(win_perc)) %>% 
   arrange(desc(diff)) %>% 
   ungroup() %>% 
   select(year, win_perc, payroll, diff, diff2)
 
-kable((cha[, 1:5]),
-        caption = "Chicago White Sox Highest and Lowest Payroll Years",
+kable((atl[, 1:5]),
+        caption = "Atlanta Braves Highest and Lowest Payroll Years",
         col.names = c("Year", "Winning Percentage", "Payroll (millions)", "Payroll Difference from Previous Year", "Winning Percentage Difference from Previous Year"),
         align = "c",
         digits = 2) %>% 
@@ -518,17 +527,17 @@ kable_styling(position = "center") %>%
 scroll_box(height = "200px", width = "100%")
 ```
 \
-For the Chicago White Sox, the largest payroll increase from one year to the next was from the year 2000 to 2001. From these two years there was a \$31 million increase in their payroll with their winning percentage decreasing by 7.41%. Similar to the Oakland Athletics, we looked at what pitchers the White Sox lost from 2000 to 2001 resulting in this decreased winning percentage despite a \$31 million increase in payroll.\
-
+For the Atlanta Braves, the largest payroll increase from one year to the next was also from the years 2013 to 2014. From these two years there was a 21 million dollar increase in their payroll with their winning percentage decreasing by about 10%. Similar to the Oakland Athletics, we looked at what pitchers the Braves lost from 2013 to 2014 resulting in this decreased winning percentage despite a 31 million dollar increase in payroll.\
+\
 ```{r CHA_pitchers, echo = FALSE}
 #2000
-home3 <- baseball %>% filter(h_name == "CHA", year == 2000) %>% 
+home3 <- baseball %>% filter(h_name == "ATL", year == 2013) %>% 
   group_by(h_starting_pitcher_name) %>% 
   summarize(h_started = n(), 
             h_won = sum(h_starting_pitcher_name == winning_pitcher_name)) %>% 
   arrange(desc(h_started))
 
-away3 <- baseball %>% filter(v_name == "CHA", year == 2000) %>% 
+away3 <- baseball %>% filter(v_name == "ATL", year == 2013) %>% 
   group_by(v_starting_pitcher_name) %>% 
   summarize(v_started = n(), 
             v_won = sum(v_starting_pitcher_name == winning_pitcher_name)) %>% 
@@ -540,16 +549,17 @@ top_perc0 <- home3 %>% left_join(away3, by = c("h_starting_pitcher_name" = "v_st
          games_won = h_won + v_won, 
          win_prop = games_won/games_started) %>% 
   filter(games_started >= 30) %>% 
-  select(h_starting_pitcher_name, games_started, games_won, win_prop)
+  select(h_starting_pitcher_name, games_started, games_won, win_prop) %>% 
+  arrange(desc(win_prop))
 
 #2001
-home4 <- baseball %>% filter(h_name == "CHA", year == 2001) %>% 
+home4 <- baseball %>% filter(h_name == "ATL", year == 2014) %>% 
   group_by(h_starting_pitcher_name) %>% 
   summarize(h_started = n(), 
             h_won = sum(h_starting_pitcher_name == winning_pitcher_name)) %>% 
   arrange(desc(h_started))
 
-away4 <- baseball %>% filter(v_name == "CHA", year == 2001) %>% 
+away4 <- baseball %>% filter(v_name == "ATL", year == 2014) %>% 
   group_by(v_starting_pitcher_name) %>% 
   summarize(v_started = n(), 
             v_won = sum(v_starting_pitcher_name == winning_pitcher_name)) %>% 
@@ -558,58 +568,47 @@ away4 <- baseball %>% filter(v_name == "CHA", year == 2001) %>%
 top_perc1 <- home4 %>% left_join(away4, by = c("h_starting_pitcher_name" = "v_starting_pitcher_name")) %>% 
   mutate(games_started = h_started + v_started, games_won = h_won + v_won, win_prop = games_won/games_started) %>% 
   filter(games_started >= 30) %>% 
-  select(h_starting_pitcher_name, games_started, games_won, win_prop)
-
-
-
-
-
-#summarize remaining pitchers
-pitchers00 <- home3 %>% left_join(away3, by = c("h_starting_pitcher_name" = "v_starting_pitcher_name")) %>% 
-  replace(is.na(.),0) %>% 
-  mutate(games_started = h_started + v_started, 
-         games_won = h_won + v_won, 
-         win_prop = games_won/games_started) %>% 
-  select(h_starting_pitcher_name, games_started, games_won, win_prop)
-
-tib0 <- tibble(h_starting_pitcher_name = "Others",
-       games_started = sum(pitchers00$games_started[3:13]),
-       games_won = sum(pitchers00$games_won[3:13]),
-       win_prop = games_won/games_started)
-
-top_perc0 %>% add_row(tib0) %>% 
-  ggplot(aes(x = reorder(h_starting_pitcher_name, win_prop), y = win_prop, fill = h_starting_pitcher_name)) +
-  geom_bar(stat = "identity") +
-  coord_flip() +
-  labs(x = "Starting Pitcher Name", y = "Winning Pitcher Proportion") +
-  theme(legend.position = "none")
-
-
-pitchers01 <- home4 %>% left_join(away4, by = c("h_starting_pitcher_name" = "v_starting_pitcher_name")) %>% 
-  mutate(games_started = h_started + v_started, 
-         games_won = h_won + v_won, 
-         win_prop = games_won/games_started) %>% 
-  select(h_starting_pitcher_name, games_started, games_won, win_prop)
-
-tib1 <- tibble(h_starting_pitcher_name = "Others",
-       games_started = sum(pitchers01$games_started[2:11]),
-       games_won = sum(pitchers01$games_won[2:11]),
-       win_prop = games_won/games_started)
-
-top_perc1 %>% add_row(tib1) %>% 
-  ggplot(aes(x = reorder(h_starting_pitcher_name, win_prop), y = win_prop, fill = h_starting_pitcher_name)) +
-  geom_bar(stat = "identity") +
-  coord_flip() +
-  labs(x = "Starting Pitcher Name", y = "Winning Pitcher Proportion") +
-  theme(legend.position = "none")
-
+  select(h_starting_pitcher_name, games_started, games_won, win_prop) %>% 
+  arrange(desc(win_prop))
 ```
 
+Similar to the Oakland Athletics, we calculated the winning proportion for those starting pitchers who started in at least 30 games for the 2013 and 2014 seasons of the Atlanta Braves.
+
+```{r pitchers_graph1, echo = FALSE}
+#summarize remaining pitchers
+top_perc0 %>% 
+  ggplot(aes(x = reorder(h_starting_pitcher_name, win_prop), y = win_prop, fill = h_starting_pitcher_name)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(x = "Starting Pitcher Name", y = "Winning Pitcher Proportion", title = "Atlanta Braves 2013 Top Pitchers") +
+  theme(legend.position = "none",
+        axis.text.x = element_text(size = 12),
+        axis.text.y = element_text(size = 13)) +
+  scale_fill_brewer(palette = "Pastel1") +
+  geom_text(aes(label=round(win_prop, digits = 2)), hjust = 1.3, size = 4)
+```
+\
+```{r pitchers_graph2, echo = FALSE}
+
+top_perc1 %>%
+  ggplot(aes(x = reorder(h_starting_pitcher_name, win_prop), y = win_prop, fill = h_starting_pitcher_name)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(x = "Starting Pitcher Name", y = "Winning Pitcher Proportion", title = "Atlanta Braves 2014 Top Pitchers") +
+  theme(legend.position = "none",
+        axis.text.x = element_text(size = 12),
+        axis.text.y = element_text(size = 13)) +
+  scale_fill_brewer(palette = "Pastel1") +
+  geom_text(aes(label=round(win_prop, digits = 2)), hjust = 1.3, size = 4)
+
+```
+\
+In 2013, the pitcher with the highest winning proportion having pitched at least 30 games was [Kris Medlen](https://www.mlb.com/player/kris-medlen-450665). Following Medlen, was Julio Teheran and Mike Minor. Two of Atlanta's top pitchers in 2013 had a winning proportion over 0.45 while only one pitcher, Ervin Santana, had a winning proportion of 0.45 in 2014. Medlen's pitching did not appear in the 2014 Atlanta season due to a Tommy John surgery. While Teheran and Minor both returned for the 2014 season, Minor started in 7 fewer games and their performances did not match that of the previous year. 
 
 
 ## Limitations
 
 for negative relationship, we only look at 2 of 15 teams and then generalize. what we find for those two teams may not be the case for other 13 teams.
 
-we only looked at loss of pitchers for negative relationship, we didnt look at any of the other positions.
+we only looked at loss of pitchers for negative relationship, we didnt look at any of the other positions and we didnt look at what they lost offensively
 
