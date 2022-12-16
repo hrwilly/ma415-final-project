@@ -221,7 +221,7 @@ slopes %>%
 ```
 
 \
-From these faceted plots, it is not consistent among all teams that as payroll increases, winning percentage also increases. For exactly half of the MLB teams, as payroll increases, their winning percentage for that year decreases.\
+From these faceted plots, it is not consistent among all teams that as payroll increases, winning percentage also increases. For exactly half of the MLB teams, as payroll increases, their winning percentage for that year decreases. Those 15 teams that have a positive slope between their winning percentage and payroll for each season will be named "Increased Performance Teams" while those 15 teams with negative slopes we have named "Decreased Performance Teams."\
 \
 In our analyses that follow, we look at what factors influence this divide between a positive and negative relationship between payroll and winning percentage.\
 \
@@ -233,7 +233,7 @@ In our analyses that follow, we look at what factors influence this divide betwe
 pos_slope <- slopes %>% filter(estimate > 0)
 ```
 
-When analyzing those 15 teams with a positive relationship between payroll and winning percentage, we wanted to further look at the relationships between payroll and certain game statistics for each season. We first looked at payroll and hits to see if an increase in the number of hits per season was influencing this positive relationship. To do this, we calculated the total hits for each team each year by summing their home hits and their away hits. We then joined this dataset with the payroll dataset and plotted the total hits of each team against their payroll for each year between 2000 and 2016.\
+When analyzing the Increased Performance Teams, we wanted to further look at the relationships between payroll and certain game statistics for each season. We first looked at payroll and hits to see if an increase in the number of hits per season was influencing this increased winning percentage as payroll increased. To do this, we calculated the total hits for each team each year by summing their home hits and their away hits. We then joined this dataset with the payroll dataset and plotted the total hits of each team against their payroll for each year between 2000 and 2016.\
 \
 ```{r payroll_hits, echo = FALSE}
 #home hits per team per year
@@ -274,7 +274,7 @@ payroll_hits %>% group_by(h_name) %>%
   geom_smooth(formula = y ~ x, method='lm', color = "red", lwd = 0.8, se = FALSE) +
   facet_wrap(facets = ~fct_reorder(h_name, estimate, .desc = T), scales = "free", ncol = 5) +
   labs(x = "Payroll", y = "Total Hits", 
-    title = "Relationship Between Total Hits and Payroll for 15 Positive Relationship Teams", color = "Year") +
+    title = "Relationship Between Total Hits and Payroll for Increased Performance Teams", color = "Year") +
   theme(strip.text.x = element_text(size = 12, face = "bold")) +
   theme(strip.background = element_rect(color = "black", fill = "#eff9da", size = 1, linetype = "solid"))
 ```
@@ -320,7 +320,7 @@ payroll_hruns %>% group_by(h_name) %>%
   geom_smooth(formula = y ~ x, method='lm', color = "red", lwd = 0.8, se = FALSE) +
   facet_wrap(facets = ~fct_reorder(h_name, estimate, .desc = T), scales = "free", ncol = 5) +
   labs(x = "Payroll", y = "Total Homeruns", 
-    title = "Relationship Between Total Homeruns and Payroll for 15 Positive Relationship Teams", color = "Year") +
+    title = "Relationship Between Total Homeruns and Payroll for Increased Performance Teams", color = "Year") +
   theme(strip.text.x = element_text(size = 12, face = "bold")) +
   theme(strip.background = element_rect(color = "black", fill = "#f9d8d6", size = 1, linetype = "solid"))
 ```
@@ -368,7 +368,7 @@ payroll_so %>% group_by(h_name) %>%
   geom_smooth(formula = y ~ x, method='lm', color = "red", lwd = 0.8, se = FALSE) +
   facet_wrap(facets = ~fct_reorder(h_name, estimate, .desc = T), scales = "free", ncol = 5) +
   labs(x = "Payroll", y = "Total Strikeouts", 
-    title = "Relationship Between Total Strikeouts and Payroll for 15 Positive Relationship Teams", color = "Year") +
+    title = "Relationship Between Total Strikeouts and Payroll for Increased Performance Teams", color = "Year") +
   theme(strip.text.x = element_text(size = 12, face = "bold")) +
   theme(strip.background = element_rect(color = "black", fill = "#d6cdea", size = 1, linetype = "solid"))
 ```
@@ -414,7 +414,7 @@ payroll_er %>% group_by(h_name) %>%
   geom_smooth(formula = y ~ x, method='lm', color = "red", lwd = 0.8, se = FALSE) +
   facet_wrap(facets = ~fct_reorder(h_name, estimate, .desc = T), scales = "free", ncol = 5) +
   labs(x = "Payroll", y = "Total Earned Runs Against", 
-    title = "Relationship Between Total Earned Runs and Payroll for 15 Positive Relationship Teams", color = "Year") +
+    title = "Relationship Between Total Earned Runs and Payroll for Increased Performance Teams", color = "Year") +
   theme(strip.text.x = element_text(size = 12, face = "bold")) +
   theme(strip.background = element_rect(color = "black", fill = "#ffe7c7", size = 1, linetype = "solid"))
 ```
@@ -424,173 +424,192 @@ According to the plots, as payroll increases, the total earned runs for 10 of th
 
 ## Negative Relationship
 
-(more work to be done here)
+We will now analyze the Decreased Performance Teams to observe why their winning percentage decreases as their payroll increases. We have chosen to look at 2 of the 15 Decreased Performance Teams and generalize our results to the other 13 teams. First, we look at the Oakland Athletics. 
 
-```{r PIT_CHA, eval = FALSE}
-#Pittsburgh Pirates are a team who match positive relationship
-pit <- payroll_win %>% filter(h_name == "PIT")
-pit_mod <- lm(win_perc~log(payroll), data = pit)
-pit_beta <- coef(pit_mod)
-ggplot(pit) + geom_point(aes(log(payroll), win_perc)) + 
-  geom_abline(intercept = pit_beta[1], slope = pit_beta[2], color = "red")
+```{r OAK, echo = FALSE}
+oak <- payroll_win %>% filter(h_name == "OAK") %>% 
+  mutate(diff = payroll - lag(payroll), diff2 = win_perc - lag(win_perc)) %>% 
+  arrange(desc(diff)) %>% 
+  ungroup() %>% 
+  select(year, win_perc, payroll, diff, diff2)
 
-#Chicago White Sox are a team who match negative relationship
-cha <- payroll_win %>% filter(h_name == "CHA")
-cha_mod <- lm(win_perc~log(payroll), data = cha)
-cha_beta <- coef(cha_mod)
-ggplot(cha) + geom_point(aes(log(payroll), win_perc)) + 
-  geom_abline(intercept = cha_beta[1], slope = cha_beta[2], color = "red")
+kable((oak[, 1:5]),
+        caption = "Oakland Athletics Highest and Lowest Payroll Years",
+        col.names = c("Year", "Winning Percentage", "Payroll (millions)", "Payroll Difference from Previous Year", "Winning Percentage Difference from Previous Year"),
+        align = "c",
+        digits = 2) %>% 
+kable_paper(full_width = TRUE, "hover") %>% 
+kable_classic_2(html_font = "Georgia") %>% 
+kable_styling(position = "center") %>% 
+scroll_box(height = "200px", width = "100%")
+```
+\
+Oakland's largest payroll increase from one year to the next was from the year 2013 to 2014. From 2013 to 2014, there was a \$22 million increase in their payroll, yet their winning percentage decreased by about 5%. Since the performance of the Oakland Athletics did not increase as their payroll increased, we looked at what the team possibly lost from 2013 to 2014 resulting in this decreased winning percentage despite an increase in payroll.\
+
+```{r OAK_pitchers, echo = FALSE}
+#2013
+home <- baseball %>% filter(h_name == "OAK", year == 2013) %>% 
+  group_by(h_starting_pitcher_name) %>% 
+  summarize(h_started = n(), 
+            h_won = sum(h_starting_pitcher_name == winning_pitcher_name)) %>% 
+  arrange(desc(h_started))
+
+away <- baseball %>% filter(v_name == "OAK", year == 2013) %>% 
+  group_by(v_starting_pitcher_name) %>% 
+  summarize(v_started = n(), 
+            v_won = sum(v_starting_pitcher_name == winning_pitcher_name)) %>% 
+  arrange(desc(v_started))
+
+home %>% left_join(away, by = c("h_starting_pitcher_name" = "v_starting_pitcher_name")) %>% 
+  mutate(games_started = h_started + v_started, games_won = h_won + v_won, win_prop = games_won/games_started) %>% 
+  filter(games_started >= 30) %>% 
+  select(h_starting_pitcher_name, games_started, games_won, win_prop) %>% 
+  kable(caption = "2013 Top Pitchers",
+        col.names = c("Starting Pitcher", "Games Started", "Games Won", "Winning Proportion"),
+        align = "c",
+        digits = 2) %>% 
+kable_paper(full_width = TRUE, "hover") %>% 
+kable_classic_2(html_font = "Georgia") %>% 
+kable_styling(position = "center")
+
+#2014
+home2 <- baseball %>% filter(h_name == "OAK", year == 2014) %>% 
+  group_by(h_starting_pitcher_name) %>% 
+  summarize(h_started = n(), 
+            h_won = sum(h_starting_pitcher_name == winning_pitcher_name)) %>% 
+  arrange(desc(h_started))
+
+away2 <- baseball %>% filter(v_name == "OAK", year == 2014) %>% 
+  group_by(v_starting_pitcher_name) %>% 
+  summarize(v_started = n(), 
+            v_won = sum(v_starting_pitcher_name == winning_pitcher_name)) %>% 
+  arrange(desc(v_started))
+
+home2 %>% left_join(away2, by = c("h_starting_pitcher_name" = "v_starting_pitcher_name")) %>% 
+  mutate(games_started = h_started + v_started, games_won = h_won + v_won, win_prop = games_won/games_started) %>% 
+  filter(games_started >= 30) %>% 
+  select(h_starting_pitcher_name, games_started, games_won, win_prop) %>% 
+  kable(caption = "2014 Top Pitchers",
+        col.names = c("Starting Pitcher", "Games Started", "Games Won", "Winning Proportion"),
+        align = "c",
+        digits = 2) %>% 
+  kable_paper(full_width = TRUE, "hover") %>% 
+  kable_classic_2(html_font = "Georgia") %>% 
+  kable_styling(position = "center")
+```
+\
+Next, we looked at the Chicago White Sox.
+\
+```{r CHA, echo = FALSE}
+cha <- payroll_win %>% filter(h_name == "CHA") %>% 
+  mutate(diff = payroll - lag(payroll), diff2 = win_perc - lag(win_perc)) %>% 
+  arrange(desc(diff)) %>% 
+  ungroup() %>% 
+  select(year, win_perc, payroll, diff, diff2)
+
+kable((cha[, 1:5]),
+        caption = "Chicago White Sox Highest and Lowest Payroll Years",
+        col.names = c("Year", "Winning Percentage", "Payroll (millions)", "Payroll Difference from Previous Year", "Winning Percentage Difference from Previous Year"),
+        align = "c",
+        digits = 2) %>% 
+kable_paper(full_width = TRUE, "hover") %>% 
+kable_classic_2(html_font = "Georgia") %>% 
+kable_styling(position = "center") %>% 
+scroll_box(height = "200px", width = "100%")
+```
+\
+For the Chicago White Sox, the largest payroll increase from one year to the next was from the year 2000 to 2001. From these two years there was a \$31 million increase in their payroll with their winning percentage decreasing by 7.41%. Similar to the Oakland Athletics, we looked at what pitchers the White Sox lost from 2000 to 2001 resulting in this decreased winning percentage despite a \$31 million increase in payroll.\
+
+```{r CHA_pitchers, echo = FALSE}
+#2000
+home3 <- baseball %>% filter(h_name == "CHA", year == 2000) %>% 
+  group_by(h_starting_pitcher_name) %>% 
+  summarize(h_started = n(), 
+            h_won = sum(h_starting_pitcher_name == winning_pitcher_name)) %>% 
+  arrange(desc(h_started))
+
+away3 <- baseball %>% filter(v_name == "CHA", year == 2000) %>% 
+  group_by(v_starting_pitcher_name) %>% 
+  summarize(v_started = n(), 
+            v_won = sum(v_starting_pitcher_name == winning_pitcher_name)) %>% 
+  arrange(desc(v_started))
+
+top_perc0 <- home3 %>% left_join(away3, by = c("h_starting_pitcher_name" = "v_starting_pitcher_name")) %>% 
+  replace(is.na(.),0) %>% 
+  mutate(games_started = h_started + v_started, 
+         games_won = h_won + v_won, 
+         win_prop = games_won/games_started) %>% 
+  filter(games_started >= 30) %>% 
+  select(h_starting_pitcher_name, games_started, games_won, win_prop)
+
+#2001
+home4 <- baseball %>% filter(h_name == "CHA", year == 2001) %>% 
+  group_by(h_starting_pitcher_name) %>% 
+  summarize(h_started = n(), 
+            h_won = sum(h_starting_pitcher_name == winning_pitcher_name)) %>% 
+  arrange(desc(h_started))
+
+away4 <- baseball %>% filter(v_name == "CHA", year == 2001) %>% 
+  group_by(v_starting_pitcher_name) %>% 
+  summarize(v_started = n(), 
+            v_won = sum(v_starting_pitcher_name == winning_pitcher_name)) %>% 
+  arrange(desc(v_started))
+
+top_perc1 <- home4 %>% left_join(away4, by = c("h_starting_pitcher_name" = "v_starting_pitcher_name")) %>% 
+  mutate(games_started = h_started + v_started, games_won = h_won + v_won, win_prop = games_won/games_started) %>% 
+  filter(games_started >= 30) %>% 
+  select(h_starting_pitcher_name, games_started, games_won, win_prop)
+
+
+
+
+
+#summarize remaining pitchers
+pitchers00 <- home3 %>% left_join(away3, by = c("h_starting_pitcher_name" = "v_starting_pitcher_name")) %>% 
+  replace(is.na(.),0) %>% 
+  mutate(games_started = h_started + v_started, 
+         games_won = h_won + v_won, 
+         win_prop = games_won/games_started) %>% 
+  select(h_starting_pitcher_name, games_started, games_won, win_prop)
+
+tib0 <- tibble(h_starting_pitcher_name = "Others",
+       games_started = sum(pitchers00$games_started[3:13]),
+       games_won = sum(pitchers00$games_won[3:13]),
+       win_prop = games_won/games_started)
+
+top_perc0 %>% add_row(tib0) %>% 
+  ggplot(aes(x = reorder(h_starting_pitcher_name, win_prop), y = win_prop, fill = h_starting_pitcher_name)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(x = "Starting Pitcher Name", y = "Winning Pitcher Proportion") +
+  theme(legend.position = "none")
+
+
+pitchers01 <- home4 %>% left_join(away4, by = c("h_starting_pitcher_name" = "v_starting_pitcher_name")) %>% 
+  mutate(games_started = h_started + v_started, 
+         games_won = h_won + v_won, 
+         win_prop = games_won/games_started) %>% 
+  select(h_starting_pitcher_name, games_started, games_won, win_prop)
+
+tib1 <- tibble(h_starting_pitcher_name = "Others",
+       games_started = sum(pitchers01$games_started[2:11]),
+       games_won = sum(pitchers01$games_won[2:11]),
+       win_prop = games_won/games_started)
+
+top_perc1 %>% add_row(tib1) %>% 
+  ggplot(aes(x = reorder(h_starting_pitcher_name, win_prop), y = win_prop, fill = h_starting_pitcher_name)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(x = "Starting Pitcher Name", y = "Winning Pitcher Proportion") +
+  theme(legend.position = "none")
+
 ```
 
 
-
-```{r modeling, eval = FALSE}
-
-payroll_win <- win_perc %>% left_join(mlb_payroll, by = c("year", "h_name")) %>% filter(!is.na(payroll))
-(payroll_mod <- lm(win_perc ~ log(payroll), data = payroll_win))
-beta <- coef(payroll_mod)
-
-# for all teams, as payroll increases, winning percentage for a given year increases
-ggplot(payroll_win) + geom_point(aes(log(payroll), win_perc, color = h_name)) + 
-  geom_abline(intercept = beta[1], slope = beta[2], color = "red")
-
-#faceted
-ggplot(payroll_win,aes(log(payroll),win_perc))+geom_point(aes(color = year), size = 0.5)+
-                                            geom_smooth(method='lm')+
-                                            facet_wrap(vars(h_name))
-
-#Pittsburgh pirates are a team who match this overall pattern
-pit <- payroll_win %>% filter(h_name == "PIT")
-pit_mod <- lm(win_perc~log(payroll), data = pit)
-pit_beta <- coef(pit_mod)
-ggplot(pit) + geom_point(aes(log(payroll), win_perc)) + 
-  geom_abline(intercept = pit_beta[1], slope = pit_beta[2], color = "red")
-
-#find year payroll was lowest and highest for Pittsburgh
-mlb_payroll %>% filter(h_name == "PIT") %>% arrange(payroll)
-#2000 lowest 2015 highest
-
-bb <- baseball %>% mutate(win_loss = ifelse(score_diff>1, 1, 0))
-
-#home games - each starting pitcher's prop of games winning of games started
-#2000
-bb %>% filter(h_name == "PIT", year == 2000) %>% 
-  group_by(h_starting_pitcher_name) %>%
-  summarize(games_started = n(), 
-            games_won = sum(h_starting_pitcher_name==winning_pitcher_name), 
-            prop = games_won/games_started) %>% 
-  arrange(desc(games_started)) %>%
-  ggplot(aes(games_started, prop)) + 
-  geom_point(aes(color = h_starting_pitcher_name))
-#2015
-bb %>% filter(h_name == "PIT", year == 2015) %>% 
-  group_by(h_starting_pitcher_name) %>%
-  summarize(games_started = n(), 
-            games_won = sum(h_starting_pitcher_name==winning_pitcher_name), 
-            prop = games_won/games_started) %>% 
-  arrange(desc(games_started)) %>%
-  ggplot(aes(games_started, prop)) + 
-  geom_point(aes(color = h_starting_pitcher_name))
-
-#away games - each starting pitcher's prop of games winning of games started
-#2000
-bb %>% filter(v_name == "PIT", year == 2000) %>% 
-  group_by(v_starting_pitcher_name) %>%
-  summarize(games_started = n(), 
-            games_won = sum(v_starting_pitcher_name==winning_pitcher_name), 
-            prop = games_won/games_started) %>% 
-  arrange(desc(games_started)) %>%
-  ggplot(aes(games_started, prop)) + 
-  geom_point(aes(color = v_starting_pitcher_name))
-
-#2015
-bb %>% filter(v_name == "PIT", year == 2015) %>% 
-  group_by(v_starting_pitcher_name) %>%
-  summarize(games_started = n(), 
-            games_won = sum(v_starting_pitcher_name==winning_pitcher_name), 
-            prop = games_won/games_started) %>% 
-  arrange(desc(games_started)) %>%
-  ggplot(aes(games_started, prop)) + 
-  geom_point(aes(color = v_starting_pitcher_name))
-
-
-# for chicago white sox, as payroll increases, winning percentage decreases
-cha <- payroll_win %>% filter(h_name == "CHA")
-cha_mod <- lm(win_perc~log(payroll), data = cha)
-cha_beta <- coef(cha_mod)
-ggplot(cha) + geom_point(aes(log(payroll), win_perc)) + 
-  geom_abline(intercept = cha_beta[1], slope = cha_beta[2], color = "red")
-
-#find year payroll was lowest and highest for chicago
-mlb_payroll %>% filter(h_name == "CHA") %>% arrange(payroll)
-#2000 lowest 2011 highest
-
-#home games - each starting pitcher's prop of games winning of games started
-#2000
-bb %>% filter(h_name == "CHA", year == 2000) %>% 
-  group_by(h_starting_pitcher_name) %>%
-  summarize(games_started = n(), 
-            games_won = sum(h_starting_pitcher_name==winning_pitcher_name), 
-            prop = games_won/games_started) %>% 
-  arrange(desc(games_started)) %>%
-  ggplot(aes(games_started, prop)) + 
-  geom_point(aes(color = h_starting_pitcher_name))
-
-#2011
-bb %>% filter(h_name == "CHA", year == 2011) %>% 
-  group_by(h_starting_pitcher_name) %>%
-  summarize(games_started = n(), 
-            games_won = sum(h_starting_pitcher_name==winning_pitcher_name), 
-            prop = games_won/games_started) %>% 
-  arrange(desc(games_started)) %>%
-  ggplot(aes(games_started, prop)) + 
-  geom_point(aes(color = h_starting_pitcher_name))
-
-#away games - each starting pitcher's prop of games winning of games started
-#2000
-bb %>% filter(v_name == "CHA", year == 2000) %>% 
-  group_by(v_starting_pitcher_name) %>%
-  summarize(games_started = n(), 
-            games_won = sum(v_starting_pitcher_name==winning_pitcher_name), 
-            prop = games_won/games_started) %>% 
-  arrange(desc(games_started)) %>%
-  ggplot(aes(games_started, prop)) + 
-  geom_point(aes(color = v_starting_pitcher_name))
-
-#2011
-bb %>% filter(v_name == "CHA", year == 2011) %>% 
-  group_by(v_starting_pitcher_name) %>%
-  summarize(games_started = n(), 
-            games_won = sum(v_starting_pitcher_name==winning_pitcher_name), 
-            prop = games_won/games_started) %>% 
-  arrange(desc(games_started)) %>%
-  ggplot(aes(games_started, prop)) + 
-  geom_point(aes(color = v_starting_pitcher_name))
-
-#########################
-
-bb %>% filter(h_name == "CHA", year == 2000) %>% group_by(h_player_3_name) %>% summarize(count = n())
-#home games, 2000, how many games Thomas Frank won when he started first base
-bb %>% filter(h_name == "CHA", year == 2000) %>% summarize(FT_start = sum(h_player_3_name=="Frank Thomas"), wins = sum(h_player_3_name=="Frank Thomas" & win_loss==1), prop = wins/FT_start)
-
-#away games, 2000, how many games Thomas Frank won when he started first base
-bb %>% filter(v_name == "CHA", year == 2000) %>% summarize(FT_start = sum(v_player_3_name=="Frank Thomas"), wins = sum(v_player_3_name=="Frank Thomas" & score_diff<0), prop = wins/FT_start)
-
-bb %>% filter(h_name == "CHA", year == 2011) %>% group_by(h_player_3_name) %>% summarize(count = n())
-#home games, 2000, how many games paul konerko, carlos Q, Adam D won when he started first base
-bb %>% filter(h_name == "CHA", year == 2011) %>% summarize(FT_start = sum(h_player_3_name=="Paul Konerko"), wins = sum(h_player_3_name=="Paul Konerko" & win_loss==1), prop = wins/FT_start)
-bb %>% filter(h_name == "CHA", year == 2011) %>% summarize(FT_start = sum(h_player_3_name=="Carlos Quentin"), wins = sum(h_player_3_name=="Carlos Quentin" & win_loss==1), prop = wins/FT_start)
-bb %>% filter(h_name == "CHA", year == 2011) %>% summarize(FT_start = sum(h_player_3_name=="Adam Dunn"), wins = sum(h_player_3_name=="Adam Dunn" & win_loss==1), prop = wins/FT_start)
-
-#away games, 2000, how many games paul konerko, carlos Q, Adam D won when he started first base
-bb %>% filter(v_name == "CHA", year == 2011) %>% summarize(FT_start = sum(v_player_3_name=="Paul Konerko"), wins = sum(v_player_3_name=="Paul Konerko" & score_diff<0), prop = wins/FT_start)
-bb %>% filter(v_name == "CHA", year == 2011) %>% summarize(FT_start = sum(v_player_3_name=="Carlos Quentin"), wins = sum(v_player_3_name=="Carlos Quentin" & score_diff<0), prop = wins/FT_start)
-bb %>% filter(v_name == "CHA", year == 2011) %>% summarize(FT_start = sum(v_player_3_name=="Adam Dunn"), wins = sum(v_player_3_name=="Adam Dunn" & score_diff<0), prop = wins/FT_start)
-#concl --> chicago won more games when frank thomas started in 2000 than combo of three players in 2011
-```
 
 ## Limitations
 
-There was missing data of payroll for certain years for the Kansas City Royals (`KCA`) and the Miami Marlins (`MIA`). As a results these teams were removed from all of our analyses and not represented. 
+for negative relationship, we only look at 2 of 15 teams and then generalize. what we find for those two teams may not be the case for other 13 teams.
 
+we only looked at loss of pitchers for negative relationship, we didnt look at any of the other positions.
 

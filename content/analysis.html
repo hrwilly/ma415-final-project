@@ -1142,7 +1142,7 @@ OAK
 <p><br />
 <img src="/analysis_files/figure-html/coefs_graph-1.png" width="960" /></p>
 <p><br />
-From these faceted plots, it is not consistent among all teams that as payroll increases, winning percentage also increases. For exactly half of the MLB teams, as payroll increases, their winning percentage for that year decreases.<br />
+From these faceted plots, it is not consistent among all teams that as payroll increases, winning percentage also increases. For exactly half of the MLB teams, as payroll increases, their winning percentage for that year decreases. Those 15 teams that have a positive slope between their winning percentage and payroll for each season will be named “Increased Performance Teams” while those 15 teams with negative slopes we have named “Decreased Performance Teams.”<br />
 <br />
 In our analyses that follow, we look at what factors influence this divide between a positive and negative relationship between payroll and winning percentage.<br />
 <br />
@@ -1150,7 +1150,7 @@ In our analyses that follow, we look at what factors influence this divide betwe
 </div>
 <div id="positive-relationship" class="section level2">
 <h2>Positive Relationship</h2>
-<p>When analyzing those 15 teams with a positive relationship between payroll and winning percentage, we wanted to further look at the relationships between payroll and certain game statistics for each season. We first looked at payroll and hits to see if an increase in the number of hits per season was influencing this positive relationship. To do this, we calculated the total hits for each team each year by summing their home hits and their away hits. We then joined this dataset with the payroll dataset and plotted the total hits of each team against their payroll for each year between 2000 and 2016.<br />
+<p>When analyzing the Increased Performance Teams, we wanted to further look at the relationships between payroll and certain game statistics for each season. We first looked at payroll and hits to see if an increase in the number of hits per season was influencing this increased winning percentage as payroll increased. To do this, we calculated the total hits for each team each year by summing their home hits and their away hits. We then joined this dataset with the payroll dataset and plotted the total hits of each team against their payroll for each year between 2000 and 2016.<br />
 <br />
 </p>
 <p><img src="/analysis_files/figure-html/payroll_hits_plot-1.png" width="960" /><br />
@@ -1176,163 +1176,770 @@ According to the plots, as payroll increases, the total earned runs for 10 of th
 </div>
 <div id="negative-relationship" class="section level2">
 <h2>Negative Relationship</h2>
-<p>(more work to be done here)</p>
-<pre class="r"><code>#Pittsburgh Pirates are a team who match positive relationship
-pit &lt;- payroll_win %&gt;% filter(h_name == &quot;PIT&quot;)
-pit_mod &lt;- lm(win_perc~log(payroll), data = pit)
-pit_beta &lt;- coef(pit_mod)
-ggplot(pit) + geom_point(aes(log(payroll), win_perc)) + 
-  geom_abline(intercept = pit_beta[1], slope = pit_beta[2], color = &quot;red&quot;)
+<p>We will now analyze the Decreased Performance Teams to observe why their winning percentage decreases as their payroll increases. We have chosen to look at 2 of the 15 Decreased Performance Teams and generalize our results to the other 13 teams. First, we look at the Oakland Athletics.</p>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
+<table class=" lightable-paper lightable-hover lightable-classic-2 table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-family: Georgia; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:OAK">Table 5: </span>Oakland Athletics Highest and Lowest Payroll Years
+</caption>
+<thead>
+<tr>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Year
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Winning Percentage
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Payroll (millions)
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Payroll Difference from Previous Year
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Winning Percentage Difference from Previous Year
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+54.32
+</td>
+<td style="text-align:center;">
+83
+</td>
+<td style="text-align:center;">
+22
+</td>
+<td style="text-align:center;">
+-4.94
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2007
+</td>
+<td style="text-align:center;">
+46.91
+</td>
+<td style="text-align:center;">
+79
+</td>
+<td style="text-align:center;">
+17
+</td>
+<td style="text-align:center;">
+-10.49
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2011
+</td>
+<td style="text-align:center;">
+45.68
+</td>
+<td style="text-align:center;">
+67
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+-4.32
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2009
+</td>
+<td style="text-align:center;">
+46.30
+</td>
+<td style="text-align:center;">
+62
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+-0.29
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2003
+</td>
+<td style="text-align:center;">
+59.26
+</td>
+<td style="text-align:center;">
+50
+</td>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+-4.32
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2004
+</td>
+<td style="text-align:center;">
+56.17
+</td>
+<td style="text-align:center;">
+60
+</td>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+-3.09
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2002
+</td>
+<td style="text-align:center;">
+63.58
+</td>
+<td style="text-align:center;">
+40
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+0.62
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2006
+</td>
+<td style="text-align:center;">
+57.41
+</td>
+<td style="text-align:center;">
+62
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+3.09
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2013
+</td>
+<td style="text-align:center;">
+59.26
+</td>
+<td style="text-align:center;">
+61
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+1.23
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2015
+</td>
+<td style="text-align:center;">
+41.98
+</td>
+<td style="text-align:center;">
+86
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+-12.35
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2001
+</td>
+<td style="text-align:center;">
+62.96
+</td>
+<td style="text-align:center;">
+34
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+6.44
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2005
+</td>
+<td style="text-align:center;">
+54.32
+</td>
+<td style="text-align:center;">
+56
+</td>
+<td style="text-align:center;">
+-4
+</td>
+<td style="text-align:center;">
+-1.85
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2016
+</td>
+<td style="text-align:center;">
+42.59
+</td>
+<td style="text-align:center;">
+80
+</td>
+<td style="text-align:center;">
+-6
+</td>
+<td style="text-align:center;">
+0.62
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2010
+</td>
+<td style="text-align:center;">
+50.00
+</td>
+<td style="text-align:center;">
+52
+</td>
+<td style="text-align:center;">
+-10
+</td>
+<td style="text-align:center;">
+3.70
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2012
+</td>
+<td style="text-align:center;">
+58.02
+</td>
+<td style="text-align:center;">
+55
+</td>
+<td style="text-align:center;">
+-12
+</td>
+<td style="text-align:center;">
+12.35
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2008
+</td>
+<td style="text-align:center;">
+46.58
+</td>
+<td style="text-align:center;">
+48
+</td>
+<td style="text-align:center;">
+-31
+</td>
+<td style="text-align:center;">
+-0.33
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2000
+</td>
+<td style="text-align:center;">
+56.52
+</td>
+<td style="text-align:center;">
+32
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+NA
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><br />
+Oakland’s largest payroll increase from one year to the next was from the year 2013 to 2014. From 2013 to 2014, there was a $22 million increase in their payroll, yet their winning percentage decreased by about 5%. Since the performance of the Oakland Athletics did not increase as their payroll increased, we looked at what the team possibly lost from 2013 to 2014 resulting in this decreased winning percentage despite an increase in payroll.<br />
+</p>
+<table class=" lightable-paper lightable-hover lightable-classic-2 table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-family: Georgia; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+(#tab:OAK_pitchers)2013 Top Pitchers
+</caption>
+<thead>
+<tr>
+<th style="text-align:center;">
+Starting Pitcher
+</th>
+<th style="text-align:center;">
+Games Started
+</th>
+<th style="text-align:center;">
+Games Won
+</th>
+<th style="text-align:center;">
+Winning Proportion
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+Jarrod Parker
+</td>
+<td style="text-align:center;">
+32
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+0.38
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+A.J. Griffin
+</td>
+<td style="text-align:center;">
+32
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+0.44
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Bartolo Colon
+</td>
+<td style="text-align:center;">
+30
+</td>
+<td style="text-align:center;">
+18
+</td>
+<td style="text-align:center;">
+0.60
+</td>
+</tr>
+</tbody>
+</table>
+<table class=" lightable-paper lightable-hover lightable-classic-2 table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-family: Georgia; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+(#tab:OAK_pitchers)2014 Top Pitchers
+</caption>
+<thead>
+<tr>
+<th style="text-align:center;">
+Starting Pitcher
+</th>
+<th style="text-align:center;">
+Games Started
+</th>
+<th style="text-align:center;">
+Games Won
+</th>
+<th style="text-align:center;">
+Winning Proportion
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+Sonny Gray
+</td>
+<td style="text-align:center;">
+33
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+0.42
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Scott Kazmir
+</td>
+<td style="text-align:center;">
+32
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+0.47
+</td>
+</tr>
+</tbody>
+</table>
+<br />
+Next, we looked at the Chicago White Sox.<br />
 
-#Chicago White Sox are a team who match negative relationship
-cha &lt;- payroll_win %&gt;% filter(h_name == &quot;CHA&quot;)
-cha_mod &lt;- lm(win_perc~log(payroll), data = cha)
-cha_beta &lt;- coef(cha_mod)
-ggplot(cha) + geom_point(aes(log(payroll), win_perc)) + 
-  geom_abline(intercept = cha_beta[1], slope = cha_beta[2], color = &quot;red&quot;)</code></pre>
-<pre class="r"><code>payroll_win &lt;- win_perc %&gt;% left_join(mlb_payroll, by = c(&quot;year&quot;, &quot;h_name&quot;)) %&gt;% filter(!is.na(payroll))
-(payroll_mod &lt;- lm(win_perc ~ log(payroll), data = payroll_win))
-beta &lt;- coef(payroll_mod)
-
-# for all teams, as payroll increases, winning percentage for a given year increases
-ggplot(payroll_win) + geom_point(aes(log(payroll), win_perc, color = h_name)) + 
-  geom_abline(intercept = beta[1], slope = beta[2], color = &quot;red&quot;)
-
-#faceted
-ggplot(payroll_win,aes(log(payroll),win_perc))+geom_point(aes(color = year), size = 0.5)+
-                                            geom_smooth(method=&#39;lm&#39;)+
-                                            facet_wrap(vars(h_name))
-
-#Pittsburgh pirates are a team who match this overall pattern
-pit &lt;- payroll_win %&gt;% filter(h_name == &quot;PIT&quot;)
-pit_mod &lt;- lm(win_perc~log(payroll), data = pit)
-pit_beta &lt;- coef(pit_mod)
-ggplot(pit) + geom_point(aes(log(payroll), win_perc)) + 
-  geom_abline(intercept = pit_beta[1], slope = pit_beta[2], color = &quot;red&quot;)
-
-#find year payroll was lowest and highest for Pittsburgh
-mlb_payroll %&gt;% filter(h_name == &quot;PIT&quot;) %&gt;% arrange(payroll)
-#2000 lowest 2015 highest
-
-bb &lt;- baseball %&gt;% mutate(win_loss = ifelse(score_diff&gt;1, 1, 0))
-
-#home games - each starting pitcher&#39;s prop of games winning of games started
-#2000
-bb %&gt;% filter(h_name == &quot;PIT&quot;, year == 2000) %&gt;% 
-  group_by(h_starting_pitcher_name) %&gt;%
-  summarize(games_started = n(), 
-            games_won = sum(h_starting_pitcher_name==winning_pitcher_name), 
-            prop = games_won/games_started) %&gt;% 
-  arrange(desc(games_started)) %&gt;%
-  ggplot(aes(games_started, prop)) + 
-  geom_point(aes(color = h_starting_pitcher_name))
-#2015
-bb %&gt;% filter(h_name == &quot;PIT&quot;, year == 2015) %&gt;% 
-  group_by(h_starting_pitcher_name) %&gt;%
-  summarize(games_started = n(), 
-            games_won = sum(h_starting_pitcher_name==winning_pitcher_name), 
-            prop = games_won/games_started) %&gt;% 
-  arrange(desc(games_started)) %&gt;%
-  ggplot(aes(games_started, prop)) + 
-  geom_point(aes(color = h_starting_pitcher_name))
-
-#away games - each starting pitcher&#39;s prop of games winning of games started
-#2000
-bb %&gt;% filter(v_name == &quot;PIT&quot;, year == 2000) %&gt;% 
-  group_by(v_starting_pitcher_name) %&gt;%
-  summarize(games_started = n(), 
-            games_won = sum(v_starting_pitcher_name==winning_pitcher_name), 
-            prop = games_won/games_started) %&gt;% 
-  arrange(desc(games_started)) %&gt;%
-  ggplot(aes(games_started, prop)) + 
-  geom_point(aes(color = v_starting_pitcher_name))
-
-#2015
-bb %&gt;% filter(v_name == &quot;PIT&quot;, year == 2015) %&gt;% 
-  group_by(v_starting_pitcher_name) %&gt;%
-  summarize(games_started = n(), 
-            games_won = sum(v_starting_pitcher_name==winning_pitcher_name), 
-            prop = games_won/games_started) %&gt;% 
-  arrange(desc(games_started)) %&gt;%
-  ggplot(aes(games_started, prop)) + 
-  geom_point(aes(color = v_starting_pitcher_name))
-
-
-# for chicago white sox, as payroll increases, winning percentage decreases
-cha &lt;- payroll_win %&gt;% filter(h_name == &quot;CHA&quot;)
-cha_mod &lt;- lm(win_perc~log(payroll), data = cha)
-cha_beta &lt;- coef(cha_mod)
-ggplot(cha) + geom_point(aes(log(payroll), win_perc)) + 
-  geom_abline(intercept = cha_beta[1], slope = cha_beta[2], color = &quot;red&quot;)
-
-#find year payroll was lowest and highest for chicago
-mlb_payroll %&gt;% filter(h_name == &quot;CHA&quot;) %&gt;% arrange(payroll)
-#2000 lowest 2011 highest
-
-#home games - each starting pitcher&#39;s prop of games winning of games started
-#2000
-bb %&gt;% filter(h_name == &quot;CHA&quot;, year == 2000) %&gt;% 
-  group_by(h_starting_pitcher_name) %&gt;%
-  summarize(games_started = n(), 
-            games_won = sum(h_starting_pitcher_name==winning_pitcher_name), 
-            prop = games_won/games_started) %&gt;% 
-  arrange(desc(games_started)) %&gt;%
-  ggplot(aes(games_started, prop)) + 
-  geom_point(aes(color = h_starting_pitcher_name))
-
-#2011
-bb %&gt;% filter(h_name == &quot;CHA&quot;, year == 2011) %&gt;% 
-  group_by(h_starting_pitcher_name) %&gt;%
-  summarize(games_started = n(), 
-            games_won = sum(h_starting_pitcher_name==winning_pitcher_name), 
-            prop = games_won/games_started) %&gt;% 
-  arrange(desc(games_started)) %&gt;%
-  ggplot(aes(games_started, prop)) + 
-  geom_point(aes(color = h_starting_pitcher_name))
-
-#away games - each starting pitcher&#39;s prop of games winning of games started
-#2000
-bb %&gt;% filter(v_name == &quot;CHA&quot;, year == 2000) %&gt;% 
-  group_by(v_starting_pitcher_name) %&gt;%
-  summarize(games_started = n(), 
-            games_won = sum(v_starting_pitcher_name==winning_pitcher_name), 
-            prop = games_won/games_started) %&gt;% 
-  arrange(desc(games_started)) %&gt;%
-  ggplot(aes(games_started, prop)) + 
-  geom_point(aes(color = v_starting_pitcher_name))
-
-#2011
-bb %&gt;% filter(v_name == &quot;CHA&quot;, year == 2011) %&gt;% 
-  group_by(v_starting_pitcher_name) %&gt;%
-  summarize(games_started = n(), 
-            games_won = sum(v_starting_pitcher_name==winning_pitcher_name), 
-            prop = games_won/games_started) %&gt;% 
-  arrange(desc(games_started)) %&gt;%
-  ggplot(aes(games_started, prop)) + 
-  geom_point(aes(color = v_starting_pitcher_name))
-
-#########################
-
-bb %&gt;% filter(h_name == &quot;CHA&quot;, year == 2000) %&gt;% group_by(h_player_3_name) %&gt;% summarize(count = n())
-#home games, 2000, how many games Thomas Frank won when he started first base
-bb %&gt;% filter(h_name == &quot;CHA&quot;, year == 2000) %&gt;% summarize(FT_start = sum(h_player_3_name==&quot;Frank Thomas&quot;), wins = sum(h_player_3_name==&quot;Frank Thomas&quot; &amp; win_loss==1), prop = wins/FT_start)
-
-#away games, 2000, how many games Thomas Frank won when he started first base
-bb %&gt;% filter(v_name == &quot;CHA&quot;, year == 2000) %&gt;% summarize(FT_start = sum(v_player_3_name==&quot;Frank Thomas&quot;), wins = sum(v_player_3_name==&quot;Frank Thomas&quot; &amp; score_diff&lt;0), prop = wins/FT_start)
-
-bb %&gt;% filter(h_name == &quot;CHA&quot;, year == 2011) %&gt;% group_by(h_player_3_name) %&gt;% summarize(count = n())
-#home games, 2000, how many games paul konerko, carlos Q, Adam D won when he started first base
-bb %&gt;% filter(h_name == &quot;CHA&quot;, year == 2011) %&gt;% summarize(FT_start = sum(h_player_3_name==&quot;Paul Konerko&quot;), wins = sum(h_player_3_name==&quot;Paul Konerko&quot; &amp; win_loss==1), prop = wins/FT_start)
-bb %&gt;% filter(h_name == &quot;CHA&quot;, year == 2011) %&gt;% summarize(FT_start = sum(h_player_3_name==&quot;Carlos Quentin&quot;), wins = sum(h_player_3_name==&quot;Carlos Quentin&quot; &amp; win_loss==1), prop = wins/FT_start)
-bb %&gt;% filter(h_name == &quot;CHA&quot;, year == 2011) %&gt;% summarize(FT_start = sum(h_player_3_name==&quot;Adam Dunn&quot;), wins = sum(h_player_3_name==&quot;Adam Dunn&quot; &amp; win_loss==1), prop = wins/FT_start)
-
-#away games, 2000, how many games paul konerko, carlos Q, Adam D won when he started first base
-bb %&gt;% filter(v_name == &quot;CHA&quot;, year == 2011) %&gt;% summarize(FT_start = sum(v_player_3_name==&quot;Paul Konerko&quot;), wins = sum(v_player_3_name==&quot;Paul Konerko&quot; &amp; score_diff&lt;0), prop = wins/FT_start)
-bb %&gt;% filter(v_name == &quot;CHA&quot;, year == 2011) %&gt;% summarize(FT_start = sum(v_player_3_name==&quot;Carlos Quentin&quot;), wins = sum(v_player_3_name==&quot;Carlos Quentin&quot; &amp; score_diff&lt;0), prop = wins/FT_start)
-bb %&gt;% filter(v_name == &quot;CHA&quot;, year == 2011) %&gt;% summarize(FT_start = sum(v_player_3_name==&quot;Adam Dunn&quot;), wins = sum(v_player_3_name==&quot;Adam Dunn&quot; &amp; score_diff&lt;0), prop = wins/FT_start)
-#concl --&gt; chicago won more games when frank thomas started in 2000 than combo of three players in 2011</code></pre>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
+<table class=" lightable-paper lightable-hover lightable-classic-2 table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-family: Georgia; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:CHA">Table 6: </span>Chicago White Sox Highest and Lowest Payroll Years
+</caption>
+<thead>
+<tr>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Year
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Winning Percentage
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Payroll (millions)
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Payroll Difference from Previous Year
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Winning Percentage Difference from Previous Year
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+2001
+</td>
+<td style="text-align:center;">
+51.23
+</td>
+<td style="text-align:center;">
+62
+</td>
+<td style="text-align:center;">
+31
+</td>
+<td style="text-align:center;">
+-7.41
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2006
+</td>
+<td style="text-align:center;">
+55.56
+</td>
+<td style="text-align:center;">
+103
+</td>
+<td style="text-align:center;">
+28
+</td>
+<td style="text-align:center;">
+-5.56
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2015
+</td>
+<td style="text-align:center;">
+46.91
+</td>
+<td style="text-align:center;">
+115
+</td>
+<td style="text-align:center;">
+24
+</td>
+<td style="text-align:center;">
+1.85
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2013
+</td>
+<td style="text-align:center;">
+38.89
+</td>
+<td style="text-align:center;">
+119
+</td>
+<td style="text-align:center;">
+22
+</td>
+<td style="text-align:center;">
+-13.58
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2011
+</td>
+<td style="text-align:center;">
+48.77
+</td>
+<td style="text-align:center;">
+129
+</td>
+<td style="text-align:center;">
+21
+</td>
+<td style="text-align:center;">
+-5.56
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2004
+</td>
+<td style="text-align:center;">
+51.23
+</td>
+<td style="text-align:center;">
+65
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+-1.85
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2008
+</td>
+<td style="text-align:center;">
+54.60
+</td>
+<td style="text-align:center;">
+121
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+10.16
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2010
+</td>
+<td style="text-align:center;">
+54.32
+</td>
+<td style="text-align:center;">
+108
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+5.56
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2005
+</td>
+<td style="text-align:center;">
+61.11
+</td>
+<td style="text-align:center;">
+75
+</td>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+9.88
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2007
+</td>
+<td style="text-align:center;">
+44.44
+</td>
+<td style="text-align:center;">
+109
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+-11.11
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2002
+</td>
+<td style="text-align:center;">
+50.00
+</td>
+<td style="text-align:center;">
+57
+</td>
+<td style="text-align:center;">
+-5
+</td>
+<td style="text-align:center;">
+-1.23
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2003
+</td>
+<td style="text-align:center;">
+53.09
+</td>
+<td style="text-align:center;">
+51
+</td>
+<td style="text-align:center;">
+-6
+</td>
+<td style="text-align:center;">
+3.09
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2016
+</td>
+<td style="text-align:center;">
+48.15
+</td>
+<td style="text-align:center;">
+99
+</td>
+<td style="text-align:center;">
+-16
+</td>
+<td style="text-align:center;">
+1.23
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2009
+</td>
+<td style="text-align:center;">
+48.77
+</td>
+<td style="text-align:center;">
+96
+</td>
+<td style="text-align:center;">
+-25
+</td>
+<td style="text-align:center;">
+-5.84
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+45.06
+</td>
+<td style="text-align:center;">
+91
+</td>
+<td style="text-align:center;">
+-28
+</td>
+<td style="text-align:center;">
+6.17
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2012
+</td>
+<td style="text-align:center;">
+52.47
+</td>
+<td style="text-align:center;">
+97
+</td>
+<td style="text-align:center;">
+-32
+</td>
+<td style="text-align:center;">
+3.70
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2000
+</td>
+<td style="text-align:center;">
+58.64
+</td>
+<td style="text-align:center;">
+31
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+NA
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><br />
+For the Chicago White Sox, the largest payroll increase from one year to the next was from the year 2000 to 2001. From these two years there was a $31 million increase in their payroll with their winning percentage decreasing by 7.41%. Similar to the Oakland Athletics, we looked at what pitchers the White Sox lost from 2000 to 2001 resulting in this decreased winning percentage despite a $31 million increase in payroll.<br />
+</p>
+<p><img src="/analysis_files/figure-html/CHA_pitchers-1.png" width="672" /><img src="/analysis_files/figure-html/CHA_pitchers-2.png" width="672" /></p>
 </div>
 <div id="limitations" class="section level2">
 <h2>Limitations</h2>
-<p>There was missing data of payroll for certain years for the Kansas City Royals (<code>KCA</code>) and the Miami Marlins (<code>MIA</code>). As a results these teams were removed from all of our analyses and not represented.</p>
+<p>for negative relationship, we only look at 2 of 15 teams and then generalize. what we find for those two teams may not be the case for other 13 teams.</p>
+<p>we only looked at loss of pitchers for negative relationship, we didnt look at any of the other positions.</p>
 </div>
