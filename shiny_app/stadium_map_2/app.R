@@ -11,12 +11,11 @@ library(readr)
 # load("MLBstadiums.RData")
 # load("win_perc.RData")
 
-MLBstadiums <- read_csv("shiny_app/stadium_map_2/MLBstadiums.csv")
-shiny_wins <- read_csv("shiny_app/stadium_map_2/shiny_wins.csv")
-win_perc <- read_csv("shiny_app/stadium_map_2/win_perc.csv")
-
-win_perc <- win_perc %>% mutate(win_stats = win_perc) %>%
-   mutate_if(is.numeric, ~round(., 1))
+MLBstadiums <- read_csv("MLBstadiums.csv")
+shiny_wins <- read_csv("shiny_wins.csv")
+win_perc <- read_csv("win_perc.csv") %>% 
+  mutate(win_stats = win_perc) %>%
+  mutate_if(is.numeric, ~round(., 1))
   
   
 MLBstadiums$Abbreviation[MLBstadiums$Abbreviation == 'CHC'] <- 'CHN'
@@ -53,8 +52,8 @@ server <- function(input, output, session){
   
   filteredData <- reactive({
     
-      filter(win_perc, year == input$yearSelected) %>% 
-      left_join(., MLBstadiums, by=c("h_name" = "Abbreviation")) 
+      win_perc %>% filter(year == input$yearSelected) %>% 
+      full_join(., MLBstadiums, by=c("h_name" = "Abbreviation")) 
       
     
   })
@@ -67,7 +66,7 @@ server <- function(input, output, session){
       addAwesomeMarkers(~Longitude, ~Latitude, 
                         icon = icons, 
                         label = ~as.character(Venue), 
-                        popup=paste("Winning Percentage:", filteredData$win_stats, "<br>",
+                        popup= ~paste("Winning Percentage:", win_stats, "<br>",
                                     "Pitcher:",  "", "<br>", 
                                     "Team Salary:", "")) %>% 
       addLegend(position = 'bottomleft', 
