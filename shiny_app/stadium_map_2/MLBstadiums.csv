@@ -1,0 +1,61 @@
+"","Sport","Venue","Team(s)","Abbreviation","Latitude","Longitude","Division","DivisionColor","teamLabs"
+"1","MLB","Chase Field","Arizona Diamondbacks","ARI",33.44527778,-112.0669444,"NL West","black","Team: ARI
+Field: Chase Field"
+"2","MLB","Turner Field","Atlanta Braves","ATL",33.73527778,-84.38944444,"NL East","red","Team: ATL
+Field: Turner Field"
+"3","MLB","Oriole Park at Camden Yards","Baltimore Orioles","BAL",39.28388889,-76.62166667,"AL East","blue","Team: BAL
+Field: Oriole Park at Camden Yards"
+"4","MLB","Fenway Park","Boston Red Sox","BOS",42.34638889,-71.0975,"AL East","blue","Team: BOS
+Field: Fenway Park"
+"5","MLB","Wrigley Field","Chicago Cubs","CHC",41.94833333,-87.65555556,"NL Central","purple","Team: CHC
+Field: Wrigley Field"
+"6","MLB","U.S. Cellular Field","Chicago White Sox","CHW",41.83,-87.63388889,"AL Central","green","Team: CHW
+Field: U.S. Cellular Field"
+"7","MLB","Great American Ball Park","Cincinnati Reds","CIN",39.0975,-84.50666667,"NL Central","purple","Team: CIN
+Field: Great American Ball Park"
+"8","MLB","Progressive Field","Cleveland Indians","CLE",41.49583333,-81.68527778,"AL Central","green","Team: CLE
+Field: Progressive Field"
+"9","MLB","Coors Field","Colorado Rockies","COL",39.75611111,-104.9941667,"NL West","black","Team: COL
+Field: Coors Field"
+"10","MLB","Comerica Park","Detroit Tigers","DET",42.33916667,-83.04861111,"AL Central","green","Team: DET
+Field: Comerica Park"
+"11","MLB","Minute Maid Park","Houston Astros","HOU",29.75694444,-95.35555556,"AL West","yellow","Team: HOU
+Field: Minute Maid Park"
+"12","MLB","Kauffman Stadium","Kansas City Royals","KCR",39.05138889,-94.48055556,"AL Central","green","Team: KCR
+Field: Kauffman Stadium"
+"13","MLB","Angel Stadium of Anaheim","Los Angeles Angels of Anaheim","LAA",33.80027778,-117.8827778,"AL West","yellow","Team: LAA
+Field: Angel Stadium of Anaheim"
+"14","MLB","Dodger Stadium","Los Angeles Dodgers","LAD",34.07361111,-118.24,"NL West","black","Team: LAD
+Field: Dodger Stadium"
+"15","MLB","Marlins Park","Miami Marlins","MIA",25.77805556,-80.21972222,"NL East","red","Team: MIA
+Field: Marlins Park"
+"16","MLB","Miller Park","Milwaukee Brewers","MIL",43.02833333,-87.97111111,"NL Central","purple","Team: MIL
+Field: Miller Park"
+"17","MLB","Target Field","Minnesota Twins","MIN",44.98166667,-93.27833333,"AL Central","green","Team: MIN
+Field: Target Field"
+"18","MLB","Citi Field","New York Mets","NYM",40.75694444,-73.84583333,"NL East","red","Team: NYM
+Field: Citi Field"
+"19","MLB","Yankee Stadium","New York Yankees","NYY",40.82916667,-73.92638889,"NL West","black","Team: NYY
+Field: Yankee Stadium"
+"20","MLB","O.co Coliseum","Oakland Athletics","OAK",37.75166667,-122.2005556,"AL West","yellow","Team: OAK
+Field: O.co Coliseum"
+"21","MLB","Citizens Bank Park","Philadelphia Phillies","PHI",39.90583333,-75.16638889,"NL East","red","Team: PHI
+Field: Citizens Bank Park"
+"22","MLB","PNC Park","Pittsburgh Pirates","PIT",40.44694444,-80.00583333,"NL Central","purple","Team: PIT
+Field: PNC Park"
+"23","MLB","Petco Park","San Diego Padres","SDP",32.70729983,-117.1565998,"NL West","black","Team: SDP
+Field: Petco Park"
+"24","MLB","Safeco Field","Seattle Mariners","SEA",47.59138889,-122.3325,"AL West","yellow","Team: SEA
+Field: Safeco Field"
+"25","MLB","AT&T Park","San Francisco Giants","SFG",37.77833333,-122.3894444,"NL West","black","Team: SFG
+Field: AT&T Park"
+"26","MLB","Busch Stadium","St. Louis Cardinals","STL",38.6225,-90.19305556,"NL Central","purple","Team: STL
+Field: Busch Stadium"
+"27","MLB","Tropicana Field","Tampa Bay Rays","TBR",27.76833333,-82.65333333,"AL East","blue","Team: TBR
+Field: Tropicana Field"
+"28","MLB","Rangers Ballpark in Arlington","Texas Rangers","TEX",32.75138889,-97.08277778,"AL West","yellow","Team: TEX
+Field: Rangers Ballpark in Arlington"
+"29","MLB","Rogers Centre","Toronto Blue Jays","TOR",43.64138889,-79.38916667,"AL East","blue","Team: TOR
+Field: Rogers Centre"
+"30","MLB","Nationals Park","Washington Nationals","WAS",38.87277778,-77.0075,"NL East","red","Team: WAS
+Field: Nationals Park"

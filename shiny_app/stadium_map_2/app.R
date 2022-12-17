@@ -5,13 +5,18 @@ library(leaflet)
 library(dplyr)
 library(readr)
 library(shinyWidgets)
+library(readr)
 
-load(here::here("shiny_wins.RData"))
-load(here::here("MLBstadiums.RData"))
-load(here::here("win_perc.RData"))
+# load("shiny_wins.RData")
+# load("MLBstadiums.RData")
+# load("win_perc.RData")
+
+MLBstadiums <- read_csv("shiny_app/stadium_map_2/MLBstadiums.csv")
+shiny_wins <- read_csv("shiny_app/stadium_map_2/shiny_wins.csv")
+win_perc <- read_csv("shiny_app/stadium_map_2/win_perc.csv")
 
 win_perc <- win_perc %>% mutate(win_stats = win_perc) %>%
-  mutate_if(is.numeric, ~round(., 1))
+   mutate_if(is.numeric, ~round(., 1))
   
   
 MLBstadiums$Abbreviation[MLBstadiums$Abbreviation == 'CHC'] <- 'CHN'
@@ -62,7 +67,7 @@ server <- function(input, output, session){
       addAwesomeMarkers(~Longitude, ~Latitude, 
                         icon = icons, 
                         label = ~as.character(Venue), 
-                        popup=paste("Winning Percentage:", filteredData()$win_stats, "<br>",
+                        popup=paste("Winning Percentage:", filteredData$win_stats, "<br>",
                                     "Pitcher:",  "", "<br>", 
                                     "Team Salary:", "")) %>% 
       addLegend(position = 'bottomleft', 
@@ -99,7 +104,7 @@ server <- function(input, output, session){
 
   
   observe({
-    proxy <- leafletProxy("map", data = filteredData)
+    proxy <- leafletProxy("map", data = filteredData())
     
     # Remove any existing legend, and only if the legend is
     # enabled, create a new one.
