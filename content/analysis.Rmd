@@ -14,6 +14,7 @@ For our data analysis, we are most interested in the relationship between the wi
 
 ```{r loading, echo = FALSE}
 suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(leaps))
 suppressWarnings(suppressPackageStartupMessages(library("kableExtra")))
 suppressPackageStartupMessages(library(broom))
 load(here::here("dataset", "win_perc.RData"))
@@ -121,13 +122,6 @@ matches %>%
 \
 The team with the highest number of total hits did not match the team with the highest winning percentage every season. Only in 2009, the New York Yankees were the team with the highest number of total homeruns as well as total runs. For teams with the highest total runs, only 6 teams matched with the team with the highest winning percentage for that year. Even though teams are offensively performing the best in these major categories of hits, homeruns, and runs, they do not end up performing the best overall according to their winning percentage. Since those teams with the highest numbers do not necessarily mean a team winning the most, we chose to look at weather a team's payroll constituted more wins.\
 \
-```{r win_perc, eval = FALSE, echo = FALSE}
-# faceted graph of winning percentage for each team for each year 2000-2016
-win_perc %>% ggplot(aes(year, win_perc, fill=h_name)) + 
-  geom_bar(stat = "identity", position = "dodge") + 
-  facet_wrap(vars(h_name), scales="free_y", ncol = 4) +
-  theme(legend.position = "none")
-```
 
 ## Initial Analysis
 
@@ -605,6 +599,41 @@ top_perc1 %>%
 \
 In 2013, the pitcher with the highest winning proportion having pitched at least 30 games was [Kris Medlen](https://www.mlb.com/player/kris-medlen-450665). Following Medlen, was Julio Teheran and Mike Minor. Two of Atlanta's top pitchers in 2013 had a winning proportion over 0.45 while only one pitcher, Ervin Santana, had a winning proportion of 0.45 in 2014. Medlen's pitching did not appear in the 2014 Atlanta season due to a Tommy John surgery. While Teheran and Minor both returned for the 2014 season, Minor started in 7 fewer games and their performances did not match that of the previous year. 
 
+```{r lin_mod, echo = FALSE}
+total_so2 <- total_so %>% select(-h_so, -v_so)
+total_hits2 <- total_hits %>% select(-h_hits, -v_hits)
+total_hruns2 <- total_hruns %>% select(-h_hruns, -v_hruns)
+total_er2 <- total_er %>% select(-h_er, -v_er)
+
+mlb_payroll$payroll <- round(mlb_payroll$payroll/1e6)
+
+all <- win_perc %>% select(h_name, year, win_perc) %>% 
+  left_join(mlb_payroll, by = c("year", "h_name")) %>% 
+  select(-rank) %>% 
+  left_join(total_so2, by = c("year", "h_name")) %>% 
+  left_join(total_hits2, by = c("year", "h_name")) %>% 
+  left_join(total_hruns2, by = c("year", "h_name")) %>% 
+  left_join(total_er2, by = c("year", "h_name"))
+
+
+fwd <- leaps::regsubsets(win_perc ~ . - h_name - year, 
+                         data = all, 
+                         method = "forward",
+                         nvmax = 10)
+
+summary(lm(win_perc ~ . -h_name - year, all))$coef %>% 
+  kable(caption = "Forward Selection Model",
+        col.names = c("Estimate", "Standard Error", "t Value", "Pr(>|t|)"),
+        align = "c",
+        digits = c(2, 3, 2, 4)) %>% 
+  kable_paper(full_width = TRUE, "hover") %>% 
+  kable_classic_2(html_font = "Georgia") %>% 
+  kable_styling(position = "center") %>% 
+  scroll_box(height = "200px", width = "100%")
+  
+  
+
+```
 
 ## Limitations
 
