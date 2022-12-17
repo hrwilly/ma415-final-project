@@ -1170,7 +1170,7 @@ These plots show that for 15 out of the 15 teams, as payroll increases, the tota
 <br />
 </p>
 <p><img src="/analysis_files/figure-html/payroll_er_plot-1.png" width="960" /><br />
-According to the plots, as payroll increases, the total earned runs for 10 of the 15 teams decreases. These faceted plots along with the plots for total strikeouts against payroll suggest that along with an increase in payroll, the performance of the pitching improves with more strikeouts and less earned runs against the pitchers.<br />
+According to the plots, as payroll increases, the total earned runs for 15 of the 15 teams also decreases. These faceted plots along with the plots for total strikeouts against payroll suggest that along with an increase in payroll, the performance of the pitching improves with more strikeouts and less earned runs against the pitchers.<br />
 <br />
 </p>
 </div>
@@ -1496,15 +1496,15 @@ NA
 </tbody>
 </table>
 </div>
-<br />
+<p><br />
 Oakland’s largest payroll increase from one year to the next was from the year 2013 to 2014. From 2013 to 2014, there was a 22 million dollar increase in their payroll, yet their winning percentage decreased by about 5%. Since the performance of the Oakland Athletics did not increase as their payroll increased, we looked at what the team possibly lost from 2013 to 2014 resulting in this decreased winning percentage despite an increase in payroll.<br />
 <br />
 As a result of our findings from the analysis of the positive relationship between payroll and winning percentage, we chose to focus on what pitchers Oakland lost from the 2013 season to the 2014 season. We first summed the number of home games and away games each starting pitcher started for the year of 2013. We then summed the number of times each starting pitcher was named the winning pitcher. A <a href="https://www.mlb.com/glossary/standard-stats/win">winning pitcher</a> is defined as the pitcher who last pitched when his team takes and maintains the lead. We then divided each pitcher’s winning pitcher sum and games started sum and called this the pitcher’s winning proportion. We repeated this process for the 2014 season and filtered only those pitchers who pitched over 30 games to compare winning proportions. The results are provided in the following tables.<br />
 <br />
-
+</p>
 <table class=" lightable-paper lightable-hover lightable-classic-2 table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-family: Georgia; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
 <caption>
-(#tab:OAK_pitchers_13)2013 Top Pitchers
+<span id="tab:unnamed-chunk-6">Table 6: </span>2013 Top Pitchers
 </caption>
 <thead>
 <tr>
@@ -1569,7 +1569,7 @@ Jarrod Parker
 </table>
 <table class=" lightable-paper lightable-hover lightable-classic-2 table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-family: Georgia; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
 <caption>
-(#tab:OAK_pitchers_14)2014 Top Pitchers
+<span id="tab:unnamed-chunk-7">Table 7: </span>2014 Top Pitchers
 </caption>
 <thead>
 <tr>
@@ -1626,7 +1626,7 @@ Next, we looked at the Atlanta Braves.<br />
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
 <table class=" lightable-paper lightable-hover lightable-classic-2 table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-family: Georgia; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:ATL">Table 6: </span>Atlanta Braves Highest and Lowest Payroll Years
+<span id="tab:ATL">Table 8: </span>Atlanta Braves Highest and Lowest Payroll Years
 </caption>
 <thead>
 <tr>
@@ -1944,29 +1944,48 @@ NA
 For the Atlanta Braves, the largest payroll increase from one year to the next was also from the years 2013 to 2014. From these two years there was a 21 million dollar increase in their payroll with their winning percentage decreasing by about 10%. Similar to the Oakland Athletics, we looked at what pitchers the Braves lost from 2013 to 2014 resulting in this decreased winning percentage despite a 31 million dollar increase in payroll.<br />
 <br />
 </p>
-<p>Similar to the Oakland Athletics, we calculated the winning proportion for those starting pitchers who started in at least 30 games for the 2013 and 2014 seasons of the Atlanta Braves.</p>
+<p>Similar to the Oakland Athletics, we calculated the winning proportion for those starting pitchers who started in at least 30 games for the 2013 and 2014 seasons of the Atlanta Braves.<br />
+<br />
+</p>
 <p><img src="/analysis_files/figure-html/pitchers_graph1-1.png" width="672" /><br />
 <img src="/analysis_files/figure-html/pitchers_graph2-1.png" width="672" /><br />
-In 2013, the pitcher with the highest winning proportion having pitched at least 30 games was <a href="https://www.mlb.com/player/kris-medlen-450665">Kris Medlen</a>. Following Medlen, was Julio Teheran and Mike Minor. Two of Atlanta’s top pitchers in 2013 had a winning proportion over 0.45 while only one pitcher, Ervin Santana, had a winning proportion of 0.45 in 2014. Medlen’s pitching did not appear in the 2014 Atlanta season due to a Tommy John surgery. While Teheran and Minor both returned for the 2014 season, Minor started in 7 fewer games and their performances did not match that of the previous year.</p>
-<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
+In 2013, the pitcher with the highest winning proportion having pitched at least 30 games was <a href="https://www.mlb.com/player/kris-medlen-450665">Kris Medlen</a>. Following Medlen, was Julio Teheran and Mike Minor. Two of Atlanta’s top pitchers in 2013 had a winning proportion over 0.45 while only one pitcher, Ervin Santana, had a winning proportion of 0.45 in 2014. Medlen’s pitching did not appear in the 2014 Atlanta season due to a Tommy John surgery. While Teheran and Minor both returned for the 2014 season, Minor started in 7 fewer games and their performances did not match that of the previous year.<br />
+<br />
+</p>
+</div>
+<div id="linear-regression" class="section level2">
+<h2>Linear Regression</h2>
+<p>To conclude our analysis, we took all the variables that we previously observed (payroll, hits, homeruns, strikeouts, and earned runs against) and conducted a forward selection stepwise regression to see how well these variables can predict the response variable of winning percentage.<br />
+<br />
+We used Mallow’s C~p to determine the number of predictors that provided the best overall model. Mallow’s C~p compares the full model to models with a subset of the predictors.The model with the smallest C~p statistic indicates the best overall model with the least amount of unexplained error. The following code is what we used to discover that the model with four of the five predictors was the best model in predicting winning percentage:<br />
+<br />
+</p>
+<pre><code>fwd &lt;- leaps::regsubsets(win_perc ~ . - h_name - year, 
+                         data = all,
+                         method = &quot;forward&quot;,
+                         nvmax = 10)
+which.min(summary(fwd)$cp)</code></pre>
+<p><br />
+Table 9 below contains the estimates for the best model with the predictor variables total strikeouts, total hits, total homeruns, and total earned runs.<br />
+</p>
 <table class=" lightable-paper lightable-hover lightable-classic-2 table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-family: Georgia; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
 <caption>
-(#tab:lin_mod)Forward Selection Model
+<span id="tab:unnamed-chunk-8">Table 9: </span>Forward Selection Model
 </caption>
 <thead>
 <tr>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+<th style="text-align:left;">
 </th>
-<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+<th style="text-align:center;">
 Estimate
 </th>
-<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+<th style="text-align:center;">
 Standard Error
 </th>
-<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+<th style="text-align:center;">
 t Value
 </th>
-<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+<th style="text-align:center;">
 Pr(&gt;|t|)
 </th>
 </tr>
@@ -1977,33 +1996,16 @@ Pr(&gt;|t|)
 (Intercept)
 </td>
 <td style="text-align:center;">
-1.35
+32.3781
 </td>
 <td style="text-align:center;">
-5.785
+3.590
 </td>
 <td style="text-align:center;">
-0.23
+9.02
 </td>
 <td style="text-align:center;">
-0.8160
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-payroll
-</td>
-<td style="text-align:center;">
-0.02
-</td>
-<td style="text-align:center;">
-0.006
-</td>
-<td style="text-align:center;">
-3.44
-</td>
-<td style="text-align:center;">
-0.0006
+0.0000
 </td>
 </tr>
 <tr>
@@ -2011,16 +2013,16 @@ payroll
 total_so
 </td>
 <td style="text-align:center;">
-0.02
+-0.0029
 </td>
 <td style="text-align:center;">
-0.002
+0.001
 </td>
 <td style="text-align:center;">
-10.29
+-2.20
 </td>
 <td style="text-align:center;">
-0.0000
+0.0281
 </td>
 </tr>
 <tr>
@@ -2028,16 +2030,16 @@ total_so
 total_hits
 </td>
 <td style="text-align:center;">
--0.02
+0.0396
 </td>
 <td style="text-align:center;">
-0.005
+0.002
 </td>
 <td style="text-align:center;">
--3.06
+21.05
 </td>
 <td style="text-align:center;">
-0.0023
+0.0000
 </td>
 </tr>
 <tr>
@@ -2045,16 +2047,16 @@ total_hits
 total_hruns
 </td>
 <td style="text-align:center;">
--0.04
+0.0783
 </td>
 <td style="text-align:center;">
-0.011
+0.004
 </td>
 <td style="text-align:center;">
--3.25
+17.78
 </td>
 <td style="text-align:center;">
-0.0012
+0.0000
 </td>
 </tr>
 <tr>
@@ -2062,13 +2064,13 @@ total_hruns
 total_er
 </td>
 <td style="text-align:center;">
-0.08
+-0.0728
 </td>
 <td style="text-align:center;">
-0.007
+0.002
 </td>
 <td style="text-align:center;">
-10.52
+-33.86
 </td>
 <td style="text-align:center;">
 0.0000
@@ -2076,7 +2078,6 @@ total_er
 </tr>
 </tbody>
 </table>
-</div>
 </div>
 <div id="limitations" class="section level2">
 <h2>Limitations</h2>

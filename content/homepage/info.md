@@ -23,12 +23,12 @@ widget:
   
   background:
     # Options: primary, secondary, tertiary or any valid color value. Default is primary.
-    color: 
-    image: 
+    color: secondary
+    image:
     # Options: auto, cover and contain. Default is auto.
-    size: 
+    size: auto
     # Options: center, top, right, bottom, left.
-    position: 
+    position:
     # Options: fixed, local, scroll.
-    attachment: 
+    attachment:
 ---
