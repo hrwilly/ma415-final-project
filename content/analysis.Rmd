@@ -28,6 +28,17 @@ options(dplyr.summarise.inform = FALSE)
 The table below shows which team had the highest winning percentage each year from 2000 to 2016.\
 \
 
+```{r results="asis",echo=FALSE}
+cat("
+<style>
+caption {
+      background-color: white;
+      font-weight: bold;
+    }
+</style>
+")
+```
+
 ```{r, echo = FALSE}
 #team with highest winning percentage each year
 highest <- win_perc %>% group_by(year) %>% 
@@ -40,9 +51,9 @@ highest %>% kable(caption = "Leading Winning Percentage Each Year",
                               "Games Won", 
                               "Winning Percentage"), 
                 align = "c") %>%
-  kable_paper(full_width = TRUE, "hover") %>% 
+  column_spec(column = c(1,2,3,4), background = "#F0F8FF") %>% 
+  kable_paper(full_width = TRUE) %>% 
   kable_classic_2(html_font = "Georgia") %>% 
-  column_spec(column = 4, background = "#F0F8FF") %>% 
   kable_styling(position = "center") %>% 
   scroll_box(height = "200px", width = "100%")
 ```
@@ -114,9 +125,10 @@ matches <- highest %>% left_join(highest_hits, by = "year") %>%
 
 matches %>% 
   kbl(caption = "Leading Winning Percentage, Hits, Homeruns, and Runs Each Year", col.names = c("Year", "Highest Winning Percentage", "Most Hits", "Most Homeruns", "Most Runs"), align = "c") %>% 
-  kable_paper(full_width = TRUE, "hover") %>% 
+  kable_paper(full_width = TRUE) %>% 
   kable_classic_2(html_font = "Georgia") %>% 
   kable_styling(position = "center") %>% 
+  column_spec(column = c(1,2,3,4,5), background = "#F0F8FF") %>%
   scroll_box(height = "200px", width = "100%")
 ```
 \
@@ -143,8 +155,10 @@ summary(payroll_mod)$coefficients %>%
       col.names = c("estimate", "standard error", "t value", "p value"),
       digits = c(2, 3, 2, 5)
       ) %>% 
+  column_spec(column = c(1,2,3,4,5), background = "#F0F8FF") %>%
   kable_classic_2(html_font = "Georgia") %>% 
-  kable_styling(position = "center")
+  kable_styling(position = "center") %>% 
+  scroll_box(height = "150px", width = "100%")
 
 beta <- coef(payroll_mod)
 
@@ -197,9 +211,10 @@ slopes$p.value <- round(slopes$p.value, digits = 2)
 
 slopes %>% 
   kable(caption = "Slopes of Winning Percentage Against Payroll for Each Team", col.names = c("Team", "Slope", "Standard Error", "P Value"), align = "c") %>% 
-  kable_paper(full_width = TRUE, "hover") %>% 
+  kable_paper(full_width = TRUE) %>% 
   kable_classic_2(html_font = "Georgia") %>% 
   kable_styling(position = "center") %>% 
+  column_spec(column = c(1,2,3,4), background = "#F0F8FF") %>%
   scroll_box(height = "200px", width = "100%")
 ```
 \
@@ -433,7 +448,8 @@ kable((oak[, 1:5]),
         col.names = c("Year", "Winning Percentage", "Payroll (millions)", "Payroll Difference from Previous Year", "Winning Percentage Difference from Previous Year"),
         align = "c",
         digits = 2) %>% 
-kable_paper(full_width = TRUE, "hover") %>% 
+column_spec(column = c(1,2,3,4,5), background = "#F0F8FF") %>%
+kable_paper(full_width = TRUE) %>% 
 kable_classic_2(html_font = "Georgia") %>% 
 kable_styling(position = "center") %>% 
 scroll_box(height = "200px", width = "100%")
@@ -468,9 +484,11 @@ home %>% left_join(away, by = c("h_starting_pitcher_name" = "v_starting_pitcher_
         col.names = c("Starting Pitcher", "Games Started", "Games Won", "Winning Proportion"),
         align = "c",
         digits = 2) %>% 
-  kable_paper(full_width = TRUE, "hover") %>% 
+  column_spec(column = c(1,2,3,4), background = "#F0F8FF") %>%
+  kable_paper(full_width = TRUE) %>% 
   kable_classic_2(html_font = "Georgia") %>% 
-  kable_styling(position = "center")
+  kable_styling(position = "center") %>% 
+  scroll_box(height = "200px", width = "100%")
 ```
 
 ```{r OAK_pitchers_14, echo = FALSE}
@@ -498,9 +516,11 @@ home2 %>% left_join(away2, by = c("h_starting_pitcher_name" = "v_starting_pitche
         col.names = c("Starting Pitcher", "Games Started", "Games Won", "Winning Proportion"),
         align = "c",
         digits = 2) %>% 
-  kable_paper(full_width = TRUE, "hover") %>% 
+  column_spec(column = c(1,2,3,4), background = "#F0F8FF") %>%
+  kable_paper(full_width = TRUE) %>% 
   kable_classic_2(html_font = "Georgia") %>% 
-  kable_styling(position = "center")
+  kable_styling(position = "center") %>% 
+  scroll_box(height = "150px", width = "100%")
 ```
 \
 When comparing the winning proportions of the top Oakland pitchers for the 2013 and 2014 seasons, we see one pitcher stand out: [Bartolo Colón](https://www.mlb.com/player/bartolo-colon-112526). With a winning proportion of about 60%, Colón was traded to the New York Mets in 2014. Colón, along with two other pitchers who started in more than 30 games, did not return to Oakland for the 2014 season. In 2014, Oakland dropped to only having two pitchers start in over 30 games with winning proportions more than 10% less than Colón's. 
@@ -519,7 +539,8 @@ kable((atl[, 1:5]),
         col.names = c("Year", "Winning Percentage", "Payroll (millions)", "Payroll Difference from Previous Year", "Winning Percentage Difference from Previous Year"),
         align = "c",
         digits = 2) %>% 
-kable_paper(full_width = TRUE, "hover") %>% 
+  column_spec(column = c(1,2,3,4,5), background = "#F0F8FF") %>%
+kable_paper(full_width = TRUE) %>% 
 kable_classic_2(html_font = "Georgia") %>% 
 kable_styling(position = "center") %>% 
 scroll_box(height = "200px", width = "100%")
@@ -652,9 +673,11 @@ summary(lm(win_perc ~ . -h_name - year - payroll, all))$coef %>%
         col.names = c("Estimate", "Standard Error", "t Value", "Pr(>|t|)"),
         align = "c",
         digits = c(4, 3, 2, 4)) %>% 
-  kable_paper(full_width = TRUE, "hover") %>% 
+  column_spec(column = c(1,2,3,4,5), background = "#F0F8FF") %>%
+  kable_paper(full_width = TRUE) %>% 
   kable_classic_2(html_font = "Georgia") %>% 
-  kable_styling(position = "center")
+  kable_styling(position = "center") %>% 
+  scroll_box(height = "200px", width = "100%")
 ```
 
 Bullet points for explanation:
