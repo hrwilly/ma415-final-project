@@ -34,9 +34,6 @@ suppressPackageStartupMessages(library(googlesheets4))
 
 load(here::here("dataset", "baseball.RData"))
 
-
-
-load(here::here("dataset", "baseball.RData"))
 stadiums <- read_sheet("https://docs.google.com/spreadsheets/d/1p0R5qqR7XjoRG2mR5E1D_trlygHSqMOUdMgMpzq0gjU/htmlview")
 
 
