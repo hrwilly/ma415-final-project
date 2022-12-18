@@ -5,9 +5,9 @@ account: bu-ma415-hgb-stadium-map
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 7841654
-bundleId: 6629128
+bundleId: 6648775
 url: https://bu-ma415-hgb-stadium-map.shinyapps.io/stadium_map_2/
-when: 1670884192.66917
-lastSyncTime: 1670884192.66918
+when: 1671300276.0463
+lastSyncTime: 1671300276.04632
 asMultiple: FALSE
 asStatic: FALSE
