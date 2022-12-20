@@ -17,6 +17,17 @@ load(here::here("dataset", "baseball.RData"))
 options(dplyr.summarise.inform = FALSE)
 ```
 
+```{r results="asis",echo=FALSE}
+cat("
+<style>
+caption {
+      background-color: white;
+      font-weight: bold;
+    }
+</style>
+")
+```
+
 Baseball has always been a numbers game. Whether it be batting average, earned run average, or wins above replacement, players' in-game statistics dictate nearly every management decision, as small as a call to the bullpen and as big as releasing a player. Although these in-game statistics can be very telling on a player-by-player basis, they are not always indicative of a team's success as a whole. 
 
 ```{r echo=FALSE}
