@@ -106,3 +106,9 @@ Some general guidelines are:
 4. Always commit changes in the `static` folder.
 
 __Never__ commit large (> 50mb) data files. This can cause some challenges. 
+
+Video Interactive walk through:
+
+https://user-images.githubusercontent.com/78614315/208584568-daf2d2b9-f613-4e23-b42b-49f21824a57c.mp4 
+
+
