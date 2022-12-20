@@ -57,7 +57,7 @@ highest %>% kable(caption = "Leading Winning Percentage Each Year",
   kable_paper(full_width = TRUE) %>% 
   kable_classic_2(html_font = "Georgia") %>% 
   kable_styling(position = "center") %>% 
-  scroll_box(height = "200px", width = "100%")
+  scroll_box(height = "650px", width = "100%")
 ```
 \
 Among these highest winning percentages for each year, the Seattle Mariners had the overall highest winning percentage in 2001 at 71.60% with the rest of the years averaging at a highest winning percentage of about 61%.\
@@ -131,7 +131,7 @@ matches %>%
   kable_classic_2(html_font = "Georgia") %>% 
   kable_styling(position = "center") %>% 
   column_spec(column = c(1,2,3,4,5), background = "#F0F8FF") %>%
-  scroll_box(height = "200px", width = "100%")
+  scroll_box(height = "650px", width = "100%")
 ```
 \
 For every season, the team with the highest number of total hits did not match the team with the highest winning percentage. Only in 2009, the New York Yankees were the team with the highest number of total home runs as well as total runs. For teams with the highest total runs, only 6 teams matched the team with the highest winning percentage for that year. Even though teams are offensively performing the best in these major categories of hits, home runs, and runs, they do not end up performing the best overall according to their winning percentage. These preliminary findings push us towards the answer that winning in the MLB is mostly based on luck. Since those teams with the highest numbers do not necessarily mean a team winning the most, we continue our analysis by looking at whether a team's payroll constituted more wins.\
@@ -217,7 +217,7 @@ slopes %>%
   kable_classic_2(html_font = "Georgia") %>% 
   kable_styling(position = "center") %>% 
   column_spec(column = c(1,2,3,4), background = "#F0F8FF") %>%
-  scroll_box(height = "200px", width = "100%")
+  scroll_box(height = "500px", width = "100%")
 ```
 \
 ```{r coefs_graph, fig.width = 10, fig.height = 6, echo = FALSE}
@@ -454,7 +454,7 @@ column_spec(column = c(1,2,3,4,5), background = "#F0F8FF") %>%
 kable_paper(full_width = TRUE) %>% 
 kable_classic_2(html_font = "Georgia") %>% 
 kable_styling(position = "center") %>% 
-scroll_box(height = "200px", width = "100%")
+scroll_box(height = "700px", width = "100%")
 ```
 \
 Oakland's largest payroll increase from one year to the next was from the year 2013 to 2014. From 2013 to 2014, there was a 22 million dollar increase in their payroll, yet their winning percentage decreased by about 5%. Since the performance of the Oakland Athletics did not increase as their payroll increased, we looked at what the team possibly lost from 2013 to 2014 resulting in this decreased winning percentage despite an increase in payroll.\
@@ -545,7 +545,7 @@ kable((atl[, 1:5]),
 kable_paper(full_width = TRUE) %>% 
 kable_classic_2(html_font = "Georgia") %>% 
 kable_styling(position = "center") %>% 
-scroll_box(height = "200px", width = "100%")
+scroll_box(height = "700px", width = "100%")
 ```
 \
 For the Atlanta Braves, the largest payroll increase from one year to the next was also from the years 2013 to 2014. From these two years there was a 21 million dollar increase in their payroll with their winning percentage decreasing by about 10%. Similar to the Oakland Athletics, we looked at what pitchers the Braves lost from 2013 to 2014 resulting in this decreased winning percentage despite a 31 million dollar increase in payroll.\
@@ -679,7 +679,7 @@ summary(lm(win_perc ~ . -h_name - year - payroll, all))$coef %>%
   kable_paper(full_width = TRUE) %>% 
   kable_classic_2(html_font = "Georgia") %>% 
   kable_styling(position = "center") %>% 
-  scroll_box(height = "200px", width = "100%")
+  scroll_box(height = "260px", width = "100%")
 ```
 
 Bullet points for explanation:
