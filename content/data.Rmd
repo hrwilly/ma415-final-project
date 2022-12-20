@@ -11,7 +11,6 @@ draft: false
 
 The datasets analyzed in this project can be found at the following links listed below.
 
-
 ```{r dataset links, echo=FALSE}
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(kableExtra))
@@ -82,7 +81,8 @@ data.frame(
   kbl() %>% 
   row_spec(0, bold = TRUE) %>% 
   kable_classic(html_font = "Georgia") %>% 
-  kable_styling(position = "center")
+  kable_styling(position = "center") %>% 
+  column_spec(column = c(1,2,3), background = "#F0F8FF")
 
 ```
 
@@ -120,6 +120,13 @@ h_win_loss <- function(h, v) {
 baseball <- baseball %>% mutate(h_win_loss = h_win_loss(h_score, v_score))
 knitr::kable(baseball[1:20,])
 
+baseball %>% kable(align = "c") %>%
+  column_spec(column = c(1,2,3), background = "#F0F8FF") %>% 
+  kable_paper(full_width = TRUE) %>% 
+  kable_classic_2(html_font = "Georgia") %>% 
+  kable_styling(position = "center") %>% 
+  scroll_box(height = "200px", width = "100%")
+
 #total games won
 home_wins <- baseball %>% group_by(h_name, year) %>% summarize(h_wins = sum(h_win_loss == 1))
 away_wins <- baseball %>% group_by(v_name, year) %>% summarize(a_wins = sum(h_win_loss == 0))
@@ -153,5 +160,4 @@ pay_tibble <- win_perc %>%
   arrange(year)
 
 knitr::kable(pay_tibble[1:20,])
-
 ```
