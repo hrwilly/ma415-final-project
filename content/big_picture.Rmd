@@ -14,6 +14,7 @@ suppressPackageStartupMessages(library(broom))
 load(here::here("dataset", "win_perc.RData"))
 load(here::here("dataset", "mlb_payroll.RData"))
 load(here::here("dataset", "baseball.RData"))
+options(dplyr.summarise.inform = FALSE)
 ```
 
 Baseball has always been a numbers game. Whether it be batting average, earned run average, or wins above replacement, players' in-game statistics dictate nearly every management decision, as small as a call to the bullpen and as big as releasing a player. Although these in-game statistics can be very telling on a player-by-player basis, they are not always indicative of a team's success as a whole. 
@@ -139,7 +140,7 @@ The above results tell us that for just about half of the teams in the MLB, as p
 
 To further investigate, we will try to correlate payroll with other metrics. We begin by looking at offensive statistics, namely, hits:
 
-```{r echo=FALSE}
+```{r echo=FALSE, message=FALSE}
 h_hits <- baseball %>% select(year, h_name, h_hits) %>% 
   group_by(year,h_name) %>% 
   summarize(h_hits = sum(h_hits))
@@ -161,7 +162,7 @@ payroll_hits %>% filter(!is.na(total_hits)) %>%
 
 To our surprise, there is practically no observable uptick in hits as payroll increases, and in fact, we observe a similar trend with homeruns:
 
-```{r echo=FALSE}
+```{r echo=FALSE, message=FALSE}
 h_hruns <- baseball %>% select(year, h_name, h_homeruns) %>% 
   group_by(year,h_name) %>% 
   summarize(h_hruns = sum(h_homeruns))
@@ -185,7 +186,7 @@ From these two plots, we can infer that teams clearly are not allocating any add
 
 Our initial thought upon observing this lack of offense was to check pitching performance, as any lull in offense is most certainly a benefit to pitchers, as their metrics are, in a way, complementary to one another. To test this, we plot strikeouts vs payroll and assess the results:
 
-```{r echo=FALSE}
+```{r echo=FALSE, message=FALSE}
 h_so <- baseball %>% select(year, h_name, v_strikeouts) %>% 
   group_by(year,h_name) %>% 
   summarize(h_so = sum(v_strikeouts))
@@ -207,7 +208,7 @@ payroll_so %>% filter(!is.na(total_so)) %>%
 
 Now we seem to be getting somewhere. When compared to the offensive plots analyzed above, this plot reveals a clear and observable increase in teams' total pitched strikeouts. We take this as a hint that teams are perhaps putting their money where their pitchers are, not their hitters. To further explore this idea, we plot earned runs against payroll, seeking to observe a negative relationship, as a decrease in runs is an increase in performance from a pitcher's perspective:
 
-```{r echo=FALSE}
+```{r echo=FALSE, message=FALSE}
 h_er <- baseball %>% select(year, h_name, h_team_earned_runs) %>% 
   group_by(year,h_name) %>% 
   summarize(h_er = sum(h_team_earned_runs))
@@ -241,60 +242,3 @@ https://bu-ma415-hgb-stadium-map.shinyapps.io/stadium_map_2/
 
 
 Think of this page as your 538/Upshot style article. This means that you should try to tell a story through the data and your analysis. Read articles from those sites and similar sites to get a feeling for what they are like. Importantly, these should be geared towards the general public. You shouldn't assume the reader understands how to interpret a linear regression. Focus on interpretation and visualizations.
-
-
-
----
-
-## Rubric: On this page
-
-You will
-
-
-
-* Title
-  * Your big picture page should have a creative/click-baity title/headline that provides a hint about your thesis.
-* Clarity of Explanation
-  * You should have a clear thesis/goal for this page. What are you trying to show? Make sure that you explain your analysis in detail but don't go into top much mathematics or statistics. The audience for this page is the general public (to the extent possible).
-* Quality of Figures
-  * Each figure should be very polished and also not too complicated. There should be a clear interpretation of the figure so the figure has a clear purpose. Even something like a histogram can be difficult to interpret for non-experts.
-* Creativity
-  * Do your best to make things interesting. Think of a story. Think of how each part of your analysis supports the previous part or provides a different perspective.
-  
-**Note**: This page should have no code visible, i.e. use `echo=FALSE`.  
-
----
-
-## Rubric: Other components
-
-### Interactive
-
-You will also be required to make an interactive dashboard like [this one](/flex/flex.html).
-
-Your Big Data page should include a link to an interactive dashboard. The dashboard should be created either using Shiny or FlexDashboard (or another tool with professor's approval). This interactive component should in some way support your thesis from your big picture page. Good interactives often provide both high-level understanding of the data while allowing a user to investigate specific scenarios, observations, subgroups, etc.
-
-* Quality and ease of use of the interactive components.
-Is it clear what can be explored using your interactive components?
-Does it enhance and reinforce your conclusions from the Big Picture?
-Plotly with default hover text will get no credit. Be creative!
-
-
-### Video Recording
-
-Make a video recording (probably using Zoom) demonstrating your interactive components.
-You should provide a quick explanation of your data and demonstrate some of the conclusions from your EDA.
-This video should be no longer than 4 minutes.
-Include a link to your video (and password if needed) in your README.md file on your Github repository. You are not required to provide a link on the website.
-This can be presented by any subset of the team members.
-
-
-### Rest of the Site
-
-Finally, here are important things to keep in mind for the rest of the site. 
-
-The main title of your page is informative.
-Each post has an author/description/informative title.
-All lab required posts are present.
-Each page (including the home page) has a nice featured image associated with it.
-Your about page is up to date and clean.
-You have removed the generic posts from the initial site template.
