@@ -237,7 +237,3 @@ And so, finally, we conclude
 To interact with our analysis, play around with the interactive linked below!
 
 https://bu-ma415-hgb-stadium-map.shinyapps.io/stadium_map_2/ 
-
-
-
-Think of this page as your 538/Upshot style article. This means that you should try to tell a story through the data and your analysis. Read articles from those sites and similar sites to get a feeling for what they are like. Importantly, these should be geared towards the general public. You shouldn't assume the reader understands how to interpret a linear regression. Focus on interpretation and visualizations.
