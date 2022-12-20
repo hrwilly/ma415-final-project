@@ -32,7 +32,6 @@ df %>% mutate(
 
 ```
 
-
 ## Baseball Game Logs
 
 The main dataset used in our analysis of factors that influence a win among Major League Baseball teams is the Baseball Game Logs from 1871-2016 which is a dataset that can be found on the Data.World website. This dataset was compiled from 127 separate CSV files from [Retrosheet](https://www.retrosheet.org), a website dedicated to providing as many play-by-play accounts of major league games as possible. Many people have contributed to providing the game logs, however, baseball historian Bob Tiemann is credited with originating the logs and Arnie Braunstein is credited with computerizing them. The data from Retrosheet was collected for the purpose of providing fans access to data that allows them to compare player and team performances to other years. 

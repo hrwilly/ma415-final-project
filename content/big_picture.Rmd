@@ -72,12 +72,16 @@ matches <- highest %>% left_join(highest_hits, by = "year") %>%
   left_join(highest_hruns, by = "year") %>% 
   left_join(highest_runs, by = "year") %>% select(year, h_name.x, h_name.y, h_name.x.x, h_name.y.y)
 
-matches %>% 
-  kbl(caption = "Leading Winning Percentage, Hits, Homeruns, and Runs Each Year", col.names = c("Year", "Highest Winning Percentage", "Most Hits", "Most Homeruns", "Most Runs"), align = "c") %>% 
+highest %>% kable(caption = "Leading Winning Percentage Each Year",
+                  col.names = c("Year", 
+                              "Team", 
+                              "Games Won", 
+                              "Winning Percentage"), 
+                align = "c") %>%
+  column_spec(column = c(1,2,3,4), background = "#F0F8FF") %>% 
   kable_paper(full_width = TRUE) %>% 
   kable_classic_2(html_font = "Georgia") %>% 
   kable_styling(position = "center") %>% 
-  column_spec(column = c(1,2,3,4,5), background = "#F0F8FF") %>%
   scroll_box(height = "200px", width = "100%")
 ```
 
