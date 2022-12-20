@@ -13,7 +13,7 @@ The datasets analyzed in this project can be found at the following links listed
 
 ```{r dataset links, echo=FALSE}
 suppressPackageStartupMessages(library(tidyverse))
-suppressPackageStartupMessages(library(kableExtra))
+suppressWarnings(suppressPackageStartupMessages(library(kableExtra)))
 library(gt)
 df <- tibble(
   Dataset = c("Baseball Game Logs from 1871-2016", 
@@ -32,7 +32,6 @@ df %>% mutate(
 
 ```
 
-
 ## Baseball Game Logs
 
 The main dataset used in our analysis of factors that influence a win among Major League Baseball teams is the Baseball Game Logs from 1871-2016 which is a dataset that can be found on the Data.World website. This dataset was compiled from 127 separate CSV files from [Retrosheet](https://www.retrosheet.org), a website dedicated to providing as many play-by-play accounts of major league games as possible. Many people have contributed to providing the game logs, however, baseball historian Bob Tiemann is credited with originating the logs and Arnie Braunstein is credited with computerizing them. The data from Retrosheet was collected for the purpose of providing fans access to data that allows them to compare player and team performances to other years. 
@@ -40,9 +39,8 @@ The main dataset used in our analysis of factors that influence a win among Majo
 ### Variables
 
 Provided in the table below are a list of all the relevant variables used in our analysis.
-
 ```{r game_logs_variables, echo = FALSE}
-data.frame(
+variable<-as_tibble(data.frame(
   Variable = c("date",
                "day_of_week",
                "v_name",
@@ -77,13 +75,14 @@ data.frame(
                   "Visiting team starting pitcher name",
                   "Home team starting pitcher name")
         
-) %>% 
-  kbl() %>% 
-  row_spec(0, bold = TRUE) %>% 
-  kable_classic(html_font = "Georgia") %>% 
-  kable_styling(position = "center") %>% 
-  column_spec(column = c(1,2,3), background = "#F0F8FF")
+))
 
+variable %>% kable() %>% 
+  column_spec(column = c(1,2,3), background = "white") %>% 
+  kable_paper(full_width = TRUE) %>% 
+  kable_classic_2(html_font = "Georgia") %>% 
+  kable_styling(position = "center") %>% 
+  scroll_box(height = "430px", width = "100%")
 ```
 
 The remaining variables of the game logs datasest include the names of the starting position players for both the home and visiting teams as well as statistics for each team of the game including hits, walks, rbi's, errors, and double plays. 
@@ -143,7 +142,6 @@ We combined this dataset with the `win_perc` dataset by first converting the `ye
 \
 We then joined `mlb_payroll` with `win_perc` to get our final payroll tibble.\
 \
-*Only the first 20 rows of the payroll data is displayed for concision.
 
 ```{r payroll, echo=FALSE}
 load(here::here("dataset", "mlb_payroll.RData"))
@@ -152,5 +150,10 @@ pay_tibble <- win_perc %>%
   left_join(mlb_payroll, by = c('year'='year', 'h_name'='h_name')) %>% 
   arrange(year)
 
-knitr::kable(pay_tibble[1:20,])
+pay_tibble %>% kable(align = "c") %>% 
+  column_spec(column = c(1,2,3,4,5,6,7,8,9), background = "white") %>% 
+  kable_paper(full_width = TRUE) %>% 
+  kable_classic_2(html_font = "Georgia") %>% 
+  kable_styling(position = "center") %>% 
+  scroll_box(height = "500px", width = "100%")
 ```

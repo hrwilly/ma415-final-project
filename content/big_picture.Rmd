@@ -17,7 +17,29 @@ load(here::here("dataset", "baseball.RData"))
 options(dplyr.summarise.inform = FALSE)
 ```
 
+```{r results="asis",echo=FALSE}
+cat("
+<style>
+caption {
+      background-color: white;
+      font-weight: bold;
+    }
+</style>
+")
+```
+
 Baseball has always been a numbers game. Whether it be batting average, earned run average, or wins above replacement, players' in-game statistics dictate nearly every management decision, as small as a call to the bullpen and as big as releasing a player. Although these in-game statistics can be very telling on a player-by-player basis, they are not always indicative of a team's success as a whole. 
+
+```{r results="asis",echo=FALSE}
+cat("
+<style>
+caption {
+      background-color: white;
+      font-weight: bold;
+    }
+</style>
+")
+```
 
 ```{r echo=FALSE}
 highest <- win_perc %>% group_by(year) %>% 
@@ -73,7 +95,7 @@ matches <- highest %>% left_join(highest_hits, by = "year") %>%
   left_join(highest_runs, by = "year") %>% select(year, h_name.x, h_name.y, h_name.x.x, h_name.y.y)
 
 matches %>% 
-  kbl(caption = "Leading Winning Percentage, Hits, Homeruns, and Runs Each Year", col.names = c("Year", "Highest Winning Percentage", "Most Hits", "Most Homeruns", "Most Runs"), align = "c") %>% 
+  kbl(caption = "Leading Winning Percentage, Hits, Home Runs, and Runs Each Year", col.names = c("Year", "Highest Winning Percentage", "Most Hits", "Most Home Runs", "Most Runs"), align = "c") %>% 
   kable_paper(full_width = TRUE) %>% 
   kable_classic_2(html_font = "Georgia") %>% 
   kable_styling(position = "center") %>% 
@@ -230,14 +252,10 @@ payroll_er %>% filter(!is.na(total_er)) %>%
 
 Eureka! From these two final plots, we conclude that teams are indeed spending their cash on pitchers as opposed to hitters. Without the offensive analysis prior to this, this result seems intuitively obvious. But now it is relatively clear that, for the vast majority of teams, any increases in payroll tend to fund the pitching staff rather than the offense.
 
-In addition to telling us the destination of teams' funding, the above plots of pitching metrics are somewhat explanative of the lack of offense we observed earlier. If teams are consistently directing more resources to their pitching staffs, pitchers will in turn consistently dominate batters, weakening teams' overall offensive statistics.
+In addition to telling us the destination of teams' funding, the above plots of pitching metrics are somewhat explanative for the lack of offense we observed earlier. If teams are consistently directing more resources to their pitching staffs, pitchers will in turn consistently dominate batters, weakening teams' overall offensive statistics.
 
-And so, finally, we conclude
+And so, finally, we conclude that a higher payroll, although offering a slight advantage, is not a direct indicator of success in a way that one might initially expect. Rather, what is more important is *how* a team decides to spend what money they do have.
 
 To interact with our analysis, play around with the interactive linked below!
 
 https://bu-ma415-hgb-stadium-map.shinyapps.io/stadium_map_2/ 
-
-
-
-Think of this page as your 538/Upshot style article. This means that you should try to tell a story through the data and your analysis. Read articles from those sites and similar sites to get a feeling for what they are like. Importantly, these should be geared towards the general public. You shouldn't assume the reader understands how to interpret a linear regression. Focus on interpretation and visualizations.

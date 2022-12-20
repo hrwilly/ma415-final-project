@@ -14,11 +14,23 @@ draft: false
 
 </div>
 
+<style>
+caption {
+      background-color: white;
+      font-weight: bold;
+    }
+</style>
 <p>Baseball has always been a numbers game. Whether it be batting average, earned run average, or wins above replacement, players’ in-game statistics dictate nearly every management decision, as small as a call to the bullpen and as big as releasing a player. Although these in-game statistics can be very telling on a player-by-player basis, they are not always indicative of a team’s success as a whole.</p>
+<style>
+caption {
+      background-color: white;
+      font-weight: bold;
+    }
+</style>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
 <table class=" lightable-paper lightable-classic-2 table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-family: Georgia; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-2">Table 1: </span>Leading Winning Percentage, Hits, Homeruns, and Runs Each Year
+<span id="tab:unnamed-chunk-4">Table 1: </span>Leading Winning Percentage, Hits, Home Runs, and Runs Each Year
 </caption>
 <thead>
 <tr>
@@ -32,7 +44,7 @@ Highest Winning Percentage
 Most Hits
 </th>
 <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
-Most Homeruns
+Most Home Runs
 </th>
 <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
 Most Runs
@@ -335,23 +347,22 @@ BOS
 <p>As demonstrated in the table above, having the best overall offense in the MLB for any given year is typically not enough to ensure the highest winning percentage. Once we flagged this irregularity, we became curious as to what might better predict success than in-game offensive statistics. We began to wonder if there were any external factors that could predict winning percentage, and, after doing away with the complex intricacies of weather-based analysis, recognized the magnitude of discrepancies between the payrolls of different MLB teams.</p>
 <p>Payroll is one of the most significantly recognizable divisions among teams in baseball. The wealthiest teams in the league often have as high as four times the funding of the poorest teams for any given season. Surely, an inequality gap this massive must have a noteworthy impact on teams’ success relative to one another; however, the impacts of this resource gap are not as clear cut as we had initially guessed.</p>
 <p>Our initial and perhaps obvious hypothesis was that teams’ winning percentage would increase as their payrolls increase, and that certainly holds some degree of truth, as shown in the figure below:</p>
-<p><img src="/big_picture_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="/big_picture_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>A team with even a two-fold increase of payroll should be expected to drastically outperform the lower spending teams. However, the above graph tells us that, on average, a 1 million dollar increase in payroll can only be expected to result in a 0.06% in win percentage. That means that an extra 1 million dollars cannot even buy a single win. In a 164-game season, 1 win makes a difference in win percentage of approximately 0.6%. Combined with the results of the graph above, 1 additional win would cost approximately 10 million dollars on account of payroll alone.</p>
 <p>Moreover, the team with the highest winning percentage between 2000 and 2016 had a payroll of less than 100 million dollars. Although this point of observation may simply qualify as an outlier, this is an important indicator that payroll does not explicitly translate to success, as many low-payroll teams have been able to overcome this obstacle. As well, if we investigate these trends on a team by team basis, the results are inconsistent:</p>
-<p><img src="/big_picture_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="/big_picture_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>The above results tell us that for just about half of the teams in the MLB, as payroll increases, their winning percentages actually decrease, which is hard to imagine. As a team gains funding, shouldn’t they be spending more money on better talent, which would in theory produce better results? The peculiarities of this plot indicate a more nuanced pattern underlying teams’ success in the MLB.</p>
 <p>To further investigate, we will try to correlate payroll with other metrics. We begin by looking at offensive statistics, namely, hits:</p>
-<p><img src="/big_picture_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="/big_picture_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p>To our surprise, there is practically no observable uptick in hits as payroll increases, and in fact, we observe a similar trend with homeruns:</p>
-<p><img src="/big_picture_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="/big_picture_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>From these two plots, we can infer that teams clearly are not allocating any additional funds they receive to their offensive players. So where, then, is all of this money going? And why are additional funds generally leaving teams offensively stagnant? To answer these questions, we next must investigate defensive trends to see if that might clue us in the right direction.</p>
 <p>Our initial thought upon observing this lack of offense was to check pitching performance, as any lull in offense is most certainly a benefit to pitchers, as their metrics are, in a way, complementary to one another. To test this, we plot strikeouts vs payroll and assess the results:</p>
-<p><img src="/big_picture_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="/big_picture_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>Now we seem to be getting somewhere. When compared to the offensive plots analyzed above, this plot reveals a clear and observable increase in teams’ total pitched strikeouts. We take this as a hint that teams are perhaps putting their money where their pitchers are, not their hitters. To further explore this idea, we plot earned runs against payroll, seeking to observe a negative relationship, as a decrease in runs is an increase in performance from a pitcher’s perspective:</p>
-<p><img src="/big_picture_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="/big_picture_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>Eureka! From these two final plots, we conclude that teams are indeed spending their cash on pitchers as opposed to hitters. Without the offensive analysis prior to this, this result seems intuitively obvious. But now it is relatively clear that, for the vast majority of teams, any increases in payroll tend to fund the pitching staff rather than the offense.</p>
-<p>In addition to telling us the destination of teams’ funding, the above plots of pitching metrics are somewhat explanative of the lack of offense we observed earlier. If teams are consistently directing more resources to their pitching staffs, pitchers will in turn consistently dominate batters, weakening teams’ overall offensive statistics.</p>
-<p>And so, finally, we conclude</p>
+<p>In addition to telling us the destination of teams’ funding, the above plots of pitching metrics are somewhat explanative for the lack of offense we observed earlier. If teams are consistently directing more resources to their pitching staffs, pitchers will in turn consistently dominate batters, weakening teams’ overall offensive statistics.</p>
+<p>And so, finally, we conclude that a higher payroll, although offering a slight advantage, is not a direct indicator of success in a way that one might initially expect. Rather, what is more important is <em>how</em> a team decides to spend what money they do have.</p>
 <p>To interact with our analysis, play around with the interactive linked below!</p>
 <p><a href="https://bu-ma415-hgb-stadium-map.shinyapps.io/stadium_map_2/" class="uri">https://bu-ma415-hgb-stadium-map.shinyapps.io/stadium_map_2/</a></p>
-<p>Think of this page as your 538/Upshot style article. This means that you should try to tell a story through the data and your analysis. Read articles from those sites and similar sites to get a feeling for what they are like. Importantly, these should be geared towards the general public. You shouldn’t assume the reader understands how to interpret a linear regression. Focus on interpretation and visualizations.</p>
