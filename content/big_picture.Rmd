@@ -93,7 +93,7 @@ highest %>% kable(caption = "Leading Winning Percentage Each Year",
   kable_paper(full_width = TRUE) %>% 
   kable_classic_2(html_font = "Georgia") %>% 
   kable_styling(position = "center") %>% 
-  scroll_box(height = "200px", width = "100%")
+  scroll_box(height = "650px", width = "100%")
 ```
 
 As demonstrated in the table above, having the best overall offense in the MLB for any given year is typically not enough to ensure the highest winning percentage. Once we flagged this irregularity, we became curious as to what might better predict success than in-game offensive statistics. We began to wonder if there were any external factors that could predict winning percentage, and, after doing away with the complex intricacies of weather-based analysis, recognized the magnitude of discrepancies between the payrolls of different MLB teams.
