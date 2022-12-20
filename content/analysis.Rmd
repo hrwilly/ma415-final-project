@@ -60,7 +60,7 @@ highest %>% kable(caption = "Leading Winning Percentage Each Year",
   scroll_box(height = "200px", width = "100%")
 ```
 \
-Among these highest winning percentages for each year, the Seattle Mariners had the overall highest winning percentage in 2001 at 71.60% with the rest of the years averaging at a highest winning percentage of about 61 percent.\
+Among these highest winning percentages for each year, the Seattle Mariners had the overall highest winning percentage in 2001 at 71.60% with the rest of the years averaging at a highest winning percentage of about 61%.\
 \
 ```{r, echo = FALSE}
 #which teams have had highest winning percentage for the most years
@@ -134,7 +134,7 @@ matches %>%
   scroll_box(height = "200px", width = "100%")
 ```
 \
-For every season, the team with the highest number of total hits did not match the team with the highest winning percentage. Only in 2009, the New York Yankees were the team with the highest number of total home runs as well as total runs. For teams with the highest total runs, only 6 teams matched the team with the highest winning percentage for that year. Even though teams are offensively performing the best in these major categories of hits, home runs, and runs, they do not end up performing the best overall according to their winning percentage. These preliminary findings push us towards the answer that winning in the MLB is mostly based on luck. Since those teams with the highest numbers do not necessarily mean a team winning the most, we chose to look at weather a team's payroll constituted more wins.\
+For every season, the team with the highest number of total hits did not match the team with the highest winning percentage. Only in 2009, the New York Yankees were the team with the highest number of total home runs as well as total runs. For teams with the highest total runs, only 6 teams matched the team with the highest winning percentage for that year. Even though teams are offensively performing the best in these major categories of hits, home runs, and runs, they do not end up performing the best overall according to their winning percentage. These preliminary findings push us towards the answer that winning in the MLB is mostly based on luck. Since those teams with the highest numbers do not necessarily mean a team winning the most, we continue our analysis by looking at whether a team's payroll constituted more wins.\
 \
 
 ## Initial Analysis
@@ -232,7 +232,7 @@ slopes %>%
 ```
 
 \
-From these faceted plots, it is not consistent among all teams that as payroll increases, winning percentage also increases. For exactly half of the MLB teams, as payroll increases, their winning percentage for that year decreases. Those 15 teams that have a positive slope between their winning percentage and payroll for each season will be named "Increased Performance Teams" while those 15 teams with negative slopes we have named "Decreased Performance Teams."\
+From these faceted plots, it is not consistent among all teams that as payroll increases, winning percentage also increases. For exactly half of the MLB teams, as payroll increases, their winning percentage for that year decreases. For the rest of our analysis, those 15 teams that have a positive slope between their winning percentage and payroll for each season will be named "Increased Performance Teams" while those 15 teams with negative slopes we have named "Decreased Performance Teams."\
 \
 In our analyses that follow, we look at what factors influence this divide between a positive and negative relationship between payroll and winning percentage.\
 \
@@ -244,7 +244,7 @@ In our analyses that follow, we look at what factors influence this divide betwe
 pos_slope <- slopes %>% filter(estimate > 0)
 ```
 
-When analyzing the Increased Performance Teams, we wanted to further look at the relationships between payroll and certain game statistics for each season. We first looked at payroll and hits to see if an increase in the number of hits per season was influencing this increased winning percentage as payroll increased. To do this, we calculated the total hits for each team each year by summing their home hits and their away hits. We then joined this dataset with the payroll dataset and plotted the total hits of each team against their payroll for each year between 2000 and 2016.\
+When analyzing the Increased Performance Teams, we wanted to further look at the relationships between payroll and certain game statistics for each season. We first looked at payroll and hits to see if an increase in the number of hits per season was influencing this increased winning percentage as payroll increased. To do this, we calculated the total hits for each team each year by summing their home hits and their away hits. We then joined this dataset with the payroll dataset and plotted the total hits of each team against their payroll for each year between 2000 and 2016 ordered by decreasing slopes.\
 \
 ```{r payroll_hits, echo = FALSE}
 #home hits per team per year
@@ -290,9 +290,9 @@ payroll_hits %>% group_by(h_name) %>%
   theme(strip.background = element_rect(color = "black", fill = "#eff9da", size = 1, linetype = "solid"))
 ```
 \
-To our surprise, for 11 out of the 15 teams, as payroll increases, the total number of hits in a season decreases. This suggests that even though teams are spending more money on more valuable players, their offensive performance in their total hits for a season does not increase.\
+To our surprise, for 11 out of the 15 teams, as payroll increases, the total number of hits in a season decreases. This suggests that even though teams are spending more money on more valuable players, their offensive performance in terms of their total hits for a season does not increase.\
 \
-We then looked at the relationships between payroll and homeruns for each season. It is possible that teams are spending more money on players known for hitting home runs and therefore bring in more runs rather than players who just hit and get on base without bringing in a run. We first calculated the total home runs for each team each year by summing their home home runs and their away home runs. We then joined this dataset with the payroll dataset and plotted the total homeruns of each team against their payroll for each year between 2000 and 2016.\
+To confirm this, we then looked at the relationships between payroll and home runs for each season, another offensive statistic. It is possible that teams are spending more money on players known for hitting home runs and therefore bring in more runs rather than players who just hit and get on base without bringing in a run. We first calculated the total home runs for each team each year by summing their home home runs and their away home runs. We then joined this dataset with the payroll dataset and plotted the total home runs of each team against their payroll for each year between 2000 and 2016.\
 \
 ```{r payroll_homeruns, echo = FALSE}
 h_hruns <- baseball %>% select(year, h_name, h_homeruns) %>% 
@@ -336,7 +336,7 @@ payroll_hruns %>% group_by(h_name) %>%
   theme(strip.background = element_rect(color = "black", fill = "#f9d8d6", size = 1, linetype = "solid"))
 ```
 \
-Again, to our surprise, 7 out of he 15 teams produced fewer home runs as payroll increased. From these graphs on the relationships between payroll and hits and payroll and home runs, it appears as though the offensive performance does not improve. So what then are these teams spending money on to increase their winning percentage?\
+Again, to our surprise, 7 out of he 15 teams produced fewer home runs as payroll increased. From these graphs on the relationships between payroll and hits and payroll and home runs, it appears as though the offensive performance does not improve as a team's payroll increases. So what then are these teams spending money on to increase their winning percentage?\
 \
 Rather than looking at offensive performance, we looked at defensive performance, particularly pitching. The first statistic we looked at for pitchers was strikeouts. In the baseball dataset, the variables `h_strikeouts` and `v_strikeouts` refer to the total number of times players struckout for the home team and visiting team respectively. To make this a statistic for the home team and visiting team pitchers, we reversed their variables. More explicitly, the total strikeouts for the home team pitchers is represented by the visiting team's strikeouts (`v_strikeouts`) and the total strikeouts for the visiting team pitchers is represented by the home team's strikeouts(`h_strikeouts`). We calculated the total strikeouts for each team for each year, joined this dataset with the payroll dataset, and plotted the total number of strikeouts for each team against their payroll for each year between 2000 and 2016.\
 \
@@ -384,7 +384,7 @@ payroll_so %>% group_by(h_name) %>%
   theme(strip.background = element_rect(color = "black", fill = "#d6cdea", size = 1, linetype = "solid"))
 ```
 \
-These plots show that for 15 out of the 15 teams, as payroll increases, the total number of strikeouts performed by the pitchers of each team also increases. We then looked at the earned runs statistic to see if this change in pitcher performance was consistent with the increase in payroll. Similar to the strikeout variables, `h_team_earned_runs` and `v_team_earned_runs` are the earned runs for the players of the home team and visiting team respectively. Here again we represented the earned runs for the home team pitchers with `v_team_earned_runs` and represented the earned runs for the visiting team pitchers with `h_team_earned_runs`. We calculated the total earned runs for each team for each year, joined this dataset with the payroll dataset, and plotted the total earned runs for each team against their payroll for each year between 2000 and 2016.\
+These plots show that for 15 out of the 15 teams, as payroll increases, the total number of strikeouts performed by the pitchers of each team also increases. From this one statistic, it seems that a team's increased payroll is represented by their acquired pitchers. We then looked at another statistic for pitchers to see if this statement is consistent. We performed the same analysis above now for the [earned runs](https://www.mlb.com/glossary/standard-stats/earned-run) statistic. If pitcher performance increases as payroll increases, we would see that as payroll increases, the total number of earned runs against would decrease. We calculated the total earned runs for each team for each year, joined this dataset with the payroll dataset, and plotted the total earned runs for each team against their payroll for each year between 2000 and 2016.\
 \
 
 ```{r payroll_er, echo = FALSE}
@@ -430,7 +430,7 @@ payroll_er %>% group_by(h_name) %>%
   theme(strip.background = element_rect(color = "black", fill = "#ffe7c7", size = 1, linetype = "solid"))
 ```
 \
-According to the plots, as payroll increases, the total earned runs for 15 of the 15 teams also decreases. These faceted plots along with the plots for total strikeouts against payroll suggest that along with an increase in payroll, the performance of the pitching improves with more strikeouts and less earned runs against the pitchers.\
+According to the plots, as payroll increases, the total earned runs for 15 of the 15 teams also decreases.  These faceted plots along with the plots for total strikeouts against payroll suggest that along with an increase in payroll, the performance of the pitching improves with more strikeouts and less earned runs against the pitchers. This confirms our conclusion that for those Increased Performance Teams, the money from an increase in payroll for a given year is applied to obtaining better pitchers.\
 \
 
 ## Negative Relationship
