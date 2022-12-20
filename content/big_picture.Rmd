@@ -94,17 +94,13 @@ matches <- highest %>% left_join(highest_hits, by = "year") %>%
   left_join(highest_hruns, by = "year") %>% 
   left_join(highest_runs, by = "year") %>% select(year, h_name.x, h_name.y, h_name.x.x, h_name.y.y)
 
-highest %>% kable(caption = "Leading Winning Percentage Each Year",
-                  col.names = c("Year", 
-                              "Team", 
-                              "Games Won", 
-                              "Winning Percentage"), 
-                align = "c") %>%
-  column_spec(column = c(1,2,3,4), background = "#F0F8FF") %>% 
+matches %>% 
+  kbl(caption = "Leading Winning Percentage, Hits, Home Runs, and Runs Each Year", col.names = c("Year", "Highest Winning Percentage", "Most Hits", "Most Home Runs", "Most Runs"), align = "c") %>% 
   kable_paper(full_width = TRUE) %>% 
   kable_classic_2(html_font = "Georgia") %>% 
   kable_styling(position = "center") %>% 
-  scroll_box(height = "650px", width = "100%")
+  column_spec(column = c(1,2,3,4,5), background = "#F0F8FF") %>%
+  scroll_box(height = "200px", width = "100%")
 ```
 
 As demonstrated in the table above, having the best overall offense in the MLB for any given year is typically not enough to ensure the highest winning percentage. Once we flagged this irregularity, we became curious as to what might better predict success than in-game offensive statistics. We began to wonder if there were any external factors that could predict winning percentage, and, after doing away with the complex intricacies of weather-based analysis, recognized the magnitude of discrepancies between the payrolls of different MLB teams.
