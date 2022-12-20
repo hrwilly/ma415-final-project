@@ -131,7 +131,7 @@ slopes$p.value <- round(slopes$p.value, digits = 2)
 slopes %>% ggplot(aes(x = reorder(h_name, -estimate), y = estimate)) +
   geom_bar(stat = "identity", aes(fill = estimate)) +
   scale_fill_gradient(high = "#152238", low = "#BCD2E8") +
-  labs(x = "Teams", y = "Rate of Change", title = "Change in Win Percentage per $1 million Payroll Increease") +
+  labs(x = "Teams", y = "Rate of Change", title = "Change in Win Percentage per $1 million Payroll Increase") +
   scale_x_discrete(guide = guide_axis(n.dodge=2))
 ```
 
