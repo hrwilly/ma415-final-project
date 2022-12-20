@@ -13,7 +13,7 @@ The datasets analyzed in this project can be found at the following links listed
 
 ```{r dataset links, echo=FALSE}
 suppressPackageStartupMessages(library(tidyverse))
-suppressPackageStartupMessages(library(kableExtra))
+suppressWarnings(suppressPackageStartupMessages(library(kableExtra)))
 library(gt)
 df <- tibble(
   Dataset = c("Baseball Game Logs from 1871-2016", 
@@ -40,9 +40,8 @@ The main dataset used in our analysis of factors that influence a win among Majo
 ### Variables
 
 Provided in the table below are a list of all the relevant variables used in our analysis.
-
 ```{r game_logs_variables, echo = FALSE}
-data.frame(
+variable<-as_tibble(data.frame(
   Variable = c("date",
                "day_of_week",
                "v_name",
@@ -77,13 +76,14 @@ data.frame(
                   "Visiting team starting pitcher name",
                   "Home team starting pitcher name")
         
-) %>% 
-  kbl() %>% 
-  row_spec(0, bold = TRUE) %>% 
-  kable_classic(html_font = "Georgia") %>% 
-  kable_styling(position = "center") %>% 
-  column_spec(column = c(1,2,3), background = "#F0F8FF")
+))
 
+variable %>% kable() %>% 
+  column_spec(column = c(1,2,3), background = "#F0F8FF") %>% 
+  kable_paper(full_width = TRUE) %>% 
+  kable_classic_2(html_font = "Georgia") %>% 
+  kable_styling(position = "center") %>% 
+  scroll_box(height = "500px", width = "100%")
 ```
 
 The remaining variables of the game logs datasest include the names of the starting position players for both the home and visiting teams as well as statistics for each team of the game including hits, walks, rbi's, errors, and double plays. 
@@ -118,11 +118,8 @@ h_win_loss <- function(h, v) {
   ifelse(h > v, 1, 0)
 }
 baseball <- baseball %>% mutate(h_win_loss = h_win_loss(h_score, v_score))
-```
-```{r}
 knitr::kable(baseball[1:20,])
-```
-```{r echo=FALSE}
+
 #total games won
 home_wins <- baseball %>% group_by(h_name, year) %>% summarize(h_wins = sum(h_win_loss == 1))
 away_wins <- baseball %>% group_by(v_name, year) %>% summarize(a_wins = sum(h_win_loss == 0))
@@ -158,5 +155,6 @@ pay_tibble %>% kable(align = "c") %>%
   column_spec(column = c(1,2,3,4,5,6,7,8,9), background = "#F0F8FF") %>% 
   kable_paper(full_width = TRUE) %>% 
   kable_classic_2(html_font = "Georgia") %>% 
-  kable_styling(position = "center")
+  kable_styling(position = "center") %>% 
+  scroll_box(height = "500px", width = "100%")
 ```
