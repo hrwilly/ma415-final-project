@@ -78,7 +78,7 @@ variable<-as_tibble(data.frame(
 ))
 
 variable %>% kable() %>% 
-  column_spec(column = c(1,2,3), background = "#F0F8FF") %>% 
+  column_spec(column = c(1,2,3), background = "white") %>% 
   kable_paper(full_width = TRUE) %>% 
   kable_classic_2(html_font = "Georgia") %>% 
   kable_styling(position = "center") %>% 
@@ -151,7 +151,7 @@ pay_tibble <- win_perc %>%
   arrange(year)
 
 pay_tibble %>% kable(align = "c") %>% 
-  column_spec(column = c(1,2,3,4,5,6,7,8,9), background = "#F0F8FF") %>% 
+  column_spec(column = c(1,2,3,4,5,6,7,8,9), background = "white") %>% 
   kable_paper(full_width = TRUE) %>% 
   kable_classic_2(html_font = "Georgia") %>% 
   kable_styling(position = "center") %>% 
