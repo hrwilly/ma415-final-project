@@ -11,7 +11,6 @@ draft: false
 
 The datasets analyzed in this project can be found at the following links listed below.
 
-
 ```{r dataset links, echo=FALSE}
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(kableExtra))
