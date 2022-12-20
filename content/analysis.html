@@ -16,13 +16,15 @@ draft: false
 
 <div id="data-analysis-motivations" class="section level2">
 <h2>Data Analysis Motivations</h2>
-<p>For our data analysis, we are most interested in the relationship between the winning percentage of each Major League Baseball team and each team’s payroll for a given season. By looking at this relationship, we hope We wish to look at the whether a particular team’s winning percentage changes each season with that team’s payroll. How does the payroll affect team performance? Where do the dollars from an increase in the payroll go? What factors lead to a team losing even with such high payrolls? The answers to these questions may differ between the MLB teams. Some teams may consistently perform better with higher payrolls while other teams may not, so we are interested in the variability of these answers among the MLB teams.<br />
+<p>For our data analysis, we are most interested in the relationship between the winning percentage of each Major League Baseball team and each team’s payroll for a given season. We hope that looking at this relationship will provide insight into whether winning in the MLB is based on luck. We wish to look at the whether a particular team’s winning percentage changes each season with that team’s payroll. How does the payroll affect team performance? Where do the dollars from an increase in the payroll go? What factors lead to a team losing even with such high payrolls? The answers to these questions may differ between the MLB teams. Some teams may consistently perform better with higher payrolls while other teams may not, so we are interested in the variability of these answers among the MLB teams.<br />
 <br />
 </p>
 </div>
 <div id="summary-statistics" class="section level2">
 <h2>Summary Statistics</h2>
-<p>The table below shows which team had the highest winning percentage each year from 2000 to 2016.<br />
+<p>We first calculated some summary statistics on variables we will be using throughout our analysis.<br />
+<br />
+The table below shows which team had the highest winning percentage each year from 2000 to 2016.<br />
 <br />
 </p>
 <style>
@@ -295,18 +297,18 @@ CHN
 </table>
 </div>
 <br />
-Among these highest winning percentages for each year, the Seattle Mariners had the overall highest winning percentage in 2001 at 71.60%.<br />
+Among these highest winning percentages for each year, the Seattle Mariners had the overall highest winning percentage in 2001 at 71.60% with the rest of the years averaging at a highest winning percentage of about 61 percent.<br />
 <br />
 <img src="/analysis_files/figure-html/unnamed-chunk-3-1.png" width="672" /><br />
-From 2000 to 2016, the New York Yankees have had the highest winning percentage for the highest number of years. They had the highest winning percentage for the 4 years of 2002, 2003, 2006, and 2009.<br />
+From 2000 to 2016, the New York Yankees have had the highest winning percentage for the most amount of years. They had the highest winning percentage for the 4 years of 2002, 2003, 2006, and 2009.<br />
 <br />
-We then observed the teams with the highest number of hits, homeruns, and runs each season from 2000 to 2016. From this table and the table with the highest winning percentages each year, we wish to see if those teams with the most hits, homeruns, and runs also ended up having the highest winning percentage.<br />
+We then observed the teams with the highest number of hits, home runs, and runs each season from 2000 to 2016. From this table and the table with the highest winning percentages each year, we wish to see if those teams with the most hits, home runs, and runs also ended up having the highest winning percentage.<br />
 <br />
 
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
 <table class=" lightable-paper lightable-classic-2 table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-family: Georgia; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-4">Table 2: </span>Leading Winning Percentage, Hits, Homeruns, and Runs Each Year
+<span id="tab:unnamed-chunk-4">Table 2: </span>Leading Winning Percentage, Hits, Home Runs, and Runs Each Year
 </caption>
 <thead>
 <tr>
@@ -320,7 +322,7 @@ Highest Winning Percentage
 Most Hits
 </th>
 <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
-Most Homeruns
+Most Home Runs
 </th>
 <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
 Most Runs
@@ -621,7 +623,7 @@ BOS
 </table>
 </div>
 <p><br />
-The team with the highest number of total hits did not match the team with the highest winning percentage every season. Only in 2009, the New York Yankees were the team with the highest number of total homeruns as well as total runs. For teams with the highest total runs, only 6 teams matched with the team with the highest winning percentage for that year. Even though teams are offensively performing the best in these major categories of hits, homeruns, and runs, they do not end up performing the best overall according to their winning percentage. Since those teams with the highest numbers do not necessarily mean a team winning the most, we chose to look at weather a team’s payroll constituted more wins.<br />
+For every season, the team with the highest number of total hits did not match the team with the highest winning percentage. Only in 2009, the New York Yankees were the team with the highest number of total home runs as well as total runs. For teams with the highest total runs, only 6 teams matched the team with the highest winning percentage for that year. Even though teams are offensively performing the best in these major categories of hits, home runs, and runs, they do not end up performing the best overall according to their winning percentage. These preliminary findings push us towards the answer that winning in the MLB is mostly based on luck. Since those teams with the highest numbers do not necessarily mean a team winning the most, we chose to look at weather a team’s payroll constituted more wins.<br />
 <br />
 </p>
 </div>

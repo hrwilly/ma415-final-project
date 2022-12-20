@@ -9,7 +9,7 @@ draft: false
 
 ## Data Analysis Motivations
 
-For our data analysis, we are most interested in the relationship between the winning percentage of each Major League Baseball team and each team's payroll for a given season. By looking at this relationship, we hope We wish to look at the whether a particular team's winning percentage changes each season with that team's payroll. How does the payroll affect team performance? Where do the dollars from an increase in the payroll go? What factors lead to a team losing even with such high payrolls? The answers to these questions may differ between the MLB teams. Some teams may consistently perform better with higher payrolls while other teams may not, so we are interested in the variability of these answers among the MLB teams.\
+For our data analysis, we are most interested in the relationship between the winning percentage of each Major League Baseball team and each team's payroll for a given season. We hope that looking at this relationship will provide insight into whether winning in the MLB is based on luck. We wish to look at the whether a particular team's winning percentage changes each season with that team's payroll. How does the payroll affect team performance? Where do the dollars from an increase in the payroll go? What factors lead to a team losing even with such high payrolls? The answers to these questions may differ between the MLB teams. Some teams may consistently perform better with higher payrolls while other teams may not, so we are interested in the variability of these answers among the MLB teams.\
 \
 
 ```{r loading, echo = FALSE}
@@ -25,6 +25,8 @@ options(dplyr.summarise.inform = FALSE)
 
 ## Summary Statistics
 
+We first calculated some summary statistics on variables we will be using throughout our analysis.\
+\
 The table below shows which team had the highest winning percentage each year from 2000 to 2016.\
 \
 
@@ -58,7 +60,7 @@ highest %>% kable(caption = "Leading Winning Percentage Each Year",
   scroll_box(height = "200px", width = "100%")
 ```
 \
-Among these highest winning percentages for each year, the Seattle Mariners had the overall highest winning percentage in 2001 at 71.60%.\
+Among these highest winning percentages for each year, the Seattle Mariners had the overall highest winning percentage in 2001 at 71.60% with the rest of the years averaging at a highest winning percentage of about 61 percent.\
 \
 ```{r, echo = FALSE}
 #which teams have had highest winning percentage for the most years
@@ -71,9 +73,9 @@ highest %>% group_by(h_name) %>%
   labs(title = "Number of Years Each Team Had Highest Winning Percentage", x = "Team", y = "Number of Years")
 ```
 \
-From 2000 to 2016, the New York Yankees have had the highest winning percentage for the highest number of years. They had the highest winning percentage for the 4 years of 2002, 2003, 2006, and 2009.\
+From 2000 to 2016, the New York Yankees have had the highest winning percentage for the most amount of years. They had the highest winning percentage for the 4 years of 2002, 2003, 2006, and 2009.\
 \
-We then observed the teams with the highest number of hits, homeruns, and runs each season from 2000 to 2016. From this table and the table with the highest winning percentages each year, we wish to see if those teams with the most hits, homeruns, and runs also ended up having the highest winning percentage.\
+We then observed the teams with the highest number of hits, home runs, and runs each season from 2000 to 2016. From this table and the table with the highest winning percentages each year, we wish to see if those teams with the most hits, home runs, and runs also ended up having the highest winning percentage.\
 \
 ```{r, echo = FALSE}
 #hits
@@ -124,7 +126,7 @@ matches <- highest %>% left_join(highest_hits, by = "year") %>%
   left_join(highest_runs, by = "year") %>% select(year, h_name.x, h_name.y, h_name.x.x, h_name.y.y)
 
 matches %>% 
-  kbl(caption = "Leading Winning Percentage, Hits, Homeruns, and Runs Each Year", col.names = c("Year", "Highest Winning Percentage", "Most Hits", "Most Homeruns", "Most Runs"), align = "c") %>% 
+  kbl(caption = "Leading Winning Percentage, Hits, Home Runs, and Runs Each Year", col.names = c("Year", "Highest Winning Percentage", "Most Hits", "Most Home Runs", "Most Runs"), align = "c") %>% 
   kable_paper(full_width = TRUE) %>% 
   kable_classic_2(html_font = "Georgia") %>% 
   kable_styling(position = "center") %>% 
@@ -132,7 +134,7 @@ matches %>%
   scroll_box(height = "200px", width = "100%")
 ```
 \
-The team with the highest number of total hits did not match the team with the highest winning percentage every season. Only in 2009, the New York Yankees were the team with the highest number of total homeruns as well as total runs. For teams with the highest total runs, only 6 teams matched with the team with the highest winning percentage for that year. Even though teams are offensively performing the best in these major categories of hits, homeruns, and runs, they do not end up performing the best overall according to their winning percentage. Since those teams with the highest numbers do not necessarily mean a team winning the most, we chose to look at weather a team's payroll constituted more wins.\
+For every season, the team with the highest number of total hits did not match the team with the highest winning percentage. Only in 2009, the New York Yankees were the team with the highest number of total home runs as well as total runs. For teams with the highest total runs, only 6 teams matched the team with the highest winning percentage for that year. Even though teams are offensively performing the best in these major categories of hits, home runs, and runs, they do not end up performing the best overall according to their winning percentage. These preliminary findings push us towards the answer that winning in the MLB is mostly based on luck. Since those teams with the highest numbers do not necessarily mean a team winning the most, we chose to look at weather a team's payroll constituted more wins.\
 \
 
 ## Initial Analysis
