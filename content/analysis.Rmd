@@ -459,7 +459,7 @@ scroll_box(height = "200px", width = "100%")
 \
 Oakland's largest payroll increase from one year to the next was from the year 2013 to 2014. From 2013 to 2014, there was a 22 million dollar increase in their payroll, yet their winning percentage decreased by about 5%. Since the performance of the Oakland Athletics did not increase as their payroll increased, we looked at what the team possibly lost from 2013 to 2014 resulting in this decreased winning percentage despite an increase in payroll.\
 \
-As a result of our findings from the analysis of the positive relationship between payroll and winning percentage, we chose to focus on what pitchers Oakland lost from the 2013 season to the 2014 season. We first summed the number of home games and away games each starting pitcher started for the year of 2013. We then summed the number of times each starting pitcher was named the winning pitcher. A [winning pitcher](https://www.mlb.com/glossary/standard-stats/win) is defined as the pitcher who last pitched when his team takes and maintains the lead. We then divided each pitcher's winning pitcher sum and games started sum and called this the pitcher's winning proportion. We repeated this process for the 2014 season and filtered only those pitchers who pitched over 30 games to compare winning proportions. The results are provided in the following tables.\
+As a result of our findings from the analysis of the Increased Performance Teams, we chose to focus on what pitchers Oakland lost from the 2013 season to the 2014 season. We first summed the number of home games and away games each starting pitcher started for the year of 2013. We then summed the number of times each starting pitcher was named the winning pitcher. A [winning pitcher](https://www.mlb.com/glossary/standard-stats/win) is defined as the pitcher who last pitched when his team takes and maintains the lead. We then divided each pitcher's winning pitcher sum and games started sum and called this the pitcher's winning proportion. We repeated this process for the 2014 season and filtered only those pitchers who pitched over 30 games to compare winning proportions. The results are provided in the following tables.\
 \
 ```{r OAK_pitchers_13, echo = FALSE}
 #2013
@@ -525,7 +525,7 @@ home2 %>% left_join(away2, by = c("h_starting_pitcher_name" = "v_starting_pitche
   scroll_box(height = "150px", width = "100%")
 ```
 \
-When comparing the winning proportions of the top Oakland pitchers for the 2013 and 2014 seasons, we see one pitcher stand out: [Bartolo Colón](https://www.mlb.com/player/bartolo-colon-112526). With a winning proportion of about 60%, Colón was traded to the New York Mets in 2014. Colón, along with two other pitchers who started in more than 30 games, did not return to Oakland for the 2014 season. In 2014, Oakland dropped to only having two pitchers start in over 30 games with winning proportions more than 10% less than Colón's. 
+When comparing the winning proportions of the top Oakland pitchers for the 2013 and 2014 seasons, we see one pitcher who stands out: [Bartolo Colón](https://www.mlb.com/player/bartolo-colon-112526). With a winning proportion of about 60%, Colón was traded to the New York Mets in 2014. Colón, along with two other pitchers who started in more than 30 games, did not return to Oakland for the 2014 season. In 2014, Oakland dropped to only having two pitchers start in over 30 games with winning proportions more than 10% less than Colón's. This demonstrates that the decrease in Oakland's winning percentage even though their payroll increased by 22 million dollars was a product of losing their valuable pitchers in the 2013 season.\
 \
 Next, we looked at the Atlanta Braves.\
 \
@@ -548,7 +548,7 @@ kable_styling(position = "center") %>%
 scroll_box(height = "200px", width = "100%")
 ```
 \
-For the Atlanta Braves, the largest payroll increase from one year to the next was also from the years 2013 to 2014. From these two years there was a 21 million dollar increase in their payroll with their winning percentage decreasing by about 10%. Similar to the Oakland Athletics, we looked at what pitchers the Braves lost from 2013 to 2014 resulting in this decreased winning percentage despite a 31 million dollar increase in payroll.\
+For the Atlanta Braves, the largest payroll increase from one year to the next was also from the years 2013 to 2014. From these two years there was a 21 million dollar increase in their payroll with their winning percentage decreasing by about 10%. Similar to the Oakland Athletics, we looked at what pitchers the Braves lost from 2013 to 2014 resulting in this decreased winning percentage despite a 21 million dollar increase in payroll.\
 \
 ```{r CHA_pitchers, echo = FALSE}
 #2000
@@ -593,7 +593,7 @@ top_perc1 <- home4 %>% left_join(away4, by = c("h_starting_pitcher_name" = "v_st
   arrange(desc(win_prop))
 ```
 
-Similar to the Oakland Athletics, we calculated the winning proportion for those starting pitchers who started in at least 30 games for the 2013 and 2014 seasons of the Atlanta Braves.\
+Here, we also calculated the winning proportion for those starting pitchers who started in at least 30 games for the 2013 and 2014 seasons of the Atlanta Braves.\
 \
 
 ```{r pitchers_graph1, echo = FALSE}
@@ -627,10 +627,11 @@ top_perc1 %>%
 \
 In 2013, the pitcher with the highest winning proportion having pitched at least 30 games was [Kris Medlen](https://www.mlb.com/player/kris-medlen-450665). Following Medlen, was Julio Teheran and Mike Minor. Two of Atlanta's top pitchers in 2013 had a winning proportion over 0.45 while only one pitcher, Ervin Santana, had a winning proportion of 0.45 in 2014. Medlen's pitching did not appear in the 2014 Atlanta season due to a Tommy John surgery. While Teheran and Minor both returned for the 2014 season, Minor started in 7 fewer games and their performances did not match that of the previous year. \
 \
+Analyzing the top pitchers of the 2013 and 2014 seasons for both the Oakland Athletics and Atlanta Braves allowed us to observe a possible reason why teams would win fewer games with increased payroll. When a team's payroll increased from one year to the next, this money was focused elsewhere while valuable pitchers were either traded away or were unable to play due to injuries. As a result, the team's payroll increased, their pitching performance decreased, and they lost more games.
 
 ## Linear Regression
 
-To conclude our analysis, we took all the variables that we previously observed (payroll, hits, homeruns, strikeouts, and earned runs against) and conducted a forward selection stepwise regression to see how well these variables can predict the response variable of winning percentage. \
+To conclude our analysis, we took all the variables that we previously observed (payroll, hits, home runs, strikeouts, and earned runs against) and conducted a forward selection stepwise regression to see how well these variables can predict the response variable of winning percentage. \
 \
 We used Mallow's C~p to determine the number of predictors that provided the best overall model. Mallow's C~p compares the full model to models with a subset of the predictors.The model with the smallest C~p statistic indicates the best overall model with the least amount of unexplained error. The following code is what we used to discover that the model with four of the five predictors was the best model in predicting winning percentage:\
 \
@@ -643,7 +644,7 @@ fwd <- leaps::regsubsets(win_perc ~ . - h_name - year,
 which.min(summary(fwd)$cp)
 ```
 \
-Table 9 below contains the estimates for the best model with the predictor variables total strikeouts, total hits, total homeruns, and total earned runs. 
+Table 9 below contains the estimates for the best model with the predictor variables total strikeouts, total hits, total home runs, and total earned runs. \
 \
 ```{r lin_mod, echo = FALSE}
 total_so2 <- total_so %>% select(-h_so, -v_so)
@@ -682,14 +683,13 @@ summary(lm(win_perc ~ . -h_name - year - payroll, all))$coef %>%
   scroll_box(height = "200px", width = "100%")
 ```
 
-Bullet points for explanation:
-all variables act how we expect: home runs most important for a win as well as lower number of opposing teams' earned runs (makes sense because you are more likely to win if the other team scores less), number of hits positively correlated as we expect
-number of strikeouts technically negative but significantly less important than other variables (?) something to do woth the fact that its the only probability thats greater than zero? idk what the probability means in the table but could maybe make the connection here
-
-payroll not being good predictor:
-accurate to our thesis that payroll doesnt correspond and also accurate to the cool bar graph of the slopes
-doesn't matter how much money you have, but rather on how you choose to spend it
+\
+After forward selection, all variables act how we expect. Home runs have the strongest influence on winning percentage with a 0.08% increase in winning percentage for every additional home run hit. The relationship between hits and winning percentage is also as we expected with more hits corresponding with higher winning percentage. Furthermore, for every additional earned run against pitchers, the winning percentage for that team decreases by about 0.07%. The strikeouts predictor is the only predictor that doesn't perrform as we expect with a negative estimate suggesting that increasing the total number of strikeouts for a team will decrease the team's winning percentage. However, this variable is less significant than the other three variables and also has an estimate very close to zero.\
+\
+Forward selection kept all predictors for the overall best model except the payroll predictor. This is  accurate to our conclusion that payroll does not always correspond with higher winning percentages. This also agrees with our graph of Slopes of Winning Percentage Against Payroll as exactly half of the teams increased their winning percentage and half decreased their winning percentage with higher payrolls. It does not matter how much a team spends on their players, but rather who you choose to spend it on.
 
 ## Limitations
 
-There are a few limitations in our analysis, specifically for the teams that have a negative relationship between payroll and winning percentage. We only analyzed two of the fifteen total teams that have that negative relationship, then generalized  our findings. It could be true that what we find for those two teams is not the same for the other thirteen teams not analyzed. We also only did analysis of the pitchers for the teams with the negative relationship, and did not do analysis of other defensive positions, or any offensive factors.
+There are a few limitations in our analysis, specifically for the teams that have a negative relationship between payroll and winning percentage. We only analyzed two of the fifteen total teams that have that negative relationship, then generalized  our findings. It could be true that what we find for those two teams is not the same for the other thirteen teams not analyzed. We also only did analysis of the pitchers for the Decreased Performance Teams, and did not do analyses of other defensive positions, or any offensive factors.
+
+Additionally, when summarizing the winning percentage statistic and finding team's with the highest winning percentage for a given year, we do not conclude that those teams were the best team for that season as often the team with the highest winning percentage does not end up winning the World Series.
