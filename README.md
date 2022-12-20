@@ -1,5 +1,10 @@
 # MA[46]15 Final Project
 
+Video Interactive walk through:
+
+https://user-images.githubusercontent.com/78614315/208584568-daf2d2b9-f613-4e23-b42b-49f21824a57c.mp4 
+
+
 **Make sure to read the full README file below, all pages and posts on your initial site, and look through the files in the `content` folder and the `config.toml` file.**
 
 For your final project, your team will be 
@@ -107,8 +112,6 @@ Some general guidelines are:
 
 __Never__ commit large (> 50mb) data files. This can cause some challenges. 
 
-Video Interactive walk through:
 
-https://user-images.githubusercontent.com/78614315/208584568-daf2d2b9-f613-4e23-b42b-49f21824a57c.mp4 
 
 
