@@ -81,7 +81,8 @@ data.frame(
   kbl() %>% 
   row_spec(0, bold = TRUE) %>% 
   kable_classic(html_font = "Georgia") %>% 
-  kable_styling(position = "center")
+  kable_styling(position = "center") %>% 
+  column_spec(column = c(1,2,3), background = "#F0F8FF")
 
 ```
 
@@ -117,7 +118,11 @@ h_win_loss <- function(h, v) {
   ifelse(h > v, 1, 0)
 }
 baseball <- baseball %>% mutate(h_win_loss = h_win_loss(h_score, v_score))
-knitr::kable(baseball[1:20,])
+knitr::kable(baseball,align='c') %>%  
+  kable_paper(full_width = TRUE) %>% 
+  kable_classic_2(html_font = "Georgia") %>% 
+  kable_styling(position = "center") %>% 
+  scroll_box(height = "200px", width = "100%")
 
 #total games won
 home_wins <- baseball %>% group_by(h_name, year) %>% summarize(h_wins = sum(h_win_loss == 1))
@@ -151,6 +156,9 @@ pay_tibble <- win_perc %>%
   left_join(mlb_payroll, by = c('year'='year', 'h_name'='h_name')) %>% 
   arrange(year)
 
-knitr::kable(pay_tibble[1:20,])
-
+knitr::kable(pay_tibble,align='c') %>%  
+  kable_paper(full_width = TRUE) %>% 
+  kable_classic_2(html_font = "Georgia") %>% 
+  kable_styling(position = "center") %>% 
+  scroll_box(height = "200px", width = "100%")
 ```
