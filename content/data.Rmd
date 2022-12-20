@@ -83,7 +83,7 @@ variable %>% kable() %>%
   kable_paper(full_width = TRUE) %>% 
   kable_classic_2(html_font = "Georgia") %>% 
   kable_styling(position = "center") %>% 
-  scroll_box(height = "500px", width = "100%")
+  scroll_box(height = "430px", width = "100%")
 ```
 
 The remaining variables of the game logs datasest include the names of the starting position players for both the home and visiting teams as well as statistics for each team of the game including hits, walks, rbi's, errors, and double plays. 
