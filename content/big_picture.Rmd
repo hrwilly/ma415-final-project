@@ -230,14 +230,10 @@ payroll_er %>% filter(!is.na(total_er)) %>%
 
 Eureka! From these two final plots, we conclude that teams are indeed spending their cash on pitchers as opposed to hitters. Without the offensive analysis prior to this, this result seems intuitively obvious. But now it is relatively clear that, for the vast majority of teams, any increases in payroll tend to fund the pitching staff rather than the offense.
 
-In addition to telling us the destination of teams' funding, the above plots of pitching metrics are somewhat explanative of the lack of offense we observed earlier. If teams are consistently directing more resources to their pitching staffs, pitchers will in turn consistently dominate batters, weakening teams' overall offensive statistics.
+In addition to telling us the destination of teams' funding, the above plots of pitching metrics are somewhat explanative for the lack of offense we observed earlier. If teams are consistently directing more resources to their pitching staffs, pitchers will in turn consistently dominate batters, weakening teams' overall offensive statistics.
 
-And so, finally, we conclude
+And so, finally, we conclude that a higher payroll, although offering a slight advantage, is not a direct indicator of success in a way that one might initially expect. Rather, what is more important is *how* a team decides to spend what money they do have.
 
 To interact with our analysis, play around with the interactive linked below!
 
 https://bu-ma415-hgb-stadium-map.shinyapps.io/stadium_map_2/ 
-
-
-
-Think of this page as your 538/Upshot style article. This means that you should try to tell a story through the data and your analysis. Read articles from those sites and similar sites to get a feeling for what they are like. Importantly, these should be geared towards the general public. You shouldn't assume the reader understands how to interpret a linear regression. Focus on interpretation and visualizations.
