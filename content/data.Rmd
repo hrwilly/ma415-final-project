@@ -118,10 +118,7 @@ h_win_loss <- function(h, v) {
   ifelse(h > v, 1, 0)
 }
 baseball <- baseball %>% mutate(h_win_loss = h_win_loss(h_score, v_score))
-knitr::kable(baseball[1:20,])
-
-baseball %>% kable(align = "c") %>%
-  column_spec(column = c(1,2,3), background = "#F0F8FF") %>% 
+knitr::kable(baseball,align='c') %>%  
   kable_paper(full_width = TRUE) %>% 
   kable_classic_2(html_font = "Georgia") %>% 
   kable_styling(position = "center") %>% 
@@ -159,5 +156,9 @@ pay_tibble <- win_perc %>%
   left_join(mlb_payroll, by = c('year'='year', 'h_name'='h_name')) %>% 
   arrange(year)
 
-knitr::kable(pay_tibble[1:20,])
+knitr::kable(pay_tibble,align='c') %>%  
+  kable_paper(full_width = TRUE) %>% 
+  kable_classic_2(html_font = "Georgia") %>% 
+  kable_styling(position = "center") %>% 
+  scroll_box(height = "200px", width = "100%")
 ```
