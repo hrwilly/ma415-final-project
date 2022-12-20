@@ -297,7 +297,7 @@ CHN
 </table>
 </div>
 <br />
-Among these highest winning percentages for each year, the Seattle Mariners had the overall highest winning percentage in 2001 at 71.60% with the rest of the years averaging at a highest winning percentage of about 61 percent.<br />
+Among these highest winning percentages for each year, the Seattle Mariners had the overall highest winning percentage in 2001 at 71.60% with the rest of the years averaging at a highest winning percentage of about 61%.<br />
 <br />
 <img src="/analysis_files/figure-html/unnamed-chunk-3-1.png" width="672" /><br />
 From 2000 to 2016, the New York Yankees have had the highest winning percentage for the most amount of years. They had the highest winning percentage for the 4 years of 2002, 2003, 2006, and 2009.<br />
@@ -623,7 +623,7 @@ BOS
 </table>
 </div>
 <p><br />
-For every season, the team with the highest number of total hits did not match the team with the highest winning percentage. Only in 2009, the New York Yankees were the team with the highest number of total home runs as well as total runs. For teams with the highest total runs, only 6 teams matched the team with the highest winning percentage for that year. Even though teams are offensively performing the best in these major categories of hits, home runs, and runs, they do not end up performing the best overall according to their winning percentage. These preliminary findings push us towards the answer that winning in the MLB is mostly based on luck. Since those teams with the highest numbers do not necessarily mean a team winning the most, we chose to look at weather a team’s payroll constituted more wins.<br />
+For every season, the team with the highest number of total hits did not match the team with the highest winning percentage. Only in 2009, the New York Yankees were the team with the highest number of total home runs as well as total runs. For teams with the highest total runs, only 6 teams matched the team with the highest winning percentage for that year. Even though teams are offensively performing the best in these major categories of hits, home runs, and runs, they do not end up performing the best overall according to their winning percentage. These preliminary findings push us towards the answer that winning in the MLB is mostly based on luck. Since those teams with the highest numbers do not necessarily mean a team winning the most, we continue our analysis by looking at whether a team’s payroll constituted more wins.<br />
 <br />
 </p>
 </div>
@@ -1152,7 +1152,7 @@ OAK
 <p><br />
 <img src="/analysis_files/figure-html/coefs_graph-1.png" width="960" /></p>
 <p><br />
-From these faceted plots, it is not consistent among all teams that as payroll increases, winning percentage also increases. For exactly half of the MLB teams, as payroll increases, their winning percentage for that year decreases. Those 15 teams that have a positive slope between their winning percentage and payroll for each season will be named “Increased Performance Teams” while those 15 teams with negative slopes we have named “Decreased Performance Teams.”<br />
+From these faceted plots, it is not consistent among all teams that as payroll increases, winning percentage also increases. For exactly half of the MLB teams, as payroll increases, their winning percentage for that year decreases. For the rest of our analysis, those 15 teams that have a positive slope between their winning percentage and payroll for each season will be named “Increased Performance Teams” while those 15 teams with negative slopes we have named “Decreased Performance Teams.”<br />
 <br />
 In our analyses that follow, we look at what factors influence this divide between a positive and negative relationship between payroll and winning percentage.<br />
 <br />
@@ -1160,27 +1160,27 @@ In our analyses that follow, we look at what factors influence this divide betwe
 </div>
 <div id="positive-relationship" class="section level2">
 <h2>Positive Relationship</h2>
-<p>When analyzing the Increased Performance Teams, we wanted to further look at the relationships between payroll and certain game statistics for each season. We first looked at payroll and hits to see if an increase in the number of hits per season was influencing this increased winning percentage as payroll increased. To do this, we calculated the total hits for each team each year by summing their home hits and their away hits. We then joined this dataset with the payroll dataset and plotted the total hits of each team against their payroll for each year between 2000 and 2016.<br />
+<p>When analyzing the Increased Performance Teams, we wanted to further look at the relationships between payroll and certain game statistics for each season. We first looked at payroll and hits to see if an increase in the number of hits per season was influencing this increased winning percentage as payroll increased. To do this, we calculated the total hits for each team each year by summing their home hits and their away hits. We then joined this dataset with the payroll dataset and plotted the total hits of each team against their payroll for each year between 2000 and 2016 ordered by decreasing slopes.<br />
 <br />
 </p>
 <p><img src="/analysis_files/figure-html/payroll_hits_plot-1.png" width="960" /><br />
-To our surprise, for 11 out of the 15 teams, as payroll increases, the total number of hits in a season decreases. This suggests that even though teams are spending more money on more valuable players, their offensive performance in their total hits for a season does not increase.<br />
+To our surprise, for 11 out of the 15 teams, as payroll increases, the total number of hits in a season decreases. This suggests that even though teams are spending more money on more valuable players, their offensive performance in terms of their total hits for a season does not increase.<br />
 <br />
-We then looked at the relationships between payroll and homeruns for each season. It is possible that teams are spending more money on players known for hitting home runs and therefore bring in more runs rather than players who just hit and get on base without bringing in a run. We first calculated the total home runs for each team each year by summing their home home runs and their away home runs. We then joined this dataset with the payroll dataset and plotted the total homeruns of each team against their payroll for each year between 2000 and 2016.<br />
+To confirm this, we then looked at the relationships between payroll and home runs for each season, another offensive statistic. It is possible that teams are spending more money on players known for hitting home runs and therefore bring in more runs rather than players who just hit and get on base without bringing in a run. We first calculated the total home runs for each team each year by summing their home home runs and their away home runs. We then joined this dataset with the payroll dataset and plotted the total home runs of each team against their payroll for each year between 2000 and 2016.<br />
 <br />
 </p>
 <p><img src="/analysis_files/figure-html/payroll_homeruns_plot-1.png" width="960" /><br />
-Again, to our surprise, 7 out of he 15 teams produced fewer home runs as payroll increased. From these graphs on the relationships between payroll and hits and payroll and home runs, it appears as though the offensive performance does not improve. So what then are these teams spending money on to increase their winning percentage?<br />
+Again, to our surprise, 7 out of he 15 teams produced fewer home runs as payroll increased. From these graphs on the relationships between payroll and hits and payroll and home runs, it appears as though the offensive performance does not improve as a team’s payroll increases. So what then are these teams spending money on to increase their winning percentage?<br />
 <br />
 Rather than looking at offensive performance, we looked at defensive performance, particularly pitching. The first statistic we looked at for pitchers was strikeouts. In the baseball dataset, the variables <code>h_strikeouts</code> and <code>v_strikeouts</code> refer to the total number of times players struckout for the home team and visiting team respectively. To make this a statistic for the home team and visiting team pitchers, we reversed their variables. More explicitly, the total strikeouts for the home team pitchers is represented by the visiting team’s strikeouts (<code>v_strikeouts</code>) and the total strikeouts for the visiting team pitchers is represented by the home team’s strikeouts(<code>h_strikeouts</code>). We calculated the total strikeouts for each team for each year, joined this dataset with the payroll dataset, and plotted the total number of strikeouts for each team against their payroll for each year between 2000 and 2016.<br />
 <br />
 </p>
 <p><img src="/analysis_files/figure-html/payroll_so_plot-1.png" width="960" /><br />
-These plots show that for 15 out of the 15 teams, as payroll increases, the total number of strikeouts performed by the pitchers of each team also increases. We then looked at the earned runs statistic to see if this change in pitcher performance was consistent with the increase in payroll. Similar to the strikeout variables, <code>h_team_earned_runs</code> and <code>v_team_earned_runs</code> are the earned runs for the players of the home team and visiting team respectively. Here again we represented the earned runs for the home team pitchers with <code>v_team_earned_runs</code> and represented the earned runs for the visiting team pitchers with <code>h_team_earned_runs</code>. We calculated the total earned runs for each team for each year, joined this dataset with the payroll dataset, and plotted the total earned runs for each team against their payroll for each year between 2000 and 2016.<br />
+These plots show that for 15 out of the 15 teams, as payroll increases, the total number of strikeouts performed by the pitchers of each team also increases. From this one statistic, it seems that a team’s increased payroll is represented by their acquired pitchers. We then looked at another statistic for pitchers to see if this statement is consistent. We performed the same analysis above now for the <a href="https://www.mlb.com/glossary/standard-stats/earned-run">earned runs</a> statistic. If pitcher performance increases as payroll increases, we would see that as payroll increases, the total number of earned runs against would decrease. We calculated the total earned runs for each team for each year, joined this dataset with the payroll dataset, and plotted the total earned runs for each team against their payroll for each year between 2000 and 2016.<br />
 <br />
 </p>
 <p><img src="/analysis_files/figure-html/payroll_er_plot-1.png" width="960" /><br />
-According to the plots, as payroll increases, the total earned runs for 15 of the 15 teams also decreases. These faceted plots along with the plots for total strikeouts against payroll suggest that along with an increase in payroll, the performance of the pitching improves with more strikeouts and less earned runs against the pitchers.<br />
+According to the plots, as payroll increases, the total earned runs for 15 of the 15 teams also decreases. These faceted plots along with the plots for total strikeouts against payroll suggest that along with an increase in payroll, the performance of the pitching improves with more strikeouts and less earned runs against the pitchers. This confirms our conclusion that for those Increased Performance Teams, the money from an increase in payroll for a given year is applied to obtaining better pitchers.<br />
 <br />
 </p>
 </div>
