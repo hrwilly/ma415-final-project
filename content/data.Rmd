@@ -109,7 +109,7 @@ This cleaned `baseball` dataset can be found in the `dataset` folder.
 Another variable not included in the game logs dataset that would useful in our analyses is that of winning percentage. Winning percentage is the percentage of games played that resulted in a win for a given team and given season. The following code calculates the winning percentage for each team and year from 2000 to 2016. This code can also be found in the `load_and_clean_data.R` where the data is saved in `win_perc.RData`.
 
 *Only the first 20 rows of the data table are shown for concision
-```{r win_perc}
+```{r win_perc, echo=FALSE}
 load(here::here("dataset", "baseball.RData"))
 options(dplyr.summarise.inform = FALSE)
 
@@ -118,11 +118,7 @@ h_win_loss <- function(h, v) {
   ifelse(h > v, 1, 0)
 }
 baseball <- baseball %>% mutate(h_win_loss = h_win_loss(h_score, v_score))
-knitr::kable(baseball,align='c') %>%  
-  kable_paper(full_width = TRUE) %>% 
-  kable_classic_2(html_font = "Georgia") %>% 
-  kable_styling(position = "center") %>% 
-  scroll_box(height = "200px", width = "100%")
+knitr::kable(baseball[1:20,])
 
 #total games won
 home_wins <- baseball %>% group_by(h_name, year) %>% summarize(h_wins = sum(h_win_loss == 1))
@@ -149,16 +145,12 @@ We then joined `mlb_payroll` with `win_perc` to get our final payroll tibble.\
 \
 *Only the first 20 rows of the payroll data is displayed for concision.
 
-```{r payroll}
+```{r payroll, echo=FALSE}
 load(here::here("dataset", "mlb_payroll.RData"))
 
 pay_tibble <- win_perc %>% 
   left_join(mlb_payroll, by = c('year'='year', 'h_name'='h_name')) %>% 
   arrange(year)
 
-knitr::kable(pay_tibble,align='c') %>%  
-  kable_paper(full_width = TRUE) %>% 
-  kable_classic_2(html_font = "Georgia") %>% 
-  kable_styling(position = "center") %>% 
-  scroll_box(height = "200px", width = "100%")
+knitr::kable(pay_tibble[1:20,])
 ```
